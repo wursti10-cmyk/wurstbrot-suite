@@ -88,3 +88,38 @@ Die Verarbeitung findet lokal statt. Es werden keine Accountdaten benötigt und 
 ## Rechtlicher Hinweis
 
 War Thunder und alle zugehörigen Marken gehören Gaijin Entertainment. Dieses Projekt ist ein unabhängiges Fanprojekt und steht in keiner Verbindung zu Gaijin Entertainment.
+
+## GE Calculator 2.0 Alpha testen
+
+Tests starten:
+
+```bash
+python run_tests.py
+```
+
+Beispielberechnung:
+
+```bash
+python apps/ge-calculator/ge_calculator_cli.py   --database data/samples/WT_Database_2.57.1.67.json   --start germ_leopard_2a5   --target germ_leopard_2a7v
+```
+
+Angeforschte RP:
+
+```bash
+python apps/ge-calculator/ge_calculator_cli.py   --database data/samples/WT_Database_2.57.1.67.json   --start germ_leopard_2a5   --target germ_leopard_2a7v   --progress germ_leopard_2a7v:100000
+```
+
+
+## Milestone 1 starten
+
+Windows-GUI:
+
+```text
+apps\ge-calculator\Wurstbrot_GE_Calculator_starten.bat
+```
+
+Komplette Prüfung:
+
+```text
+Milestone1_pruefen.bat
+```

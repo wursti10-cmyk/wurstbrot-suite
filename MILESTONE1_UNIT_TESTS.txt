@@ -1,0 +1,24 @@
+
+test_closure_ends_at_target (test_database.DatabaseTests.test_closure_ends_at_target) ... ok
+test_database_loads (test_database.DatabaseTests.test_database_loads) ... ok
+test_leopard_2a7v_exists (test_database.DatabaseTests.test_leopard_2a7v_exists) ... ok
+test_discount (test_economy.EconomyTests.test_discount) ... ok
+test_individual_rounding_differs_from_total_rounding (test_economy.EconomyTests.test_individual_rounding_differs_from_total_rounding) ... ok
+test_rounds_each_vehicle_up (test_economy.EconomyTests.test_rounds_each_vehicle_up) ... ok
+test_zero_rp_costs_zero_ge (test_economy.EconomyTests.test_zero_rp_costs_zero_ge) ... ok
+test_convertible_rp_shortfall (test_solver.SolverTests.test_convertible_rp_shortfall) ... ok
+test_ge_total_equals_sum_of_vehicle_lines (test_solver.SolverTests.test_ge_total_equals_sum_of_vehicle_lines) ... ok
+test_hidden_target_is_rejected_by_default (test_solver.SolverTests.test_hidden_target_is_rejected_by_default) ... ok
+test_indirect_start_in_same_tree_is_supported (test_solver.SolverTests.test_indirect_start_in_same_tree_is_supported) ... ok
+test_israel_rank_unlock_candidates_work_after_tree_access (test_solver.SolverTests.test_israel_rank_unlock_candidates_work_after_tree_access) ... ok
+test_owned_ge_is_subtracted (test_solver.SolverTests.test_owned_ge_is_subtracted) ... ok
+test_owned_vehicle_costs_nothing_and_implies_predecessors (test_solver.SolverTests.test_owned_vehicle_costs_nothing_and_implies_predecessors) ... ok
+test_partial_rp_reduces_ge (test_solver.SolverTests.test_partial_rp_reduces_ge) ... ok
+test_rank_requirements_are_satisfied (test_solver.SolverTests.test_rank_requirements_are_satisfied) ... ok
+test_start_vehicle_skips_obsolete_lower_rank_gates (test_solver.SolverTests.test_start_vehicle_skips_obsolete_lower_rank_gates) ... ok
+test_target_cost_is_included (test_solver.SolverTests.test_target_cost_is_included) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.070s
+
+OK

@@ -1,0 +1,15 @@
+{
+  "version": "0.3.0-milestone1",
+  "unit_tests_returncode": 0,
+  "regression_returncode": 0,
+  "regression": {
+    "gameVersion": "2.57.1.67",
+    "vehicles": 2232,
+    "stats": {
+      "root_targets": 206,
+      "passed": 1977,
+      "skipped_special": 49
+    },
+    "failures": []
+  }
+}

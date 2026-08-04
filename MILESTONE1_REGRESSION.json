@@ -1,0 +1,10 @@
+{
+  "gameVersion": "2.57.1.67",
+  "vehicles": 2232,
+  "stats": {
+    "root_targets": 206,
+    "passed": 1977,
+    "skipped_special": 49
+  },
+  "failures": []
+}
