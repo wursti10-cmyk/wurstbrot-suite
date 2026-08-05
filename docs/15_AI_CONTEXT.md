@@ -31,6 +31,12 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     `passed` entsprechen.
 16. Folder-, Unlock- und Rank-Kanten sind strukturierte Fakten. Aus ihnen dürfen ohne Datamine- oder
     Spec-Nachweis keine neuen Kauf- oder Freischaltungsregeln abgeleitet werden.
+17. Graph Rule Evaluation ist keine Solverablösung: Sie bewertet Voraussetzungen, erzeugt aber keine
+    Kosten und wählt keine Rank-Kandidaten.
+18. `unresolved` darf nie als bestanden gezählt werden. Mirror-Ausgaben müssen exact_match,
+    unresolved_expected, mismatch und unsupported getrennt melden; jeder mismatch ist ein Fehler.
+19. Mehrfachvorgänger niemals still auswählen. Alle betroffenen Kanten als unresolved Evidence melden.
+20. Externe Unlocks nur bei ausdrücklicher Tokenannahme satisfied setzen; nie aus Namen erraten.
 
 ## Orientierung
 
@@ -38,6 +44,9 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Loader/Graph: `database.py`
 - paralleles Graphmodell/Diagnostik: `research_graph.py`
 - Mirror-Adapter: `graph_adapter.py`
+- Kantenvertrag: `graph_semantics.py`
+- Regelauswertung: `graph_evaluation.py`
+- Mirror-/Sonderfallanalyse: `graph_analysis.py`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

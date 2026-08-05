@@ -9,6 +9,7 @@
 | Solver-Contract | `python run_tests.py` und `node --test tests/web_solver.test.mjs` | gleiche Fixture in Python und JavaScript |
 | Browser-Regression | `node tests/browser_regression.mjs` | gleiche 1.977 normalen Paare im Browser-Solver |
 | Graph Unit/Mirror | `python run_tests.py` | Builder, Adapter, Export, Diagnostik und alle Closures |
+| Graph-Semantikmatrix | `python tests/graph_semantics_matrix.py` | alle Ziele, Statusverteilung, Sonderfälle und verfeinerte Diagnostik |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -27,6 +28,12 @@ Erfolge und brauchen gezielte Fixtures.
 Die Python-Regression berechnet jeden regulären Fall zusätzlich über `GraphDatabaseAdapter` und
 vergleicht das vollständige `SolveResult`. `mirror_matches` muss exakt `passed` entsprechen. Der
 Legacy-Solver und `solver.py` werden für diesen Vergleich nicht verändert.
+
+Accuracy 3 erweitert dies um die regelweise Mirror Evaluation aller 2.232 Ziele. Das Gate verlangt
+`mismatch == 0`; unresolved Fälle werden getrennt gezählt und dürfen nicht in `exact_match` erscheinen.
+Die generierte Sonderfallmatrix muss exakt 49 deterministische Zeilen enthalten: 31 reqUnlock und 18
+hiddenResearch. Tests decken jede Kantenklasse, alle vier Statuswerte, Folderanomalien,
+Unlockklassifikation, Rank-Evidence und deterministische Edge-IDs ab.
 
 ## Neue Tests
 

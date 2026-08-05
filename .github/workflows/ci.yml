@@ -47,10 +47,13 @@ jobs:
             --validate-database data/samples/WT_Database_2.57.1.67.json \
             --output build/health
       - run: python tests/validate_health_report.py build/health/WT_Health_2.57.1.67.json
+      - run: python tests/graph_semantics_matrix.py > build/health/Graph_Semantics_2.57.1.67.json
       - uses: actions/upload-artifact@v4
         with:
           name: sample-datamine-health
-          path: build/health/WT_Health_2.57.1.67.*
+          path: |
+            build/health/WT_Health_2.57.1.67.*
+            build/health/Graph_Semantics_2.57.1.67.json
 
   whitespace:
     runs-on: ubuntu-latest

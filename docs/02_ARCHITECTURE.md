@@ -7,6 +7,7 @@
 | Converter | `apps/datamine-manager/wurstbrot_converter.py` | Quelldateien finden, parsen, normalisieren, validieren und vergleichen |
 | Core | `packages/core/wurstbrot_core/` | Datenmodell, Datenbankzugriff, GE-Regeln, Graph und Optimierer |
 | Graph Foundation | `research_graph.py`, `graph_adapter.py` | typisiertes DAG-Modell, Diagnose, Export und Legacy-Adapter |
+| Graph Semantics | `graph_semantics.py`, `graph_evaluation.py`, `graph_analysis.py` | Kantenvertrag, regelweise Eligibility-Auswertung, Mirror- und Sonderfallanalyse |
 | Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
@@ -24,6 +25,7 @@ flowchart TD
   J --> DB["VehicleDatabase"]
   DB --> G["ResearchGraphBuilder"]
   G --> A["GraphDatabaseAdapter (Mirror)"]
+  G --> RE["GraphRuleEvaluator"]
   DB --> S["ResearchSolver"]
   A --> S
   P["PlayerProgress + SolveOptions"] --> S
@@ -47,6 +49,8 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
 - Das parallele `ResearchGraph` bewahrt Vehicle-, Folder-, Unlock- und Rank-Knoten sowie typisierte
   Kanten. Es ersetzt den Solver noch nicht.
 - Der Mirror-Adapter ändert nur die Closure-Quelle. Alle übrigen Solverzugriffe bleiben Legacy-Reads.
+- `GraphRuleEvaluator` liest Graph, Fortschritt und Optionen, erzeugt aber weder Kosten noch eine
+  Kandidatenauswahl. Der produktive Pfad bleibt `VehicleDatabase` → `ResearchSolver`.
 
 ## Geplante Evolution
 

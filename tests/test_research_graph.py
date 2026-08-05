@@ -90,6 +90,7 @@ class ResearchGraphTests(unittest.TestCase):
         self.assertEqual(diagnostics.cycles, 1)
         self.assertFalse(diagnostics.is_dag)
         self.assertIsNone(diagnostics.longest_path)
+        self.assertEqual(diagnostics.diagnostic_categories["cycles"], "invalid")
 
     def test_model_accepts_multiple_predecessors_but_legacy_adapter_rejects_them(self):
         graph = ResearchGraph(

@@ -4,9 +4,24 @@ __version__ = "0.9.0-beta"
 
 from .database import VehicleDatabase
 from .graph_adapter import GraphDatabaseAdapter
+from .graph_analysis import (
+    MirrorEvaluationSummary,
+    build_special_case_matrix,
+    render_special_case_matrix_markdown,
+    run_mirror_evaluation,
+)
+from .graph_evaluation import (
+    EvaluationStatus,
+    GraphEvaluationReport,
+    GraphRuleEvaluator,
+    RuleEvaluation,
+    UnlockClassification,
+)
+from .graph_semantics import EDGE_SEMANTICS, EdgeSemantics, semantics_for
 from .models import PlayerProgress, SolveOptions, SolveResult, VehicleProgress
 from .research_graph import (
     EdgeType,
+    DiagnosticCategory,
     GraphDiagnostics,
     GraphEdge,
     GraphNode,
@@ -19,13 +34,26 @@ from .solver import ResearchSolver
 __all__ = [
     "VehicleDatabase",
     "GraphDatabaseAdapter",
+    "MirrorEvaluationSummary",
+    "run_mirror_evaluation",
+    "build_special_case_matrix",
+    "render_special_case_matrix_markdown",
     "NodeType",
     "EdgeType",
+    "DiagnosticCategory",
     "GraphNode",
     "GraphEdge",
     "GraphDiagnostics",
     "ResearchGraph",
     "ResearchGraphBuilder",
+    "EdgeSemantics",
+    "EDGE_SEMANTICS",
+    "semantics_for",
+    "EvaluationStatus",
+    "UnlockClassification",
+    "RuleEvaluation",
+    "GraphEvaluationReport",
+    "GraphRuleEvaluator",
     "VehicleProgress",
     "PlayerProgress",
     "SolveOptions",
