@@ -1,9 +1,18 @@
 [project]
 name = "wurstbrot-suite"
-version = "0.1.0"
+version = "0.9.0b0"
 description = "Datamine Manager and GE Calculator for War Thunder"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+
+[project.urls]
+Repository = "https://github.com/wursti10-cmyk/wurstbrot-suite"
+
+[tool.setuptools]
+package-dir = {"" = "packages/core"}
+
+[tool.setuptools.packages.find]
+where = ["packages/core"]
 
 [tool.ruff]
 line-length = 100
