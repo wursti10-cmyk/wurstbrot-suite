@@ -6,9 +6,11 @@
 |---|---|---|
 | Unit/Integration | `python run_tests.py` | Datenbank, Wirtschaft und Solver |
 | Graph-Regression | `python tests/regression_matrix.py` | normale Vorgänger-Ziel-Paare der Beispieldatenbank |
+| Solver-Contract | `python run_tests.py` und `node --test tests/web_solver.test.mjs` | gleiche Fixture in Python und JavaScript |
+| Browser-Regression | `node tests/browser_regression.mjs` | gleiche 1.977 normalen Paare im Browser-Solver |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
-Der gespeicherte Milestone-Bericht nennt 18 Unit Tests. Die Regression für Spielversion `2.57.1.67`
+Die Regression für Spielversion `2.57.1.67`
 meldet 1.977 bestandene Fälle, 206 Wurzelziele und 49 übersprungene Sonderfälle ohne Fehler.
 
 ## Was die Regression prüft
@@ -30,5 +32,5 @@ Erfolge und brauchen gezielte Fixtures.
 
 ## Release-Gate
 
-Unit Tests und Regression müssen grün sein. Gespeicherte Berichte dürfen nur aktualisiert werden, wenn
+Python-Tests, beide Regressionen und Browser-Tests müssen grün sein. Gespeicherte Berichte dürfen nur aktualisiert werden, wenn
 die Änderung beabsichtigt und im PR erklärt ist.

@@ -7,7 +7,7 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 
 ## Harte Regeln
 
-1. `main` ist aktuell `0.3.0-milestone1`; offene PRs sind kein ausgelieferter Stand.
+1. Die aktuelle Release-Linie ist `0.9.0-beta`; offene PRs sind kein ausgelieferter Stand.
 2. Keine erfundenen Gaijin-Regeln oder Datamine-Felder.
 3. GE wird pro Fahrzeug aufgerundet.
 4. Ein Fahrzeug ist nur mit `researched=True` und `purchased=True` im Solver „owned“.
@@ -15,6 +15,7 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 6. Neue UI-Fachlogik gehört in den Core oder braucht Contract Tests.
 7. Keine Accountdaten, proprietären Assets oder Datamine-Großdateien ungefragt committen.
 8. Bei Solveränderungen Unit Tests und Regression ausführen.
+9. Python und Browser müssen die gemeinsame Contract-Fixture und ihre Regressionen bestehen.
 
 ## Orientierung
 

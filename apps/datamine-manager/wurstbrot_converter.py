@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any, Callable, Iterable
 
 APP_NAME = "Wurstbrot Datamine Converter"
-APP_VERSION = "1.0.0"
+APP_VERSION = "0.9.0-beta"
 
 REQUIRED_FILES = {
     "shop": ("shop.blkx",),

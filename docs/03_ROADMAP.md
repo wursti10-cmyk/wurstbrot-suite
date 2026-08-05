@@ -16,8 +16,8 @@
 
 ### Beta
 
-- Browser-Oberfläche und CI nach Review integrieren
-- Browser- und Python-Ergebnisse gegeneinander testen
+- Browser-Oberfläche und CI betreiben
+- Browser- und Python-Ergebnisse über gemeinsame Fixtures gegeneinander testen
 - Such- und kompakte Pfadansicht ergänzen
 - portable Windows-Pakete erzeugen
 

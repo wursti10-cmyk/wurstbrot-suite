@@ -5,7 +5,8 @@
 - Python 3.10 oder neuer
 - Git
 - Tk-Unterstützung nur für Desktop-GUIs
-- keine externen Laufzeitpakete auf dem aktuellen `main`
+- Node.js 22 für Browser-Tests
+- keine externen Python-Laufzeitpakete
 
 ## Einrichtung
 
@@ -14,6 +15,8 @@ git clone https://github.com/wursti10-cmyk/wurstbrot-suite.git
 cd wurstbrot-suite
 python run_tests.py
 python tests/regression_matrix.py
+node --test tests/web_solver.test.mjs
+node tests/browser_regression.mjs
 ```
 
 Ein virtuelles Environment ist empfohlen, aber derzeit nicht zwingend. Die Apps fügen

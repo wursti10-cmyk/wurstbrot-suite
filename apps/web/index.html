@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#171a21">
+  <meta name="description" content="War-Thunder-Forschungs- und GE-Rechner im Browser">
+  <title>Wurstbrot GE Calculator 0.9.0-beta</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">WURSTBROT SUITE · 0.9.0-BETA</p>
+      <h1>🥪 GE Calculator</h1>
+      <p>Forschungswege und Golden Eagles nachvollziehbar berechnen – vollständig lokal.</p>
+    </div>
+    <span id="status" class="status">Datenbank wird geladen …</span>
+  </header>
+
+  <main>
+    <section class="card controls" aria-labelledby="calculator-title">
+      <h2 id="calculator-title">Berechnung</h2>
+      <div class="grid">
+        <label>Datenbank
+          <input id="database-file" type="file" accept="application/json,.json">
+        </label>
+        <label>Nation<select id="country"></select></label>
+        <label>Fahrzeugart<select id="branch"></select></label>
+        <label>Von Fahrzeug A<select id="start"></select></label>
+        <label>Zu Fahrzeug B<select id="target"></select></label>
+        <label>Angeforschte RP auf B<input id="partial-rp" type="number" min="0" value="0"></label>
+        <label>Convertible RP<input id="convertible-rp" type="number" min="0" placeholder="unbegrenzt"></label>
+        <label>Vorhandene GE<input id="owned-ge" type="number" min="0" value="0"></label>
+        <label>SL-Rabatt<select id="discount"><option>0</option><option>30</option><option>50</option></select></label>
+        <label>Optimieren nach<select id="optimize"><option value="ge">GE</option><option value="rp">RP</option><option value="sl">SL</option><option value="vehicles">Fahrzeuganzahl</option></select></label>
+      </div>
+      <button id="calculate" type="button">Berechnen</button>
+      <p class="hint">Eigene Datenbank auswählen oder die mitgelieferte Beispieldatenbank verwenden.</p>
+    </section>
+
+    <section class="card results" aria-live="polite">
+      <div class="result-head"><h2>Ergebnis</h2><button id="copy" class="secondary" type="button">Kopieren</button></div>
+      <div id="summary" class="summary empty">Noch keine Berechnung.</div>
+      <div id="rank-requirements"></div>
+      <div id="explanation"></div>
+      <div id="warnings"></div>
+    </section>
+  </main>
+
+  <footer>Unabhängiges Community-Projekt · Keine Accountdaten · Keine Verbindung zu Gaijin Entertainment</footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

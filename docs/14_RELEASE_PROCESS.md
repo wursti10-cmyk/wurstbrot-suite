@@ -2,9 +2,8 @@
 
 ## Versionierung
 
-Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Auf aktuellem
-`main` steht `VERSION` auf `0.3.0-milestone1`, während `pyproject.toml` noch `0.1.0` nennt. Diese
-Abweichung ist vor einem Paketrelease zu beheben.
+Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Die lesbare
+Version `0.9.0-beta` wird in Python-Paketmetadaten PEP-440-konform als `0.9.0b0` dargestellt.
 
 ## Vorbereitung
 

@@ -3,9 +3,7 @@
 ## Zweck dieses Dokuments
 
 Diese Developer Bible ist die technische Referenz für Menschen und KI-Agenten. Sie beschreibt den
-Stand von `main` zum Commit `1d47b92` (`0.3.0-milestone1`). Aussagen über zukünftige Funktionen sind
-ausdrücklich als Ziel markiert. Der offene Draft-PR #1 enthält einen Vorschlag für `0.9.0-beta`, gehört
-aber noch nicht zum veröffentlichten Hauptzweig.
+Release-Stand `0.9.0-beta`. Aussagen über spätere Funktionen sind ausdrücklich als Ziel markiert.
 
 ## Produkt
 
@@ -20,10 +18,11 @@ proprietären Spielassets benötigt oder hochgeladen.
 - Datamine Converter mit CLI und Tkinter-GUI
 - kompakte JSON-Datenbank, Schema-Version 1
 - GE Calculator Core, CLI und Tkinter-GUI
+- statische Browser-App mit lokalem Datenimport und Offline-Cache
+- GitHub Actions für Python, Browser-Regression, Paketbau und Pages
 - 2.232 reguläre Fahrzeuge in der Beispieldatenbank `2.57.1.67`
 - 395 Fahrzeuggruppen, zehn Nationen und fünf Fahrzeugarten
-- Unit Tests und Regression über normale Vorgänger-Ziel-Paare
-- kein Browser-Frontend und keine CI auf `main`
+- Unit Tests, gemeinsame Solver-Contract-Fixture und Regressionen in Python und JavaScript
 
 ## Nicht-Ziele
 

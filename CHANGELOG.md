@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.9.0-beta] - 2026-08-05
+
+### Added
+
+- responsive Browser-Version des GE Calculators
+- lokaler Datenbankimport und Offline-Cache als Progressive Web App
+- GitHub-Actions-CI für Python 3.10, 3.12 und 3.13
+- JavaScript-Tests für Datenbankprüfung, Forschungswege und GE-Rundung
+- gemeinsame Python-/Browser-Contract-Fixture und Browser-Regression
+- automatischer Paket-Build und GitHub-Pages-Workflow
+- Entwicklungsabhängigkeiten, `.gitignore` und Metadatenprüfungen
+
+### Changed
+
+- Projektstatus, Dokumentation und Versionsangaben auf `0.9.0-beta` vereinheitlicht
+- README um Browser- und Beta-Schnellstart ergänzt
+- Komponenten- und UI-Versionen auf `0.9.0-beta` vereinheitlicht
+
+### Fixed
+
+- ungültige erste Zeile in zwei Windows-Startskripten entfernt
+- Browser-Solver an Rangfreischaltungen und Optimierungsregeln des Python-Cores angeglichen
+- ungefilterte Fahrzeugnamen aus der HTML-Ausgabe entfernt
+
 ## [0.3.0-milestone1] - 2026-08-04
 
 ### Added

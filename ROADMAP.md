@@ -1,5 +1,18 @@
 # Roadmap
 
+## 0.9.0-beta
+
+- Python Core, CLI und Desktop-GUI
+- Browser-Version mit lokalem Datenimport und Contract Tests
+- automatisierte Python-, Regression- und Browser-Tests
+- CI, Paket-Artefakt und Pages-Deployment
+
+## 1.0.0
+
+- Browser- und Python-Solver dauerhaft über gemeinsame Fixtures abgleichen
+- portable Windows-Pakete signieren und als Release veröffentlichen
+- Barrierefreiheit und Übersetzungen vervollständigen
+
 ## 0.1 – Datamine Manager
 
 - [x] Datamine-Dateien suchen
@@ -31,13 +44,13 @@
 
 ## 0.9 – Beta/Weboberfläche
 
-- [ ] responsive Bedienung
+- [x] responsive Bedienung
 - [ ] Suchfunktion
-- [ ] kompakte Pfadansicht
-- [ ] Ergebnis in RP, GE, SL und Euro
-- [ ] Import einer Wurstbrot-Datenbank
-
-Browser und CI sind in Draft-PR #1 vorgeschlagen, aber noch nicht Bestandteil von `main`.
+- [x] kompakte Pfadansicht
+- [x] Ergebnis in RP, GE und SL
+- [ ] Eurodarstellung auf Basis exakter Paketdaten
+- [x] Import einer Wurstbrot-Datenbank
+- [x] GitHub Actions und Pages-Workflow
 
 ## 1.0 – Stabiler Release
 

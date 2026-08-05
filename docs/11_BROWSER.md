@@ -2,9 +2,8 @@
 
 ## Status
 
-Auf `main` existiert noch keine Browser-Anwendung. Draft-PR #1 schlägt eine Browser-Beta vor. Dieses
-Dokument definiert den Zielvertrag und darf nicht als Nachweis einer bereits veröffentlichten Funktion
-gelesen werden.
+Die Browser-Anwendung liegt unter `apps/web/`. Sie ist statisch, benötigt kein Backend und kann eine
+mitgelieferte oder lokal ausgewählte `WT_Database_*.json` verarbeiten.
 
 ## Zielarchitektur
 
@@ -17,12 +16,13 @@ gelesen werden.
 ## Fachlicher Vertrag
 
 Bei identischer Datenbank, A, B, Fortschritt und Optionen müssen Browser und Python-Core dieselben
-Fahrzeug-IDs, Gründe, RP, GE, SL und Warnungen liefern. Bis gemeinsame Core-Ausführung möglich ist,
-sind Contract Fixtures in beiden Laufzeiten Pflicht.
+Fahrzeug-IDs, Gründe, RP, GE, SL und Warnungen liefern. `tests/fixtures/solver_contract.json` wird von
+beiden Laufzeiten geprüft; zusätzlich läuft die normale Graph-Regression auch im Browser-Solver.
 
 ## Sicherheit
 
-JSON ist untrusted input. HTML-Ausgabe darf Fahrzeugnamen nicht ungefiltert per `innerHTML` einsetzen.
+JSON ist untrusted input. Die Ausgabe erzeugt DOM-Knoten und setzt Nutzdaten ausschließlich über
+`textContent`; Fahrzeugnamen werden nicht als HTML interpretiert.
 Service Worker dürfen nur veröffentlichte statische Assets cachen. Keine Tokens, Accounts oder externen
 Tracker.
 

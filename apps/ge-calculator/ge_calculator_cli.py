@@ -19,7 +19,7 @@ from wurstbrot_core.explain import explain_result  # noqa: E402
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Wurstbrot GE Calculator 2.0 Alpha"
+        description="Wurstbrot GE Calculator 2.0 Beta"
     )
     parser.add_argument("--database", required=True)
     parser.add_argument("--target", required=True)
