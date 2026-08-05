@@ -40,6 +40,7 @@ class PlayerProgress:
     vehicles: dict[str, VehicleProgress] = field(default_factory=dict)
     convertible_rp: int | None = None
     owned_ge: int = 0
+    fulfilled_unlocks: frozenset[str] = field(default_factory=frozenset)
 
     def for_vehicle(self, vehicle_id: str) -> VehicleProgress:
         return self.vehicles.get(vehicle_id, VehicleProgress())
@@ -50,6 +51,7 @@ class SolveOptions:
     optimize_for: Literal["ge", "rp", "sl", "vehicles"] = "ge"
     include_start_vehicle: bool = False
     include_hidden_legacy: bool = False
+    assume_external_unlocks: bool = False
     sl_discount_percent: int = 0
 
 

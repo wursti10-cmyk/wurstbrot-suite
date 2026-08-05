@@ -10,6 +10,7 @@
 | Browser-Regression | `node tests/browser_regression.mjs` | gleiche 1.977 normalen Paare im Browser-Solver |
 | Graph Unit/Mirror | `python run_tests.py` | Builder, Adapter, Export, Diagnostik und alle Closures |
 | Graph-Semantikmatrix | `python tests/graph_semantics_matrix.py` | alle Ziele, Statusverteilung, Sonderfälle und verfeinerte Diagnostik |
+| Graph-Resolution-Matrix | `python tests/graph_resolution_matrix.py` | 1.977 bestehende Fälle plus 13 Progress-Szenarien, Shadow-Diagnostik und 49 Sonderfälle |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -35,6 +36,18 @@ Die generierte Sonderfallmatrix muss exakt 49 deterministische Zeilen enthalten:
 hiddenResearch. Tests decken jede Kantenklasse, alle vier Statuswerte, Folderanomalien,
 Unlockklassifikation, Rank-Evidence und deterministische Edge-IDs ab.
 
+Accuracy 4 ergänzt 12 fokussierte Resolver-Tests sowie das separate Vollmatrix-Gate. Die Matrix
+vergleicht 1.990 Aufrufe und verlangt `mismatch == 0`. Aktuell entstehen 1.926 exact matches,
+0 equivalent matches, 63 ehrlich unresolved Fälle, 1 unsupported Vergleich und 0 mismatches. Die
+13 PlayerProgress-Fälle müssen vollständig einer Kategorie zugeordnet sein. Bei einer Abweichung
+enthält das Artefakt Ziel, Start, Szenario, Legacy-/Graph-Mengen, Differenzen, Regeln, Evidence und
+Explanation Trace.
+
+Die 49er Sonderfallprüfung verwendet nur explizite Evidenz: Hidden wird gezielt aktiviert und externe
+Unlocks werden gezielt angenommen. Sie darf Folder-Unklarheiten nicht heuristisch grün machen. Der
+Vorher-/Nachher-Vertrag lautet derzeit 0 → 35 aufgelöste Fälle, 14 unresolved, 0 unsupported und
+0 mismatch.
+
 ## Neue Tests
 
 - kleine synthetische Datenbanken für Randfälle bevorzugen
@@ -52,6 +65,12 @@ Das CI erzeugt zusätzlich beide `WT_Health_*`-Dateien, validiert deren Pflichts
 `passed=true` sowie exakt null `error`-Findings für die Sample-Datenbank. `git diff --check` ist ein
 eigenes Gate. Neue Validatorregeln brauchen eine fehlerhafte Mini-Datenbank, ein positives
 Gegenbeispiel und dürfen die echte Sample-Datenbank nicht durch Testlockerung freigeben.
+
+CI lädt zusätzlich `Graph_Resolution_2.57.1.67.json` hoch. Das Artefakt enthält keine Kosten und muss
+`graphCostCalculationPerformed=false`, `costValuesEmitted=false` sowie
+`optimizerSelectionPerformed=false` ausweisen. Die getrennte Legacy-Compatibility-Auswahl bleibt
+ausdrücklich als `legacyCompatibilityModeEnabled=true` sichtbar; einzelne Resolution Results nennen
+zusätzlich, ob die Strategie tatsächlich aufgerufen wurde.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

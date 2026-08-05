@@ -45,3 +45,10 @@ convertible_shortfall = max(total_rp - convertible_rp, 0), falls angegeben, sons
 - 45 RP → 1 GE
 - 46 RP → 2 GE
 - zwei Fahrzeugzeilen mit je 1 RP → 2 GE
+
+## Grenze zur Graph Resolution
+
+`GraphPrerequisiteResolver` ist nicht Teil der Kostenberechnung. Sein Ergebnis enthält keine RP-, GE-,
+SL- oder Euro-Werte. `LegacyRankCompatibilityStrategy` darf im Shadow Mode die bestehende
+kostenbewusste Auswahl delegieren und so eine Fahrzeugmenge reproduzieren, aber weder Kosten ausgeben,
+neue Kostenlogik definieren noch als neuer Optimizer gelten.

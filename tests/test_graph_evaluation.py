@@ -248,6 +248,21 @@ class GraphEvaluationTests(unittest.TestCase):
             assumed_external_unlocks={"ch_heli_unlocked_test"},
         ).by_rule("UNLOCK_REQUIREMENT")
         self.assertEqual(assumed.status, EvaluationStatus.SATISFIED)
+        assumed_by_option = external_evaluator.evaluate(
+            target_vehicle_id="a",
+            options=SolveOptions(assume_external_unlocks=True),
+        ).by_rule("UNLOCK_REQUIREMENT")
+        self.assertEqual(assumed_by_option.status, EvaluationStatus.SATISFIED)
+        fulfilled_by_progress = external_evaluator.evaluate(
+            target_vehicle_id="a",
+            progress=PlayerProgress(
+                fulfilled_unlocks=frozenset({"ch_heli_unlocked_test"})
+            ),
+        ).by_rule("UNLOCK_REQUIREMENT")
+        self.assertEqual(
+            fulfilled_by_progress.evidence["classification"],
+            UnlockClassification.FULFILLED_BY_PROGRESS.value,
+        )
 
         unknown_db = database(vehicle("a", reqUnlock="mystery"))
         unknown = (

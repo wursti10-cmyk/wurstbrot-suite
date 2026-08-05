@@ -8,6 +8,7 @@
 | Core | `packages/core/wurstbrot_core/` | Datenmodell, Datenbankzugriff, GE-Regeln, Graph und Optimierer |
 | Graph Foundation | `research_graph.py`, `graph_adapter.py` | typisiertes DAG-Modell, Diagnose, Export und Legacy-Adapter |
 | Graph Semantics | `graph_semantics.py`, `graph_evaluation.py`, `graph_analysis.py` | Kantenvertrag, regelweise Eligibility-Auswertung, Mirror- und Sonderfallanalyse |
+| Graph Resolution | `graph_resolution.py`, `graph_resolution_analysis.py` | eigenständige Voraussetzungsermittlung, Shadow-Vergleich und Progress-/Sonderfallmatrizen |
 | Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
@@ -26,6 +27,9 @@ flowchart TD
   DB --> G["ResearchGraphBuilder"]
   G --> A["GraphDatabaseAdapter (Mirror)"]
   G --> RE["GraphRuleEvaluator"]
+  RE --> GR["GraphPrerequisiteResolver (Shadow)"]
+  P --> GR
+  GR --> SM["Shadow Comparison"]
   DB --> S["ResearchSolver"]
   A --> S
   P["PlayerProgress + SolveOptions"] --> S
@@ -51,6 +55,11 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
 - Der Mirror-Adapter ändert nur die Closure-Quelle. Alle übrigen Solverzugriffe bleiben Legacy-Reads.
 - `GraphRuleEvaluator` liest Graph, Fortschritt und Optionen, erzeugt aber weder Kosten noch eine
   Kandidatenauswahl. Der produktive Pfad bleibt `VehicleDatabase` → `ResearchSolver`.
+- `GraphPrerequisiteResolver` ergänzt eindeutig notwendige Fahrzeugvoraussetzungen. Fehlende
+  Rangkombinationen bleiben ohne expliziten Compatibility Mode unresolved.
+- Die isolierte `LegacyRankCompatibilityStrategy` delegiert nur für Shadow-Vergleiche an die
+  unveränderte bestehende Rangwahl. Sie ist kein neuer Optimizer.
+- Produktiver Legacy-Solver, CLI, Desktop und Browser rufen den Graph Resolver nicht auf.
 
 ## Geplante Evolution
 

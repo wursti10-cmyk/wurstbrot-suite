@@ -8,8 +8,8 @@ direkten Vorgänger; mehrere Nachfolger sind möglich. Der Graph wird pro Nation
 betrachtet.
 
 Parallel dazu existiert das additive `ResearchGraph`: ein typisierter Multi-Edge-Graph mit Vehicle-,
-Folder-, Unlock- und Rank-Knoten. Er ist derzeit Architektur-, Export- und Diagnosemodell. Der
-produktive Solververtrag bleibt das Schema-v1-Modell. Details stehen in
+Folder-, Unlock- und Rank-Knoten. Er trägt Architektur, Export, Diagnose, Rule Evaluation und
+Prerequisite Resolution im Shadow Mode. Der produktive Solververtrag bleibt das Schema-v1-Modell. Details stehen in
 [Graph Engine Foundation](20_GRAPH_ENGINE_FOUNDATION.md).
 
 ## Pfadabschluss
@@ -51,3 +51,15 @@ Rank-Kandidaten. Der vollständige Vertrag steht in [Graph Rule Evaluation](22_G
 Mehrfachvorgänger bleiben unresolved. Folder sind Mitgliedschaft und Reihenfolge, keine eigenständige
 Erwerbsregel. Externe Unlocks bleiben getrennte Bedingungen. Rank Evaluation zählt und erklärt, ohne
 einen günstigsten Pfad zu wählen.
+
+## Prerequisite Resolution
+
+Der additive `GraphPrerequisiteResolver` übersetzt Rule Results erstmals in eine deterministische
+Voraussetzungsmenge. Er löst eindeutige Vorgängerketten und interne Unlock-Closures auf, unterscheidet
+Folder-Mitgliedschaft von separaten Pflichten und beschreibt Rank-Lücken samt Kandidaten. Unbekannte
+Mehrfachvorgänger-, Folder- und externe Unlock-Semantik bleibt unresolved.
+
+Der Resolver läuft ausschließlich im Shadow Mode. Für vollständige Vergleiche kann eine ausdrücklich
+benannte Legacy-Rank-Compatibility-Strategie dieselbe bestehende Rangmenge wählen. Das ist weder neue
+Kostenlogik noch der spätere Optimizer. Details und aktuelle Matrix stehen in
+[Graph Prerequisite Resolution](23_GRAPH_PREREQUISITE_RESOLUTION.md).

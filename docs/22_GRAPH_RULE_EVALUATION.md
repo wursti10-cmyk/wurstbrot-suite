@@ -5,7 +5,9 @@
 Die Evaluationsschicht bewertet Voraussetzungen parallel zum unveränderten Legacy-Solver. Sie wählt
 keine Fahrzeuge aus, optimiert keine Kosten und erzeugt keine Benutzererklärung. Eingaben sind
 `ResearchGraph`, Ziel-ID, `PlayerProgress`, `SolveOptions` sowie optional Startfahrzeug und ausdrücklich
-angenommene externe Unlock-Tokens.
+angenommene externe Unlock-Tokens. `PlayerProgress.fulfilled_unlocks` oder die globale Option
+`assume_external_unlocks` sind ebenfalls explizite Eingaben; ohne sie wird kein externer Zustand
+angenommen.
 
 Jede `RuleEvaluation` enthält:
 
@@ -78,6 +80,7 @@ bereits besessene Mitglieder bleiben gültige Mitgliedschaften.
 | Klassifikation | Entscheidung |
 |---|---|
 | `internally_resolvable` | Token referenziert ein bekanntes Fahrzeug; Owned-State ist prüfbar |
+| `fulfilled_by_progress` | `PlayerProgress.fulfilled_unlocks` enthält das Token ausdrücklich |
 | `external_assumed_satisfied` | Aufrufer hat genau dieses externe Token ausdrücklich angenommen |
 | `external_not_checkable` | bekanntes externes Tokenmuster, aber kein PlayerProgress-Zustand |
 | `unknown` | Token besitzt keine definierte Semantik |
@@ -85,6 +88,9 @@ bereits besessene Mitglieder bleiben gültige Mitgliedschaften.
 
 Nicht prüfbare, unbekannte und widersprüchliche Unlocks sind unresolved. Externe Unlocks werden nie in
 normale Vorgängerkanten umgewandelt.
+
+Rule Evaluation wählt weiterhin keine Voraussetzungen aus. Die nachgelagerte Resolution und ihre
+Shadow-Grenzen stehen in [Graph Prerequisite Resolution](23_GRAPH_PREREQUISITE_RESOLUTION.md).
 
 ### RANK_REQUIREMENT_n
 

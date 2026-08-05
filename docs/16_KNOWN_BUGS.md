@@ -30,7 +30,11 @@
 - Der Browser bietet noch keine komfortable Mehrfachauswahl beliebiger bereits gekaufter Fahrzeuge;
   die Solver-API unterstützt diese Fortschrittsdaten bereits.
 - Graphdiagnostik zählt alle Kantentypen gemeinsam. Folder-, Unlock- und Rank-Kanten sind
-  Analysestruktur und noch keine vom Solver ausführbaren Bedingungen.
+  Analysestruktur und keine automatischen Validatorfehler.
+- Der Graph Resolver läuft nur im Shadow Mode; produktive Kostenberechnung und Oberflächen verwenden
+  weiterhin ausschließlich den Legacy-Solver.
+- Die `LegacyRankCompatibilityStrategy` delegiert vorübergehend an die private bestehende
+  Rangwahlmethode. Sie ist absichtlich kein eigenständiger Optimizervertrag.
 
 ## Klassifizierte offene Semantik
 
@@ -43,6 +47,11 @@
 - Mehrfachvorgänger werden vollständig erkannt und unresolved gemeldet; AND-/OR-Semantik ist weiterhin
   nicht spezifiziert.
 - Rank Evaluation nennt Kandidaten und Ausschlussgründe, entscheidet aber absichtlich keine Kombination.
+- Die Accuracy-4-Vollmatrix löst 1.926 von 1.990 Vergleichen exakt, bewahrt 63 als unresolved und
+  klassifiziert einen Hidden-Default-Fall als unsupported; mismatch bleibt 0.
+- Mit expliziter Hidden-/Unlock-Evidenz werden 35 der 49 bekannten Sonderfälle aufgelöst. Vierzehn
+  Hidden-Ziele in vier Folder-Familien bleiben wegen versteckter Mitgliedschaft beziehungsweise
+  Folder-Reihenfolge unresolved.
 
 ## Pflege
 

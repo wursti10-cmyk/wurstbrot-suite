@@ -36,7 +36,18 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 18. `unresolved` darf nie als bestanden gezählt werden. Mirror-Ausgaben müssen exact_match,
     unresolved_expected, mismatch und unsupported getrennt melden; jeder mismatch ist ein Fehler.
 19. Mehrfachvorgänger niemals still auswählen. Alle betroffenen Kanten als unresolved Evidence melden.
-20. Externe Unlocks nur bei ausdrücklicher Tokenannahme satisfied setzen; nie aus Namen erraten.
+20. Externe Unlocks nur bei ausdrücklichem `fulfilled_unlocks`-Eintrag oder expliziter Option
+    satisfied setzen; nie aus Namen erraten.
+21. Evaluation bewertet einzelne Regeln; Resolution erzeugt daraus eine Voraussetzungsliste. Diese
+    Verträge nicht vermischen.
+22. `GraphPrerequisiteResolver` bleibt Shadow Mode. Produktiven Legacy-Solver, Browser oder GUI nicht
+    ohne eigenen Migrationssprint umstellen.
+23. Rank-Auswahl ist nur in der ausdrücklich benannten `LegacyRankCompatibilityStrategy` zulässig.
+    Sie ist kein Graph Optimizer und darf keine Kosten in den Resolution Contract schreiben.
+24. Owned oder Start A beweisen ihre bereits überwundenen Folder-/Unlock-Voraussetzungen. Die
+    Quellanomalie bleibt Evidence, darf aber nicht erneut als offene Eligibility gewertet werden.
+25. `equivalent_match` verlangt exakt dieselbe Fahrzeugmenge. Unresolved und unsupported sind weder
+    Match noch Mismatch; jeder echte Mismatch ist ein Fehler.
 
 ## Orientierung
 
@@ -47,6 +58,8 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Kantenvertrag: `graph_semantics.py`
 - Regelauswertung: `graph_evaluation.py`
 - Mirror-/Sonderfallanalyse: `graph_analysis.py`
+- Voraussetzungsermittlung: `graph_resolution.py`
+- Shadow-/Progress-/Sonderfallvergleich: `graph_resolution_analysis.py`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`
