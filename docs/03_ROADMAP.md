@@ -8,6 +8,13 @@
 
 ## Nächste Schritte
 
+### Accuracy
+
+- strukturierte Datamine-Health-Reports als Veröffentlichungs-Gate
+- Sonderfälle und externe Unlocks mit gezielten Fixtures absichern
+- Fahrzeugordner, Rangfreischaltungen und Graph Solver gegen neue Datamines validieren
+- Explain Engine und Regressionen anhand exakter Datamine-Felder erweitern
+
 ### Dokumentation und Verträge
 
 - Developer Bible als verbindlichen Einstieg pflegen

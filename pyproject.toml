@@ -9,10 +9,11 @@ license = {text = "MIT"}
 Repository = "https://github.com/wursti10-cmyk/wurstbrot-suite"
 
 [tool.setuptools]
-package-dir = {"" = "packages/core"}
+packages = ["wurstbrot_core", "wurstbrot_validator"]
 
-[tool.setuptools.packages.find]
-where = ["packages/core"]
+[tool.setuptools.package-dir]
+wurstbrot_core = "packages/core/wurstbrot_core"
+wurstbrot_validator = "packages/validator/wurstbrot_validator"
 
 [tool.ruff]
 line-length = 100

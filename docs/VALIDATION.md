@@ -1,12 +1,8 @@
 # Validierung
 
-Der Converter prüft:
+Der Converter verwendet den strukturierten Validator aus `packages/validator`. Verbindliche Regeln,
+Severity und Health-Report-Schema stehen in [`../specs/DATAMINE_SCHEMA.md`](../specs/DATAMINE_SCHEMA.md);
+die Datamine-Referenz enthält die kompakte Rule-ID-Übersicht.
 
-- doppelte Fahrzeug-IDs
-- ungültige Vorgänger
-- Zyklen
-- Rangrücksprünge
-- Verbindungen zwischen Nationen
-- Verbindungen zwischen Fahrzeugarten
-- negative RP- oder SL-Kosten
-- fehlende Lokalisierungen
+`error` blockiert eine neue Datenbank. `warning` erlaubt Verarbeitung mit sichtbarer Diagnose.
+`info` dokumentiert Sonderfälle und Statistiken. Der Legacy-Export `WT_Validation_*` bleibt erhalten.

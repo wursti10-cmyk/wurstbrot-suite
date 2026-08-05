@@ -8,6 +8,7 @@
 | Graph-Regression | `python tests/regression_matrix.py` | normale Vorgänger-Ziel-Paare der Beispieldatenbank |
 | Solver-Contract | `python run_tests.py` und `node --test tests/web_solver.test.mjs` | gleiche Fixture in Python und JavaScript |
 | Browser-Regression | `node tests/browser_regression.mjs` | gleiche 1.977 normalen Paare im Browser-Solver |
+| Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
 Die Regression für Spielversion `2.57.1.67`
@@ -34,3 +35,8 @@ Erfolge und brauchen gezielte Fixtures.
 
 Python-Tests, beide Regressionen und Browser-Tests müssen grün sein. Gespeicherte Berichte dürfen nur aktualisiert werden, wenn
 die Änderung beabsichtigt und im PR erklärt ist.
+
+Das CI erzeugt zusätzlich beide `WT_Health_*`-Dateien, validiert deren Pflichtstruktur und verlangt
+`passed=true` sowie exakt null `error`-Findings für die Sample-Datenbank. `git diff --check` ist ein
+eigenes Gate. Neue Validatorregeln brauchen eine fehlerhafte Mini-Datenbank, ein positives
+Gegenbeispiel und dürfen die echte Sample-Datenbank nicht durch Testlockerung freigeben.

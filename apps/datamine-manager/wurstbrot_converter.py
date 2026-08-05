@@ -22,6 +22,18 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+VALIDATOR_PACKAGE = REPOSITORY_ROOT / "packages" / "validator"
+if str(VALIDATOR_PACKAGE) not in sys.path:
+    sys.path.insert(0, str(VALIDATOR_PACKAGE))
+
+from wurstbrot_validator import (  # noqa: E402
+    HealthReport,
+    legacy_validation_report,
+    validate_database as validate_database_health,
+    write_health_reports,
+)
+
 APP_NAME = "Wurstbrot Datamine Converter"
 APP_VERSION = "0.9.0-beta"
 
@@ -76,6 +88,8 @@ class ConversionError(RuntimeError):
 class ConversionResult:
     database_path: Path
     validation_path: Path
+    health_json_path: Path
+    health_text_path: Path
     patch_path: Path | None
     vehicle_count: int
     version: str
@@ -654,18 +668,29 @@ def convert(
     for key in REQUIRED_FILES:
         log(f"✓ {key}: {files[key]}")
 
-    database, validation = build_database(files, source, log)
+    database, previous_validation = build_database(files, source, log)
     version = str(database["gameVersion"]).replace("/", "-").replace("\\", "-")
     database_path = output / f"WT_Database_{version}.json"
     validation_path = output / f"WT_Validation_{version}.json"
 
+    health = validate_database_health(database)
+    validation = legacy_validation_report(health)
+    validation["cutReferences"] = previous_validation.get("cutReferences", [])
+    health_json_path, health_text_path = write_health_reports(health, output)
+
+    validation_path.write_text(
+        json.dumps(validation, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    if not health.passed:
+        raise ConversionError(
+            f"Strukturierte Validierung fehlgeschlagen: {health.counts['error']} ERROR-Findings. "
+            f"Details: {health_json_path}"
+        )
+
     log("Schreibe kompakte Datenbank …")
     database_path.write_text(
         json.dumps(database, ensure_ascii=False, separators=(",", ":")),
-        encoding="utf-8",
-    )
-    validation_path.write_text(
-        json.dumps(validation, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 
@@ -689,6 +714,8 @@ def convert(
     return ConversionResult(
         database_path=database_path,
         validation_path=validation_path,
+        health_json_path=health_json_path,
+        health_text_path=health_text_path,
         patch_path=patch_path,
         vehicle_count=validation["stats"]["vehicles"],
         version=version,
@@ -710,9 +737,33 @@ def run_cli(args: argparse.Namespace) -> int:
 
     print(f"Datenbank: {result.database_path}")
     print(f"Validierung: {result.validation_path}")
+    print(f"Health Report: {result.health_json_path}")
+    print(f"Health Summary: {result.health_text_path}")
     if result.patch_path:
         print(f"Patchvergleich: {result.patch_path}")
     return 0
+
+
+def validate_existing_database(database_path: Path, output: Path) -> HealthReport:
+    """Validate an existing normalized database without requiring raw datamine files."""
+    database = load_json(database_path)
+    if not isinstance(database, dict):
+        raise ConversionError("Die Datenbankwurzel muss ein JSON-Objekt sein.")
+    report = validate_database_health(database)
+    write_health_reports(report, output.resolve())
+    return report
+
+
+def run_validation_cli(args: argparse.Namespace) -> int:
+    try:
+        report = validate_existing_database(Path(args.validate_database), Path(args.output))
+    except Exception as exc:
+        print(f"FEHLER: {exc}", file=sys.stderr)
+        if args.debug:
+            traceback.print_exc()
+        return 1
+    print(report.to_text(), end="")
+    return 0 if report.passed else 1
 
 
 def run_gui() -> int:
@@ -918,6 +969,8 @@ def run_gui() -> int:
             )
             self.append_log(f"Datenbank: {result.database_path}")
             self.append_log(f"Validierung: {result.validation_path}")
+            self.append_log(f"Health Report: {result.health_json_path}")
+            self.append_log(f"Health Summary: {result.health_text_path}")
             if result.patch_path:
                 self.append_log(f"Patchvergleich: {result.patch_path}")
             messagebox.showinfo(
@@ -969,6 +1022,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--source", help="Entpackter Datamine-Ordner")
     parser.add_argument("--output", help="Ausgabeordner")
     parser.add_argument("--previous", help="Vorherige WT_Database_*.json für Patchvergleich")
+    parser.add_argument(
+        "--validate-database",
+        help="Bestehende WT_Database_*.json prüfen und Health Reports erzeugen",
+    )
     parser.add_argument("--debug", action="store_true", help="Ausführliche Fehlerausgabe")
     parser.add_argument("--gui", action="store_true", help="Grafische Oberfläche starten")
     return parser
@@ -977,6 +1034,11 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
+
+    if args.validate_database:
+        if not args.output:
+            parser.error("--validate-database benötigt --output.")
+        return run_validation_cli(args)
 
     if args.gui or (not args.source and not args.output):
         return run_gui()
