@@ -2,16 +2,19 @@
 
 Die **Wurstbrot Suite** ist ein Community-Projekt für War Thunder.
 
-Geplante Hauptbestandteile:
+Hauptbestandteile:
 
 - **Datamine Manager** – lädt oder verarbeitet relevante Datamine-Dateien
 - **GE Calculator 2.0** – berechnet den Golden-Eagles-Bedarf von Fahrzeug A zu Fahrzeug B
 - **Validator** – prüft Forschungsgraph, Kosten, Freischaltungen und Rangregeln
 - **Patch Compare** – erkennt Unterschiede zwischen War-Thunder-Versionen
+- **Browser-App** – nutzt den Rechner ohne Installation und verarbeitet Daten lokal
 
 ## Projektstatus
 
-Aktuell befindet sich das Projekt in einer frühen Entwicklungsphase.
+Aktueller Stand: **0.9.0-beta**. Der Python-Kern, die Desktop-Oberflächen und eine
+installierbare Browser-Version sind nutzbar. GitHub Actions prüft Python 3.10, 3.12
+und 3.13, die Browser-Logik und den vollständigen Regressionstest.
 
 ### Fertig
 
@@ -25,16 +28,14 @@ Aktuell befindet sich das Projekt in einer frühen Entwicklungsphase.
 - Validierung von Vorgängern, Zyklen, Rängen und Kosten
 - Patchvergleich zwischen zwei Datenbanken
 
-### Nächster Meilenstein
+### Beta-Funktionen
 
-**GE Calculator 2.0 Core**
-
-- A → B Berechnung
-- Rangfreischaltungen
-- Fahrzeugordner
-- angeforschte RP
-- GE-Rundung pro Fahrzeug
-- Explain Mode
+- A → B Berechnung und Rangfreischaltungen
+- Fahrzeugordner, angeforschte RP und GE-Rundung je Fahrzeug
+- vorhandene GE, Convertible RP und SL-Rabatte
+- Explain Mode in CLI und Desktop-GUI
+- Browser-App mit JSON-Import, responsivem Layout und Offline-Cache
+- Datamine-Konvertierung, Validierung und Patchvergleich
 
 ## Schnellstart
 
@@ -51,6 +52,17 @@ Aktuell befindet sich das Projekt in einer frühen Entwicklungsphase.
 ```bash
 python apps/datamine-manager/wurstbrot_converter.py   --source "D:\WarThunder-Datamine"   --output "D:\Wurstbrot-Output"
 ```
+
+### Browser-Version
+
+Im Repository einen lokalen Webserver starten:
+
+```bash
+python -m http.server 8000
+```
+
+Danach `http://localhost:8000/apps/web/` öffnen. Alternativ kann `apps/web/index.html`
+direkt geöffnet und eine `WT_Database_*.json` ausgewählt werden.
 
 ## Benötigte Datamine-Dateien
 
@@ -89,12 +101,14 @@ Die Verarbeitung findet lokal statt. Es werden keine Accountdaten benötigt und 
 
 War Thunder und alle zugehörigen Marken gehören Gaijin Entertainment. Dieses Projekt ist ein unabhängiges Fanprojekt und steht in keiner Verbindung zu Gaijin Entertainment.
 
-## GE Calculator 2.0 Alpha testen
+## Beta testen
 
 Tests starten:
 
 ```bash
 python run_tests.py
+python tests/regression_matrix.py
+node --test tests/web_solver.test.mjs
 ```
 
 Beispielberechnung:
