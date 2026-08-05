@@ -140,6 +140,21 @@ Angeforschte RP:
 python apps/ge-calculator/ge_calculator_cli.py   --database data/samples/WT_Database_2.57.1.67.json   --start germ_leopard_2a5   --target germ_leopard_2a7v   --progress germ_leopard_2a7v:100000
 ```
 
+Datamine-Health-Report für eine bestehende Datenbank:
+
+```bash
+python apps/datamine-manager/wurstbrot_converter.py \
+  --validate-database data/samples/WT_Database_2.57.1.67.json \
+  --output build/health
+```
+
+Der Befehl erzeugt `WT_Health_<gameVersion>.json` und `.txt`. Ein `error`-Finding liefert Exitcode 1;
+der bisherige `WT_Validation_*`-Export bleibt bei regulären Konvertierungen erhalten.
+
+Health Report V2 enthält automatisch ermittelte Rule-Coverage, Befundgruppen und Fahrzeug-, Graph-
+und Ordnerstatistiken. Der Health Score ist bewusst noch nicht implementiert; der Report weist dies
+maschinenlesbar als `healthScore: null` aus.
+
 
 ## Desktop-Beta starten
 

@@ -6,6 +6,7 @@
 |---|---|---|
 | Converter | `apps/datamine-manager/wurstbrot_converter.py` | Quelldateien finden, parsen, normalisieren, validieren und vergleichen |
 | Core | `packages/core/wurstbrot_core/` | Datenmodell, Datenbankzugriff, GE-Regeln, Graph und Optimierer |
+| Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
 | Daten | `data/samples/` | versionierte Beispieldatenbank für Entwicklung und Tests |
@@ -17,7 +18,8 @@
 flowchart TD
   D["Entpackte Datamine"] --> C["Converter"]
   C --> J["WT_Database_*.json"]
-  C --> V["WT_Validation_*.json"]
+  C --> V["WT_Validation_*.json (Legacy)"]
+  C --> H["WT_Health_*.json + .txt"]
   J --> DB["VehicleDatabase"]
   DB --> S["ResearchSolver"]
   P["PlayerProgress + SolveOptions"] --> S

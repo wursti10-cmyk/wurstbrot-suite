@@ -22,6 +22,26 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+VALIDATOR_PACKAGE = REPOSITORY_ROOT / "packages" / "validator"
+if str(VALIDATOR_PACKAGE) not in sys.path:
+    sys.path.insert(0, str(VALIDATOR_PACKAGE))
+
+from wurstbrot_validator import (  # noqa: E402
+    HealthReport,
+    discover_tested_rules,
+    legacy_validation_report,
+    validate_database as validate_database_health,
+    write_health_reports,
+)
+
+RULE_MATRIX_PATH = REPOSITORY_ROOT / "tests" / "validator_rule_matrix.py"
+
+
+def tested_validator_rules() -> tuple[str, ...]:
+    return discover_tested_rules([RULE_MATRIX_PATH])
+
+
 APP_NAME = "Wurstbrot Datamine Converter"
 APP_VERSION = "0.9.0-beta"
 
@@ -76,6 +96,8 @@ class ConversionError(RuntimeError):
 class ConversionResult:
     database_path: Path
     validation_path: Path
+    health_json_path: Path
+    health_text_path: Path
     patch_path: Path | None
     vehicle_count: int
     version: str
@@ -242,8 +264,7 @@ def describe_unlock(unlock_id: str, definitions: dict[str, dict[str, Any]]) -> s
         cls = mode.get("unitClass", "Fahrzeug")
         if isinstance(cls, list):
             cls_label = "/".join(
-                {"boat": "Küste", "ship": "Bluewater"}.get(str(item), str(item))
-                for item in cls
+                {"boat": "Küste", "ship": "Bluewater"}.get(str(item), str(item)) for item in cls
             )
         else:
             cls_label = {
@@ -274,9 +295,7 @@ def build_database(
     names = load_names(files["units"])
 
     version = (
-        files["version"].read_text(encoding="utf-8").strip()
-        if "version" in files
-        else "unbekannt"
+        files["version"].read_text(encoding="utf-8").strip() if "version" in files else "unbekannt"
     )
     rp_per_ge = int(warpoints.get("playerExpToCountryFor1Gold", 45))
 
@@ -381,9 +400,7 @@ def build_database(
                             "zeroRP": rp == 0,
                             "hiddenResearch": hidden_research,
                             "reqUnlock": req_unlock,
-                            "unlockDescription": describe_unlock(
-                                req_unlock, unlock_definitions
-                            ),
+                            "unlockDescription": describe_unlock(req_unlock, unlock_definitions),
                             "rankPosXY": rank_pos if isinstance(rank_pos, list) else None,
                             "fakeReqUnitPosXY": fake_pos if isinstance(fake_pos, list) else None,
                             "group": node_id if children else None,
@@ -420,17 +437,17 @@ def build_database(
         rank_unlock[country_id] = {}
         for branch_id, suffix in RANK_KEY.items():
             rank_unlock[country_id][branch_id] = {
-                str(rank): int(
-                    config.get(f"needBuyToOpenNextInEra{suffix}{rank}", 0) or 0
-                )
+                str(rank): int(config.get(f"needBuyToOpenNextInEra{suffix}{rank}", 0) or 0)
                 for rank in range(1, 10)
             }
 
     file_manifest = {
         key: {
-            "relativePath": str(path.relative_to(source_root))
-            if path.is_relative_to(source_root)
-            else str(path),
+            "relativePath": (
+                str(path.relative_to(source_root))
+                if path.is_relative_to(source_root)
+                else str(path)
+            ),
             "size": path.stat().st_size,
             "sha256": sha256_file(path),
         }
@@ -490,10 +507,7 @@ def validate_database(database: dict[str, Any]) -> dict[str, Any]:
             continue
         parent = vehicle_map[predecessor]
         child = vehicle_map[unit_id]
-        if (
-            parent["countryId"] != child["countryId"]
-            or parent["branchId"] != child["branchId"]
-        ):
+        if parent["countryId"] != child["countryId"] or parent["branchId"] != child["branchId"]:
             cross_tree.append({"predecessor": predecessor, "vehicle": unit_id})
         if parent["rank"] > child["rank"]:
             rank_backwards.append(
@@ -523,31 +537,21 @@ def validate_database(database: dict[str, Any]) -> dict[str, Any]:
                 cycles.append(cycle)
 
     negative_costs = [
-        vehicle["id"]
-        for vehicle in vehicles
-        if vehicle["rp"] < 0 or vehicle["sl"] < 0
+        vehicle["id"] for vehicle in vehicles if vehicle["rp"] < 0 or vehicle["sl"] < 0
     ]
-    missing_names = [
-        vehicle["id"] for vehicle in vehicles if vehicle["name"] == vehicle["id"]
-    ]
+    missing_names = [vehicle["id"] for vehicle in vehicles if vehicle["name"] == vehicle["id"]]
 
     stats = {
         "vehicles": len(vehicles),
         "countries": len({vehicle["countryId"] for vehicle in vehicles}),
-        "branches": len(
-            {(vehicle["countryId"], vehicle["branchId"]) for vehicle in vehicles}
-        ),
+        "branches": len({(vehicle["countryId"], vehicle["branchId"]) for vehicle in vehicles}),
         "reserves": sum(bool(vehicle["reserve"]) for vehicle in vehicles),
         "zeroRpNonReserves": sum(
             bool(vehicle["zeroRP"] and not vehicle["reserve"]) for vehicle in vehicles
         ),
-        "legacyVehicles": sum(
-            bool(vehicle["hiddenResearch"]) for vehicle in vehicles
-        ),
+        "legacyVehicles": sum(bool(vehicle["hiddenResearch"]) for vehicle in vehicles),
         "unlockVehicles": sum(bool(vehicle["reqUnlock"]) for vehicle in vehicles),
-        "positionedVehicles": sum(
-            bool(vehicle["rankPosXY"]) for vehicle in vehicles
-        ),
+        "positionedVehicles": sum(bool(vehicle["rankPosXY"]) for vehicle in vehicles),
         "groups": len(database["groups"]),
     }
 
@@ -654,18 +658,29 @@ def convert(
     for key in REQUIRED_FILES:
         log(f"✓ {key}: {files[key]}")
 
-    database, validation = build_database(files, source, log)
+    database, previous_validation = build_database(files, source, log)
     version = str(database["gameVersion"]).replace("/", "-").replace("\\", "-")
     database_path = output / f"WT_Database_{version}.json"
     validation_path = output / f"WT_Validation_{version}.json"
 
+    health = validate_database_health(database, tested_rules=tested_validator_rules())
+    validation = legacy_validation_report(health)
+    validation["cutReferences"] = previous_validation.get("cutReferences", [])
+    health_json_path, health_text_path = write_health_reports(health, output)
+
+    validation_path.write_text(
+        json.dumps(validation, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    if not health.passed:
+        raise ConversionError(
+            f"Strukturierte Validierung fehlgeschlagen: {health.counts['error']} ERROR-Findings. "
+            f"Details: {health_json_path}"
+        )
+
     log("Schreibe kompakte Datenbank …")
     database_path.write_text(
         json.dumps(database, ensure_ascii=False, separators=(",", ":")),
-        encoding="utf-8",
-    )
-    validation_path.write_text(
-        json.dumps(validation, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 
@@ -689,6 +704,8 @@ def convert(
     return ConversionResult(
         database_path=database_path,
         validation_path=validation_path,
+        health_json_path=health_json_path,
+        health_text_path=health_text_path,
         patch_path=patch_path,
         vehicle_count=validation["stats"]["vehicles"],
         version=version,
@@ -710,9 +727,33 @@ def run_cli(args: argparse.Namespace) -> int:
 
     print(f"Datenbank: {result.database_path}")
     print(f"Validierung: {result.validation_path}")
+    print(f"Health Report: {result.health_json_path}")
+    print(f"Health Summary: {result.health_text_path}")
     if result.patch_path:
         print(f"Patchvergleich: {result.patch_path}")
     return 0
+
+
+def validate_existing_database(database_path: Path, output: Path) -> HealthReport:
+    """Validate an existing normalized database without requiring raw datamine files."""
+    database = load_json(database_path)
+    if not isinstance(database, dict):
+        raise ConversionError("Die Datenbankwurzel muss ein JSON-Objekt sein.")
+    report = validate_database_health(database, tested_rules=tested_validator_rules())
+    write_health_reports(report, output.resolve())
+    return report
+
+
+def run_validation_cli(args: argparse.Namespace) -> int:
+    try:
+        report = validate_existing_database(Path(args.validate_database), Path(args.output))
+    except Exception as exc:
+        print(f"FEHLER: {exc}", file=sys.stderr)
+        if args.debug:
+            traceback.print_exc()
+        return 1
+    print(report.to_text(), end="")
+    return 0 if report.passed else 1
 
 
 def run_gui() -> int:
@@ -918,6 +959,8 @@ def run_gui() -> int:
             )
             self.append_log(f"Datenbank: {result.database_path}")
             self.append_log(f"Validierung: {result.validation_path}")
+            self.append_log(f"Health Report: {result.health_json_path}")
+            self.append_log(f"Health Summary: {result.health_text_path}")
             if result.patch_path:
                 self.append_log(f"Patchvergleich: {result.patch_path}")
             messagebox.showinfo(
@@ -944,12 +987,15 @@ def run_gui() -> int:
             try:
                 if sys.platform.startswith("win"):
                     import os
+
                     os.startfile(output)  # type: ignore[attr-defined]
                 elif sys.platform == "darwin":
                     import subprocess
+
                     subprocess.Popen(["open", str(output)])
                 else:
                     import subprocess
+
                     subprocess.Popen(["xdg-open", str(output)])
             except Exception as exc:
                 messagebox.showerror(APP_NAME, f"Ordner konnte nicht geöffnet werden:\n{exc}")
@@ -969,6 +1015,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--source", help="Entpackter Datamine-Ordner")
     parser.add_argument("--output", help="Ausgabeordner")
     parser.add_argument("--previous", help="Vorherige WT_Database_*.json für Patchvergleich")
+    parser.add_argument(
+        "--validate-database",
+        help="Bestehende WT_Database_*.json prüfen und Health Reports erzeugen",
+    )
     parser.add_argument("--debug", action="store_true", help="Ausführliche Fehlerausgabe")
     parser.add_argument("--gui", action="store_true", help="Grafische Oberfläche starten")
     return parser
@@ -977,6 +1027,11 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
+
+    if args.validate_database:
+        if not args.output:
+            parser.error("--validate-database benötigt --output.")
+        return run_validation_cli(args)
 
     if args.gui or (not args.source and not args.output):
         return run_gui()

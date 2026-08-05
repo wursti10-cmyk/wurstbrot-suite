@@ -35,9 +35,34 @@ jobs:
       - run: node --test tests/web_solver.test.mjs
       - run: node tests/browser_regression.mjs
 
+  datamine-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python apps/datamine-manager/wurstbrot_converter.py \
+            --validate-database data/samples/WT_Database_2.57.1.67.json \
+            --output build/health
+      - run: python tests/validate_health_report.py build/health/WT_Health_2.57.1.67.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sample-datamine-health
+          path: build/health/WT_Health_2.57.1.67.*
+
+  whitespace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git diff --check ${{ github.event.pull_request.base.sha || github.event.before }}..HEAD
+
   package:
     runs-on: ubuntu-latest
-    needs: [python, browser]
+    needs: [python, browser, datamine-health, whitespace]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

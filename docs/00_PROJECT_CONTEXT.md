@@ -42,8 +42,8 @@ zu korrigieren.
 | Bereich | Dokumente |
 |---|---|
 | Richtung | [Vision](01_VISION.md) · [Roadmap](03_ROADMAP.md) · [Ideen](17_IDEAS.md) |
-| System | [Architektur](02_ARCHITECTURE.md) · [Datamine](07_DATAMINE_REFERENCE.md) · [Graph](09_RESEARCH_GRAPH.md) · [Optimierer](10_OPTIMIZER.md) |
+| System | [Architektur](02_ARCHITECTURE.md) · [Datamine](07_DATAMINE_REFERENCE.md) · [Validator-Regeln](19_VALIDATOR_RULES.md) · [Graph](09_RESEARCH_GRAPH.md) · [Optimierer](10_OPTIMIZER.md) |
 | Entwicklung | [Guide](04_DEVELOPMENT_GUIDE.md) · [Standards](05_CODING_STANDARDS.md) · [Tests](13_TESTING.md) · [Release](14_RELEASE_PROCESS.md) |
 | Oberflächen | [UI-Regeln](06_UI_GUIDELINES.md) · [Browser](11_BROWSER.md) · [Desktop](12_DESKTOP.md) |
 | Betrieb | [AI Context](15_AI_CONTEXT.md) · [Bekannte Fehler](16_KNOWN_BUGS.md) · [FAQ](18_FAQ.md) |
-| Spezifikationen | [GE](../specs/GE_CALCULATION_SPEC.md) · [Forschungsgraph](../specs/RESEARCH_GRAPH_SPEC.md) · [Schema](../specs/DATAMINE_SCHEMA.md) · [UI](../specs/UI_SPEC.md) |
+| Spezifikationen | [GE](../specs/GE_CALCULATION_SPEC.md) · [Forschungsgraph](../specs/RESEARCH_GRAPH_SPEC.md) · [Schema](../specs/DATAMINE_SCHEMA.md) · [Health V2](../specs/HEALTH_REPORT_SCHEMA.json) · [History](../specs/HEALTH_HISTORY_SCHEMA.json) · [UI](../specs/UI_SPEC.md) |
