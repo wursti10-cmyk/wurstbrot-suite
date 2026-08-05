@@ -12,23 +12,32 @@
 
 ## 0.2 – GE Calculator Core
 
-- [ ] Startfahrzeug A
-- [ ] Zielfahrzeug B
-- [ ] direkte Vorgänger
-- [ ] Fahrzeugordner
-- [ ] Rangfreischaltungen
-- [ ] angeforschte RP
-- [ ] GE pro Fahrzeug aufrunden
-- [ ] Explain Mode
-- [ ] automatische Tests
+- [x] Startfahrzeug A
+- [x] Zielfahrzeug B
+- [x] direkte Vorgänger
+- [x] Fahrzeugordner
+- [x] Rangfreischaltungen
+- [x] angeforschte RP
+- [x] GE pro Fahrzeug aufrunden
+- [x] Explain Mode
+- [x] automatische Tests
 
-## 0.3 – Weboberfläche
+## 0.3 – Milestone 1
+
+- [x] Desktop-GUI
+- [x] indirekte Starts im selben Forschungsbaum
+- [x] Regression über normale Vorgänger-Ziel-Paare
+- [x] Developer Bible und technische Spezifikationen
+
+## 0.9 – Beta/Weboberfläche
 
 - [ ] responsive Bedienung
 - [ ] Suchfunktion
 - [ ] kompakte Pfadansicht
 - [ ] Ergebnis in RP, GE, SL und Euro
 - [ ] Import einer Wurstbrot-Datenbank
+
+Browser und CI sind in Draft-PR #1 vorgeschlagen, aber noch nicht Bestandteil von `main`.
 
 ## 1.0 – Stabiler Release
 
