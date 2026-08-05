@@ -32,3 +32,11 @@ verwendet Python-`round` auf `value * (1 - discount/100)`.
 
 Europreise, regionale Shoppreise, dynamische GE-Pakete, Premiumfahrzeug-Kaufpreise und Crewkosten sind
 kein Bestandteil der aktuellen Solver-Summe.
+
+## Verhältnis zum Graph Resolver
+
+`GraphPrerequisiteResolver` bestimmt ausschließlich Voraussetzungen. Sein Contract enthält keine RP-,
+GE-, SL- oder Euro-Summen. Der Legacy Compatibility Mode darf ausschließlich die bereits bestehende,
+kostenbewusste Fahrzeugauswahl delegieren; er exportiert keine Kosten und fügt keine neue
+Kostenlogik hinzu. Kosten bleiben ausschließlich im unveränderten `ResearchSolver`. Erst ein späterer,
+eigener Optimizer-Sprint darf diese Grenze verändern.

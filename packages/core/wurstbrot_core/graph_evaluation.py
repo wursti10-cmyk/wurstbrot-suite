@@ -19,6 +19,7 @@ class EvaluationStatus(str, Enum):
 
 class UnlockClassification(str, Enum):
     INTERNALLY_RESOLVABLE = "internally_resolvable"
+    FULFILLED_BY_PROGRESS = "fulfilled_by_progress"
     EXTERNAL_ASSUMED_SATISFIED = "external_assumed_satisfied"
     EXTERNAL_NOT_CHECKABLE = "external_not_checkable"
     UNKNOWN = "unknown"
@@ -92,6 +93,14 @@ class GraphRuleEvaluator:
         progress = progress or PlayerProgress()
         options = options or SolveOptions()
         target = self._vehicle_node(target_vehicle_id)
+        explicit_unlocks = set(assumed_external_unlocks)
+        if options.assume_external_unlocks:
+            explicit_unlocks.update(
+                self.graph.node_map[edge.source].entity_id
+                for edge in self.graph.incoming(
+                    target.node_id, EdgeType.UNLOCK_REQUIREMENT
+                )
+            )
         fulfilled = self._fulfilled_vehicle_ids(target, progress, options, start_vehicle_id)
         predecessor = self._evaluate_predecessors(target, fulfilled)
         evaluations = [
@@ -99,7 +108,7 @@ class GraphRuleEvaluator:
             self._evaluate_start(target, start_vehicle_id),
             predecessor,
             self._evaluate_folder(target, progress),
-            self._evaluate_unlock(target, progress, frozenset(assumed_external_unlocks)),
+            self._evaluate_unlock(target, progress, frozenset(explicit_unlocks)),
         ]
         evaluations.extend(
             self._evaluate_ranks(
@@ -391,6 +400,10 @@ class GraphRuleEvaluator:
                     if owned
                     else "The referenced internal vehicle is not owned."
                 )
+            elif token in progress.fulfilled_unlocks:
+                classification = UnlockClassification.FULFILLED_BY_PROGRESS
+                status = EvaluationStatus.SATISFIED
+                explanation = "PlayerProgress explicitly records the unlock as fulfilled."
             elif token in assumed_external_unlocks:
                 classification = UnlockClassification.EXTERNAL_ASSUMED_SATISFIED
                 status = EvaluationStatus.SATISFIED

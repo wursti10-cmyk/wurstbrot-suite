@@ -335,6 +335,8 @@ class ResearchGraphBuilder:
                         ("reqUnlock", vehicle.req_unlock),
                         ("group", vehicle.group),
                         ("groupIndex", vehicle.group_index),
+                        ("column", vehicle.column),
+                        ("order", vehicle.order),
                     ),
                 )
             )

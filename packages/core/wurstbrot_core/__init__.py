@@ -18,6 +18,27 @@ from .graph_evaluation import (
     UnlockClassification,
 )
 from .graph_semantics import EDGE_SEMANTICS, EdgeSemantics, semantics_for
+from .graph_resolution import (
+    FolderRequirementResolution,
+    GraphPrerequisiteResolver,
+    LegacyRankCompatibilityStrategy,
+    PrerequisiteResolution,
+    RankCompatibilitySelection,
+    RankRequirementResolution,
+    ResolutionStatus,
+    UnlockRequirementResolution,
+)
+from .graph_resolution_analysis import (
+    ResolutionSpecialCaseSummary,
+    ShadowCase,
+    ShadowComparisonDetail,
+    ShadowComparisonSummary,
+    build_full_shadow_cases,
+    build_player_progress_scenarios,
+    build_resolution_special_case_matrix,
+    render_resolution_special_case_markdown,
+    run_shadow_comparison,
+)
 from .models import PlayerProgress, SolveOptions, SolveResult, VehicleProgress
 from .research_graph import (
     EdgeType,
@@ -54,6 +75,23 @@ __all__ = [
     "RuleEvaluation",
     "GraphEvaluationReport",
     "GraphRuleEvaluator",
+    "ResolutionStatus",
+    "RankCompatibilitySelection",
+    "RankRequirementResolution",
+    "FolderRequirementResolution",
+    "UnlockRequirementResolution",
+    "PrerequisiteResolution",
+    "GraphPrerequisiteResolver",
+    "LegacyRankCompatibilityStrategy",
+    "ShadowCase",
+    "ShadowComparisonDetail",
+    "ShadowComparisonSummary",
+    "ResolutionSpecialCaseSummary",
+    "run_shadow_comparison",
+    "build_full_shadow_cases",
+    "build_player_progress_scenarios",
+    "build_resolution_special_case_matrix",
+    "render_resolution_special_case_markdown",
     "VehicleProgress",
     "PlayerProgress",
     "SolveOptions",

@@ -10,9 +10,12 @@
 
 ### Accuracy
 
-- strukturierte Datamine-Health-Reports als Veröffentlichungs-Gate
-- Sonderfälle und externe Unlocks mit gezielten Fixtures absichern
-- Fahrzeugordner, Rangfreischaltungen und Graph Solver gegen neue Datamines validieren
+- [x] strukturierte Datamine-Health-Reports als Veröffentlichungs-Gate
+- [x] typisiertes ResearchGraph und deterministische Rule Evaluation parallel aufbauen
+- [x] Voraussetzungen im Graph Shadow Mode auflösen und gegen 1.977 Legacy-Fälle spiegeln
+- [x] 49 Sonderfälle mit expliziter Hidden-/Unlock-Evidenz vor/nach der Resolution klassifizieren
+- [ ] verbleibende 14 Hidden-Folder-Fälle mit zusätzlicher Quelldatenevidenz absichern
+- [ ] eigenständigen Graph Optimizer in einem getrennten Sprint spezifizieren
 - Explain Engine und Regressionen anhand exakter Datamine-Felder erweitern
 
 ### Dokumentation und Verträge

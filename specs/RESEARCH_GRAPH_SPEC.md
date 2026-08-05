@@ -165,9 +165,10 @@ Regeln:
 Mehrfachvorgänger oder Zyklen ergeben unresolved mit allen beteiligten Kanten. Es ist verboten, eine
 Kante still auszuwählen.
 
-Unlockklassifikationen sind `internally_resolvable`, `external_assumed_satisfied`,
-`external_not_checkable`, `unknown` und `contradictory`. Nur eine explizite Aufruferannahme darf einen
-externen Token satisfied setzen.
+Unlockklassifikationen sind `internally_resolvable`, `fulfilled_by_progress`,
+`external_assumed_satisfied`, `external_not_checkable`, `unknown` und `contradictory`. Nur ein
+expliziter `PlayerProgress.fulfilled_unlocks`-Eintrag, ein bereits erfülltes Fahrzeug im
+Resolution-Vertrag oder eine ausdrückliche Aufruferannahme darf einen externen Token satisfied setzen.
 
 Rank-Evidence enthält required count, qualifizierende vorhandene IDs, missing count, Kandidaten,
 ausgeschlossene Kandidaten mit Grund und immer `selectionPerformed: false`.
@@ -205,3 +206,92 @@ Alle 2.232 Sample-Ziele werden genau einer Kategorie zugeordnet:
 
 Unresolved darf niemals in exact_match eingehen. Die 49 Sonderfälle werden zusätzlich einzeln mit
 Flags, Status, Blocker und benötigten Quelldaten dokumentiert.
+
+## Prerequisite-Resolution-Vertrag
+
+Rule Evaluation und Prerequisite Resolution sind verschiedene Verträge. Evaluation entscheidet den
+Status einer einzelnen Regel. Resolution darf aus eindeutig belegten Regeln eine notwendige
+Fahrzeugmenge ableiten, aber keine RP-, GE-, SL- oder Eurokosten berechnen.
+
+Eingabe:
+
+- `ResearchGraph`
+- Ziel-ID
+- optional Start-ID
+- `PlayerProgress`, einschließlich expliziter `fulfilled_unlocks`
+- `SolveOptions`, einschließlich ausdrücklicher externer Unlock-Annahme
+- optional eine getrennte Rank-Compatibility-Strategie
+
+Das Ergebnis enthält mindestens:
+
+- `target_vehicle_id`
+- `start_vehicle_id`
+- deterministische `required_vehicle_ids` und `satisfied_vehicle_ids`
+- deterministische `blocking_rule_results` und `unresolved_rule_results`
+- `rank_requirements`, `folder_requirements` und `unlock_requirements`
+- `resolution_status`
+- JSON-native Evidence
+- deterministischen nummerierten Explanation Trace
+- Kennzeichnung des Compatibility Mode
+
+Zulässige Statuswerte:
+
+- `resolved`: vollständige Voraussetzungsliste ist eindeutig.
+- `blocked`: eine eindeutige Eingabe-/Eligibility-Regel ist nicht erfüllt.
+- `unresolved`: mindestens eine notwendige fachliche Entscheidung ist nicht belegt.
+- `unsupported`: Graph oder Compatibility-Vertrag können keinen belastbaren Vergleich erzeugen.
+
+Bei gleichzeitigen Befunden gilt `unsupported` vor `blocked` vor `unresolved` vor `resolved`.
+
+### Vorgänger
+
+Eine eindeutige Closure wird vollständig aufgelöst. Owned-Fahrzeuge und Start A implizieren ihre
+Closure. `include_start_vehicle` entfernt nur A selbst aus der erfüllten Menge und ergänzt A als
+required. Teil-RP ist kein Besitz. Mehrfachvorgänger und Zyklen bleiben unresolved; eine stille
+Kantenauswahl ist verboten.
+
+### Folder
+
+Resolution unterscheidet `membership_only`, `required_member` und `satisfied_member`. Nur eine separat
+belegte Vorgängerkante kann ein Folder-Mitglied required machen. Fehlende, versteckte, mehrfach
+zugeordnete oder widersprüchlich sortierte noch offene Mitglieder bleiben unresolved. Für ein bereits
+erfülltes Mitglied bleibt die Quellenanomalie Evidence, öffnet seine Eligibility aber nicht erneut.
+
+### Unlock
+
+Eine interne Fahrzeugreferenz ergänzt ihre eindeutige fehlende Closure. Ein explizit in
+`PlayerProgress.fulfilled_unlocks` enthaltenes Token ist `fulfilled_by_progress`. Ein externer Token
+ist nur mit genau dieser Evidenz oder `assume_external_unlocks=True` erfüllt. Ohne Evidenz bleibt er
+unresolved. Owned beziehungsweise Start A beweisen die bereits überwundene Unlock-Bedingung des
+erfüllten Fahrzeugs. Unlocks dürfen nicht als normale Vorgängerkanten rekonstruiert werden.
+
+### Rang
+
+Rank Resolution nennt Required Count, bereits erfüllte Zahl, Missing Count, zulässige Kandidaten und
+Ausschlussgründe. Ohne Auswahlstrategie bleibt eine notwendige Kombination unresolved. Die optionale
+`LegacyRankCompatibilityStrategy` darf ausschließlich im Shadow Mode die bestehende deterministische,
+kostenbewusste Rank-Auswahl delegieren. Das Ergebnis muss `graphCostCalculationPerformed=false`,
+`costValuesEmitted=false`, den aktivierten `legacyCompatibilityModeEnabled` und den tatsächlichen
+`legacyCompatibilitySelectionPerformed`-Status sowie
+`optimizerSelectionPerformed=false` ausweisen und darf nicht als zukünftige Optimizer-Semantik
+dokumentiert werden.
+
+## Resolution Shadow Mode
+
+Der produktive `ResearchSolver` bleibt unverändert und wird separat ausgeführt. Vergleiche verwenden:
+
+- `exact_match`: identische geordnete Voraussetzungsliste.
+- `equivalent_match`: identische Fahrzeugmenge bei anderer Reihenfolge oder Repräsentation.
+- `unresolved_expected`: Graph bewahrt eine fachlich offene notwendige Regel.
+- `unsupported`: keine gemeinsame belastbare Ergebnisrepräsentation.
+- `mismatch`: beide Ergebnisse sind eindeutig, aber fachlich verschieden.
+
+Equivalent ist nur bei Mengengleichheit zulässig. Unresolved und unsupported sind weder Match noch
+Mismatch. Jeder Mismatch ist ein Gate-Fehler. Abweichungsdiagnostik enthält Ziel, Start, vollständiges
+Progress-Szenario, beide Fahrzeuglisten, beide Mengendifferenzen, abweichende Regeln, Evidence und
+Explanation Trace.
+
+Die Sample-Matrix umfasst 1.977 bestehende reguläre Fälle und 13 repräsentative Progress-Szenarien.
+Die 49 Sonderfälle erhalten zusätzlich eine deterministische Accuracy-3-/Accuracy-4-Tabelle. Explizite
+Hidden- oder Unlock-Evidenz darf Fälle lösen; Folder- oder Mehrfachvorgänger-Unklarheit darf dadurch
+nicht kaschiert werden.
