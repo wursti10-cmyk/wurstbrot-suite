@@ -22,6 +22,10 @@ node tests/browser_regression.mjs
 Ein virtuelles Environment ist empfohlen, aber derzeit nicht zwingend. Die Apps fügen
 `packages/core` selbst zum Importpfad hinzu.
 
+Bei Graphänderungen muss die Python-Regression `mirror_matches == passed` melden. Der optionale
+Debug-Export wird über `ResearchGraphBuilder.from_database(db).write_json(path)` erzeugt und darf
+nicht als Produktdatenbank behandelt werden.
+
 ## Typische Aufgaben
 
 ```bash
