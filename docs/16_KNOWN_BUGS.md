@@ -10,6 +10,8 @@
 - `convertible_rp_shortfall` ist Information; verfügbare Convertible RP verteilen die Fahrzeugzeilen nicht.
 - Eurokosten und GE-Paketpreise werden nicht berechnet.
 - Der Graph kann nur einen direkten Vorgänger pro Fahrzeug darstellen.
+- Das additive `ResearchGraph` kann mehrere Vorgängerkanten darstellen; der Legacy-Adapter lehnt sie
+  weiterhin ab, weil AND-/OR-Semantik noch nicht spezifiziert ist.
 - Der Validator erkennt mehrere Vorgänger nur, wenn ein nicht schemakonformes Array vorliegt; das
   Schema selbst kann widersprüchliche Quellen nach der Normalisierung nicht mehr rekonstruieren.
 - Ordnerreferenzen auf herausgefilterte Fahrzeuge sind nicht eindeutig von wirklich veralteten IDs zu
@@ -27,6 +29,8 @@
   oder eine datenbankgrößenunabhängige Normalisierung existieren.
 - Der Browser bietet noch keine komfortable Mehrfachauswahl beliebiger bereits gekaufter Fahrzeuge;
   die Solver-API unterstützt diese Fortschrittsdaten bereits.
+- Graphdiagnostik zählt alle Kantentypen gemeinsam. Folder-, Unlock- und Rank-Kanten sind
+  Analysestruktur und noch keine vom Solver ausführbaren Bedingungen.
 
 ## Pflege
 

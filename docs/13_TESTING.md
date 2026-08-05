@@ -8,6 +8,7 @@
 | Graph-Regression | `python tests/regression_matrix.py` | normale Vorgänger-Ziel-Paare der Beispieldatenbank |
 | Solver-Contract | `python run_tests.py` und `node --test tests/web_solver.test.mjs` | gleiche Fixture in Python und JavaScript |
 | Browser-Regression | `node tests/browser_regression.mjs` | gleiche 1.977 normalen Paare im Browser-Solver |
+| Graph Unit/Mirror | `python run_tests.py` | Builder, Adapter, Export, Diagnostik und alle Closures |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -22,6 +23,10 @@ meldet 1.977 bestandene Fälle, 206 Wurzelziele und 49 übersprungene Sonderfäl
 
 Sie überspringt ausgeblendete Ziele und Ziele mit `reqUnlock`; diese 49 Fälle sind keine bestätigten
 Erfolge und brauchen gezielte Fixtures.
+
+Die Python-Regression berechnet jeden regulären Fall zusätzlich über `GraphDatabaseAdapter` und
+vergleicht das vollständige `SolveResult`. `mirror_matches` muss exakt `passed` entsprechen. Der
+Legacy-Solver und `solver.py` werden für diesen Vergleich nicht verändert.
 
 ## Neue Tests
 

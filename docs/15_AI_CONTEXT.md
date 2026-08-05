@@ -25,11 +25,19 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     setzen.
 13. Der Health Score ist bewusst nicht implementiert. Ohne versionierte empirische Gewichte darf kein
     Prozentwert erfunden werden.
+14. `ResearchGraph` ist eine parallele Architektur- und Diagnoseschicht, noch keine neue Research
+    Engine. Keine Produktlogik ohne gesonderten fachlichen Sprint darauf umstellen.
+15. Graphänderungen müssen Legacy- und Adapter-Solver vollständig spiegeln; `mirror_matches` muss
+    `passed` entsprechen.
+16. Folder-, Unlock- und Rank-Kanten sind strukturierte Fakten. Aus ihnen dürfen ohne Datamine- oder
+    Spec-Nachweis keine neuen Kauf- oder Freischaltungsregeln abgeleitet werden.
 
 ## Orientierung
 
 - Datenmodell: `packages/core/wurstbrot_core/models.py`
 - Loader/Graph: `database.py`
+- paralleles Graphmodell/Diagnostik: `research_graph.py`
+- Mirror-Adapter: `graph_adapter.py`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

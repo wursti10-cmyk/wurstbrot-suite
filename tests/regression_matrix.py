@@ -8,13 +8,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packages" / "core"))
 
-from wurstbrot_core import ResearchSolver, SolveOptions, VehicleDatabase
+from wurstbrot_core import (
+    GraphDatabaseAdapter,
+    ResearchGraphBuilder,
+    ResearchSolver,
+    SolveOptions,
+    VehicleDatabase,
+)
 
 
 def main() -> int:
     db = VehicleDatabase.from_json(ROOT / "data/samples/WT_Database_2.57.1.67.json")
-    solver = ResearchSolver(db)
+    legacy_solver = ResearchSolver(db)
+    graph = ResearchGraphBuilder.from_database(db)
+    mirror_solver = ResearchSolver(GraphDatabaseAdapter(db, graph))
     stats = Counter()
+    mirror_matches = 0
     failures = []
 
     for target in db.vehicles.values():
@@ -26,15 +35,22 @@ def main() -> int:
             stats["root_targets"] += 1
             continue
         try:
-            result = solver.solve(
+            legacy_result = legacy_solver.solve(
                 start_vehicle_id=predecessor,
                 target_vehicle_id=target.id,
                 options=SolveOptions(optimize_for="ge"),
             )
+            result = mirror_solver.solve(
+                start_vehicle_id=predecessor,
+                target_vehicle_id=target.id,
+                options=SolveOptions(optimize_for="ge"),
+            )
+            assert result == legacy_result
             assert target.id in result.required_vehicle_ids
             assert result.total_ge_before_owned == sum(x.ge for x in result.vehicle_lines)
             assert all(r.available_after >= r.required for r in result.rank_requirements)
             stats["passed"] += 1
+            mirror_matches += 1
         except Exception as exc:
             failures.append({"target": target.id, "start": predecessor, "error": str(exc)})
             stats["failed"] += 1
@@ -47,7 +63,8 @@ def main() -> int:
     }
     out = ROOT / "MILESTONE1_REGRESSION.json"
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(json.dumps(report["stats"], ensure_ascii=False))
+    console_stats = {**report["stats"], "mirror_matches": mirror_matches}
+    print(json.dumps(console_stats, ensure_ascii=False))
     return 0 if not failures else 1
 
 
