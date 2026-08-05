@@ -5,15 +5,15 @@
 Die Datenbank liefert `rpPerGE`, aktuell 45 in der Beispieldatenbank. Für jedes noch zu erforschende
 Fahrzeug gilt separat:
 
-\[
+$$
 GE_i = \left\lceil\frac{\max(RP_i - Fortschritt_i, 0)}{RPProGE}\right\rceil
-\]
+$$
 
 Danach werden die einzelnen `GE_i` summiert. Erst von dieser Summe werden vorhandene GE abgezogen:
 
-\[
+$$
 GE_{benötigt}=\max\left(\sum_i GE_i-GE_{vorhanden},0\right)
-\]
+$$
 
 ## Wichtige Konsequenzen
 
