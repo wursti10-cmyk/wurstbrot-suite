@@ -11,6 +11,12 @@ REQUIRED_FIELDS = {
     "gameVersion",
     "generatedAt",
     "passed",
+    "validatorVersion",
+    "validationDuration",
+    "findingsByRule",
+    "findingsBySeverity",
+    "findingsByCategory",
+    "vehicleStatistics",
     "counts",
     "countsByRule",
     "vehicleCount",
@@ -18,7 +24,13 @@ REQUIRED_FIELDS = {
     "treeCount",
     "groupCount",
     "graphStatistics",
+    "folderStatistics",
     "findings",
+    "implementedRules",
+    "testedRules",
+    "coverage",
+    "healthScore",
+    "healthScoreStatus",
     "ignoredRules",
 }
 
@@ -28,7 +40,7 @@ def validate(path: Path) -> None:
     missing = REQUIRED_FIELDS - set(report)
     if missing:
         raise AssertionError(f"Health report fields missing: {sorted(missing)}")
-    if report["schemaVersion"] != 1:
+    if report["schemaVersion"] != 2:
         raise AssertionError("Unsupported health report schemaVersion")
     if set(report["counts"]) != {"error", "warning", "info"}:
         raise AssertionError("Health report severity counts are incomplete")
@@ -44,6 +56,36 @@ def validate(path: Path) -> None:
         raise AssertionError(f"Severity counts disagree: {report['counts']} != {actual_counts}")
     if report["countsByRule"] != dict(sorted(actual_rules.items())):
         raise AssertionError("Rule counts disagree with findings")
+    if set(report["findingsByRule"]) != set(report["implementedRules"]):
+        raise AssertionError("findingsByRule must contain every implemented rule")
+    observed_rule_counts = {
+        rule_id: count for rule_id, count in report["findingsByRule"].items() if count
+    }
+    if observed_rule_counts != report["countsByRule"]:
+        raise AssertionError("findingsByRule summary disagrees with findings")
+    if report["findingsBySeverity"] != report["counts"]:
+        raise AssertionError("findingsBySeverity compatibility summary disagrees")
+    severity_order = {"error": 0, "warning": 1, "info": 2}
+    sort_keys = [
+        (
+            severity_order[finding["severity"]],
+            finding["rule_id"],
+            finding["entity_type"],
+            finding.get("entity_id", ""),
+            finding["message"],
+        )
+        for finding in report["findings"]
+    ]
+    if sort_keys != sorted(sort_keys):
+        raise AssertionError("Findings are not in deterministic contract order")
+    if set(report["implementedRules"]) != set(report["testedRules"]):
+        raise AssertionError("Not every implemented rule has executable contracts")
+    if report["coverage"] != 100.0:
+        raise AssertionError("Rule coverage is not 100%")
+    if report["healthScore"] is not None:
+        raise AssertionError("Health score must remain null until a calibrated model exists")
+    if report["healthScoreStatus"] != "future_extension":
+        raise AssertionError("Health score status must explain the intentional omission")
     if not report["passed"] or report["counts"]["error"] != 0:
         raise AssertionError("Released sample database contains ERROR findings")
 

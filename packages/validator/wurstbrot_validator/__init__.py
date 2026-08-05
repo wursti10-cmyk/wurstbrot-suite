@@ -8,6 +8,12 @@ from .validator import (
     validate_database,
     write_health_reports,
 )
+from .rules import (
+    RULE_DEFINITIONS,
+    VALIDATOR_VERSION,
+    discover_tested_rules,
+    render_rule_documentation,
+)
 
 __all__ = [
     "Finding",
@@ -16,4 +22,8 @@ __all__ = [
     "legacy_validation_report",
     "validate_database",
     "write_health_reports",
+    "RULE_DEFINITIONS",
+    "VALIDATOR_VERSION",
+    "discover_tested_rules",
+    "render_rule_documentation",
 ]

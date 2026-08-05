@@ -14,3 +14,8 @@ python apps/datamine-manager/wurstbrot_converter.py \
 
 Ein `error` liefert Exitcode 1. Ignorierte Regeln sind nur über die Python-API möglich und werden im
 Report unter `ignoredRules` offengelegt.
+
+Health Report V2 folgt `specs/HEALTH_REPORT_SCHEMA.json`. Rule-Metadaten liegen ausschließlich in
+`RULE_DEFINITIONS`; Tests und Dokumentation prüfen automatisch vollständige Positiv-/Negativ-Coverage
+und Referenzgleichheit. `specs/HEALTH_HISTORY_SCHEMA.json` ist nur ein Zukunftsvertrag und aktiviert
+keine Speicherung.

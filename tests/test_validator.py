@@ -209,10 +209,35 @@ class ValidatorTests(unittest.TestCase):
         self.assertEqual(first, second)
         order = {"error": 0, "warning": 1, "info": 2}
         keys = [
-            (order[item["severity"]], item["rule_id"], item.get("entity_id", ""))
+            (
+                order[item["severity"]],
+                item["rule_id"],
+                item["entity_type"],
+                item.get("entity_id", ""),
+                item["message"],
+            )
             for item in first
         ]
         self.assertEqual(keys, sorted(keys))
+
+    def test_health_report_v2_statistics_and_score_contract(self):
+        report = validate_database(
+            database(vehicle("a", reserve=True, rp=0, sl=0)),
+            tested_rules={"SPECIAL_RESERVE"},
+        )
+        payload = report.to_dict()
+        self.assertEqual(payload["schemaVersion"], 2)
+        self.assertEqual(payload["validatorVersion"], "1.1.0")
+        self.assertGreaterEqual(payload["validationDuration"], 0)
+        self.assertEqual(payload["findingsBySeverity"], payload["counts"])
+        self.assertEqual(set(payload["findingsByRule"]), set(payload["implementedRules"]))
+        self.assertEqual(payload["findingsByRule"]["SPECIAL_RESERVE"], 1)
+        self.assertEqual(payload["vehicleStatistics"]["reserve"], 1)
+        self.assertEqual(payload["folderStatistics"]["total"], 0)
+        self.assertIsNone(payload["healthScore"])
+        self.assertEqual(payload["healthScoreStatus"], "future_extension")
+        self.assertEqual(payload["testedRules"], ["SPECIAL_RESERVE"])
+        self.assertGreater(payload["coverage"], 0)
 
     def test_health_report_is_serializable_and_writable(self):
         report = validate_database(database(vehicle("a", reserve=True, rp=0, sl=0)))
@@ -228,6 +253,12 @@ class ValidatorTests(unittest.TestCase):
                     "gameVersion",
                     "generatedAt",
                     "passed",
+                    "validatorVersion",
+                    "validationDuration",
+                    "findingsByRule",
+                    "findingsBySeverity",
+                    "findingsByCategory",
+                    "vehicleStatistics",
                     "counts",
                     "countsByRule",
                     "vehicleCount",
@@ -235,7 +266,13 @@ class ValidatorTests(unittest.TestCase):
                     "treeCount",
                     "groupCount",
                     "graphStatistics",
+                    "folderStatistics",
                     "findings",
+                    "implementedRules",
+                    "testedRules",
+                    "coverage",
+                    "healthScore",
+                    "healthScoreStatus",
                     "ignoredRules",
                 },
             )
@@ -256,15 +293,15 @@ class ValidatorTests(unittest.TestCase):
         self.assertNotIn("COST_ZERO_RP_WITH_SL", [item.rule_id for item in report.findings])
         self.assertEqual(report.ignored_rules, ("COST_ZERO_RP_WITH_SL",))
 
+    def test_unknown_ignored_rule_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "not registered"):
+            validate_database(database(vehicle("a")), ignored_rules={"UNKNOWN_RULE"})
+
     def test_sample_database_has_no_errors(self):
-        sample = json.loads(
-            (ROOT / "data" / "samples" / "WT_Database_2.57.1.67.json").read_text()
-        )
+        sample = json.loads((ROOT / "data" / "samples" / "WT_Database_2.57.1.67.json").read_text())
         report = validate_database(sample)
         errors = [
-            finding.to_dict()
-            for finding in report.findings
-            if finding.severity.value == "error"
+            finding.to_dict() for finding in report.findings if finding.severity.value == "error"
         ]
         self.assertEqual(errors, [])
 

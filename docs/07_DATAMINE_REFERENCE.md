@@ -44,8 +44,9 @@ Jeder Befund enthält `rule_id`, `severity`, `message`, `entity_type`, `details`
 - `warning`: auffällige Daten, die Verarbeitung bleibt zulässig.
 - `info`: explizite Sonderfälle oder Statistiken ohne Abbruch.
 
-Findings werden deterministisch nach Severity, Rule-ID, Entität und Feld sortiert. Regelunterdrückung
-ist nur über die Python-API erlaubt und erscheint immer in `ignoredRules`.
+Findings werden deterministisch nach Severity (`error`, `warning`, `info`), Rule-ID, Entity Type,
+Entity ID und Message sortiert. Feld und kanonische Details brechen nur vollständige Gleichstände.
+Regelunterdrückung ist nur über die Python-API erlaubt und erscheint immer in `ignoredRules`.
 
 ## Rule-IDs
 
@@ -60,7 +61,19 @@ ist nur über die Python-API erlaubt und erscheint immer in `ignoredRules`.
 | Namen | `LOCALIZATION_MISSING_NAME`, `LOCALIZATION_EMPTY`, `LOCALIZATION_INTERNAL_ID`, `LOCALIZATION_DUPLICATE_NAME` |
 | Sonderfälle | `SPECIAL_HIDDEN_RESEARCH`, `SPECIAL_EXTERNAL_UNLOCK`, `SPECIAL_RESERVE`, `SPECIAL_PREMIUM`, `SPECIAL_NON_REGULAR` |
 
-Die genaue Severity und Semantik jeder Regel ist in `specs/DATAMINE_SCHEMA.md` verbindlich.
+Die genaue Severity und Semantik jeder Regel ist in `specs/DATAMINE_SCHEMA.md` verbindlich. Die
+vollständige Einzelreferenz mit Begründung und Ein-/Ausgabebeispiel ist
+[`19_VALIDATOR_RULES.md`](19_VALIDATOR_RULES.md); sie wird direkt aus dem Rule-Registry erzeugt und
+durch einen Gleichheitstest gegen Drift geschützt.
+
+## Health Report V2
+
+V2 gruppiert Befundzahlen nach Regel, Severity und Kategorie und enthält Fahrzeug-, Graph- und
+Ordnerstatistiken, Validatorversion sowie Validierungsdauer. Implementierte Regeln stammen aus dem
+Registry, getestete Regeln aus der ausführbaren Positiv-/Negativ-Matrix; die Coverage wird daraus
+automatisch berechnet. Der Health Score bleibt bewusst `null`, bis fachlich belastbare Gewichte und
+eine größenunabhängige Normalisierung existieren. Das History-Schema ist definiert, wird aber noch
+nicht gespeichert.
 
 ## Tolerierte Sonderfälle
 

@@ -7,7 +7,10 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
+from time import perf_counter
 from typing import Any, Iterable
+
+from .rules import RULE_DEFINITIONS, VALIDATOR_VERSION
 
 
 class Severity(str, Enum):
@@ -50,14 +53,23 @@ class HealthReport:
     game_version: str
     generated_at: str
     passed: bool
+    validator_version: str
+    validation_duration_ms: float
     counts: dict[str, int]
     counts_by_rule: dict[str, int]
+    findings_by_rule: dict[str, int]
+    findings_by_category: dict[str, int]
     vehicle_count: int
     country_count: int
     tree_count: int
     group_count: int
     graph_statistics: dict[str, int]
+    vehicle_statistics: dict[str, int]
+    folder_statistics: dict[str, int]
     findings: tuple[Finding, ...]
+    implemented_rules: tuple[str, ...]
+    tested_rules: tuple[str, ...]
+    coverage: float
     ignored_rules: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
@@ -66,6 +78,12 @@ class HealthReport:
             "gameVersion": self.game_version,
             "generatedAt": self.generated_at,
             "passed": self.passed,
+            "validatorVersion": self.validator_version,
+            "validationDuration": self.validation_duration_ms,
+            "findingsByRule": self.findings_by_rule,
+            "findingsBySeverity": self.counts,
+            "findingsByCategory": self.findings_by_category,
+            "vehicleStatistics": self.vehicle_statistics,
             "counts": self.counts,
             "countsByRule": self.counts_by_rule,
             "vehicleCount": self.vehicle_count,
@@ -73,7 +91,13 @@ class HealthReport:
             "treeCount": self.tree_count,
             "groupCount": self.group_count,
             "graphStatistics": self.graph_statistics,
+            "folderStatistics": self.folder_statistics,
             "findings": [finding.to_dict() for finding in self.findings],
+            "implementedRules": list(self.implemented_rules),
+            "testedRules": list(self.tested_rules),
+            "coverage": self.coverage,
+            "healthScore": None,
+            "healthScoreStatus": "future_extension",
             "ignoredRules": list(self.ignored_rules),
         }
 
@@ -88,8 +112,13 @@ class HealthReport:
             f"Trees: {self.tree_count}",
             f"Groups: {self.group_count}",
             f"Cycles: {self.counts_by_rule.get('GRAPH_CYCLE', 0)}",
-            "Missing predecessors: "
-            f"{self.counts_by_rule.get('GRAPH_MISSING_PREDECESSOR', 0)}",
+            "Missing predecessors: " f"{self.counts_by_rule.get('GRAPH_MISSING_PREDECESSOR', 0)}",
+            f"Validator version: {self.validator_version}",
+            f"Validation duration: {self.validation_duration_ms:.3f} ms",
+            f"Rules implemented: {len(self.implemented_rules)}",
+            f"Rules tested: {len(self.tested_rules)}",
+            f"Coverage: {self.coverage:.2f}%",
+            "Health score: not implemented (future extension)",
         ]
         if self.ignored_rules:
             lines.append(f"Ignored rules: {', '.join(self.ignored_rules)}")
@@ -120,6 +149,9 @@ GAME_VERSION_PATTERN = re.compile(r"^\d+(?:\.\d+){2,3}(?:[-+][A-Za-z0-9.-]+)?$")
 class _Collector:
     def __init__(self, ignored_rules: Iterable[str]) -> None:
         self.ignored = frozenset(ignored_rules)
+        unknown = self.ignored - set(RULE_DEFINITIONS)
+        if unknown:
+            raise ValueError(f"Ignored rules are not registered: {sorted(unknown)}")
         self.findings: list[Finding] = []
 
     def add(
@@ -135,6 +167,14 @@ class _Collector:
     ) -> None:
         if rule_id in self.ignored:
             return
+        definition = RULE_DEFINITIONS.get(rule_id)
+        if definition is None:
+            raise ValueError(f"Rule is not registered: {rule_id}")
+        if definition.severity != severity.value:
+            raise ValueError(
+                f"Rule severity mismatch for {rule_id}: "
+                f"{severity.value} != {definition.severity}"
+            )
         self.findings.append(
             Finding(
                 rule_id=rule_id,
@@ -164,7 +204,9 @@ def validate_database(
     *,
     ignored_rules: Iterable[str] = (),
     generated_at: str | None = None,
+    tested_rules: Iterable[str] = (),
 ) -> HealthReport:
+    started_at = perf_counter()
     collector = _Collector(ignored_rules)
     if not isinstance(database, dict):
         collector.add(
@@ -424,6 +466,7 @@ def validate_database(
     findings = tuple(sorted(collector.findings, key=_finding_sort_key))
     severity_counts = Counter(finding.severity.value for finding in findings)
     rule_counts = Counter(finding.rule_id for finding in findings)
+    category_counts = Counter(RULE_DEFINITIONS[finding.rule_id].category for finding in findings)
     counts = {severity.value: severity_counts[severity.value] for severity in Severity}
     countries = {
         item.get("countryId")
@@ -436,32 +479,83 @@ def validate_database(
         if isinstance(item.get("countryId"), str) and isinstance(item.get("branchId"), str)
     }
     groups = database.get("groups") if isinstance(database.get("groups"), dict) else {}
+    implemented = tuple(sorted(RULE_DEFINITIONS))
+    tested = tuple(sorted(set(tested_rules) & set(implemented)))
+    coverage = round((len(tested) / len(implemented) * 100) if implemented else 100.0, 2)
+    all_rule_counts = {rule_id: rule_counts[rule_id] for rule_id in implemented}
+    all_categories = sorted({definition.category for definition in RULE_DEFINITIONS.values()})
+    all_category_counts = {category: category_counts[category] for category in all_categories}
+    graph_stats.update(
+        {
+            "selfReferenceCount": rule_counts["GRAPH_SELF_REFERENCE"],
+            "crossNationCount": rule_counts["GRAPH_CROSS_NATION"],
+            "crossBranchCount": rule_counts["GRAPH_CROSS_BRANCH"],
+            "rankBackwardsCount": rule_counts["GRAPH_RANK_BACKWARDS"],
+            "unreachableCount": rule_counts["GRAPH_UNREACHABLE"],
+            "conflictingPredecessorCount": rule_counts["GRAPH_CONFLICTING_PREDECESSORS"],
+        }
+    )
+    vehicle_stats = {
+        "total": len(raw_vehicles),
+        "regular": sum(
+            not item.get("premium") and not item.get("special") for item in valid_vehicles
+        ),
+        "reserve": sum(bool(item.get("reserve")) for item in valid_vehicles),
+        "hiddenResearch": sum(bool(item.get("hiddenResearch")) for item in valid_vehicles),
+        "externalUnlock": sum(bool(item.get("reqUnlock")) for item in valid_vehicles),
+        "premium": sum(bool(item.get("premium")) for item in valid_vehicles),
+        "nonRegular": sum(bool(item.get("special")) for item in valid_vehicles),
+        "missingOrEmptyName": (
+            rule_counts["LOCALIZATION_MISSING_NAME"] + rule_counts["LOCALIZATION_EMPTY"]
+        ),
+        "internalIdName": rule_counts["LOCALIZATION_INTERNAL_ID"],
+    }
+    folder_stats = {
+        "total": len(groups),
+        "memberships": sum(len(value) for value in groups.values() if isinstance(value, list)),
+        "unknownVehicleReferences": rule_counts["GROUP_UNKNOWN_VEHICLE"],
+        "singleVehicleFolders": rule_counts["GROUP_SINGLE_VEHICLE"],
+        "conflictingMemberships": rule_counts["GROUP_CONFLICTING_MEMBERSHIP"],
+        "indexMismatches": rule_counts["GROUP_INDEX_MISMATCH"],
+        "crossTreeFolders": rule_counts["GROUP_CROSS_TREE"],
+    }
     timestamp = generated_at or datetime.now(timezone.utc).isoformat()
     return HealthReport(
-        schema_version=1,
+        schema_version=2,
         game_version=normalized_version,
         generated_at=timestamp,
         passed=counts["error"] == 0,
+        validator_version=VALIDATOR_VERSION,
+        validation_duration_ms=round((perf_counter() - started_at) * 1000, 3),
         counts=counts,
         counts_by_rule=dict(sorted(rule_counts.items())),
+        findings_by_rule=all_rule_counts,
+        findings_by_category=all_category_counts,
         vehicle_count=len(raw_vehicles),
         country_count=len(countries),
         tree_count=len(trees),
         group_count=len(groups),
         graph_statistics=graph_stats,
+        vehicle_statistics=vehicle_stats,
+        folder_statistics=folder_stats,
         findings=findings,
+        implemented_rules=implemented,
+        tested_rules=tested,
+        coverage=coverage,
         ignored_rules=tuple(sorted(collector.ignored)),
     )
 
 
-def _finding_sort_key(finding: Finding) -> tuple[int, str, str, str, str]:
+def _finding_sort_key(finding: Finding) -> tuple[int, str, str, str, str, str, str]:
     severity_order = {Severity.ERROR: 0, Severity.WARNING: 1, Severity.INFO: 2}
     return (
         severity_order[finding.severity],
         finding.rule_id,
         finding.entity_type,
         finding.entity_id or "",
+        finding.message,
         finding.source_field or "",
+        json.dumps(finding.details or {}, ensure_ascii=False, sort_keys=True),
     )
 
 
@@ -823,9 +917,7 @@ def _validate_rank_unlock(
                     {"rank": rank, "requirement": requirement, "threshold": 20},
                 )
             available = sum(
-                item.get("rank") == rank
-                and not item.get("premium")
-                and not item.get("special")
+                item.get("rank") == rank and not item.get("premium") and not item.get("special")
                 for item in items
             )
             if requirement > available:

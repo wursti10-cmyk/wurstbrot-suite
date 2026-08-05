@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/wursti10-cmyk/wurstbrot-suite/specs/health-report-v2.schema.json",
+  "title": "Wurstbrot Datamine Health Report V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "gameVersion",
+    "generatedAt",
+    "passed",
+    "validatorVersion",
+    "validationDuration",
+    "findingsByRule",
+    "findingsBySeverity",
+    "findingsByCategory",
+    "vehicleStatistics",
+    "graphStatistics",
+    "folderStatistics",
+    "findings",
+    "implementedRules",
+    "testedRules",
+    "coverage",
+    "healthScore",
+    "healthScoreStatus",
+    "ignoredRules",
+    "counts",
+    "countsByRule",
+    "vehicleCount",
+    "countryCount",
+    "treeCount",
+    "groupCount"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "gameVersion": {"type": "string", "minLength": 1},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "passed": {"type": "boolean"},
+    "validatorVersion": {"type": "string", "minLength": 1},
+    "validationDuration": {"type": "number", "minimum": 0},
+    "findingsByRule": {"$ref": "#/$defs/countMap"},
+    "findingsBySeverity": {"$ref": "#/$defs/severityCounts"},
+    "findingsByCategory": {"$ref": "#/$defs/countMap"},
+    "vehicleStatistics": {"$ref": "#/$defs/countMap"},
+    "graphStatistics": {"$ref": "#/$defs/countMap"},
+    "folderStatistics": {"$ref": "#/$defs/countMap"},
+    "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+    "implementedRules": {"$ref": "#/$defs/ruleList"},
+    "testedRules": {"$ref": "#/$defs/ruleList"},
+    "coverage": {"type": "number", "minimum": 0, "maximum": 100},
+    "healthScore": {"type": "null"},
+    "healthScoreStatus": {"const": "future_extension"},
+    "ignoredRules": {"$ref": "#/$defs/ruleList"},
+    "counts": {"$ref": "#/$defs/severityCounts"},
+    "countsByRule": {"$ref": "#/$defs/countMap"},
+    "vehicleCount": {"type": "integer", "minimum": 0},
+    "countryCount": {"type": "integer", "minimum": 0},
+    "treeCount": {"type": "integer", "minimum": 0},
+    "groupCount": {"type": "integer", "minimum": 0}
+  },
+  "$defs": {
+    "countMap": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "severityCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["error", "warning", "info"],
+      "properties": {
+        "error": {"type": "integer", "minimum": 0},
+        "warning": {"type": "integer", "minimum": 0},
+        "info": {"type": "integer", "minimum": 0}
+      }
+    },
+    "ruleList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"}
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "severity", "message", "entity_type", "details"],
+      "properties": {
+        "rule_id": {"type": "string"},
+        "severity": {"enum": ["error", "warning", "info"]},
+        "message": {"type": "string"},
+        "entity_type": {"type": "string"},
+        "entity_id": {"type": "string"},
+        "source_field": {"type": "string"},
+        "details": {"type": "object"},
+        "suggestion": {"type": "string"}
+      }
+    }
+  }
+}

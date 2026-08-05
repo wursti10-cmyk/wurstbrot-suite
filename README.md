@@ -151,6 +151,10 @@ python apps/datamine-manager/wurstbrot_converter.py \
 Der Befehl erzeugt `WT_Health_<gameVersion>.json` und `.txt`. Ein `error`-Finding liefert Exitcode 1;
 der bisherige `WT_Validation_*`-Export bleibt bei regulären Konvertierungen erhalten.
 
+Health Report V2 enthält automatisch ermittelte Rule-Coverage, Befundgruppen und Fahrzeug-, Graph-
+und Ordnerstatistiken. Der Health Score ist bewusst noch nicht implementiert; der Report weist dies
+maschinenlesbar als `healthScore: null` aus.
+
 
 ## Desktop-Beta starten
 

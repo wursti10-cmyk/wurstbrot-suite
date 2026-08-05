@@ -38,12 +38,16 @@ Anzeigenamen rekonstruiert werden.
 
 ## Health Report
 
-Der strukturierte Report heißt `WT_Health_<gameVersion>.json` und hat Schema-Version 1. Pflichtfelder:
+Der strukturierte Report heißt `WT_Health_<gameVersion>.json` und hat Schema-Version 2. Das
+maschinenlesbare JSON Schema liegt in [`HEALTH_REPORT_SCHEMA.json`](HEALTH_REPORT_SCHEMA.json).
+Pflichtfelder:
 
 ```text
-schemaVersion, gameVersion, generatedAt, passed,
-counts, countsByRule, vehicleCount, countryCount, treeCount, groupCount,
-graphStatistics, findings, ignoredRules
+schemaVersion, gameVersion, generatedAt, passed, validatorVersion, validationDuration,
+findingsByRule, findingsBySeverity, findingsByCategory,
+vehicleStatistics, graphStatistics, folderStatistics,
+implementedRules, testedRules, coverage, findings, ignoredRules,
+healthScore, healthScoreStatus
 ```
 
 `counts` enthält `error`, `warning` und `info`. `passed` ist genau dann wahr, wenn `error` null ist.
@@ -52,7 +56,52 @@ die maximale beobachtete Pfadtiefe. Der gleichnamige `.txt`-Report ist eine komp
 Zusammenfassung. `WT_Validation_<gameVersion>.json` bleibt als Legacy-Export erhalten und verweist mit
 `healthReport` auf den neuen Bericht.
 
+Die V1-Felder `counts`, `countsByRule`, `vehicleCount`, `countryCount`, `treeCount` und `groupCount`
+bleiben in V2 als additive Kompatibilitätsaliase erhalten. `findingsBy*` sind kompakte Zählmaps; die
+vollständigen Befunde stehen ausschließlich in `findings`, damit der Report sie nicht mehrfach
+dupliziert. `validationDuration` ist die monotonic gemessene Laufzeit in Millisekunden und darf sich
+zwischen Läufen unterscheiden.
+
+`implementedRules` stammt aus dem ausführbaren Rule-Registry. `testedRules` wird aus der ausführbaren
+Positiv-/Negativ-Matrix entdeckt. `coverage` ist reproduzierbar definiert als
+`100 * |testedRules ∩ implementedRules| / |implementedRules|`, auf zwei Dezimalstellen gerundet. Eine
+fehlende Regel kann daher nicht durch eine manuell gepflegte Gesamtzahl verdeckt werden.
+
+## Deterministische Findings
+
+Findings werden aufsteigend nach folgender Schlüsselfolge sortiert:
+
+1. Severity mit fester Ordnung `error`, `warning`, `info`
+2. `rule_id`
+3. `entity_type`
+4. `entity_id` oder leerer String
+5. `message`
+
+Nur für vollständig identische Primärschlüssel folgen `source_field` und kanonisches `details` als
+stabile Tie-Breaker. `generatedAt` und `validationDuration` sind erwartungsgemäß laufabhängig.
+
+## Health Score
+
+V2 berechnet bewusst keinen Score. `healthScore` ist `null` und `healthScoreStatus` ist
+`future_extension`. ERROR/WARNING/INFO sind nicht ohne fachliche Gewichte vergleichbar: Reserven,
+externe Unlocks und Hidden-Legacy-Fahrzeuge sind absichtliche Infos; unbekannte Ordnerreferenzen können
+bewusst herausgefilterte Sonderfahrzeuge sein. Eine Gewichtung würde deshalb derzeit Genauigkeit
+vortäuschen. Ein zukünftiger Score benötigt versionierte, empirisch begründete Regelgewichte,
+Normalisierung nach Datenbankgröße und Golden-Datamine-Vergleiche.
+
+## Zukünftige Historie
+
+Der Validator speichert noch keine Historie. Das vorbereitete Schema
+[`HEALTH_HISTORY_SCHEMA.json`](HEALTH_HISTORY_SCHEMA.json) definiert nur den späteren Envelope mit
+`history`, `previousVersion`, `currentVersion`, `createdAt`, `validatorVersion` und `gameVersion`.
+Weder Converter noch CI schreiben derzeit eine History-Datei.
+
 ## Verbindliche Regeln und Severity
+
+Die vollständige, aus dem Rule-Registry erzeugte Referenz mit Beschreibung, Severity, Begründung,
+Beispiel und Beispielausgabe steht in
+[`../docs/19_VALIDATOR_RULES.md`](../docs/19_VALIDATOR_RULES.md). Die folgende Tabelle bleibt die
+kompakte Schemazusammenfassung.
 
 | Rule-ID | Severity | Bedingung |
 |---|---|---|

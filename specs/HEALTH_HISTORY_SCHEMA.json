@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/wursti10-cmyk/wurstbrot-suite/specs/health-history-v1.schema.json",
+  "title": "Wurstbrot Validator Health History",
+  "description": "Future comparison envelope. The validator does not persist history yet.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "history"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/historyEntry"
+      }
+    }
+  },
+  "$defs": {
+    "historyEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previousVersion",
+        "currentVersion",
+        "createdAt",
+        "validatorVersion",
+        "gameVersion"
+      ],
+      "properties": {
+        "previousVersion": {
+          "type": ["string", "null"],
+          "description": "Previous health report schema or immutable report identifier."
+        },
+        "currentVersion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Current health report schema or immutable report identifier."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validatorVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gameVersion": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

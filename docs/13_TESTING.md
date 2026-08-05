@@ -40,3 +40,9 @@ Das CI erzeugt zusätzlich beide `WT_Health_*`-Dateien, validiert deren Pflichts
 `passed=true` sowie exakt null `error`-Findings für die Sample-Datenbank. `git diff --check` ist ein
 eigenes Gate. Neue Validatorregeln brauchen eine fehlerhafte Mini-Datenbank, ein positives
 Gegenbeispiel und dürfen die echte Sample-Datenbank nicht durch Testlockerung freigeben.
+
+`tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
+Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den
+Befund auslöst, sowie ein positives Gegenbeispiel ohne diesen Befund aus. Der Converter entdeckt
+`testedRules` aus dieser Matrix; CI verlangt `implementedRules == testedRules` und `coverage == 100`.
+Die vollständige Rule-Dokumentation wird ebenfalls aus dem Registry gerendert und bytegenau geprüft.
