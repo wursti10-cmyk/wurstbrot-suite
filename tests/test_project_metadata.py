@@ -26,6 +26,17 @@ class ProjectMetadataTests(unittest.TestCase):
             first_line = launcher.read_text(encoding="utf-8").splitlines()[0]
             self.assertEqual(first_line.lower(), "@echo off", launcher)
 
+    def test_component_labels_use_beta_version(self):
+        expected = "0.9.0-beta"
+        converter = (ROOT / "apps" / "datamine-manager" / "wurstbrot_converter.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(f'APP_VERSION = "{expected}"', converter)
+        gui = (ROOT / "apps" / "ge-calculator" / "ge_calculator_gui.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("0.9.0 Beta", gui)
+
 
 if __name__ == "__main__":
     unittest.main()

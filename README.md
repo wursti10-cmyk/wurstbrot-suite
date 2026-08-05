@@ -2,6 +2,10 @@
 
 Die **Wurstbrot Suite** ist ein Community-Projekt für War Thunder.
 
+> Entwickler: Die vollständige technische Referenz beginnt bei
+> [`docs/00_PROJECT_CONTEXT.md`](docs/00_PROJECT_CONTEXT.md). Verbindliche Fachverträge liegen in
+> [`specs/`](specs/).
+
 Hauptbestandteile:
 
 - **Datamine Manager** – lädt oder verarbeitet relevante Datamine-Dateien
@@ -36,6 +40,17 @@ und 3.13, die Browser-Logik und den vollständigen Regressionstest.
 - Explain Mode in CLI und Desktop-GUI
 - Browser-App mit JSON-Import, responsivem Layout und Offline-Cache
 - Datamine-Konvertierung, Validierung und Patchvergleich
+
+## Entwicklerdokumentation
+
+- [Projektkontext](docs/00_PROJECT_CONTEXT.md)
+- [Architektur](docs/02_ARCHITECTURE.md)
+- [Entwicklungsleitfaden](docs/04_DEVELOPMENT_GUIDE.md)
+- [Datamine-Referenz](docs/07_DATAMINE_REFERENCE.md)
+- [GE Engine](docs/08_GE_ENGINE.md)
+- [Tests](docs/13_TESTING.md)
+- [Bekannte Fehler](docs/16_KNOWN_BUGS.md)
+- [Spezifikationen](specs/GE_CALCULATION_SPEC.md)
 
 ## Schnellstart
 
@@ -82,7 +97,8 @@ Der Converter sucht rekursiv nach:
 wurstbrot-suite/
 ├── apps/
 │   ├── datamine-manager/
-│   └── ge-calculator/
+│   ├── ge-calculator/
+│   └── web/
 ├── packages/
 │   ├── core/
 │   ├── parser/
@@ -90,6 +106,7 @@ wurstbrot-suite/
 ├── data/
 │   └── samples/
 ├── docs/
+├── specs/
 └── .github/
 ```
 
@@ -124,7 +141,7 @@ python apps/ge-calculator/ge_calculator_cli.py   --database data/samples/WT_Data
 ```
 
 
-## Milestone 1 starten
+## Desktop-Beta starten
 
 Windows-GUI:
 

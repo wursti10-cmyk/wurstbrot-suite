@@ -1,0 +1,35 @@
+{
+  "database": {
+    "schemaVersion": 1,
+    "gameVersion": "contract-1",
+    "economy": {"rpPerGE": 45},
+    "vehicles": [
+      {"id": "a", "name": "A", "countryId": "de", "branchId": "tank", "rank": 1, "rp": 0, "sl": 0, "reserve": true, "column": 0, "order": 0},
+      {"id": "b", "name": "B", "countryId": "de", "branchId": "tank", "rank": 1, "rp": 45, "sl": 101, "column": 0, "order": 1},
+      {"id": "x", "name": "X", "countryId": "de", "branchId": "tank", "rank": 1, "rp": 46, "sl": 101, "column": 1, "order": 1},
+      {"id": "c", "name": "C", "countryId": "de", "branchId": "tank", "rank": 2, "rp": 90, "sl": 201, "column": 0, "order": 2}
+    ],
+    "predecessors": {"a": null, "b": "a", "x": "a", "c": "b"},
+    "groups": {},
+    "rankUnlock": {"de": {"tank": {"1": 3}}}
+  },
+  "input": {
+    "startId": "a",
+    "targetId": "c",
+    "targetResearchedRp": 45,
+    "ownedGe": 1,
+    "convertibleRp": 100,
+    "slDiscountPercent": 50,
+    "optimizeFor": "ge"
+  },
+  "expected": {
+    "requiredVehicleIds": ["b", "x", "c"],
+    "reasons": ["direct_path", "rank_unlock", "direct_path"],
+    "totalRp": 136,
+    "totalGeBeforeOwned": 4,
+    "totalGeAfterOwned": 3,
+    "totalSl": 200,
+    "convertibleRpShortfall": 36,
+    "rankAvailableAfter": 3
+  }
+}

@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import {calculate, closure, validateDatabase} from "../apps/web/solver.mjs";
 
 const database = {schemaVersion:1,economy:{rpPerGE:45},vehicles:[
@@ -19,4 +20,30 @@ test("calculates per-vehicle GE rounding and progress", () => {
 test("rejects cycles", () => {
   const cyclic = structuredClone(database); cyclic.predecessors.a="c";
   assert.throws(() => closure(cyclic,"c"), /Zyklus/);
+});
+
+test("matches the shared Python contract including rank unlocks", () => {
+  const fixture = JSON.parse(readFileSync(
+    new URL("fixtures/solver_contract.json", import.meta.url), "utf8"));
+  const input = fixture.input;
+  const result = calculate(fixture.database, {
+    startId: input.startId,
+    targetId: input.targetId,
+    progress: {
+      vehicles: {[input.targetId]: {researchedRp: input.targetResearchedRp}},
+      ownedGe: input.ownedGe,
+      convertibleRp: input.convertibleRp,
+    },
+    slDiscount: input.slDiscountPercent,
+    optimizeFor: input.optimizeFor,
+  });
+  const expected = fixture.expected;
+  assert.deepEqual(result.requiredVehicleIds, expected.requiredVehicleIds);
+  assert.deepEqual(result.lines.map(line => line.reason), expected.reasons);
+  assert.equal(result.totalRp, expected.totalRp);
+  assert.equal(result.totalGeBeforeOwned, expected.totalGeBeforeOwned);
+  assert.equal(result.totalGe, expected.totalGeAfterOwned);
+  assert.equal(result.totalSl, expected.totalSl);
+  assert.equal(result.convertibleRpShortfall, expected.convertibleRpShortfall);
+  assert.equal(result.rankRequirements[0].availableAfter, expected.rankAvailableAfter);
 });
