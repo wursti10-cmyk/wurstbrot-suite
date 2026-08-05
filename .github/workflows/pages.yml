@@ -28,6 +28,8 @@ jobs:
           cp data/samples/WT_Database_2.57.1.67.json _site/data/samples/
           sed -i 's#../../data/samples/#./data/samples/#g' _site/app.js _site/service-worker.js
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
