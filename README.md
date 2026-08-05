@@ -2,6 +2,10 @@
 
 Die **Wurstbrot Suite** ist ein Community-Projekt für War Thunder.
 
+> Entwickler: Die vollständige technische Referenz beginnt bei
+> [`docs/00_PROJECT_CONTEXT.md`](docs/00_PROJECT_CONTEXT.md). Verbindliche Fachverträge liegen in
+> [`specs/`](specs/).
+
 Geplante Hauptbestandteile:
 
 - **Datamine Manager** – lädt oder verarbeitet relevante Datamine-Dateien
@@ -25,7 +29,7 @@ Aktuell befindet sich das Projekt in einer frühen Entwicklungsphase.
 - Validierung von Vorgängern, Zyklen, Rängen und Kosten
 - Patchvergleich zwischen zwei Datenbanken
 
-### Nächster Meilenstein
+### Aktueller Meilenstein
 
 **GE Calculator 2.0 Core**
 
@@ -35,6 +39,20 @@ Aktuell befindet sich das Projekt in einer frühen Entwicklungsphase.
 - angeforschte RP
 - GE-Rundung pro Fahrzeug
 - Explain Mode
+
+Diese Punkte sind im Stand `0.3.0-milestone1` implementiert. Browser-Version und CI befinden sich
+derzeit nur in einem offenen Draft-Pull-Request und sind noch nicht Bestandteil von `main`.
+
+## Entwicklerdokumentation
+
+- [Projektkontext](docs/00_PROJECT_CONTEXT.md)
+- [Architektur](docs/02_ARCHITECTURE.md)
+- [Entwicklungsleitfaden](docs/04_DEVELOPMENT_GUIDE.md)
+- [Datamine-Referenz](docs/07_DATAMINE_REFERENCE.md)
+- [GE Engine](docs/08_GE_ENGINE.md)
+- [Tests](docs/13_TESTING.md)
+- [Bekannte Fehler](docs/16_KNOWN_BUGS.md)
+- [Spezifikationen](specs/GE_CALCULATION_SPEC.md)
 
 ## Schnellstart
 
