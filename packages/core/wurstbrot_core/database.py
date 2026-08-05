@@ -21,12 +21,14 @@ class VehicleDatabase:
         predecessors: dict[str, str | None],
         groups: dict[str, list[str]],
         rank_unlock: dict,
+        raw_groups: dict[str, list[str]] | None = None,
     ) -> None:
         self.game_version = game_version
         self.rp_per_ge = rp_per_ge
         self.vehicles = vehicles
         self.predecessors = predecessors
         self.groups = groups
+        self.raw_groups = raw_groups if raw_groups is not None else groups
         self.rank_unlock = rank_unlock
 
     @classmethod
@@ -48,6 +50,8 @@ class VehicleDatabase:
                 rp=int(item.get("rp", 0)),
                 sl=int(item.get("sl", 0)),
                 reserve=bool(item.get("reserve", False)),
+                premium=bool(item.get("premium", False)),
+                special=bool(item.get("special", False)),
                 hidden_research=bool(item.get("hiddenResearch", False)),
                 req_unlock=str(item.get("reqUnlock") or ""),
                 group=item.get("group"),
@@ -80,6 +84,11 @@ class VehicleDatabase:
         if rp_per_ge <= 0:
             raise DatabaseError("rpPerGE muss größer als 0 sein.")
 
+        raw_groups = {
+            str(key): list(values)
+            for key, values in raw.get("groups", {}).items()
+            if isinstance(values, list)
+        }
         database = cls(
             game_version=str(raw.get("gameVersion", "unbekannt")),
             rp_per_ge=rp_per_ge,
@@ -87,8 +96,9 @@ class VehicleDatabase:
             predecessors=predecessors,
             groups={
                 key: [vehicle_id for vehicle_id in values if vehicle_id in vehicles]
-                for key, values in raw.get("groups", {}).items()
+                for key, values in raw_groups.items()
             },
+            raw_groups=raw_groups,
             rank_unlock=raw.get("rankUnlock", {}),
         )
         database._validate_cycles()

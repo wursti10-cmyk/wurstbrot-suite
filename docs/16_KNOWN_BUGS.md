@@ -32,6 +32,18 @@
 - Graphdiagnostik zählt alle Kantentypen gemeinsam. Folder-, Unlock- und Rank-Kanten sind
   Analysestruktur und noch keine vom Solver ausführbaren Bedingungen.
 
+## Klassifizierte offene Semantik
+
+- 31 Sample-Ziele besitzen externe `reqUnlock`-Tokens ohne abbildbaren PlayerProgress-Zustand und
+  bleiben in der Rule Evaluation unresolved.
+- 18 Hidden-Ziele sind unter Default-Optionen eindeutig unsatisfied, ihre konkrete Erwerbs- und
+  Verfügbarkeitssemantik bleibt außerhalb des normalen Solvers.
+- 44 Ziele sind in der breiten Mirror Evaluation erwartbar unresolved: externe Unlocks oder Folder mit
+  fehlenden beziehungsweise versteckten Mitgliedern. Sie werden nicht als exact_match kaschiert.
+- Mehrfachvorgänger werden vollständig erkannt und unresolved gemeldet; AND-/OR-Semantik ist weiterhin
+  nicht spezifiziert.
+- Rank Evaluation nennt Kandidaten und Ausschlussgründe, entscheidet aber absichtlich keine Kombination.
+
 ## Pflege
 
 Ein Eintrag wird erst entfernt, wenn Fix und Regressionstest in `main` liegen. Offene PRs dürfen nur in

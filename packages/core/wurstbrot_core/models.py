@@ -14,6 +14,8 @@ class Vehicle:
     rp: int
     sl: int
     reserve: bool = False
+    premium: bool = False
+    special: bool = False
     hidden_research: bool = False
     req_unlock: str = ""
     group: str | None = None

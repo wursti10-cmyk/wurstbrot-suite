@@ -25,6 +25,7 @@ class GraphDatabaseAdapter:
         self.vehicles = database.vehicles
         self.predecessors = database.predecessors
         self.groups = database.groups
+        self.raw_groups = database.raw_groups
         self.rank_unlock = database.rank_unlock
 
     def get(self, vehicle_id: str) -> Vehicle:

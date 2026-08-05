@@ -40,3 +40,14 @@ Für jeden relevanten Rang vor dem Ziel liest der Solver die erforderliche Fahrz
 `closure()` aber über `predecessor`-Kanten. Die breite Python-Regression vergleicht das vollständige
 Legacy- und Mirror-Ergebnis für alle 1.977 regulären Fälle. Mehrfachvorgänger bleiben im Graphmodell
 darstellbar, werden vom Legacy-Adapter mangels belegter AND-/OR-Semantik jedoch abgelehnt.
+
+## Rule Evaluation
+
+Die getrennte Evaluationsschicht versteht die belegbare Semantik von `predecessor`, `folder_member`,
+`unlock_requirement` und `rank_requirement`. Sie meldet je Regel satisfied, unsatisfied,
+not_applicable oder unresolved samt Evidence und Edge-IDs. Sie berechnet keine Preise und wählt keine
+Rank-Kandidaten. Der vollständige Vertrag steht in [Graph Rule Evaluation](22_GRAPH_RULE_EVALUATION.md).
+
+Mehrfachvorgänger bleiben unresolved. Folder sind Mitgliedschaft und Reihenfolge, keine eigenständige
+Erwerbsregel. Externe Unlocks bleiben getrennte Bedingungen. Rank Evaluation zählt und erklärt, ohne
+einen günstigsten Pfad zu wählen.

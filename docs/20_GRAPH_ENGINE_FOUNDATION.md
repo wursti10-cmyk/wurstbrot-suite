@@ -67,8 +67,8 @@ zum abhängigen Fahrzeug.
 | Kantentyp | Richtung | Bedeutung |
 |---|---|---|
 | `predecessor` | Vorgänger → Fahrzeug | direkte Forschungsabhängigkeit |
-| `folder` | Folder → Fahrzeug | geordnete Mitgliedschaft, keine zusätzliche Kaufregel |
-| `unlock` | Unlock → Fahrzeug | externe Voraussetzung, noch nicht lösbar |
+| `folder_member` | Folder → Fahrzeug | geordnete Mitgliedschaft, keine zusätzliche Kaufregel |
+| `unlock_requirement` | Unlock → Fahrzeug | externe Voraussetzung, noch nicht lösbar |
 | `rank_requirement` | Rank-Knoten → Fahrzeug des Folgerangs | Zuordnung einer Kaufschranke |
 
 Das Modell erlaubt mehrere `predecessor`-Kanten. Der Legacy-Adapter lehnt diese bewusst ab, weil der
@@ -137,3 +137,7 @@ es gibt keine GUI- oder Browserintegration.
 - Event, Squadron und Legacy bleiben durch das normalisierte Schema teilweise zusammengefasst.
 - Die 49 bekannten Sonderfälle sind noch nicht Bestandteil der breiten Mirror-Matrix.
 - Kein Graph Solver, Optimizer-, Explain- oder Performanceumbau ist Teil dieses Sprints.
+
+Die nachfolgende fachliche Semantik und regelweise Auswertung ist in
+[Graph Rule Evaluation](22_GRAPH_RULE_EVALUATION.md) spezifiziert. Der Foundation-Adapter und der
+Legacy-Solver bleiben davon unverändert.
