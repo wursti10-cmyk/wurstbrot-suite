@@ -49,6 +49,7 @@ jobs:
       - run: python tests/validate_health_report.py build/health/WT_Health_2.57.1.67.json
       - run: python tests/graph_semantics_matrix.py > build/health/Graph_Semantics_2.57.1.67.json
       - run: python tests/graph_resolution_matrix.py > build/health/Graph_Resolution_2.57.1.67.json
+      - run: python tests/graph_cost_matrix.py > build/health/Graph_Cost_2.57.1.67.json
       - uses: actions/upload-artifact@v4
         with:
           name: sample-datamine-health
@@ -56,6 +57,7 @@ jobs:
             build/health/WT_Health_2.57.1.67.*
             build/health/Graph_Semantics_2.57.1.67.json
             build/health/Graph_Resolution_2.57.1.67.json
+            build/health/Graph_Cost_2.57.1.67.json
 
   whitespace:
     runs-on: ubuntu-latest

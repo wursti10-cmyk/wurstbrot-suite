@@ -4,6 +4,24 @@ __version__ = "0.9.0-beta"
 
 from .database import VehicleDatabase
 from .graph_adapter import GraphDatabaseAdapter
+from .graph_cost import (
+    ALLOWED_SL_DISCOUNTS,
+    CostStatus,
+    GraphCostEngine,
+    GraphCostResult,
+    GraphVehicleCostLine,
+)
+from .graph_cost_analysis import (
+    CostShadowCase,
+    CostShadowComparisonDetail,
+    CostShadowComparisonSummary,
+    CostSpecialCaseSummary,
+    build_cost_scenarios,
+    build_cost_special_case_matrix,
+    build_full_cost_shadow_cases,
+    render_cost_special_case_markdown,
+    run_cost_shadow_comparison,
+)
 from .graph_analysis import (
     MirrorEvaluationSummary,
     build_special_case_matrix,
@@ -55,6 +73,20 @@ from .solver import ResearchSolver
 __all__ = [
     "VehicleDatabase",
     "GraphDatabaseAdapter",
+    "CostStatus",
+    "ALLOWED_SL_DISCOUNTS",
+    "GraphVehicleCostLine",
+    "GraphCostResult",
+    "GraphCostEngine",
+    "CostShadowCase",
+    "CostShadowComparisonDetail",
+    "CostShadowComparisonSummary",
+    "CostSpecialCaseSummary",
+    "run_cost_shadow_comparison",
+    "build_full_cost_shadow_cases",
+    "build_cost_scenarios",
+    "build_cost_special_case_matrix",
+    "render_cost_special_case_markdown",
     "MirrorEvaluationSummary",
     "run_mirror_evaluation",
     "build_special_case_matrix",

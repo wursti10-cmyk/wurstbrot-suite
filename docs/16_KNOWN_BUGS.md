@@ -35,6 +35,18 @@
   weiterhin ausschließlich den Legacy-Solver.
 - Die `LegacyRankCompatibilityStrategy` delegiert vorübergehend an die private bestehende
   Rangwahlmethode. Sie ist absichtlich kein eigenständiger Optimizervertrag.
+- Die Graph-Cost-Engine läuft nur im Shadow Mode. Sie berechnet keine GE-Pakete, Europreise,
+  Crewkosten oder Sale-Empfehlungen und verteilt vorhandene GE nicht auf Fahrzeugzeilen.
+- Bei partiellen Kosten werden vorhandene GE und Convertible-RP-Shortfall bewusst nicht angewandt,
+  weil unbekannte Voraussetzungen die vollständige Summe verändern können.
+- Der Graph-Cost-Contract akzeptiert nur 0/30/50 Prozent SL-Rabatt; Legacy akzeptiert historisch
+  0 bis 100 Prozent. Diese Eingabegrenze wird erst bei einer späteren produktiven Migration vereinigt.
+- `researched=True` ohne passende numerische `researched_rp` bedeutet im Graph-Contract vollständig
+  erforscht. Legacy berücksichtigt für nicht gekaufte Fahrzeuge derzeit nur die numerischen RP. Ein
+  synthetischer Test hält diese bekannte Divergenz sichtbar; die reale Shadow-Matrix verwendet
+  konsistente Status- und RP-Werte.
+- Die Sample-Datenbank enthält kein reguläres Fahrzeug mit positivem RP und 0 SL. Die Null-SL-Regel
+  ist deshalb synthetisch sowie mit einem Reservefahrzeug belegt, aber nicht breit realdatenvalidiert.
 
 ## Klassifizierte offene Semantik
 
@@ -52,6 +64,9 @@
 - Mit expliziter Hidden-/Unlock-Evidenz werden 35 der 49 bekannten Sonderfälle aufgelöst. Vierzehn
   Hidden-Ziele in vier Folder-Familien bleiben wegen versteckter Mitgliedschaft beziehungsweise
   Folder-Reihenfolge unresolved.
+- Die Accuracy-5-Cost-Matrix liefert 1.932 vollständige und 63 partielle Ergebnisse bei 0 Mismatches.
+  Die separate Sonderfallmatrix enthält 35 vollständige und 14 partielle Kostenfälle; die 14
+  Hidden-Folder-Ziele erhalten keine erfundene vollständige Summe.
 
 ## Pflege
 
