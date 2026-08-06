@@ -8,8 +8,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "packages" / "core"))
 
 from wurstbrot_core import (  # noqa: E402
+    CalculationEngine,
+    CalculationExecutionResult,
+    EngineFeatureFlags,
+    ExecutionMode,
     PlayerProgress,
-    ResearchSolver,
     SolveOptions,
     VehicleDatabase,
     VehicleProgress,
@@ -25,12 +28,27 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--target", required=True)
     parser.add_argument("--start")
     parser.add_argument(
+        "--engine",
+        choices=("legacy", "shadow", "graph-experimental"),
+        default="legacy",
+        help=(
+            "Rechenquelle (Standard: legacy). graph-experimental muss in jedem "
+            "Aufruf ausdrücklich gewählt werden."
+        ),
+    )
+    parser.add_argument(
         "--optimize",
         choices=("ge", "rp", "sl", "vehicles"),
         default="ge",
     )
     parser.add_argument("--include-start", action="store_true")
-    parser.add_argument("--legacy", action="store_true")
+    parser.add_argument(
+        "--include-hidden-legacy",
+        "--legacy",
+        dest="include_hidden_legacy",
+        action="store_true",
+        help="Ausgeblendete Altbestandsfahrzeuge einbeziehen (--legacy bleibt Alias).",
+    )
     parser.add_argument("--sl-discount", type=int, default=0)
     parser.add_argument("--convertible-rp", type=int)
     parser.add_argument("--owned-ge", type=int, default=0)
@@ -73,19 +91,67 @@ def main() -> int:
         convertible_rp=args.convertible_rp,
         owned_ge=args.owned_ge,
     )
-    result = ResearchSolver(database).solve(
+    mode = ExecutionMode(args.engine.replace("-", "_"))
+    flags = (
+        EngineFeatureFlags.explicit_graph_experimental()
+        if mode is ExecutionMode.GRAPH_EXPERIMENTAL
+        else EngineFeatureFlags()
+    )
+    execution = CalculationEngine(database, feature_flags=flags).calculate(
         target_vehicle_id=args.target,
         start_vehicle_id=args.start,
         progress=progress,
         options=SolveOptions(
             optimize_for=args.optimize,
             include_start_vehicle=args.include_start,
-            include_hidden_legacy=args.legacy,
+            include_hidden_legacy=args.include_hidden_legacy,
             sl_discount_percent=args.sl_discount,
         ),
+        mode=mode,
     )
-    print(explain_result(result))
+    print(_execution_summary(execution))
+    if execution.result is None:
+        print("Keine darstellbare Berechnung verfügbar.")
+        return 2
+    print()
+    print(explain_result(execution.result))
     return 0
+
+
+def _execution_summary(execution: CalculationExecutionResult) -> str:
+    source = execution.result_source.value if execution.result_source else "keine"
+    graph_status = (
+        execution.graph_status.value if execution.graph_status else "nicht ausgeführt"
+    )
+    comparison = (
+        execution.comparison_status.value
+        if execution.comparison_status
+        else "nicht ausgeführt"
+    )
+    fallback_reason = (
+        execution.fallback_reason.value if execution.fallback_reason else "keiner"
+    )
+    lines = []
+    if execution.experimental:
+        lines.append(
+            "WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle vor 1.0."
+        )
+    lines.extend(
+        (
+            f"Rechenmodus: {execution.requested_mode.value}",
+            f"Ergebnisquelle: {source}",
+            f"Fallback: {'ja' if execution.fallback_applied else 'nein'}",
+            f"Fallback-Grund: {fallback_reason}",
+            (
+                "Shadow-Vergleich: "
+                f"{'vorhanden' if execution.shadow_comparison_exists else 'nicht vorhanden'}"
+            ),
+            f"Comparison Status: {comparison}",
+            f"Ergebnisstatus: {execution.calculation_status.value}",
+            f"Graph-Status: {graph_status}",
+        )
+    )
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

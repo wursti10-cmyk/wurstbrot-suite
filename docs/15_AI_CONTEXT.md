@@ -25,8 +25,8 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     setzen.
 13. Der Health Score ist bewusst nicht implementiert. Ohne versionierte empirische Gewichte darf kein
     Prozentwert erfunden werden.
-14. `ResearchGraph` ist eine parallele Architektur- und Diagnoseschicht, noch keine neue Research
-    Engine. Keine Produktlogik ohne gesonderten fachlichen Sprint darauf umstellen.
+14. `ResearchGraph` bleibt eine experimentelle Rechenquelle. Ohne ausdrücklichen
+    `graph_experimental`-Modus darf keine Produktlogik darauf umschalten; Default bleibt Legacy.
 15. Graphänderungen müssen Legacy- und Adapter-Solver vollständig spiegeln; `mirror_matches` muss
     `passed` entsprechen.
 16. Folder-, Unlock- und Rank-Kanten sind strukturierte Fakten. Aus ihnen dürfen ohne Datamine- oder
@@ -40,8 +40,8 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     satisfied setzen; nie aus Namen erraten.
 21. Evaluation bewertet einzelne Regeln; Resolution erzeugt daraus eine Voraussetzungsliste. Diese
     Verträge nicht vermischen.
-22. `GraphPrerequisiteResolver` bleibt Shadow Mode. Produktiven Legacy-Solver, Browser oder GUI nicht
-    ohne eigenen Migrationssprint umstellen.
+22. `GraphPrerequisiteResolver` darf nur durch Shadow oder explizites CLI Graph Experimental laufen.
+    Browser und GUI bleiben Legacy; eine Standardumschaltung braucht einen eigenen Review.
 23. Rank-Auswahl ist nur in der ausdrücklich benannten `LegacyRankCompatibilityStrategy` zulässig.
     Sie ist kein Graph Optimizer und darf keine Kosten in den Resolution Contract schreiben.
 24. Owned oder Start A beweisen ihre bereits überwundenen Folder-/Unlock-Voraussetzungen. Die
@@ -56,13 +56,15 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 29. GE immer pro Fahrzeug aufrunden. Graph-SL-Rabatte sind ausschließlich 0, 30 oder 50 Prozent.
 30. Cost Shadow vergleicht Zeilen und Summen. Equivalent darf keine numerische Abweichung verbergen;
     jeder definitive Mismatch ist ein Gate-Fehler.
-31. `GraphCostEngine` bleibt Shadow Mode. Legacy-Solver, Browser, Desktop und GUI nicht umstellen.
+31. `GraphCostEngine` darf Shadow und explizites CLI Graph Experimental bedienen. Legacy-Default,
+    Browser, Desktop und GUI nicht umstellen.
 32. `GraphCalculationPipeline` darf ausschließlich Evaluation, Resolution und Cost orchestrieren;
     keine fachliche Regel in den Orchestrator kopieren.
 33. `internal_error` niemals als unresolved oder unsupported kaschieren. Roh-Exceptions nicht als
     fachliche Explanation exportieren.
-34. Der Dual-Runner kennzeichnet `legacy` als einzige produktive Ergebnisquelle. Graphresultate sind
-    Shadow-Evidence und dürfen keinen produktiven Aufrufer steuern.
+34. Der Dual-Runner bleibt eine Vergleichskomponente und erzeugt beide Resultate. Nur der separate
+    `CalculationEngine` darf bei explizitem `graph_experimental`, `complete` und `exact_match` das
+    adaptierte Graphresultat freigeben; sonst gilt Legacy-Fallback.
 35. `input_contract_difference` ist weder Match noch Fehler. Jede Differenz braucht Rule ID,
     Contract-Regel und Begründung; Mismatch und Internal Error bleiben harte Gates.
 36. Fingerprints nur aus kanonischen fachlichen Inhalten bilden. Keine Zeitstempel, Pfade,
@@ -79,9 +81,14 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     Engine-Vergleich ausgeben.
 42. Die 14 Hidden-Folder-Fälle bleiben partial, bis konkrete neue Evidenz vorliegt. Keine Heuristik,
     um die Zahl kosmetisch zu senken.
-43. `ready_for_experimental_use` und ein Accuracy-7-Release-Candidate gelten ausschließlich für
-    Shadow Mode. `ready_for_default_use` bleibt false.
+43. `ready_for_experimental_use` gilt für Shadow sowie explizites CLI Graph Experimental mit
+    Legacy-Fallback. `ready_for_default_use` bleibt false; Confidence darf nie automatisch umschalten.
 44. Kein Confidence-Prozentwert erfinden. Berichte nennen belegte Zähler, Kriterien und Blocker.
+45. Bis Version 1.0 ausschließlich Forschungsweg A → B und RP-/GE-/SL-Kosten bearbeiten. Keine neue
+    Explain Engine, kein Dashboard, kein Project Intelligence, kein Optimizer-Ausbau und kein
+    visueller Tech Tree.
+46. Standardmodus ist exakt `legacy`. `partial`, `unavailable`, Internal Error, nicht exakter
+    Vergleich oder Adapterverletzung dürfen nie als vollständiges Graph-Benutzerergebnis erscheinen.
 
 ## Orientierung
 
@@ -99,11 +106,13 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Pipeline, Input-Grenze und Fingerprint: `graph_pipeline.py`
 - vollständiger Legacy-/Graph-Vergleich: `dual_engine.py`
 - Vollmatrix, Shadow Report und Readiness: `graph_shadow.py`
+- Execution Modes, Result Adapter und Fallback: `engine_execution.py`
+- Experimental-Matrix und A→B-Abnahmen: `experimental_switch_analysis.py`
 - unabhängige Golden-/Metamorphic-/Confidence-Verträge: `accuracy_confidence.py`
 - versionierte Referenzartefakte: `accuracy/`
 - Confidence-Vertrag: `docs/28_ACCURACY_CONFIDENCE.md`
 - 14-Partial-Fall-Akte: `docs/29_PARTIAL_FOLDER_RESEARCH.md`
-- späterer Rollback-Plan: `docs/30_GRAPH_ROLLBACK_PLAN.md`
+- experimenteller Switch- und Rollback-Plan: `docs/30_GRAPH_ROLLBACK_PLAN.md`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

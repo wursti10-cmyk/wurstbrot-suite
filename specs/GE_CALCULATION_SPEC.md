@@ -23,7 +23,7 @@ vehicle_sl    = 0, falls owned,
                 sonst round(vehicle.sl * (1 - discount / 100))
 ```
 
-Der produktive Legacy-Solver bleibt in Accuracy 5 unverändert. Er definiert `owned` weiterhin als
+Der Legacy-Solver bleibt unverändert und ist weiterhin Standard und Empfehlung. Er definiert `owned` weiterhin als
 `researched=True` und `purchased=True` und klemmt numerische Fortschrittswerte auf 0 bis Fahrzeug-RP.
 
 ## Graph-Cost-Validierung und Fahrzeugzeile
@@ -100,7 +100,8 @@ Partielle Werte stehen ausschließlich in `partial_remaining_rp`, `partial_ge_be
 
 `GraphPrerequisiteResolver` ist nicht Teil der Kostenberechnung. Sein Ergebnis enthält keine RP-, GE-,
 SL- oder Euro-Werte. `GraphCostEngine` konsumiert diesen Contract, verändert ihn aber nicht.
-`LegacyRankCompatibilityStrategy` darf im Shadow Mode die bestehende kostenbewusste Auswahl delegieren
+`LegacyRankCompatibilityStrategy` darf ausschließlich in den vergleichsbasierten Modi Shadow und
+Graph Experimental die bestehende kostenbewusste Auswahl delegieren
 und so eine Fahrzeugmenge reproduzieren, aber weder Kosten ausgeben, neue Kostenlogik definieren noch
 als neuer Optimizer gelten.
 
@@ -126,7 +127,57 @@ einen daraus entstehenden Unterschied als `input_contract_difference`, niemals s
 Vollständige Kosten sind im Pipeline-Ergebnis genau dann vergleichbar, wenn
 `pipeline_status=complete` und `cost_status=complete` gelten. Partial behält vollständige Summen auf
 `null`; vorhandene GE werden nicht angewandt. Der `DualEngineRunner` vergleicht alle in diesem
-Dokument definierten Kostenwerte, verwendet produktiv aber ausschließlich `legacy_result`.
+Dokument definierten Kostenwerte und entscheidet selbst nicht über die Benutzer-Ergebnisquelle.
+
+## Accuracy-8-Ausführungsvertrag
+
+Die Auswahl der Rechenquelle liegt ausschließlich in `CalculationEngine`:
+
+```text
+legacy             -> nur ResearchSolver -> SolveResult
+shadow             -> DualEngineRunner -> Legacy-SolveResult für den Benutzer
+graph_experimental -> DualEngineRunner -> Graph-Adapter nur bei complete + exact_match
+                                      -> sonst Legacy-Fallback
+```
+
+Ohne explizite Auswahl gilt `legacy`. Das Feature Flag für `graph_experimental` ist standardmäßig
+false, pro Prozess lokal, nicht persistent und darf nicht durch Readiness- oder Confidence-Werte
+aktiviert werden.
+
+Der Graph-Adapter darf nur ein vollständiges `GraphCostResult` übernehmen. Er muss exakt die
+Required-IDs und Cost-Line-Reihenfolge erhalten und folgende bestehende `SolveResult`-Felder
+reproduzieren:
+
+- `required_vehicle_ids`;
+- Rest-RP, GE und SL je Fahrzeug;
+- `total_rp`, `total_ge_before_owned`, `total_ge_after_owned`, `total_sl`;
+- `convertible_rp_shortfall`;
+- bestehende Rank Requirements und Warnungen.
+
+Die Warntexte bleiben für Accuracy 8 der bestehende Legacy-Vertrag. Graph Experimental führt keine
+neue Explain-Semantik ein; Pfad und numerische Kernwerte stammen weiterhin aus dem adaptierten
+Graphresultat.
+
+Der Graphwert ist als Benutzerergebnis nur zulässig, wenn Pipeline `complete`, Cost `complete`, alle
+Summen nicht `null` und der Dual-Vergleich `exact_match` sind. `equivalent_match` reicht für diesen
+ersten Experimentalvertrag absichtlich nicht.
+
+Fallback auf ein vorhandenes Legacy-Ergebnis ist verbindlich bei:
+
+- `internal_error`;
+- `unavailable`;
+- `invalid_input`, falls Legacy denselben Request akzeptiert;
+- `partial` oder `blocked`;
+- jeder nicht exakten Vergleichskategorie;
+- nicht darstellbarem oder vertragswidrigem Adapter-Ergebnis.
+
+Bei `partial` dürfen Graph-Teilsummen niemals als vollständiger Benutzerbedarf erscheinen. Der
+Graphstatus bleibt diagnostisch sichtbar, das Legacy-Ergebnis liefert die bestehenden Kernwerte.
+Fehlt auch Legacy, ist das Ausführungsergebnis `unavailable` und enthält keine erfundenen Kosten.
+
+Desktop und Browser bleiben außerhalb dieses Vertrags auf Legacy. Der CLI-Experimentalmodus ist vor
+Version 1.0 nicht die empfohlene Quelle und erweitert den Produktumfang nicht über Forschungsweg A → B
+sowie RP-, GE- und SL-Kosten hinaus.
 
 ## Independent Reference Contract
 

@@ -12,6 +12,7 @@
 | Graph Cost | `graph_cost.py`, `graph_cost_analysis.py` | strikte RP-/GE-/SL-Kostenprojektion, Cost-Shadow-Vergleich und Kostenmatrizen |
 | Graph Orchestration | `graph_pipeline.py`, `dual_engine.py`, `graph_shadow.py` | zentrale Pipeline, Dual-Vergleich, Fingerprints, Readiness und Shadow Reports |
 | Accuracy Confidence | `accuracy_confidence.py`, `accuracy/`, Accuracy-Harnesses | unabhängige Baseline, Golden-/Metamorphic-Verträge, Confidence und Rollback-Nachweis |
+| Experimental Execution | `engine_execution.py`, `experimental_switch_analysis.py` | drei Execution Modes, Graph→SolveResult-Adapter, Legacy-Fallback und Experimental Report |
 | Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
@@ -43,7 +44,11 @@ flowchart TD
   P["PlayerProgress + SolveOptions"] --> S
   GP --> DE["DualEngineRunner"]
   S --> DE
+  DE --> CE["CalculationEngine"]
+  CE -->|"legacy / fallback"| R
+  CE -->|"graph_experimental: complete + exact"| R
   DE --> SR["Graph Shadow Report"]
+  CE --> ER["Graph Experimental Report"]
   SR --> AC["Accuracy Confidence Report"]
   GF["Immutable Golden Fixtures"] --> AC
   S --> R["SolveResult"]
@@ -67,7 +72,7 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
   Kanten. Es ersetzt den Solver noch nicht.
 - Der Mirror-Adapter ändert nur die Closure-Quelle. Alle übrigen Solverzugriffe bleiben Legacy-Reads.
 - `GraphRuleEvaluator` liest Graph, Fortschritt und Optionen, erzeugt aber weder Kosten noch eine
-  Kandidatenauswahl. Der produktive Pfad bleibt `VehicleDatabase` → `ResearchSolver`.
+  Kandidatenauswahl. Der Standardpfad bleibt `VehicleDatabase` → `ResearchSolver`.
 - `GraphPrerequisiteResolver` ergänzt eindeutig notwendige Fahrzeugvoraussetzungen. Fehlende
   Rangkombinationen bleiben ohne expliziten Compatibility Mode unresolved.
 - Die isolierte `LegacyRankCompatibilityStrategy` delegiert nur für Shadow-Vergleiche an die
@@ -77,12 +82,18 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
 - `GraphCalculationPipeline` delegiert ausschließlich an Evaluation, Resolution und Cost. Sie
   vereinheitlicht Input-Grenze, Status, Evidence, Trace und Fingerprint, aber keine Fachregel.
 - `DualEngineRunner` vergleicht beide Engines. `legacy` bleibt ausdrücklich die produktive
-  Ergebnisquelle; `mismatch` und `internal_error` sind CI-Fehler.
+  Vergleichsbasis; `mismatch` und `internal_error` sind CI-Fehler.
+- `CalculationEngine` definiert `legacy`, `shadow` und `graph_experimental`. Nur der explizite dritte
+  Modus darf ein vollständiges, exakt übereinstimmendes Graphresultat adaptieren. Standard und
+  Empfehlung bleiben Legacy; jeder unsichere Fall verwendet Legacy-Fallback, sofern verfügbar.
+- Das Graph-Experimental-Flag ist pro Prozess deaktiviert, nicht persistent und wird niemals anhand
+  eines Confidence-Werts aktiviert.
 - `accuracy_confidence.py` liest eingefrorene Referenzen und vorhandene Graphresultate. Es darf keine
   Fachregel duplizieren oder eine Golden Fixture aus aktueller Solverausgabe überschreiben.
 - Der Browser-Shadow-Harness validiert kanonische Fixtures. Er ist keine Browser-Graph-Runtime und
   seine Ergebnisse dürfen nicht als Runtime-Parität bezeichnet werden.
-- Produktiver Legacy-Solver, CLI, Desktop und Browser rufen weder Graph Resolver noch Cost Engine auf.
+- Standard-CLI, Desktop und Browser rufen weder Graph Resolver noch Cost Engine auf. Nur die
+  ausdrücklich experimentelle CLI-Auswahl führt die Graphpipeline als mögliche Ergebnisquelle aus.
 
 ## Geplante Evolution
 
