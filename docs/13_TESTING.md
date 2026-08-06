@@ -13,6 +13,10 @@
 | Graph-Resolution-Matrix | `python tests/graph_resolution_matrix.py` | 1.977 bestehende Fälle plus 13 Progress-Szenarien, Shadow-Diagnostik und 49 Sonderfälle |
 | Graph-Cost-Matrix | `python tests/graph_cost_matrix.py` | 1.977 bestehende Fälle plus 18 Cost-Szenarien, VehicleCostLine-Vergleich und 49 Kostensonderfälle |
 | Full Pipeline Shadow | `python tests/graph_shadow_matrix.py --output build/health` | 2.090 klar getrennte Zählebenen, Dual-Vergleich, Optionen, Invalid Input, Fingerprints und Readiness |
+| Golden References | `python tests/accuracy_golden_matrix.py` | 60 eingefrorene Erwartungen, 44 Bäume, sechs Herkunftskategorien und direkte Formelprüfung |
+| Metamorphic Accuracy | `python tests/accuracy_metamorphic_matrix.py` | 16 deterministische Monotonie-, Summen-, Status- und Fingerprint-Eigenschaften |
+| Cross-Python | `python tests/accuracy_cross_python.py` | identischer kanonischer Result-Fingerprint unter Python 3.10/3.12/3.13 |
+| Browser Shadow Fixture | `node tests/browser_shadow_harness.mjs` | kanonische Inputs/Ergebnisse ohne zweite Graphimplementierung; Runtime-Parität bleibt offen |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -73,6 +77,16 @@ complete, 80 partial, 2 blocked, 0 unavailable, 19 invalid input und 0 internal 
 Internal Error sind harte Gate-Fehler. Options- und Input-Validation-Coverage müssen automatisch
 100 % ergeben; `ready_for_default_use` muss bei offenen Kriterien false bleiben.
 
+Accuracy 7 ergänzt 60 Golden Cases: 44 Baumreferenzen, neun reale A→B-Referenzen und sieben gezielte
+Contracts. Herkunft: 37 Datamine Direct, 7 Formula Derived, 1 Legacy Confirmed mit unabhängiger
+Stütze, 10 Manually Reviewed, 3 Synthetic Contract und 2 Unresolved Source Limitation. Alle
+Erwartungen sind statisch; der Test besitzt keinen Schreib- oder Updatepfad.
+
+Die 16 metamorphischen Tests verwenden keine Zufallswerte. Die Cross-Python-CI-Matrix muss unter
+3.10, 3.12 und 3.13 denselben `accuracy-golden-results-v1`-Fingerprint liefern. Der
+JavaScript-Harness prüft dieselben Fixture-Werte, kennzeichnet den Browserstatus aber ausdrücklich
+als `fixture_validation_only`, nicht als Graph-Runtime-Parität.
+
 ## Neue Tests
 
 - kleine synthetische Datenbanken für Randfälle bevorzugen
@@ -108,6 +122,11 @@ CI lädt zusätzlich `Graph_Shadow_2.57.1.67.json` und `.txt` hoch. Der Bericht 
 Index jedes Pipeline-Aufrufs, vollständige Diagnostik aller nicht exakten Vergleiche, Komponenten-
 Versionen, Statusverteilungen, Options-/Input-Coverage, Sonderfallstatus, Fingerprints und den
 maschinenlesbaren Readiness-Block. Zeitstempel und Dateipfade sind kein Fingerprint-Bestandteil.
+
+CI lädt zusätzlich `Browser_Shadow_2.57.1.67.json` und
+`Accuracy_Confidence_2.57.1.67.json/.txt` hoch. Der Confidence-Bericht muss Golden und Metamorphic
+vollständig grün, Pipeline-Mismatch/Internal Error bei null und `ready_for_default_use=false`
+ausweisen. Ein numerischer Confidence-Score ist verboten.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

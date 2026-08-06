@@ -65,3 +65,14 @@ nachgelagerte `DualEngineRunner` vergleicht Kostenzeilen und Summen mit Legacy, 
 weiterhin ausschließlich das Legacy-Ergebnis frei. Zusätzliche Legacy-Rabatte außerhalb 0/30/50 und
 striktere Fortschrittsregeln heißen `input_contract_difference`, nicht Match oder Mismatch. Details
 und aktuelle Zahlen stehen in [Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).
+
+## Unabhängige Accuracy-Referenzen
+
+Accuracy 7 friert erwartete VehicleCostLines und Summen unabhängig vom laufenden Testresultat ein.
+Die Golden-Prüfung liest RP und SL nochmals direkt aus der Datamine und berechnet Rest-RP,
+individuell aufgerundete GE, Rabatt-SL, vorhandene GE und Convertible-RP-Shortfall erneut aus diesem
+Dokument. Fixtures besitzen keinen automatischen Update-Modus.
+
+Zusätzlich gelten 16 metamorphische Invarianten, darunter Monotonie von Fortschritt, vorhandenen GE,
+Convertible RP und SL-Rabatten sowie die strikten `partial`-/`unavailable`-Grenzen. Details und
+aktuelle Herkunftsverteilung stehen in [Accuracy Confidence](28_ACCURACY_CONFIDENCE.md).

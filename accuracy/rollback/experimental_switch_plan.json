@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "planVersion": "1.0.0",
+  "status": "design_only",
+  "productiveSwitchImplemented": false,
+  "featureFlag": {
+    "proposedName": "WURSTBROT_GRAPH_PIPELINE_EXPERIMENTAL",
+    "default": false,
+    "scope": "future local experimental execution only"
+  },
+  "legacyFallback": {
+    "required": true,
+    "resultSource": "legacy",
+    "onGraphFailure": "Discard graph output and preserve the legacy result while recording a local diagnostic."
+  },
+  "shadowComparison": {
+    "required": true,
+    "failureCategories": [
+      "mismatch",
+      "internal_error",
+      "input_contract_difference",
+      "unresolved_expected",
+      "unsupported"
+    ],
+    "promotionRule": "No non-exact category is silently converted into a successful match."
+  },
+  "errorHandling": {
+    "userResultOnGraphError": "legacy",
+    "graphInternalErrorsUserVisible": false,
+    "localDiagnosticRequired": true
+  },
+  "graphPathDisable": {
+    "mechanism": "Turn the proposed feature flag off without changing saved user data.",
+    "restartRequired": "implementation decision deferred"
+  },
+  "dataMigrationRequired": false,
+  "localReports": [
+    "Graph_Shadow_<gameVersion>.json",
+    "Graph_Shadow_<gameVersion>.txt",
+    "Accuracy_Confidence_<gameVersion>.json",
+    "Accuracy_Confidence_<gameVersion>.txt"
+  ],
+  "telemetryEnabled": false,
+  "telemetryPolicy": "No user telemetry may be added without a later explicit product and privacy decision.",
+  "rollbackAcceptanceCriteria": [
+    "Legacy result remains available and unchanged.",
+    "Disabling the graph path requires no data migration.",
+    "Local comparison artifacts explain the disabling reason.",
+    "No GUI or browser control is introduced by this design document."
+  ]
+}

@@ -11,6 +11,7 @@
 | Graph Resolution | `graph_resolution.py`, `graph_resolution_analysis.py` | eigenständige Voraussetzungsermittlung, Shadow-Vergleich und Progress-/Sonderfallmatrizen |
 | Graph Cost | `graph_cost.py`, `graph_cost_analysis.py` | strikte RP-/GE-/SL-Kostenprojektion, Cost-Shadow-Vergleich und Kostenmatrizen |
 | Graph Orchestration | `graph_pipeline.py`, `dual_engine.py`, `graph_shadow.py` | zentrale Pipeline, Dual-Vergleich, Fingerprints, Readiness und Shadow Reports |
+| Accuracy Confidence | `accuracy_confidence.py`, `accuracy/`, Accuracy-Harnesses | unabhängige Baseline, Golden-/Metamorphic-Verträge, Confidence und Rollback-Nachweis |
 | Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
@@ -43,6 +44,8 @@ flowchart TD
   GP --> DE["DualEngineRunner"]
   S --> DE
   DE --> SR["Graph Shadow Report"]
+  SR --> AC["Accuracy Confidence Report"]
+  GF["Immutable Golden Fixtures"] --> AC
   S --> R["SolveResult"]
   R --> E["Explain Mode / UI"]
 ```
@@ -75,6 +78,10 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
   vereinheitlicht Input-Grenze, Status, Evidence, Trace und Fingerprint, aber keine Fachregel.
 - `DualEngineRunner` vergleicht beide Engines. `legacy` bleibt ausdrücklich die produktive
   Ergebnisquelle; `mismatch` und `internal_error` sind CI-Fehler.
+- `accuracy_confidence.py` liest eingefrorene Referenzen und vorhandene Graphresultate. Es darf keine
+  Fachregel duplizieren oder eine Golden Fixture aus aktueller Solverausgabe überschreiben.
+- Der Browser-Shadow-Harness validiert kanonische Fixtures. Er ist keine Browser-Graph-Runtime und
+  seine Ergebnisse dürfen nicht als Runtime-Parität bezeichnet werden.
 - Produktiver Legacy-Solver, CLI, Desktop und Browser rufen weder Graph Resolver noch Cost Engine auf.
 
 ## Geplante Evolution

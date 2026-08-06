@@ -89,3 +89,15 @@ satisfied, Folder und Unlock werden mit Grund ausgeschlossen statt geschätzt. D
 meldet 1.988 exact, 80 unresolved expected, 2 unsupported, 20 Input-Contract-Differenzen sowie
 0 Mismatches und 0 Internal Errors. Vollständiger Vertrag:
 [Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).
+
+## Independent Confidence Layer
+
+Accuracy 7 ändert das Graphmodell nicht. Eine getrennte Schicht führt die bestehende Pipeline gegen
+60 unveränderliche Erwartungen aus: alle 44 realen Forschungsbäume, neun manuell geprüfte A→B-Fälle
+und sieben isolierte Contracts. Erforderliche Fahrzeugmengen müssen weiterhin aus der versionierten
+Vorgänger-Closure stammen; gekaufte Fahrzeuge und der erfüllte Startabschnitt dürfen nicht erneut in
+`required_vehicle_ids` erscheinen.
+
+Die 14 Hidden-Folder-Fälle bleiben bewusst partial und sind mit exakten Datamine-Feldern in der
+[Partial-Folder-Akte](29_PARTIAL_FOLDER_RESEARCH.md) dokumentiert. Confidence-Ausgaben dürfen diese
+Grenze weder durch Legacy-Vergleich noch durch eine Folder-Heuristik auflösen.
