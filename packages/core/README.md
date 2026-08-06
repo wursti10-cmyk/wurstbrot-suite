@@ -17,3 +17,8 @@ kein neuer Optimizer und schreibt keine Kosten in den Resolution Contract.
 auszuwählen. `graph_cost_analysis.py` vergleicht die Shadow-Kosten fahrzeugweise mit Legacy und
 klassifiziert die 18 Cost-Szenarien sowie 49 Sonderfälle. Produktive Oberflächen importieren diese
 Schicht nicht.
+
+`graph_pipeline.py` orchestriert Evaluation, Resolution und Cost ohne Fachregeln zu duplizieren.
+`dual_engine.py` vergleicht die vollständige Graphpipeline mit dem weiterhin produktiven Legacy-
+Ergebnis. `graph_shadow.py` erzeugt Options-, Input-, Sonderfall- und Vollmatrizen sowie die
+versionierten `Graph_Shadow_*`-Berichte. Keine dieser Schichten ist in GUI oder Browser eingebunden.

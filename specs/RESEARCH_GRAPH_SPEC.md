@@ -344,3 +344,73 @@ Explanation Trace.
 Die Sample-Matrix umfasst 1.977 reguläre Fälle plus 18 Cost-Szenarien. Die separate 49er-Matrix weist
 vollständige, partielle und nicht verfügbare Sonderfallkosten aus. Folder-, Unlock- und
 Mehrfachvorgänger-Heuristiken bleiben verboten.
+
+## Graph Calculation Pipeline Contract
+
+Die zentrale Pipeline akzeptiert `VehicleDatabase` oder `GraphDatabaseAdapter`, Ziel, optionalen
+Start, `PlayerProgress` und `SolveOptions`. Sie delegiert in dieser Reihenfolge:
+
+1. `GraphRuleEvaluator`
+2. `GraphPrerequisiteResolver`
+3. `GraphCostEngine`
+
+Ausgabe sind alle drei Teilresultate, Pipeline-Status, Status-Metadaten, Input-Findings, Evidence,
+ein zusammenhängender nummerierter Trace, Diagnostics und ein versionierter Fingerprint. Zulässige
+Statuswerte sind:
+
+- `complete`: alle Teilverträge vollständig und Legacy-vergleichbar.
+- `partial`: mindestens eine notwendige Regel unresolved; Kosten bleiben partial.
+- `blocked`: eine eindeutige Regel blockiert den Aufruf.
+- `unavailable`: Dataminefehler oder aktuell nicht unterstützte Modellierung.
+- `invalid_input`: der Aufruf verletzt die gemeinsame Input-Grenze.
+- `internal_error`: unerwarteter Implementierungsfehler; niemals unresolved.
+
+Jeder Status enthält Ursache, betroffene Rule IDs, `blocking`, `user_safe`,
+`comparable_to_legacy`, Explanation und Evidence. Interne Roh-Exceptions sind kein fachliches
+Ergebnis und werden nicht ausgegeben.
+
+## Dual Engine Comparison Contract
+
+`DualEngineRunner` führt den unveränderten `ResearchSolver` und die Graphpipeline getrennt aus. Die
+produktive Ergebnisquelle bleibt `legacy`. Verglichen werden:
+
+- Required-Fahrzeuge und strukturierte Rank-Anforderungen
+- Gesamt-, Fortschritts- und Rest-RP je Fahrzeug
+- GE und SL je Fahrzeug
+- Gesamt-RP, Gesamt-GE vor/nach vorhandenen GE und Gesamt-SL
+- Convertible-RP-Shortfall
+- Ergebnisstatus
+
+Legacy besitzt keine strukturierten satisfied-, Folder-, Unlock- oder Rule-Evaluation-Felder. Diese
+Felder müssen in `excluded_fields` mit Begründung stehen; eine Ableitung aus Graphwerten ist verboten.
+
+Vergleichswerte sind `exact_match`, `equivalent_match`, `unresolved_expected`, `unsupported`,
+`input_contract_difference`, `mismatch` und `internal_error`. Equivalent darf ausschließlich eine
+Darstellungs- oder Reihenfolgenabweichung bei identischen Mengen und Zahlen sein. Mismatch und
+Internal Error sind CI-Fehler. Input-Contract-Differenzen brauchen Rule ID, Contract-Regel und
+Begründung und zählen nicht als Match.
+
+## Deterministic Fingerprint Contract
+
+Versionen:
+
+- `graph-pipeline-fingerprint-v1`
+- `legacy-result-v1`
+- `dual-engine-comparison-v1`
+- `graph-shadow-report-v1`
+
+Grundlage ist kanonisches JSON über fachliche Eingaben, Status und Ergebnisse. Dictionary-Schlüssel,
+Sets und Rule IDs sind deterministisch sortiert. Zeitstempel, Dateipfade, Objektadressen und zufällige
+Reihenfolgen sind ausgeschlossen. Der Fingerprint ist eine Regressions-ID, keine Signatur.
+
+## Full Shadow und Readiness
+
+Der maschinenlesbare Bericht zählt jede Berechnung in genau einer benannten Ebene: 1.977 reguläre,
+18 Cost-, 13 Progress-, 15 Options-, 49 Sonderfall- und 18 Invalid-Input-Fälle. Options- und
+Input-Validation-Coverage werden aus den ausführbaren Cases abgeleitet.
+
+`ready_for_experimental_use` verlangt mindestens 0 Mismatches, 0 Internal Errors sowie vollständige
+Options- und Input-Abdeckung. `ready_for_default_use` verlangt zusätzlich beschlossene
+Contract-Differenzen, belegte Folder-/Unlock-Grenzen, Browser-/Python-Abstimmung, repräsentative reale
+Referenzen und einen Rollback-Pfad. Der aktuelle Shadow-Stand darf deshalb experimentell true, aber
+nicht default true sein.

@@ -76,3 +76,16 @@ bei `resolved` ausgegeben; `unresolved` liefert höchstens klar markierte Teilze
 Der Cost-Shadow-Vergleich prüft die Legacy-Zeilen fahrzeugweise auf Rest-RP, individuell gerundete GE
 und rabattierte SL sowie auf identische Summen. Die Engine bleibt aus allen produktiven Pfaden
 ausgeschlossen.
+
+## Graph Calculation Pipeline
+
+Accuracy 6 orchestriert Evaluation, Resolution und Cost über `GraphCalculationPipeline`. Der
+Orchestrator besitzt keine eigene Folder-, Unlock-, Rank- oder Kostenregel. Er definiert nur die
+gemeinsame Input-Grenze, Statuspropagation, Evidence, den zusammenhängenden Trace und den
+versionierten Fingerprint.
+
+`DualEngineRunner` führt Legacy und Graph parallel aus. Nicht strukturierte Legacy-Felder wie
+satisfied, Folder und Unlock werden mit Grund ausgeschlossen statt geschätzt. Die 2.090-Fall-Matrix
+meldet 1.988 exact, 80 unresolved expected, 2 unsupported, 20 Input-Contract-Differenzen sowie
+0 Mismatches und 0 Internal Errors. Vollständiger Vertrag:
+[Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).

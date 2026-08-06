@@ -57,3 +57,11 @@ Kosten. Erst `GraphCostEngine` liest das fertige Ergebnis und erzeugt im Shadow 
 Legacy Compatibility Mode darf ausschließlich die bestehende Fahrzeugauswahl delegieren; er ist
 keine neue Optimizer-Semantik. Der produktive Pfad bleibt unverändert `ResearchSolver`. Vollständiger
 Contract und Matrizen stehen in [Graph Cost Engine](25_GRAPH_COST_ENGINE.md).
+
+## Dual-Engine-Orchestrierung
+
+`GraphCalculationPipeline` führt Evaluation, Resolution und Cost in dieser Reihenfolge aus. Der
+nachgelagerte `DualEngineRunner` vergleicht Kostenzeilen und Summen mit Legacy, gibt produktiv aber
+weiterhin ausschließlich das Legacy-Ergebnis frei. Zusätzliche Legacy-Rabatte außerhalb 0/30/50 und
+striktere Fortschrittsregeln heißen `input_contract_difference`, nicht Match oder Mismatch. Details
+und aktuelle Zahlen stehen in [Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).

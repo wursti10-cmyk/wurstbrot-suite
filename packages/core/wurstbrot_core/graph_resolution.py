@@ -198,6 +198,8 @@ class PrerequisiteResolution:
 
 
 class GraphPrerequisiteResolver:
+    version = "1.0.0-shadow"
+
     def __init__(
         self,
         graph: ResearchGraph,

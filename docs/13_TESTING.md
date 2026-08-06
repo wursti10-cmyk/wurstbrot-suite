@@ -12,6 +12,7 @@
 | Graph-Semantikmatrix | `python tests/graph_semantics_matrix.py` | alle Ziele, Statusverteilung, Sonderfälle und verfeinerte Diagnostik |
 | Graph-Resolution-Matrix | `python tests/graph_resolution_matrix.py` | 1.977 bestehende Fälle plus 13 Progress-Szenarien, Shadow-Diagnostik und 49 Sonderfälle |
 | Graph-Cost-Matrix | `python tests/graph_cost_matrix.py` | 1.977 bestehende Fälle plus 18 Cost-Szenarien, VehicleCostLine-Vergleich und 49 Kostensonderfälle |
+| Full Pipeline Shadow | `python tests/graph_shadow_matrix.py --output build/health` | 2.090 klar getrennte Zählebenen, Dual-Vergleich, Optionen, Invalid Input, Fingerprints und Readiness |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -62,6 +63,16 @@ prüfen; breite und veröffentlichte Matrizen müssen dagegen `mismatch == 0` er
 Die 49er Kostensonderfallmatrix muss 35 vollständige und 14 partielle Ergebnisse enthalten. Partielle
 Zeilen dürfen keine vollständigen Summen oder angewandte vorhandene GE ausweisen.
 
+Accuracy 6 ergänzt Pipeline-, Dual-Runner- und Shadow-Report-Tests. Die Vollmatrix zählt genau 2.090
+benannte Aufrufe: 1.977 reguläre Regressionen, 18 Cost-, 13 Progress-, 15 Options-, 49 Sonderfall-
+und 18 Invalid-Input-Fälle. Jede Zeile besitzt eine Zählebene und einen stabilen Fingerprint.
+
+Aktueller Vertrag: 1.988 exact, 0 equivalent, 80 unresolved expected, 2 unsupported,
+20 input contract differences, 0 mismatches und 0 internal errors. Pipeline-Status sind 1.989
+complete, 80 partial, 2 blocked, 0 unavailable, 19 invalid input und 0 internal error. Mismatch und
+Internal Error sind harte Gate-Fehler. Options- und Input-Validation-Coverage müssen automatisch
+100 % ergeben; `ready_for_default_use` muss bei offenen Kriterien false bleiben.
+
 ## Neue Tests
 
 - kleine synthetische Datenbanken für Randfälle bevorzugen
@@ -92,6 +103,11 @@ CI lädt außerdem `Graph_Cost_2.57.1.67.json` hoch. Das Artefakt muss die breit
 18er-Szenariomatrix und die 49er-Sonderfallmatrix enthalten. Es bestätigt Shadow Mode,
 `productiveLegacySolverModified=false`, `guiModified=false`, `browserModified=false` und
 `optimizerSelectionPerformed=false`.
+
+CI lädt zusätzlich `Graph_Shadow_2.57.1.67.json` und `.txt` hoch. Der Bericht enthält einen kompakten
+Index jedes Pipeline-Aufrufs, vollständige Diagnostik aller nicht exakten Vergleiche, Komponenten-
+Versionen, Statusverteilungen, Options-/Input-Coverage, Sonderfallstatus, Fingerprints und den
+maschinenlesbaren Readiness-Block. Zeitstempel und Dateipfade sind kein Fingerprint-Bestandteil.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

@@ -296,7 +296,11 @@ def build_player_progress_scenarios(database: VehicleDatabase) -> tuple[ShadowCa
 
     owned = lambda ids: PlayerProgress(  # noqa: E731 - compact deterministic fixture factory
         vehicles={
-            vehicle_id: VehicleProgress(researched=True, purchased=True)
+            vehicle_id: VehicleProgress(
+                researched_rp=database.get(vehicle_id).rp,
+                researched=True,
+                purchased=True,
+            )
             for vehicle_id in ids
         }
     )
@@ -313,7 +317,11 @@ def build_player_progress_scenarios(database: VehicleDatabase) -> tuple[ShadowCa
             base.id,
             progress=PlayerProgress(
                 vehicles={
-                    predecessor_id: VehicleProgress(researched=True, purchased=False)
+                    predecessor_id: VehicleProgress(
+                        researched_rp=database.get(predecessor_id).rp,
+                        researched=True,
+                        purchased=False,
+                    )
                 }
             ),
         ),

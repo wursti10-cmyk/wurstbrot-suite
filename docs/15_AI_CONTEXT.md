@@ -57,6 +57,18 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 30. Cost Shadow vergleicht Zeilen und Summen. Equivalent darf keine numerische Abweichung verbergen;
     jeder definitive Mismatch ist ein Gate-Fehler.
 31. `GraphCostEngine` bleibt Shadow Mode. Legacy-Solver, Browser, Desktop und GUI nicht umstellen.
+32. `GraphCalculationPipeline` darf ausschließlich Evaluation, Resolution und Cost orchestrieren;
+    keine fachliche Regel in den Orchestrator kopieren.
+33. `internal_error` niemals als unresolved oder unsupported kaschieren. Roh-Exceptions nicht als
+    fachliche Explanation exportieren.
+34. Der Dual-Runner kennzeichnet `legacy` als einzige produktive Ergebnisquelle. Graphresultate sind
+    Shadow-Evidence und dürfen keinen produktiven Aufrufer steuern.
+35. `input_contract_difference` ist weder Match noch Fehler. Jede Differenz braucht Rule ID,
+    Contract-Regel und Begründung; Mismatch und Internal Error bleiben harte Gates.
+36. Fingerprints nur aus kanonischen fachlichen Inhalten bilden. Keine Zeitstempel, Pfade,
+    Objektadressen oder instabile Reihenfolgen aufnehmen.
+37. `ready_for_default_use` nur bei vollständig belegten Kriterien setzen. Null Mismatches allein
+    genügt nicht.
 
 ## Orientierung
 
@@ -71,6 +83,9 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Shadow-/Progress-/Sonderfallvergleich: `graph_resolution_analysis.py`
 - Shadow-Kostenvertrag: `graph_cost.py`
 - Cost-Matrizen und Abweichungsdiagnostik: `graph_cost_analysis.py`
+- Pipeline, Input-Grenze und Fingerprint: `graph_pipeline.py`
+- vollständiger Legacy-/Graph-Vergleich: `dual_engine.py`
+- Vollmatrix, Shadow Report und Readiness: `graph_shadow.py`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

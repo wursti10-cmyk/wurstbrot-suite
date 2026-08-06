@@ -50,6 +50,7 @@ jobs:
       - run: python tests/graph_semantics_matrix.py > build/health/Graph_Semantics_2.57.1.67.json
       - run: python tests/graph_resolution_matrix.py > build/health/Graph_Resolution_2.57.1.67.json
       - run: python tests/graph_cost_matrix.py > build/health/Graph_Cost_2.57.1.67.json
+      - run: python tests/graph_shadow_matrix.py --output build/health
       - uses: actions/upload-artifact@v4
         with:
           name: sample-datamine-health
@@ -58,6 +59,8 @@ jobs:
             build/health/Graph_Semantics_2.57.1.67.json
             build/health/Graph_Resolution_2.57.1.67.json
             build/health/Graph_Cost_2.57.1.67.json
+            build/health/Graph_Shadow_2.57.1.67.json
+            build/health/Graph_Shadow_2.57.1.67.txt
 
   whitespace:
     runs-on: ubuntu-latest
