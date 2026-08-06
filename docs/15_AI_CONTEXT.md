@@ -48,6 +48,15 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     Quellanomalie bleibt Evidence, darf aber nicht erneut als offene Eligibility gewertet werden.
 25. `equivalent_match` verlangt exakt dieselbe Fahrzeugmenge. Unresolved und unsupported sind weder
     Match noch Mismatch; jeder echte Mismatch ist ein Fehler.
+26. Cost Calculation konsumiert Resolution, wählt aber niemals Voraussetzungen oder Rank-Kandidaten.
+27. Vollständige Kosten sind nur bei `resolution_status=resolved` und `cost_status=complete` zulässig.
+    Partial darf nie als vollständiger Bedarf dargestellt werden.
+28. Graph-Cost lehnt negative oder über Gesamt-RP liegende Fortschrittswerte ab; nicht wie Legacy
+    klemmen oder still korrigieren.
+29. GE immer pro Fahrzeug aufrunden. Graph-SL-Rabatte sind ausschließlich 0, 30 oder 50 Prozent.
+30. Cost Shadow vergleicht Zeilen und Summen. Equivalent darf keine numerische Abweichung verbergen;
+    jeder definitive Mismatch ist ein Gate-Fehler.
+31. `GraphCostEngine` bleibt Shadow Mode. Legacy-Solver, Browser, Desktop und GUI nicht umstellen.
 
 ## Orientierung
 
@@ -60,6 +69,8 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Mirror-/Sonderfallanalyse: `graph_analysis.py`
 - Voraussetzungsermittlung: `graph_resolution.py`
 - Shadow-/Progress-/Sonderfallvergleich: `graph_resolution_analysis.py`
+- Shadow-Kostenvertrag: `graph_cost.py`
+- Cost-Matrizen und Abweichungsdiagnostik: `graph_cost_analysis.py`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

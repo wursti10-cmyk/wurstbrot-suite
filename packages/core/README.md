@@ -12,3 +12,8 @@ vollständige Mirror-Klassifikation und die deterministische 49er Sonderfallmatr
 `graph_resolution_analysis.py` vergleicht diese mit dem produktiven Legacy-Vertrag. Eine optionale
 `LegacyRankCompatibilityStrategy` dient ausschließlich der vollständigen Mirror-Auswertung; sie ist
 kein neuer Optimizer und schreibt keine Kosten in den Resolution Contract.
+
+`graph_cost.py` bepreist ein fertiges Resolution-Ergebnis streng und deterministisch, ohne Fahrzeuge
+auszuwählen. `graph_cost_analysis.py` vergleicht die Shadow-Kosten fahrzeugweise mit Legacy und
+klassifiziert die 18 Cost-Szenarien sowie 49 Sonderfälle. Produktive Oberflächen importieren diese
+Schicht nicht.

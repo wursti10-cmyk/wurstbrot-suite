@@ -9,6 +9,7 @@
 | Graph Foundation | `research_graph.py`, `graph_adapter.py` | typisiertes DAG-Modell, Diagnose, Export und Legacy-Adapter |
 | Graph Semantics | `graph_semantics.py`, `graph_evaluation.py`, `graph_analysis.py` | Kantenvertrag, regelweise Eligibility-Auswertung, Mirror- und Sonderfallanalyse |
 | Graph Resolution | `graph_resolution.py`, `graph_resolution_analysis.py` | eigenständige Voraussetzungsermittlung, Shadow-Vergleich und Progress-/Sonderfallmatrizen |
+| Graph Cost | `graph_cost.py`, `graph_cost_analysis.py` | strikte RP-/GE-/SL-Kostenprojektion, Cost-Shadow-Vergleich und Kostenmatrizen |
 | Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
@@ -30,6 +31,10 @@ flowchart TD
   RE --> GR["GraphPrerequisiteResolver (Shadow)"]
   P --> GR
   GR --> SM["Shadow Comparison"]
+  GR --> GC["GraphCostEngine (Shadow)"]
+  DB --> GC
+  P --> GC
+  GC --> CM["Cost Shadow Comparison"]
   DB --> S["ResearchSolver"]
   A --> S
   P["PlayerProgress + SolveOptions"] --> S
@@ -59,7 +64,9 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
   Rangkombinationen bleiben ohne expliziten Compatibility Mode unresolved.
 - Die isolierte `LegacyRankCompatibilityStrategy` delegiert nur für Shadow-Vergleiche an die
   unveränderte bestehende Rangwahl. Sie ist kein neuer Optimizer.
-- Produktiver Legacy-Solver, CLI, Desktop und Browser rufen den Graph Resolver nicht auf.
+- `GraphCostEngine` konsumiert ausschließlich ein fertiges Resolution-Ergebnis. Nur `resolved`
+  erzeugt vollständige Summen; `unresolved` bleibt als partielle Diagnose sichtbar.
+- Produktiver Legacy-Solver, CLI, Desktop und Browser rufen weder Graph Resolver noch Cost Engine auf.
 
 ## Geplante Evolution
 

@@ -295,3 +295,52 @@ Die Sample-Matrix umfasst 1.977 bestehende reguläre Fälle und 13 repräsentati
 Die 49 Sonderfälle erhalten zusätzlich eine deterministische Accuracy-3-/Accuracy-4-Tabelle. Explizite
 Hidden- oder Unlock-Evidenz darf Fälle lösen; Folder- oder Mehrfachvorgänger-Unklarheit darf dadurch
 nicht kaschiert werden.
+
+## Graph-Cost-Vertrag
+
+Cost Calculation ist eine dritte, von Evaluation und Resolution getrennte Schicht. Eingabe ist ein
+bereits fertiges `PrerequisiteResolution` zusammen mit derselben `VehicleDatabase`, `PlayerProgress`
+und `SolveOptions`. Die Cost Engine darf weder Required-IDs ergänzen noch Rank-Kandidaten auswählen.
+
+Das Ergebnis enthält mindestens:
+
+- Ziel, Start, übernommenen `resolution_status` und eigenen `cost_status`
+- deterministische VehicleCostLines
+- vollständige RP-, GE- und SL-Summen oder ausdrücklich `null`
+- vorhandene GE und Ergebnis nach deren Abzug
+- Convertible RP und Shortfall
+- Rabatt, RP je GE, Warnungen, Evidence und Explanation Trace
+- `incomplete_reason_codes` sowie getrennte bekannte Teilsummen
+
+Statusregeln:
+
+- `resolved` → `complete`; vollständige Summen sind zulässig.
+- `unresolved` → `partial`; nur bekannte Zeilen sind zulässig, vollständige Summen bleiben `null`.
+- `blocked` oder `unsupported` → `unavailable`; es werden weder Zeilen noch Summen ausgegeben.
+- Ungültige Kosten- oder Fortschrittsdaten → `unavailable`, unabhängig vom Resolution-Status.
+
+Required- und satisfied-Mengen müssen disjunkt sein. Nur Required-IDs werden bepreist. Nullwerte,
+Reserve, Hidden und reqUnlock bleiben als Evidence sichtbar; externe Erwerbskosten werden nicht
+erfunden. Der numerische Vertrag steht in [GE Calculation](GE_CALCULATION_SPEC.md).
+
+## Cost Shadow Mode
+
+Der produktive `ResearchSolver` bleibt unverändert. Der Cost-Vergleich prüft mindestens Required-Set,
+Rest-RP, individuell gerundete GE und rabattierte SL pro Fahrzeug, alle Summen, vorhandene GE und
+Convertible-RP-Shortfall.
+
+- `exact_match`: geordnete Zeilen und alle geprüften Werte sind identisch.
+- `equivalent_match`: Kosten je Fahrzeug und Summen sind identisch; nur Darstellung/Reihenfolge
+  unterscheidet sich.
+- `unresolved_expected`: Graph darf nur partielle Kosten ausweisen.
+- `unsupported`: keine gemeinsame belastbare Kostenrepräsentation.
+- `mismatch`: beide Ergebnisse sind vollständig und fachlich verschieden.
+
+Equivalent darf keine numerische Differenz verbergen. Jeder definitive Mismatch ist ein CI-Fehler.
+Mismatch-Diagnostik enthält Ziel, Start, Fortschrittsszenario, Resolution-/Cost-Status, beide
+VehicleCostLine-Listen, Fahrzeugdifferenzen, RP-/GE-/SL-Differenzen, Rundungsabweichungen, Evidence und
+Explanation Trace.
+
+Die Sample-Matrix umfasst 1.977 reguläre Fälle plus 18 Cost-Szenarien. Die separate 49er-Matrix weist
+vollständige, partielle und nicht verfügbare Sonderfallkosten aus. Folder-, Unlock- und
+Mehrfachvorgänger-Heuristiken bleiben verboten.

@@ -14,6 +14,8 @@
 - [x] typisiertes ResearchGraph und deterministische Rule Evaluation parallel aufbauen
 - [x] Voraussetzungen im Graph Shadow Mode auflösen und gegen 1.977 Legacy-Fälle spiegeln
 - [x] 49 Sonderfälle mit expliziter Hidden-/Unlock-Evidenz vor/nach der Resolution klassifizieren
+- [x] RP-, GE- und SL-Kosten aus Graph-Resolution im Shadow Mode berechnen und breit spiegeln
+- [x] vollständige, partielle und nicht verfügbare Cost Contracts deterministisch absichern
 - [ ] verbleibende 14 Hidden-Folder-Fälle mit zusätzlicher Quelldatenevidenz absichern
 - [ ] eigenständigen Graph Optimizer in einem getrennten Sprint spezifizieren
 - Explain Engine und Regressionen anhand exakter Datamine-Felder erweitern

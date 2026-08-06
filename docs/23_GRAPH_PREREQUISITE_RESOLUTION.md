@@ -177,3 +177,10 @@ Folder-Quelldaten bewusst unresolved; unsupported und mismatch sind jeweils 0.
 Die Compatibility-Strategie greift vorübergehend auf eine private, unveränderte Legacy-Methode zu.
 Diese Kopplung ist absichtlich isoliert und muss entfernt werden, sobald ein späterer Optimizer-Sprint
 einen eigenen belegten Auswahlvertrag bereitstellt.
+
+## Nachgelagerte Kostenprojektion
+
+Accuracy 5 ergänzt downstream eine separate `GraphCostEngine`. Sie konsumiert dieses unveränderte
+Resolution-Ergebnis, darf keine Required-IDs ergänzen und gibt vollständige Summen ausschließlich bei
+`resolution_status=resolved` aus. Der Resolver selbst bleibt kostenfrei. Details stehen in
+[Graph Cost Engine](25_GRAPH_COST_ENGINE.md).

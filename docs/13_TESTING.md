@@ -11,6 +11,7 @@
 | Graph Unit/Mirror | `python run_tests.py` | Builder, Adapter, Export, Diagnostik und alle Closures |
 | Graph-Semantikmatrix | `python tests/graph_semantics_matrix.py` | alle Ziele, Statusverteilung, Sonderfälle und verfeinerte Diagnostik |
 | Graph-Resolution-Matrix | `python tests/graph_resolution_matrix.py` | 1.977 bestehende Fälle plus 13 Progress-Szenarien, Shadow-Diagnostik und 49 Sonderfälle |
+| Graph-Cost-Matrix | `python tests/graph_cost_matrix.py` | 1.977 bestehende Fälle plus 18 Cost-Szenarien, VehicleCostLine-Vergleich und 49 Kostensonderfälle |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -48,11 +49,26 @@ Unlocks werden gezielt angenommen. Sie darf Folder-Unklarheiten nicht heuristisc
 Vorher-/Nachher-Vertrag lautet derzeit 0 → 35 aufgelöste Fälle, 14 unresolved, 0 unsupported und
 0 mismatch.
 
+Accuracy 5 ergänzt 14 fokussierte Cost-Tests und ein separates Cost-Shadow-Gate. Die breite Matrix
+vergleicht 1.995 Aufrufe: 1.932 exact, 0 equivalent, 63 unresolved expected, 0 unsupported und
+0 mismatch. Cost-Status sind 1.932 complete, 63 partial und 0 unavailable. Die 18 fokussierten
+Szenarien ergeben 16 exact und 2 unresolved expected; alle sind reproduzierbar benannt.
+
+Die Kostenprüfung vergleicht Required-Set, Rest-RP, GE und SL pro Fahrzeug, Gesamtsummen, vorhandene
+GE und Convertible-RP-Shortfall. Jeder definitive Mismatch ist ein Fehler. Ein bewusst synthetischer
+Unit Test erzeugt eine bekannte Legacy-/Graph-Divergenz, um die vollständige Mismatch-Diagnostik zu
+prüfen; breite und veröffentlichte Matrizen müssen dagegen `mismatch == 0` erfüllen.
+
+Die 49er Kostensonderfallmatrix muss 35 vollständige und 14 partielle Ergebnisse enthalten. Partielle
+Zeilen dürfen keine vollständigen Summen oder angewandte vorhandene GE ausweisen.
+
 ## Neue Tests
 
 - kleine synthetische Datenbanken für Randfälle bevorzugen
 - reale Beispiel-IDs für End-to-End-Realismus verwenden
 - Rundung bei 0, 1, `rpPerGE` und `rpPerGE + 1` abdecken
+- Graph-Cost-Fortschritt unter 0 und über Gesamt-RP als ungültig testen, nie wegklemmen
+- die SL-Rabatte 0, 30 und 50 positiv sowie andere Werte negativ testen
 - Zyklen, unbekannte Vorgänger, falsche Bäume und Sicherheitslimit testen
 - bei UI-Arbeit fachliche Logik separat testbar halten
 
@@ -71,6 +87,11 @@ CI lädt zusätzlich `Graph_Resolution_2.57.1.67.json` hoch. Das Artefakt enthä
 `optimizerSelectionPerformed=false` ausweisen. Die getrennte Legacy-Compatibility-Auswahl bleibt
 ausdrücklich als `legacyCompatibilityModeEnabled=true` sichtbar; einzelne Resolution Results nennen
 zusätzlich, ob die Strategie tatsächlich aufgerufen wurde.
+
+CI lädt außerdem `Graph_Cost_2.57.1.67.json` hoch. Das Artefakt muss die breite Cost-Matrix, die
+18er-Szenariomatrix und die 49er-Sonderfallmatrix enthalten. Es bestätigt Shadow Mode,
+`productiveLegacySolverModified=false`, `guiModified=false`, `browserModified=false` und
+`optimizerSelectionPerformed=false`.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

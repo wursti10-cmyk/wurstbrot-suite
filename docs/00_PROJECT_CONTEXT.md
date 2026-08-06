@@ -24,8 +24,9 @@ proprietären Spielassets benötigt oder hochgeladen.
 - 395 Fahrzeuggruppen, zehn Nationen und fünf Fahrzeugarten
 - Unit Tests, gemeinsame Solver-Contract-Fixture und Regressionen in Python und JavaScript
 - strukturierter Validator V2 mit 42/42 automatisch nachgewiesenen Regeln und Health Reports
-- paralleles typisiertes ResearchGraph-DAG mit Rule Evaluation und Prerequisite Resolution im
-  Shadow Mode; produktiver Legacy-Solver und Oberflächen bleiben unverändert
+- paralleles typisiertes ResearchGraph-DAG mit Rule Evaluation, Prerequisite Resolution und
+  deterministischer RP-/GE-/SL-Kostenberechnung im Shadow Mode; produktiver Legacy-Solver und
+  Oberflächen bleiben unverändert
 
 ## Nicht-Ziele
 
@@ -45,7 +46,7 @@ zu korrigieren.
 | Bereich | Dokumente |
 |---|---|
 | Richtung | [Vision](01_VISION.md) · [Roadmap](03_ROADMAP.md) · [Ideen](17_IDEAS.md) |
-| System | [Architektur](02_ARCHITECTURE.md) · [Datamine](07_DATAMINE_REFERENCE.md) · [Validator-Regeln](19_VALIDATOR_RULES.md) · [Graph](09_RESEARCH_GRAPH.md) · [Graph Foundation](20_GRAPH_ENGINE_FOUNDATION.md) · [Rule Evaluation](22_GRAPH_RULE_EVALUATION.md) · [Prerequisite Resolution](23_GRAPH_PREREQUISITE_RESOLUTION.md) · [Sonderfallmatrix Accuracy 3](21_GRAPH_SPECIAL_CASE_MATRIX.md) · [Sonderfallvergleich Accuracy 4](24_GRAPH_RESOLUTION_SPECIAL_CASE_MATRIX.md) · [Optimierer](10_OPTIMIZER.md) |
+| System | [Architektur](02_ARCHITECTURE.md) · [Datamine](07_DATAMINE_REFERENCE.md) · [Validator-Regeln](19_VALIDATOR_RULES.md) · [Graph](09_RESEARCH_GRAPH.md) · [Graph Foundation](20_GRAPH_ENGINE_FOUNDATION.md) · [Rule Evaluation](22_GRAPH_RULE_EVALUATION.md) · [Prerequisite Resolution](23_GRAPH_PREREQUISITE_RESOLUTION.md) · [Graph Cost Engine](25_GRAPH_COST_ENGINE.md) · [Sonderfallmatrix Accuracy 3](21_GRAPH_SPECIAL_CASE_MATRIX.md) · [Sonderfallvergleich Accuracy 4](24_GRAPH_RESOLUTION_SPECIAL_CASE_MATRIX.md) · [Kostensonderfälle Accuracy 5](26_GRAPH_COST_SPECIAL_CASE_MATRIX.md) · [Optimierer](10_OPTIMIZER.md) |
 | Entwicklung | [Guide](04_DEVELOPMENT_GUIDE.md) · [Standards](05_CODING_STANDARDS.md) · [Tests](13_TESTING.md) · [Release](14_RELEASE_PROCESS.md) |
 | Oberflächen | [UI-Regeln](06_UI_GUIDELINES.md) · [Browser](11_BROWSER.md) · [Desktop](12_DESKTOP.md) |
 | Betrieb | [AI Context](15_AI_CONTEXT.md) · [Bekannte Fehler](16_KNOWN_BUGS.md) · [FAQ](18_FAQ.md) |

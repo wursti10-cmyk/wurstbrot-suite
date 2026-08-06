@@ -8,8 +8,9 @@ direkten Vorgänger; mehrere Nachfolger sind möglich. Der Graph wird pro Nation
 betrachtet.
 
 Parallel dazu existiert das additive `ResearchGraph`: ein typisierter Multi-Edge-Graph mit Vehicle-,
-Folder-, Unlock- und Rank-Knoten. Er trägt Architektur, Export, Diagnose, Rule Evaluation und
-Prerequisite Resolution im Shadow Mode. Der produktive Solververtrag bleibt das Schema-v1-Modell. Details stehen in
+Folder-, Unlock- und Rank-Knoten. Er trägt Architektur, Export, Diagnose, Rule Evaluation,
+Prerequisite Resolution und Cost Calculation im Shadow Mode. Der produktive Solververtrag bleibt das
+Schema-v1-Modell. Details stehen in
 [Graph Engine Foundation](20_GRAPH_ENGINE_FOUNDATION.md).
 
 ## Pfadabschluss
@@ -63,3 +64,15 @@ Der Resolver läuft ausschließlich im Shadow Mode. Für vollständige Vergleich
 benannte Legacy-Rank-Compatibility-Strategie dieselbe bestehende Rangmenge wählen. Das ist weder neue
 Kostenlogik noch der spätere Optimizer. Details und aktuelle Matrix stehen in
 [Graph Prerequisite Resolution](23_GRAPH_PREREQUISITE_RESOLUTION.md).
+
+## Graph Cost Calculation
+
+`GraphCostEngine` verarbeitet ausschließlich das fertige `PrerequisiteResolution`-Ergebnis. Sie
+bestimmt keine Vorgänger, Folderregeln, Unlocks oder Rank-Kandidaten. Vollständige Summen werden nur
+bei `resolved` ausgegeben; `unresolved` liefert höchstens klar markierte Teilzeilen. `blocked` und
+`unsupported` erzeugen keine Kosten. Details und aktuelle Matrix stehen in
+[Graph Cost Engine](25_GRAPH_COST_ENGINE.md).
+
+Der Cost-Shadow-Vergleich prüft die Legacy-Zeilen fahrzeugweise auf Rest-RP, individuell gerundete GE
+und rabattierte SL sowie auf identische Summen. Die Engine bleibt aus allen produktiven Pfaden
+ausgeschlossen.
