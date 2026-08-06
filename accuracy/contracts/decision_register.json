@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "registerVersion": "1.0.0",
+  "scope": "graph-shadow-contract-decisions",
+  "decisions": [
+    {
+      "decision_id": "CONTRACT_SL_DISCOUNT_DOMAIN",
+      "legacy_behavior": "Accepts every integer SL discount from 0 through 100 percent.",
+      "graph_behavior": "Accepts only the evidenced 0, 30 and 50 percent discounts.",
+      "risk": "A productive switch could reject a value that the current application accepts, or could preserve an unevidenced discount domain.",
+      "recommendation": "Keep the strict graph domain until the supported product contract is explicitly chosen.",
+      "alternatives": [
+        "Restrict the product contract to 0, 30 and 50 percent.",
+        "Extend the graph contract to all integer values after evidence and tests exist."
+      ],
+      "required_product_owner_decision": "Choose the supported public SL-discount domain before any default switch.",
+      "status": "deferred",
+      "release_blocking": true,
+      "evidence": [
+        "packages/core/wurstbrot_core/graph_cost.py:ALLOWED_SL_DISCOUNTS",
+        "accuracy6 options matrix: legacy discounts 10 and 100 are input_contract_difference"
+      ]
+    },
+    {
+      "decision_id": "CONTRACT_INVALID_PROGRESS",
+      "legacy_behavior": "Negative or excessive numeric research progress is clamped during calculation.",
+      "graph_behavior": "Negative progress and progress above vehicle RP are rejected as invalid_input.",
+      "risk": "Clamping can conceal corrupt progress; strict rejection can interrupt previously tolerated input.",
+      "recommendation": "Prefer strict rejection with a user-safe validation message, subject to product-owner approval.",
+      "alternatives": [
+        "Adopt strict rejection for both engines.",
+        "Keep clamping but emit a mandatory structured warning.",
+        "Retain different contracts and keep the graph path non-productive."
+      ],
+      "required_product_owner_decision": "Decide whether invalid progress is rejected or normalized before a default switch.",
+      "status": "deferred",
+      "release_blocking": true,
+      "evidence": [
+        "INPUT_PROGRESS_RP_NEGATIVE_OR_INVALID",
+        "INPUT_PROGRESS_RP_EXCEEDS_TOTAL",
+        "accuracy6 input validation matrix"
+      ]
+    },
+    {
+      "decision_id": "CONTRACT_RESEARCH_FLAG_RP_CONFLICT",
+      "legacy_behavior": "researched=True can coexist with incomplete numeric RP and the numeric value is used.",
+      "graph_behavior": "researched=True without consistent numeric RP remains a visible input contract difference.",
+      "risk": "Silent normalization can discard evidence of inconsistent saved progress; strict handling can reject historical states.",
+      "recommendation": "Do not normalize silently; define a migration or explicit reconciliation rule first.",
+      "alternatives": [
+        "Treat researched=True as authoritative and normalize RP to total.",
+        "Treat numeric RP as authoritative and clear researched=True.",
+        "Reject the conflict until the user resolves it."
+      ],
+      "required_product_owner_decision": "Choose the authoritative field and user-facing recovery behavior.",
+      "status": "deferred",
+      "release_blocking": true,
+      "evidence": [
+        "INPUT_RESEARCH_FLAG_RP_CONFLICT",
+        "accuracy6 researched-flag options case"
+      ]
+    },
+    {
+      "decision_id": "CONTRACT_PARTIAL_OWNED_GE",
+      "legacy_behavior": "Legacy does not expose a structured partial-cost contract.",
+      "graph_behavior": "Partial results expose only diagnostic per-line and partial values; owned GE is not applied and no binding totals are emitted.",
+      "risk": "Applying owned GE to an incomplete sum would present a deceptively precise remainder.",
+      "recommendation": "Keep owned GE unapplied until all prerequisites and totals are complete.",
+      "alternatives": [
+        "Show a separately labelled provisional subtraction without calling it a total.",
+        "Hide every partial numeric value."
+      ],
+      "required_product_owner_decision": "Accepted for Shadow Mode and any future product proposal unless explicitly superseded.",
+      "status": "accepted",
+      "release_blocking": false,
+      "evidence": [
+        "Accuracy 5 merge clarification: partial results have no binding totals",
+        "GraphCostEngine evidence ownedGeAppliedToPartialCosts=false"
+      ]
+    },
+    {
+      "decision_id": "CONTRACT_LEGACY_RANK_COMPATIBILITY",
+      "legacy_behavior": "The production solver selects a deterministic rank-unlock vehicle combination using its existing cost-aware routine.",
+      "graph_behavior": "LegacyRankCompatibilityStrategy delegates only Shadow Mode rank selection to that unchanged routine.",
+      "risk": "Treating the bridge as graph semantics would import the legacy optimization policy into the future optimizer by accident.",
+      "recommendation": "Keep the bridge quarantined, comparison-only, and remove it before a graph-native default switch.",
+      "alternatives": [
+        "Implement a separately specified graph optimizer in a later sprint.",
+        "Leave rank-selection cases partial until such an optimizer exists."
+      ],
+      "required_product_owner_decision": "The comparison-only status is accepted; the later optimizer policy still requires its own decision.",
+      "status": "accepted",
+      "release_blocking": false,
+      "evidence": [
+        "packages/core/wurstbrot_core/graph_resolution.py:LegacyRankCompatibilityStrategy",
+        "Accuracy 4 through 6 architecture contract"
+      ]
+    }
+  ]
+}

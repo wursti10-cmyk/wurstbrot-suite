@@ -16,12 +16,14 @@
 - [x] 49 Sonderfälle mit expliziter Hidden-/Unlock-Evidenz vor/nach der Resolution klassifizieren
 - [x] RP-, GE- und SL-Kosten aus Graph-Resolution im Shadow Mode berechnen und breit spiegeln
 - [x] vollständige, partielle und nicht verfügbare Cost Contracts deterministisch absichern
-- [ ] Evaluation, Resolution und Cost als einheitliche GraphCalculationPipeline orchestrieren
-  (Accuracy 6: im Draft-PR implementiert, noch nicht ausgeliefert)
-- [ ] vollständigen Dual-Engine-Shadow-Report mit Options-/Input-Coverage und Readiness erzeugen
-  (Accuracy 6: im Draft-PR implementiert, noch nicht ausgeliefert)
-- [ ] kanonische Pipeline- und Vergleichsfingerprints für Regressionen versionieren
-  (Accuracy 6: im Draft-PR implementiert, noch nicht ausgeliefert)
+- [x] Evaluation, Resolution und Cost als einheitliche GraphCalculationPipeline orchestrieren
+- [x] vollständigen Dual-Engine-Shadow-Report mit Options-/Input-Coverage und Readiness erzeugen
+- [x] kanonische Pipeline- und Vergleichsfingerprints für Regressionen versionieren
+- [ ] Accuracy-Baseline, 60 unabhängige Golden References und 16 metamorphische Verträge betreiben
+  (Accuracy 7: in diesem Branch implementiert, noch nicht ausgeliefert)
+- [ ] Cross-Python- und kanonische Browser-Fixture-Prüfung als Confidence Gate betreiben
+  (Accuracy 7: in diesem Branch implementiert, noch nicht ausgeliefert)
+- [ ] drei deferred Contract-Entscheidungen vor einer produktiven Migration abschließen
 - [ ] verbleibende 14 Hidden-Folder-Fälle mit zusätzlicher Quelldatenevidenz absichern
 - [ ] eigenständigen Graph Optimizer in einem getrennten Sprint spezifizieren
 - Explain Engine und Regressionen anhand exakter Datamine-Felder erweitern

@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 1,
+  "dossierVersion": "1.0.0",
+  "gameVersion": "2.57.1.67",
+  "scope": "four-hidden-legacy-folders",
+  "caseCount": 14,
+  "commonCause": "Datamine structure is complete enough to diagnose membership but does not prove acquisition semantics.",
+  "causeGroups": [
+    {
+      "cause_id": "HIDDEN_FOLDER_ACQUISITION_UNPROVEN",
+      "folder_id": "fiat_group",
+      "description": "Three hidden German legacy fighters share the same unresolved source limitation.",
+      "target_vehicle_ids": [
+        "fiat_cr42",
+        "fiat_g50_seria2",
+        "fiat_g50_seria7as"
+      ]
+    },
+    {
+      "cause_id": "HIDDEN_FOLDER_ACQUISITION_UNPROVEN",
+      "folder_id": "mc200_group",
+      "description": "Three hidden Italian legacy fighters share the same unresolved source limitation.",
+      "target_vehicle_ids": [
+        "mc-202",
+        "mc200_serie3",
+        "mc200_serie7"
+      ]
+    },
+    {
+      "cause_id": "HIDDEN_FOLDER_ACQUISITION_UNPROVEN",
+      "folder_id": "r2y2_group",
+      "description": "Three hidden Japanese R2Y2 variants share the same unresolved source limitation.",
+      "target_vehicle_ids": [
+        "r2y2_kai",
+        "r2y2_v1",
+        "r2y2_v2"
+      ]
+    },
+    {
+      "cause_id": "HIDDEN_FOLDER_ACQUISITION_UNPROVEN",
+      "folder_id": "sm_79_group",
+      "description": "Five hidden Italian SM.79 variants share the same unresolved source limitation.",
+      "target_vehicle_ids": [
+        "sm_79_1936",
+        "sm_79_1939",
+        "sm_79_1941",
+        "sm_79_1943",
+        "sm_79_iar"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "target_vehicle_id": "fiat_cr42",
+      "folder_id": "fiat_group",
+      "members": [
+        "fiat_cr42",
+        "fiat_g50_seria2",
+        "fiat_g50_seria7as"
+      ],
+      "group_index": 0,
+      "hidden_research": true,
+      "predecessor": null,
+      "rank": 1,
+      "known_costs": {
+        "rp": 2900,
+        "sl": 700
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "fiat_g50_seria2",
+      "folder_id": "fiat_group",
+      "members": [
+        "fiat_cr42",
+        "fiat_g50_seria2",
+        "fiat_g50_seria7as"
+      ],
+      "group_index": 1,
+      "hidden_research": true,
+      "predecessor": "fiat_cr42",
+      "rank": 1,
+      "known_costs": {
+        "rp": 2000,
+        "sl": 2100
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "fiat_g50_seria7as",
+      "folder_id": "fiat_group",
+      "members": [
+        "fiat_cr42",
+        "fiat_g50_seria2",
+        "fiat_g50_seria7as"
+      ],
+      "group_index": 2,
+      "hidden_research": true,
+      "predecessor": "fiat_g50_seria2",
+      "rank": 1,
+      "known_costs": {
+        "rp": 2000,
+        "sl": 2100
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "mc-202",
+      "folder_id": "mc200_group",
+      "members": [
+        "mc200_serie3",
+        "mc200_serie7",
+        "mc-202"
+      ],
+      "group_index": 2,
+      "hidden_research": true,
+      "predecessor": "mc200_serie7",
+      "rank": 1,
+      "known_costs": {
+        "rp": 4000,
+        "sl": 10000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "mc200_serie3",
+      "folder_id": "mc200_group",
+      "members": [
+        "mc200_serie3",
+        "mc200_serie7",
+        "mc-202"
+      ],
+      "group_index": 0,
+      "hidden_research": true,
+      "predecessor": null,
+      "rank": 1,
+      "known_costs": {
+        "rp": 5900,
+        "sl": 6300
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "mc200_serie7",
+      "folder_id": "mc200_group",
+      "members": [
+        "mc200_serie3",
+        "mc200_serie7",
+        "mc-202"
+      ],
+      "group_index": 1,
+      "hidden_research": true,
+      "predecessor": "mc200_serie3",
+      "rank": 1,
+      "known_costs": {
+        "rp": 3000,
+        "sl": 6300
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "r2y2_kai",
+      "folder_id": "r2y2_group",
+      "members": [
+        "r2y2_v1",
+        "r2y2_v2",
+        "r2y2_kai"
+      ],
+      "group_index": 2,
+      "hidden_research": true,
+      "predecessor": "r2y2_v2",
+      "rank": 5,
+      "known_costs": {
+        "rp": 61000,
+        "sl": 340000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "r2y2_v1",
+      "folder_id": "r2y2_group",
+      "members": [
+        "r2y2_v1",
+        "r2y2_v2",
+        "r2y2_kai"
+      ],
+      "group_index": 0,
+      "hidden_research": true,
+      "predecessor": "b7a2",
+      "rank": 5,
+      "known_costs": {
+        "rp": 95000,
+        "sl": 270000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "r2y2_v2",
+      "folder_id": "r2y2_group",
+      "members": [
+        "r2y2_v1",
+        "r2y2_v2",
+        "r2y2_kai"
+      ],
+      "group_index": 1,
+      "hidden_research": true,
+      "predecessor": "r2y2_v1",
+      "rank": 5,
+      "known_costs": {
+        "rp": 53000,
+        "sl": 300000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "sm_79_1936",
+      "folder_id": "sm_79_group",
+      "members": [
+        "sm_79_1936",
+        "sm_79_1939",
+        "sm_79_1941",
+        "sm_79_1943",
+        "sm_79_iar",
+        "sm_79_1937",
+        "sm_79_1942"
+      ],
+      "group_index": 0,
+      "hidden_research": true,
+      "predecessor": null,
+      "rank": 2,
+      "known_costs": {
+        "rp": 9200,
+        "sl": 16000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "sm_79_1939",
+      "folder_id": "sm_79_group",
+      "members": [
+        "sm_79_1936",
+        "sm_79_1939",
+        "sm_79_1941",
+        "sm_79_1943",
+        "sm_79_iar",
+        "sm_79_1937",
+        "sm_79_1942"
+      ],
+      "group_index": 1,
+      "hidden_research": true,
+      "predecessor": "sm_79_1936",
+      "rank": 2,
+      "known_costs": {
+        "rp": 4600,
+        "sl": 16000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "sm_79_1941",
+      "folder_id": "sm_79_group",
+      "members": [
+        "sm_79_1936",
+        "sm_79_1939",
+        "sm_79_1941",
+        "sm_79_1943",
+        "sm_79_iar",
+        "sm_79_1937",
+        "sm_79_1942"
+      ],
+      "group_index": 2,
+      "hidden_research": true,
+      "predecessor": "sm_79_1939",
+      "rank": 2,
+      "known_costs": {
+        "rp": 5600,
+        "sl": 22000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "sm_79_1943",
+      "folder_id": "sm_79_group",
+      "members": [
+        "sm_79_1936",
+        "sm_79_1939",
+        "sm_79_1941",
+        "sm_79_1943",
+        "sm_79_iar",
+        "sm_79_1937",
+        "sm_79_1942"
+      ],
+      "group_index": 3,
+      "hidden_research": true,
+      "predecessor": "sm_79_1941",
+      "rank": 2,
+      "known_costs": {
+        "rp": 5600,
+        "sl": 22000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    },
+    {
+      "target_vehicle_id": "sm_79_iar",
+      "folder_id": "sm_79_group",
+      "members": [
+        "sm_79_1936",
+        "sm_79_1939",
+        "sm_79_1941",
+        "sm_79_1943",
+        "sm_79_iar",
+        "sm_79_1937",
+        "sm_79_1942"
+      ],
+      "group_index": 4,
+      "hidden_research": true,
+      "predecessor": "sm_79_1943",
+      "rank": 2,
+      "known_costs": {
+        "rp": 6900,
+        "sl": 32000
+      },
+      "missing_source_data": [
+        "An authoritative acquisition rule for hidden folder members.",
+        "Evidence whether folder order changes research, purchase, rank-count, or cost eligibility.",
+        "A product-independent reference result for this legacy folder."
+      ],
+      "why_not_complete": "The datamine proves membership, order, hiddenResearch, predecessor and costs, but not the acquisition semantics of a hidden legacy folder. A complete result would require a heuristic.",
+      "required_evidence": [
+        "A Gaijin rule or datamine field that defines folder acquisition semantics.",
+        "A manually reviewed in-game A-to-B observation for every distinct folder shape.",
+        "An accepted contract decision covering research, purchase and rank-count effects."
+      ],
+      "evaluation_status": "partial",
+      "rule_ids": [
+        "FOLDER_MEMBERSHIP"
+      ],
+      "heuristic_applied": false
+    }
+  ],
+  "nonGoals": [
+    "No folder heuristic is implemented.",
+    "No partial case is promoted to complete.",
+    "No solver or optimizer rule is changed."
+  ]
+}

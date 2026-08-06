@@ -168,6 +168,12 @@ Shadow-Experimente sind erlaubt, weil Mismatch und Internal Error null sind und 
 Input-Contract-Entscheidungen, die Legacy-Rank-Compatibility-Brücke und die fehlende Graphpipeline im
 Browser. Der Rollback-Pfad ist objektiv: `ResearchSolver` bleibt die produktive Ergebnisquelle.
 
+Accuracy 7 ergänzt diesen Legacy-Vergleich um unabhängige Referenzen. `ready_for_experimental_use`
+bedeutet weiterhin ausschließlich Shadow Mode; `ready_for_release_candidate` bezeichnet nur den
+geprüften Shadow-RC. `ready_for_default_use` bleibt false. Input-Contract-Differenzen zählen nicht als
+erfolgreiche Matches, und partielle Ergebnisse besitzen weiterhin keine verbindlichen Gesamtsummen.
+Vollständiger Nachweis: [Accuracy Confidence](28_ACCURACY_CONFIDENCE.md).
+
 ## Nicht-Ziele
 
 - keine produktive Solver-Umschaltung

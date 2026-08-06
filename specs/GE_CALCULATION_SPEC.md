@@ -127,3 +127,20 @@ Vollständige Kosten sind im Pipeline-Ergebnis genau dann vergleichbar, wenn
 `pipeline_status=complete` und `cost_status=complete` gelten. Partial behält vollständige Summen auf
 `null`; vorhandene GE werden nicht angewandt. Der `DualEngineRunner` vergleicht alle in diesem
 Dokument definierten Kostenwerte, verwendet produktiv aber ausschließlich `legacy_result`.
+
+## Independent Reference Contract
+
+Golden Expectations dürfen während eines Tests weder aus Legacy noch aus Graph berechnet oder
+überschrieben werden. Für jede erwartete VehicleCostLine gelten unabhängig:
+
+- `total_rp` und `base_sl` stimmen bytegenau mit der versionierten Datamine überein;
+- `remaining_rp` folgt dem hier definierten Progress-Vertrag;
+- `ge` ist `ceil(remaining_rp / rpPerGE)` je Fahrzeug;
+- `discounted_sl` folgt dem erlaubten 0/30/50-Prozent-Graphvertrag;
+- vollständige Summen sind exakt die Zeilensummen und nur bei `complete` vorhanden;
+- `partial` besitzt ausschließlich diagnostische Teilsummen und wendet vorhandene GE nicht an;
+- `blocked`/`unavailable` besitzt keine erfundenen Kostenzeilen.
+
+Monotonie ist verbindlich: mehr gültige RP, vorhandene GE oder Convertible RP dürfen ihren jeweiligen
+Restbedarf nicht erhöhen; 50 % SL dürfen nicht teurer als 30 %, 30 % nicht teurer als 0 % sein.
+Die kanonische Referenz und ihr Fingerprint müssen unter Python 3.10, 3.12 und 3.13 identisch sein.

@@ -1,0 +1,6411 @@
+{
+  "schemaVersion": 1,
+  "suiteVersion": "1.0.0",
+  "gameVersion": "2.57.1.67",
+  "generationPolicy": "manual_review_only",
+  "immutable": true,
+  "rpPerGE": 45,
+  "requiredTreeCount": 44,
+  "provenanceCategories": [
+    "DATAMINE_DIRECT",
+    "FORMULA_DERIVED",
+    "LEGACY_CONFIRMED",
+    "MANUALLY_REVIEWED",
+    "SYNTHETIC_CONTRACT",
+    "UNRESOLVED_SOURCE_LIMITATION"
+  ],
+  "syntheticDatabases": {
+    "linear_contract": {
+      "schemaVersion": 1,
+      "gameVersion": "2.57.1.67",
+      "economy": {
+        "rpPerGE": 45
+      },
+      "vehicles": [
+        {
+          "id": "contract_chain_0",
+          "name": "Contract Chain 0",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 450,
+          "sl": 1000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 0
+        },
+        {
+          "id": "contract_chain_1",
+          "name": "Contract Chain 1",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 900,
+          "sl": 2000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 1
+        },
+        {
+          "id": "contract_chain_2",
+          "name": "Contract Chain 2",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 1350,
+          "sl": 3000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 2
+        },
+        {
+          "id": "contract_chain_3",
+          "name": "Contract Chain 3",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 1800,
+          "sl": 4000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 3
+        },
+        {
+          "id": "contract_chain_4",
+          "name": "Contract Chain 4",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 2250,
+          "sl": 5000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 4
+        },
+        {
+          "id": "contract_chain_5",
+          "name": "Contract Chain 5",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 2700,
+          "sl": 6000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 5
+        },
+        {
+          "id": "contract_chain_6",
+          "name": "Contract Chain 6",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 3150,
+          "sl": 7000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 6
+        },
+        {
+          "id": "contract_chain_7",
+          "name": "Contract Chain 7",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 3600,
+          "sl": 8000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 1,
+          "order": 7
+        },
+        {
+          "id": "rank_a",
+          "name": "Rank A",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 450,
+          "sl": 1000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 2,
+          "order": 0
+        },
+        {
+          "id": "rank_b",
+          "name": "Rank B",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 1,
+          "rp": 900,
+          "sl": 2000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 2,
+          "order": 0
+        },
+        {
+          "id": "rank_target",
+          "name": "Rank Target",
+          "countryId": "country_contract",
+          "branchId": "army",
+          "rank": 2,
+          "rp": 1350,
+          "sl": 3000,
+          "reserve": false,
+          "premium": false,
+          "special": false,
+          "hiddenResearch": false,
+          "reqUnlock": "",
+          "group": null,
+          "groupIndex": 0,
+          "column": 2,
+          "order": 0
+        }
+      ],
+      "predecessors": {
+        "contract_chain_0": null,
+        "contract_chain_1": "contract_chain_0",
+        "contract_chain_2": "contract_chain_1",
+        "contract_chain_3": "contract_chain_2",
+        "contract_chain_4": "contract_chain_3",
+        "contract_chain_5": "contract_chain_4",
+        "contract_chain_6": "contract_chain_5",
+        "contract_chain_7": "contract_chain_6",
+        "rank_a": null,
+        "rank_b": null,
+        "rank_target": null
+      },
+      "groups": {},
+      "rankUnlock": {
+        "country_contract": {
+          "army": {
+            "1": 2,
+            "2": 0
+          }
+        }
+      }
+    }
+  },
+  "fixtureFingerprintVersion": "accuracy-golden-fixture-v1",
+  "fixtureFingerprint": "accuracy-golden-fixture-v1:980c9e297da274aa0d6d6570076128203adc430a3005ba516e7321d07da83a2a",
+  "resultFingerprintVersion": "accuracy-golden-results-v1",
+  "resultFingerprint": "accuracy-golden-results-v1:90e2651a3c1cf554ed90177e44cba25072156803d134d125d7dcd83909a3f5ae",
+  "cases": [
+    {
+      "case_id": "contract:hidden-allowed-partial",
+      "purpose": "Hidden folder target is visible but remains explicitly partial.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "folder",
+        "hidden:allowed"
+      ],
+      "input": {
+        "target_vehicle_id": "fiat_cr42",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": true,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=fiat_cr42",
+          "start=none",
+          "resolution=unresolved",
+          "required=fiat_cr42",
+          "cost=fiat_cr42:rp=2900:ge=65:sl=700",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=TARGET_VISIBILITY",
+          "pipeline=partial"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "fiat_group"
+            ],
+            "relationship": "membership_only",
+            "status": "unresolved",
+            "vehicle_id": "fiat_cr42"
+          }
+        ],
+        "incomplete_reason_codes": [
+          "RESOLUTION_UNRESOLVED"
+        ],
+        "partial_totals": {
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 700
+        },
+        "pipeline_status": "partial",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "fiat_cr42"
+        ],
+        "resolution_status": "unresolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "TARGET_VISIBILITY"
+        ],
+        "totals": null,
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "fiat_cr42"
+          }
+        ]
+      },
+      "rationale": "Visibility is explicitly allowed, but the hidden folder acquisition rule is not proven; totals remain non-binding.",
+      "primary_origin": "UNRESOLVED_SOURCE_LIMITATION",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "UNRESOLVED_SOURCE_LIMITATION",
+          "reference": "The source limitation is recorded in the 14-case folder dossier."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for fiat_cr42."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "contract:hidden-blocked",
+      "purpose": "Hidden target is blocked when hidden legacy research is disabled.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "hidden:blocked"
+      ],
+      "input": {
+        "target_vehicle_id": "fiat_cr42",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=fiat_cr42",
+          "start=none",
+          "resolution=blocked",
+          "required=fiat_cr42",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=TARGET_VISIBILITY",
+          "pipeline=blocked"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "fiat_group"
+            ],
+            "relationship": "membership_only",
+            "status": "unresolved",
+            "vehicle_id": "fiat_cr42"
+          }
+        ],
+        "incomplete_reason_codes": [
+          "RESOLUTION_BLOCKED"
+        ],
+        "partial_totals": null,
+        "pipeline_status": "blocked",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "fiat_cr42"
+        ],
+        "resolution_status": "blocked",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "TARGET_VISIBILITY"
+        ],
+        "totals": null,
+        "unlock_requirements": [],
+        "vehicle_cost_lines": []
+      },
+      "rationale": "The explicit visibility option is false, so no vehicle cost line or total may be invented.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle fiat_cr42."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for fiat_cr42."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "contract:rank-fulfilled",
+      "purpose": "Rank requirement is satisfied by two explicitly purchased rank-one vehicles.",
+      "game_version": "2.57.1.67",
+      "database_ref": "linear_contract",
+      "tree": {
+        "country_id": "country_contract",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "rank:fulfilled"
+      ],
+      "input": {
+        "target_vehicle_id": "rank_target",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {
+            "rank_a": {
+              "researched_rp": 450,
+              "researched": true,
+              "purchased": true
+            },
+            "rank_b": {
+              "researched_rp": 900,
+              "researched": true,
+              "purchased": true
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=rank_target",
+          "start=none",
+          "resolution=resolved",
+          "required=rank_target",
+          "cost=rank_target:rp=1350:ge=30:sl=3000",
+          "rule=RANK_REQUIREMENT_1",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [
+          {
+            "missing_count": 0,
+            "rank": 1,
+            "required_count": 2,
+            "satisfied_count": 2,
+            "selected_vehicle_ids": []
+          }
+        ],
+        "required_vehicle_ids": [
+          "rank_target"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "RANK_REQUIREMENT_1"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 30,
+          "ge_before_owned": 30,
+          "remaining_rp": 1350,
+          "sl": 3000
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 3000,
+            "discounted_sl": 3000,
+            "ge": 30,
+            "remaining_rp": 1350,
+            "researched_rp": 0,
+            "total_rp": 1350,
+            "vehicle_id": "rank_target"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "SYNTHETIC_CONTRACT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "SYNTHETIC_CONTRACT",
+          "reference": "Synthetic contract declared in this immutable fixture."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "contract:rank-partial",
+      "purpose": "Rank requirement remains partial with one of two qualifying vehicles already fulfilled.",
+      "game_version": "2.57.1.67",
+      "database_ref": "linear_contract",
+      "tree": {
+        "country_id": "country_contract",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "rank:partial"
+      ],
+      "input": {
+        "target_vehicle_id": "rank_target",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {
+            "rank_a": {
+              "researched_rp": 450,
+              "researched": true,
+              "purchased": true
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=rank_target",
+          "start=none",
+          "resolution=unresolved",
+          "required=rank_target",
+          "cost=rank_target:rp=1350:ge=30:sl=3000",
+          "rule=RANK_REQUIREMENT_1",
+          "rule=RANK_SELECTION_REQUIRED_1",
+          "pipeline=partial"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [
+          "RESOLUTION_UNRESOLVED"
+        ],
+        "partial_totals": {
+          "ge_before_owned": 30,
+          "remaining_rp": 1350,
+          "sl": 3000
+        },
+        "pipeline_status": "partial",
+        "rank_requirements": [
+          {
+            "missing_count": 1,
+            "rank": 1,
+            "required_count": 2,
+            "satisfied_count": 1,
+            "selected_vehicle_ids": []
+          }
+        ],
+        "required_vehicle_ids": [
+          "rank_target"
+        ],
+        "resolution_status": "unresolved",
+        "rule_ids": [
+          "RANK_REQUIREMENT_1",
+          "RANK_SELECTION_REQUIRED_1"
+        ],
+        "totals": null,
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 3000,
+            "discounted_sl": 3000,
+            "ge": 30,
+            "remaining_rp": 1350,
+            "researched_rp": 0,
+            "total_rp": 1350,
+            "vehicle_id": "rank_target"
+          }
+        ]
+      },
+      "rationale": "One qualifying rank-one vehicle is owned; the contract can prove one remaining slot but cannot select the second vehicle without optimizer semantics.",
+      "primary_origin": "SYNTHETIC_CONTRACT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "SYNTHETIC_CONTRACT",
+          "reference": "Synthetic contract declared in this immutable fixture."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "contract:req-unlock-assumed",
+      "purpose": "External unlock is accepted only through the explicit option.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "req_unlock"
+      ],
+      "input": {
+        "target_vehicle_id": "scout_ah_mk1",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=scout_ah_mk1",
+          "start=none",
+          "resolution=resolved",
+          "required=scout_ah_mk1",
+          "cost=scout_ah_mk1:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "scout_ah_mk1"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_britain"
+            ],
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle scout_ah_mk1."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "contract:req-unlock-unchecked",
+      "purpose": "External unlock remains unresolved without evidence.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "req_unlock"
+      ],
+      "input": {
+        "target_vehicle_id": "scout_ah_mk1",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=scout_ah_mk1",
+          "start=none",
+          "resolution=unresolved",
+          "required=scout_ah_mk1",
+          "cost=scout_ah_mk1:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=partial"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [
+          "RESOLUTION_UNRESOLVED"
+        ],
+        "partial_totals": {
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "pipeline_status": "partial",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "scout_ah_mk1"
+        ],
+        "resolution_status": "unresolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": null,
+        "unlock_requirements": [
+          {
+            "classification": "external_not_checkable",
+            "required_vehicle_ids": [],
+            "status": "unresolved",
+            "tokens": [
+              "ch_heli_unlocked_britain"
+            ],
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ]
+      },
+      "rationale": "The token is known, but its player state cannot be observed and is not assumed.",
+      "primary_origin": "UNRESOLVED_SOURCE_LIMITATION",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "UNRESOLVED_SOURCE_LIMITATION",
+          "reference": "The source limitation is recorded in the 14-case folder dossier."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for scout_ah_mk1."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "contract:synthetic-long-chain",
+      "purpose": "Eight-node predecessor chain freezes long-chain closure and per-line rounding.",
+      "game_version": "2.57.1.67",
+      "database_ref": "linear_contract",
+      "tree": {
+        "country_id": "country_contract",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "chain:long",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "contract_chain_7",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=contract_chain_7",
+          "start=none",
+          "resolution=resolved",
+          "required=contract_chain_0",
+          "required=contract_chain_1",
+          "required=contract_chain_2",
+          "required=contract_chain_3",
+          "required=contract_chain_4",
+          "required=contract_chain_5",
+          "required=contract_chain_6",
+          "required=contract_chain_7",
+          "cost=contract_chain_0:rp=450:ge=10:sl=1000",
+          "cost=contract_chain_1:rp=900:ge=20:sl=2000",
+          "cost=contract_chain_2:rp=1350:ge=30:sl=3000",
+          "cost=contract_chain_3:rp=1800:ge=40:sl=4000",
+          "cost=contract_chain_4:rp=2250:ge=50:sl=5000",
+          "cost=contract_chain_5:rp=2700:ge=60:sl=6000",
+          "cost=contract_chain_6:rp=3150:ge=70:sl=7000",
+          "cost=contract_chain_7:rp=3600:ge=80:sl=8000",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "contract_chain_0",
+          "contract_chain_1",
+          "contract_chain_2",
+          "contract_chain_3",
+          "contract_chain_4",
+          "contract_chain_5",
+          "contract_chain_6",
+          "contract_chain_7"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 360,
+          "ge_before_owned": 360,
+          "remaining_rp": 16200,
+          "sl": 36000
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 1000,
+            "discounted_sl": 1000,
+            "ge": 10,
+            "remaining_rp": 450,
+            "researched_rp": 0,
+            "total_rp": 450,
+            "vehicle_id": "contract_chain_0"
+          },
+          {
+            "base_sl": 2000,
+            "discounted_sl": 2000,
+            "ge": 20,
+            "remaining_rp": 900,
+            "researched_rp": 0,
+            "total_rp": 900,
+            "vehicle_id": "contract_chain_1"
+          },
+          {
+            "base_sl": 3000,
+            "discounted_sl": 3000,
+            "ge": 30,
+            "remaining_rp": 1350,
+            "researched_rp": 0,
+            "total_rp": 1350,
+            "vehicle_id": "contract_chain_2"
+          },
+          {
+            "base_sl": 4000,
+            "discounted_sl": 4000,
+            "ge": 40,
+            "remaining_rp": 1800,
+            "researched_rp": 0,
+            "total_rp": 1800,
+            "vehicle_id": "contract_chain_3"
+          },
+          {
+            "base_sl": 5000,
+            "discounted_sl": 5000,
+            "ge": 50,
+            "remaining_rp": 2250,
+            "researched_rp": 0,
+            "total_rp": 2250,
+            "vehicle_id": "contract_chain_4"
+          },
+          {
+            "base_sl": 6000,
+            "discounted_sl": 6000,
+            "ge": 60,
+            "remaining_rp": 2700,
+            "researched_rp": 0,
+            "total_rp": 2700,
+            "vehicle_id": "contract_chain_5"
+          },
+          {
+            "base_sl": 7000,
+            "discounted_sl": 7000,
+            "ge": 70,
+            "remaining_rp": 3150,
+            "researched_rp": 0,
+            "total_rp": 3150,
+            "vehicle_id": "contract_chain_6"
+          },
+          {
+            "base_sl": 8000,
+            "discounted_sl": 8000,
+            "ge": 80,
+            "remaining_rp": 3600,
+            "researched_rp": 0,
+            "total_rp": 3600,
+            "vehicle_id": "contract_chain_7"
+          }
+        ]
+      },
+      "rationale": "The explicitly declared synthetic DAG has one unambiguous eight-node predecessor chain and no rank, folder, unlock, or optimizer choice.",
+      "primary_origin": "SYNTHETIC_CONTRACT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "SYNTHETIC_CONTRACT",
+          "reference": "Synthetic contract declared in this immutable fixture."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:aircraft",
+      "purpose": "Aircraft A to B with owned GE",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:aircraft",
+        "owned_ge",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "gladiator_mk2_navy",
+        "start_vehicle_id": "nimrod_mk1",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 10,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=gladiator_mk2_navy",
+          "start=nimrod_mk1",
+          "resolution=resolved",
+          "required=nimrod_mk2",
+          "required=gladiator_mk2_navy",
+          "cost=nimrod_mk2:rp=2900:ge=65:sl=700",
+          "cost=gladiator_mk2_navy:rp=4000:ge=89:sl=2100",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "nimrod_mk2",
+          "gladiator_mk2_navy"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 144,
+          "ge_before_owned": 154,
+          "remaining_rp": 6900,
+          "sl": 2800
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "nimrod_mk2"
+          },
+          {
+            "base_sl": 2100,
+            "discounted_sl": 2100,
+            "ge": 89,
+            "remaining_rp": 4000,
+            "researched_rp": 0,
+            "total_rp": 4000,
+            "vehicle_id": "gladiator_mk2_navy"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle gladiator_mk2_navy."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for gladiator_mk2_navy."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:bluewater",
+      "purpose": "Bluewater A to B at 30 percent SL discount",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:bluewater",
+        "sl_discount:30",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "germ_kanonenboot_k2",
+        "start_vehicle_id": "germ_kanonenboot_k4_lorelei",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 30
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=germ_kanonenboot_k2",
+          "start=germ_kanonenboot_k4_lorelei",
+          "resolution=resolved",
+          "required=germ_destroyer_class1939_t22",
+          "required=germ_kanonenboot_k2",
+          "cost=germ_destroyer_class1939_t22:rp=4000:ge=89:sl=1470",
+          "cost=germ_kanonenboot_k2:rp=5300:ge=118:sl=3500",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "germ_destroyer_class1939_t22",
+          "germ_kanonenboot_k2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 207,
+          "ge_before_owned": 207,
+          "remaining_rp": 9300,
+          "sl": 4970
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 2100,
+            "discounted_sl": 1470,
+            "ge": 89,
+            "remaining_rp": 4000,
+            "researched_rp": 0,
+            "total_rp": 4000,
+            "vehicle_id": "germ_destroyer_class1939_t22"
+          },
+          {
+            "base_sl": 5000,
+            "discounted_sl": 3500,
+            "ge": 118,
+            "remaining_rp": 5300,
+            "researched_rp": 0,
+            "total_rp": 5300,
+            "vehicle_id": "germ_kanonenboot_k2"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle germ_kanonenboot_k2."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for germ_kanonenboot_k2."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:coastal",
+      "purpose": "Coastal A to B at 50 percent SL discount",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:coastal",
+        "sl_discount:50",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "uk_70ft_mgb",
+        "start_vehicle_id": "uk_mtb35_vosper",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 50
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=uk_70ft_mgb",
+          "start=uk_mtb35_vosper",
+          "resolution=resolved",
+          "required=uk_fairmile_a_ml100",
+          "required=uk_70ft_mgb",
+          "cost=uk_fairmile_a_ml100:rp=2900:ge=65:sl=350",
+          "cost=uk_70ft_mgb:rp=5900:ge=132:sl=3150",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "uk_fairmile_a_ml100",
+          "uk_70ft_mgb"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 197,
+          "ge_before_owned": 197,
+          "remaining_rp": 8800,
+          "sl": 3500
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 350,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "uk_fairmile_a_ml100"
+          },
+          {
+            "base_sl": 6300,
+            "discounted_sl": 3150,
+            "ge": 132,
+            "remaining_rp": 5900,
+            "researched_rp": 0,
+            "total_rp": 5900,
+            "vehicle_id": "uk_70ft_mgb"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle uk_70ft_mgb."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for uk_70ft_mgb."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:germany-ground",
+      "purpose": "Germany ground A to B",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "chain:short",
+        "e2e:germany_ground",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "germ_sdkfz_6_2_flak36",
+        "start_vehicle_id": "germ_sdkfz_222",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=germ_sdkfz_6_2_flak36",
+          "start=germ_sdkfz_222",
+          "resolution=resolved",
+          "required=germ_sdkfz_6_2_flak36",
+          "cost=germ_sdkfz_6_2_flak36:rp=5900:ge=132:sl=6300",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "germ_flakpanzer_1_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "germ_flakpanzer_I_ausf_A"
+          }
+        ],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "germ_sdkfz_6_2_flak36"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 132,
+          "ge_before_owned": 132,
+          "remaining_rp": 5900,
+          "sl": 6300
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 6300,
+            "discounted_sl": 6300,
+            "ge": 132,
+            "remaining_rp": 5900,
+            "researched_rp": 0,
+            "total_rp": 5900,
+            "vehicle_id": "germ_sdkfz_6_2_flak36"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle germ_sdkfz_6_2_flak36."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for germ_sdkfz_6_2_flak36."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:helicopter",
+      "purpose": "Helicopter A to B with convertible RP shortfall",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "chain:medium",
+        "convertible_rp_shortfall",
+        "e2e:helicopter",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "uh_1c",
+        "start_vehicle_id": "ah_1g",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": 100,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=uh_1c",
+          "start=ah_1g",
+          "resolution=resolved",
+          "required=uh_1b",
+          "required=uh_1c",
+          "cost=uh_1b:rp=99000:ge=2200:sl=390000",
+          "cost=uh_1c:rp=150000:ge=3334:sl=490000",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "uh_1b",
+          "uh_1c"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 248900,
+          "ge_after_owned": 5534,
+          "ge_before_owned": 5534,
+          "remaining_rp": 249000,
+          "sl": 880000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "fulfilled_by_progress",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_usa"
+            ],
+            "vehicle_id": "ah_1g"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 2200,
+            "remaining_rp": 99000,
+            "researched_rp": 0,
+            "total_rp": 99000,
+            "vehicle_id": "uh_1b"
+          },
+          {
+            "base_sl": 490000,
+            "discounted_sl": 490000,
+            "ge": 3334,
+            "remaining_rp": 150000,
+            "researched_rp": 0,
+            "total_rp": 150000,
+            "vehicle_id": "uh_1c"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle uh_1c."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for uh_1c."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:israel-ground",
+      "purpose": "Israel ground with evidenced regular folder order",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_israel",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:israel_ground",
+        "folder",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "il_magach_2",
+        "start_vehicle_id": "il_m_51",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=il_magach_2",
+          "start=il_m_51",
+          "resolution=resolved",
+          "required=il_m48a1_patton_III",
+          "required=il_magach_2",
+          "cost=il_m48a1_patton_III:rp=63000:ge=1400:sl=200000",
+          "cost=il_magach_2:rp=35000:ge=778:sl=210000",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "il_magach_1_2_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "il_m48a1_patton_III"
+          },
+          {
+            "folder_ids": [
+              "il_magach_1_2_group"
+            ],
+            "relationship": "membership_only",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_2"
+          }
+        ],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "il_m48a1_patton_III",
+          "il_magach_2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 2178,
+          "ge_before_owned": 2178,
+          "remaining_rp": 98000,
+          "sl": 410000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "fulfilled_by_progress",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "isr_tank_unlocked"
+            ],
+            "vehicle_id": "il_m_51"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 200000,
+            "discounted_sl": 200000,
+            "ge": 1400,
+            "remaining_rp": 63000,
+            "researched_rp": 0,
+            "total_rp": 63000,
+            "vehicle_id": "il_m48a1_patton_III"
+          },
+          {
+            "base_sl": 210000,
+            "discounted_sl": 210000,
+            "ge": 778,
+            "remaining_rp": 35000,
+            "researched_rp": 0,
+            "total_rp": 35000,
+            "vehicle_id": "il_magach_2"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle il_magach_2."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for il_magach_2."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:japan-ground",
+      "purpose": "Japan ground with purchased intermediate",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:japan_ground",
+        "progress:intermediate_purchased",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "jp_type_2_ho_ni_2",
+        "start_vehicle_id": "jp_type_4_ho_ro",
+        "progress": {
+          "vehicles": {
+            "jp_hiro_sha": {
+              "researched_rp": 4000,
+              "researched": true,
+              "purchased": true
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=jp_type_2_ho_ni_2",
+          "start=jp_type_4_ho_ro",
+          "resolution=resolved",
+          "required=jp_type_2_ho_ni_2",
+          "cost=jp_type_2_ho_ni_2:rp=5900:ge=132:sl=6300",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "jp_type_2_ho_ni_2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 132,
+          "ge_before_owned": 132,
+          "remaining_rp": 5900,
+          "sl": 6300
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 6300,
+            "discounted_sl": 6300,
+            "ge": 132,
+            "remaining_rp": 5900,
+            "researched_rp": 0,
+            "total_rp": 5900,
+            "vehicle_id": "jp_type_2_ho_ni_2"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle jp_type_2_ho_ni_2."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for jp_type_2_ho_ni_2."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:usa-ground",
+      "purpose": "USA ground with partially researched target",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:usa_ground",
+        "progress:target_partial",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "us_m3a1_stuart",
+        "start_vehicle_id": "us_m2a4",
+        "progress": {
+          "vehicles": {
+            "us_m3a1_stuart": {
+              "researched_rp": 1000,
+              "researched": false,
+              "purchased": false
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=us_m3a1_stuart",
+          "start=us_m2a4",
+          "resolution=resolved",
+          "required=us_m3_stuart",
+          "required=us_m3a1_stuart",
+          "cost=us_m3_stuart:rp=2900:ge=65:sl=700",
+          "cost=us_m3a1_stuart:rp=4900:ge=109:sl=6300",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "us_m3_stuart",
+          "us_m3a1_stuart"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 174,
+          "ge_before_owned": 174,
+          "remaining_rp": 7800,
+          "sl": 7000
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "us_m3_stuart"
+          },
+          {
+            "base_sl": 6300,
+            "discounted_sl": 6300,
+            "ge": 109,
+            "remaining_rp": 4900,
+            "researched_rp": 1000,
+            "total_rp": 5900,
+            "vehicle_id": "us_m3a1_stuart"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle us_m3a1_stuart."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for us_m3a1_stuart."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "e2e:ussr-ground",
+      "purpose": "USSR ground with partially researched intermediate",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "chain:medium",
+        "e2e:ussr_ground",
+        "progress:intermediate_partial",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "ussr_bt_7_m",
+        "start_vehicle_id": "ussr_bt_5",
+        "progress": {
+          "vehicles": {
+            "ussr_bt_7_1937": {
+              "researched_rp": 1000,
+              "researched": false,
+              "purchased": false
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ussr_bt_7_m",
+          "start=ussr_bt_5",
+          "resolution=resolved",
+          "required=ussr_bt_7_1937",
+          "required=ussr_bt_7_m",
+          "cost=ussr_bt_7_1937:rp=1900:ge=43:sl=700",
+          "cost=ussr_bt_7_m:rp=5900:ge=132:sl=6300",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ussr_bt_7_1937",
+          "ussr_bt_7_m"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 175,
+          "ge_before_owned": 175,
+          "remaining_rp": 7800,
+          "sl": 7000
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 43,
+            "remaining_rp": 1900,
+            "researched_rp": 1000,
+            "total_rp": 2900,
+            "vehicle_id": "ussr_bt_7_1937"
+          },
+          {
+            "base_sl": 6300,
+            "discounted_sl": 6300,
+            "ge": 132,
+            "remaining_rp": 5900,
+            "researched_rp": 0,
+            "total_rp": 5900,
+            "vehicle_id": "ussr_bt_7_m"
+          }
+        ]
+      },
+      "rationale": "The A-to-B prerequisite set was manually checked against the predecessor map; every numeric value is independently reproducible from datamine and formulas.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ussr_bt_7_m."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for ussr_bt_7_m."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_britain:army",
+      "purpose": "Freeze a direct reference for country_britain army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_britain",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "uk_a_13_mk1",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=uk_a_13_mk1",
+          "start=none",
+          "resolution=resolved",
+          "required=uk_a_13_mk1",
+          "cost=uk_a_13_mk1:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "uk_a_13_mk1"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "uk_a_13_mk1"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "LEGACY_CONFIRMED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "LEGACY_CONFIRMED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle uk_a_13_mk1."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for uk_a_13_mk1."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_britain:aviation",
+      "purpose": "Freeze a direct reference for country_britain aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_britain",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "gladiator_mk2",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=gladiator_mk2",
+          "start=none",
+          "resolution=resolved",
+          "required=gladiator_mk2",
+          "cost=gladiator_mk2:rp=2900:ge=65:sl=700",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "gladiator_mk2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 700
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "gladiator_mk2"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle gladiator_mk2."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for gladiator_mk2."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_britain:boats",
+      "purpose": "Freeze a direct reference for country_britain boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_britain",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "uk_mtb35_vosper",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=uk_mtb35_vosper",
+          "start=none",
+          "resolution=resolved",
+          "required=uk_mtb35_vosper",
+          "cost=uk_mtb35_vosper:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "uk_mtb35_vosper"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "uk_mtb35_vosper"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle uk_mtb35_vosper."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_britain:helicopters",
+      "purpose": "Freeze a direct reference for country_britain helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_britain",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "scout_ah_mk1",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=scout_ah_mk1",
+          "start=none",
+          "resolution=resolved",
+          "required=scout_ah_mk1",
+          "cost=scout_ah_mk1:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "scout_ah_mk1"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_britain"
+            ],
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle scout_ah_mk1."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_britain:ships",
+      "purpose": "Freeze a direct reference for country_britain ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_britain",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "uk_destroyer_v_class_vega",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=uk_destroyer_v_class_vega",
+          "start=none",
+          "resolution=resolved",
+          "required=uk_destroyer_v_class_vega",
+          "cost=uk_destroyer_v_class_vega:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "uk_destroyer_v_class_vega"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "uk_destroyer_v_class_vega"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle uk_destroyer_v_class_vega."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_china:army",
+      "purpose": "Freeze a direct reference for country_china army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_china",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_china",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "cn_m8_greyhound",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=cn_m8_greyhound",
+          "start=none",
+          "resolution=resolved",
+          "required=cn_m8_greyhound",
+          "cost=cn_m8_greyhound:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "cn_m8_greyhound"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "cn_m8_greyhound"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle cn_m8_greyhound."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_china:aviation",
+      "purpose": "Freeze a direct reference for country_china aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_china",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_china",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "gladiator_mk1_china",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=gladiator_mk1_china",
+          "start=none",
+          "resolution=resolved",
+          "required=gladiator_mk1_china",
+          "cost=gladiator_mk1_china:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "gladiator_mk1_china"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "gladiator_mk1_china"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle gladiator_mk1_china."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_china:helicopters",
+      "purpose": "Freeze a direct reference for country_china helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_china",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_china",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "z_11wa",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=z_11wa",
+          "start=none",
+          "resolution=resolved",
+          "required=z_11wa",
+          "cost=z_11wa:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "z_11wa"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_china"
+            ],
+            "vehicle_id": "z_11wa"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "z_11wa"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle z_11wa."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_france:army",
+      "purpose": "Freeze a direct reference for country_france army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_france",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_france",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "fr_amd_35",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=fr_amd_35",
+          "start=none",
+          "resolution=resolved",
+          "required=fr_amd_35",
+          "cost=fr_amd_35:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "fr_amd_35"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "fr_amd_35"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle fr_amd_35."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_france:aviation",
+      "purpose": "Freeze a direct reference for country_france aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_france",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_france",
+        "sl_discount:30",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "v_156_f",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 30
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=v_156_f",
+          "start=none",
+          "resolution=resolved",
+          "required=v_156_f",
+          "cost=v_156_f:rp=2900:ge=65:sl=490",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "v_156_f"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 490
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 490,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "v_156_f"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle v_156_f."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for v_156_f."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_france:boats",
+      "purpose": "Freeze a direct reference for country_france boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_france",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_france",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "fr_vtb12_mod",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=fr_vtb12_mod",
+          "start=none",
+          "resolution=resolved",
+          "required=fr_vtb12_mod",
+          "cost=fr_vtb12_mod:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "fr_vtb12_mod"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "fr_vtb12_mod"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle fr_vtb12_mod."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_france:helicopters",
+      "purpose": "Freeze a direct reference for country_france helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_france",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_france",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "h_34_france",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=h_34_france",
+          "start=none",
+          "resolution=resolved",
+          "required=h_34_france",
+          "cost=h_34_france:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "h_34_france"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_france"
+            ],
+            "vehicle_id": "h_34_france"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "h_34_france"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle h_34_france."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_france:ships",
+      "purpose": "Freeze a direct reference for country_france ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_france",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_france",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "fr_destroyer_bourrasque_class_bourrasque",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=fr_destroyer_bourrasque_class_bourrasque",
+          "start=none",
+          "resolution=resolved",
+          "required=fr_destroyer_bourrasque_class_bourrasque",
+          "cost=fr_destroyer_bourrasque_class_bourrasque:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "fr_destroyer_bourrasque_class_bourrasque"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "fr_destroyer_bourrasque_class_bourrasque"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle fr_destroyer_bourrasque_class_bourrasque."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_germany:army",
+      "purpose": "Freeze a direct reference for country_germany army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_germany",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "germ_pzkpfw_35t",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=germ_pzkpfw_35t",
+          "start=none",
+          "resolution=resolved",
+          "required=germ_pzkpfw_35t",
+          "cost=germ_pzkpfw_35t:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "germ_pzkpfw_35t"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "germ_pzkpfw_35t"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle germ_pzkpfw_35t."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_germany:aviation",
+      "purpose": "Freeze a direct reference for country_germany aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_germany",
+        "sl_discount:50",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "bf-109b_2",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 50
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=bf-109b_2",
+          "start=none",
+          "resolution=resolved",
+          "required=bf-109b_2",
+          "cost=bf-109b_2:rp=2900:ge=65:sl=350",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "bf-109b_2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 350
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 350,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "bf-109b_2"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle bf-109b_2."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for bf-109b_2."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_germany:boats",
+      "purpose": "Freeze a direct reference for country_germany boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_germany",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "germ_s38",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=germ_s38",
+          "start=none",
+          "resolution=resolved",
+          "required=germ_s38",
+          "cost=germ_s38:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "germ_s38"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "germ_s38"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle germ_s38."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_germany:helicopters",
+      "purpose": "Freeze a direct reference for country_germany helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_germany",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "sa_313b",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=sa_313b",
+          "start=none",
+          "resolution=resolved",
+          "required=sa_313b",
+          "cost=sa_313b:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "sa_313b"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_germany"
+            ],
+            "vehicle_id": "sa_313b"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "sa_313b"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle sa_313b."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_germany:ships",
+      "purpose": "Freeze a direct reference for country_germany ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_germany",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "germ_destroyer_class1924_leopard1932",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=germ_destroyer_class1924_leopard1932",
+          "start=none",
+          "resolution=resolved",
+          "required=germ_destroyer_class1924_leopard1932",
+          "cost=germ_destroyer_class1924_leopard1932:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "germ_destroyer_class1924_leopard1932"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "germ_destroyer_class1924_leopard1932"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle germ_destroyer_class1924_leopard1932."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_israel:army",
+      "purpose": "Freeze a direct reference for country_israel army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_israel",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_israel",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "il_m_51",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=il_m_51",
+          "start=none",
+          "resolution=resolved",
+          "required=il_m_51",
+          "cost=il_m_51:rp=0:ge=0:sl=155000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "il_m_51"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 155000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "isr_tank_unlocked"
+            ],
+            "vehicle_id": "il_m_51"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 155000,
+            "discounted_sl": 155000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "il_m_51"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle il_m_51."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_israel:aviation",
+      "purpose": "Freeze a direct reference for country_israel aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_israel",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_israel",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "s_199",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=s_199",
+          "start=none",
+          "resolution=resolved",
+          "required=s_199",
+          "cost=s_199:rp=0:ge=0:sl=155000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "s_199"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 155000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "isr_air_unlocked"
+            ],
+            "vehicle_id": "s_199"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 155000,
+            "discounted_sl": 155000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "s_199"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle s_199."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_israel:helicopters",
+      "purpose": "Freeze a direct reference for country_israel helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_israel",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_israel",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "ah_1g_iaf",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ah_1g_iaf",
+          "start=none",
+          "resolution=resolved",
+          "required=ah_1g_iaf",
+          "cost=ah_1g_iaf:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ah_1g_iaf"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_israel"
+            ],
+            "vehicle_id": "ah_1g_iaf"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "ah_1g_iaf"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ah_1g_iaf."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_italy:army",
+      "purpose": "Freeze a direct reference for country_italy army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_italy",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_italy",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "it_ab_41",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=it_ab_41",
+          "start=none",
+          "resolution=resolved",
+          "required=it_ab_41",
+          "cost=it_ab_41:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "it_ab_41"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "it_ab_41"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle it_ab_41."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_italy:aviation",
+      "purpose": "Freeze a direct reference for country_italy aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_italy",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_italy",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "ro_44",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ro_44",
+          "start=none",
+          "resolution=resolved",
+          "required=ro_44",
+          "cost=ro_44:rp=2900:ge=65:sl=700",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ro_44"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 700
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "ro_44"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ro_44."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for ro_44."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_italy:boats",
+      "purpose": "Freeze a direct reference for country_italy boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_italy",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_italy",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "it_mas_classe500_3_1944",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=it_mas_classe500_3_1944",
+          "start=none",
+          "resolution=resolved",
+          "required=it_mas_classe500_3_1944",
+          "cost=it_mas_classe500_3_1944:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "it_mas_classe500_3_1944"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "it_mas_classe500_3_1944"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle it_mas_classe500_3_1944."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_italy:helicopters",
+      "purpose": "Freeze a direct reference for country_italy helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_italy",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_italy",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "ab_205a_1",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ab_205a_1",
+          "start=none",
+          "resolution=resolved",
+          "required=ab_205a_1",
+          "cost=ab_205a_1:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ab_205a_1"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_italy"
+            ],
+            "vehicle_id": "ab_205a_1"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "ab_205a_1"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ab_205a_1."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_italy:ships",
+      "purpose": "Freeze a direct reference for country_italy ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_italy",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_italy",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "it_destroyer_turbine",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=it_destroyer_turbine",
+          "start=none",
+          "resolution=resolved",
+          "required=it_destroyer_turbine",
+          "cost=it_destroyer_turbine:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "it_destroyer_turbine"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "it_destroyer_turbine"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle it_destroyer_turbine."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_japan:army",
+      "purpose": "Freeze a direct reference for country_japan army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_japan",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "jp_type_98_ke_ni",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=jp_type_98_ke_ni",
+          "start=none",
+          "resolution=resolved",
+          "required=jp_type_98_ke_ni",
+          "cost=jp_type_98_ke_ni:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "jp_type_98_ke_ni"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "jp_type_98_ke_ni"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle jp_type_98_ke_ni."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_japan:aviation",
+      "purpose": "Freeze a direct reference for country_japan aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_japan",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "f1m2",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=f1m2",
+          "start=none",
+          "resolution=resolved",
+          "required=f1m2",
+          "cost=f1m2:rp=2900:ge=65:sl=700",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "f1m2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 700
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "f1m2"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle f1m2."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for f1m2."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_japan:boats",
+      "purpose": "Freeze a direct reference for country_japan boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_japan",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "jp_t14_class_mod02",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=jp_t14_class_mod02",
+          "start=none",
+          "resolution=resolved",
+          "required=jp_t14_class_mod02",
+          "cost=jp_t14_class_mod02:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "jp_t14_class_mod02"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "jp_t14_class_mod02"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle jp_t14_class_mod02."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_japan:helicopters",
+      "purpose": "Freeze a direct reference for country_japan helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_japan",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "uh_1b_japan",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=uh_1b_japan",
+          "start=none",
+          "resolution=resolved",
+          "required=uh_1b_japan",
+          "cost=uh_1b_japan:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "uh_1b_japan"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_japan_1"
+            ],
+            "vehicle_id": "uh_1b_japan"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "uh_1b_japan"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle uh_1b_japan."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_japan:ships",
+      "purpose": "Freeze a direct reference for country_japan ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_japan",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "jp_destroyer_momi",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=jp_destroyer_momi",
+          "start=none",
+          "resolution=resolved",
+          "required=jp_destroyer_momi",
+          "cost=jp_destroyer_momi:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "jp_destroyer_momi"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "jp_destroyer_momi"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle jp_destroyer_momi."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_sweden:army",
+      "purpose": "Freeze a direct reference for country_sweden army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_sweden",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_sweden",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "sw_strv_m31",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=sw_strv_m31",
+          "start=none",
+          "resolution=resolved",
+          "required=sw_strv_m31",
+          "cost=sw_strv_m31:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "sw_strv_m31"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "sw_strv_m31"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle sw_strv_m31."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_sweden:aviation",
+      "purpose": "Freeze a direct reference for country_sweden aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_sweden",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_sweden",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "saab_b17bs",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=saab_b17bs",
+          "start=none",
+          "resolution=resolved",
+          "required=saab_b17bs",
+          "cost=saab_b17bs:rp=2900:ge=65:sl=700",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "saab_b17bs"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 700
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "saab_b17bs"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle saab_b17bs."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for saab_b17bs."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_sweden:helicopters",
+      "purpose": "Freeze a direct reference for country_sweden helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_sweden",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_sweden",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "hkp3c",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=hkp3c",
+          "start=none",
+          "resolution=resolved",
+          "required=hkp3c",
+          "cost=hkp3c:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "hkp3c"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_sweden"
+            ],
+            "vehicle_id": "hkp3c"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "hkp3c"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle hkp3c."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_usa:army",
+      "purpose": "Freeze a direct reference for country_usa army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_usa",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "us_m2a4",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=us_m2a4",
+          "start=none",
+          "resolution=resolved",
+          "required=us_m2a4",
+          "cost=us_m2a4:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "us_m2a4"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "us_m2a4"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle us_m2a4."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_usa:aviation",
+      "purpose": "Freeze a direct reference for country_usa aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_usa",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "p-26a_34_m2",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=p-26a_34_m2",
+          "start=none",
+          "resolution=resolved",
+          "required=p-26a_34_m2",
+          "cost=p-26a_34_m2:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "p-26a_34_m2"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "p-26a_34_m2"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle p-26a_34_m2."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_usa:boats",
+      "purpose": "Freeze a direct reference for country_usa boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_usa",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "us_pt6",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=us_pt6",
+          "start=none",
+          "resolution=resolved",
+          "required=us_pt6",
+          "cost=us_pt6:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "us_pt6"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "us_pt6"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle us_pt6."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_usa:helicopters",
+      "purpose": "Freeze a direct reference for country_usa helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_usa",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "ah_1g",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ah_1g",
+          "start=none",
+          "resolution=resolved",
+          "required=ah_1g",
+          "cost=ah_1g:rp=0:ge=0:sl=370000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ah_1g"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 370000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_usa"
+            ],
+            "vehicle_id": "ah_1g"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 370000,
+            "discounted_sl": 370000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "ah_1g"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ah_1g."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_usa:ships",
+      "purpose": "Freeze a direct reference for country_usa ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_usa",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "us_destroyer_clemson_litchfield",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=us_destroyer_clemson_litchfield",
+          "start=none",
+          "resolution=resolved",
+          "required=us_destroyer_clemson_litchfield",
+          "cost=us_destroyer_clemson_litchfield:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "us_destroyer_clemson_litchfield"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "us_destroyer_clemson_litchfield"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle us_destroyer_clemson_litchfield."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_ussr:army",
+      "purpose": "Freeze a direct reference for country_ussr army.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "nation:country_ussr",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:army",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "ussr_bt_5",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ussr_bt_5",
+          "start=none",
+          "resolution=resolved",
+          "required=ussr_bt_5",
+          "cost=ussr_bt_5:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ussr_bt_5"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "ussr_bt_5"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ussr_bt_5."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_ussr:aviation",
+      "purpose": "Freeze a direct reference for country_ussr aviation.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "nation:country_ussr",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:aviation"
+      ],
+      "input": {
+        "target_vehicle_id": "i-16_type5",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=i-16_type5",
+          "start=none",
+          "resolution=resolved",
+          "required=i-16_type5",
+          "cost=i-16_type5:rp=2900:ge=65:sl=700",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "i-16_type5"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 65,
+          "ge_before_owned": 65,
+          "remaining_rp": 2900,
+          "sl": 700
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 700,
+            "discounted_sl": 700,
+            "ge": 65,
+            "remaining_rp": 2900,
+            "researched_rp": 0,
+            "total_rp": 2900,
+            "vehicle_id": "i-16_type5"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "FORMULA_DERIVED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle i-16_type5."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "Committed source fields for i-16_type5."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_ussr:boats",
+      "purpose": "Freeze a direct reference for country_ussr boats.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "nation:country_ussr",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:boats",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "ussr_d3",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ussr_d3",
+          "start=none",
+          "resolution=resolved",
+          "required=ussr_d3",
+          "cost=ussr_d3:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ussr_d3"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "ussr_d3"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ussr_d3."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_ussr:helicopters",
+      "purpose": "Freeze a direct reference for country_ussr helicopters.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "nation:country_ussr",
+        "req_unlock",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:helicopters",
+        "zero_rp"
+      ],
+      "input": {
+        "target_vehicle_id": "mi_4av",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": true,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=mi_4av",
+          "start=none",
+          "resolution=resolved",
+          "required=mi_4av",
+          "cost=mi_4av:rp=0:ge=0:sl=390000",
+          "rule=UNLOCK_REQUIREMENT",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "mi_4av"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "UNLOCK_REQUIREMENT"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 390000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "external_assumed_satisfied",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_ussr"
+            ],
+            "vehicle_id": "mi_4av"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 390000,
+            "discounted_sl": 390000,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "mi_4av"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle mi_4av."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "tree:country_ussr:ships",
+      "purpose": "Freeze a direct reference for country_ussr ships.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "nation:country_ussr",
+        "sl_discount:0",
+        "tree_coverage",
+        "vehicle_type:ships",
+        "zero_rp",
+        "zero_sl"
+      ],
+      "input": {
+        "target_vehicle_id": "ussr_destroyer_frunze",
+        "start_vehicle_id": null,
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ussr_destroyer_frunze",
+          "start=none",
+          "resolution=resolved",
+          "required=ussr_destroyer_frunze",
+          "cost=ussr_destroyer_frunze:rp=0:ge=0:sl=0",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ussr_destroyer_frunze"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 0,
+          "ge_before_owned": 0,
+          "remaining_rp": 0,
+          "sl": 0
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 0,
+            "discounted_sl": 0,
+            "ge": 0,
+            "remaining_rp": 0,
+            "researched_rp": 0,
+            "total_rp": 0,
+            "vehicle_id": "ussr_destroyer_frunze"
+          }
+        ]
+      },
+      "rationale": "Expected values are frozen from exact source fields and documented formulas.",
+      "primary_origin": "DATAMINE_DIRECT",
+      "supporting_origins": [
+        "FORMULA_DERIVED",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json vehicle ussr_destroyer_frunze."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(RP/45), exact progress subtraction, and SL discount formula."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Reviewed against the committed datamine fields and graph contract."
+        }
+      ],
+      "review_status": "reviewed"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "baselineVersion": "1.0.0",
+  "gameVersion": "2.57.1.67",
+  "databaseSchemaVersion": 1,
+  "validatorVersion": "1.1.0",
+  "graphVersion": "research-graph-schema-v1",
+  "pipelineVersion": "1.0.0-shadow",
+  "componentVersions": {
+    "ruleEvaluator": "1.0.0-shadow",
+    "prerequisiteResolver": "1.0.0-shadow",
+    "costEngine": "1.0.0-shadow",
+    "calculationPipeline": "1.0.0-shadow",
+    "dualEngineRunner": "1.0.0-shadow",
+    "shadowReport": "1.0.0-shadow"
+  },
+  "fingerprintVersions": {
+    "datamine": "datamine-semantic-v1",
+    "graph": "research-graph-v1",
+    "pipeline": "graph-pipeline-fingerprint-v1",
+    "legacyResult": "legacy-result-v1",
+    "dualEngine": "dual-engine-comparison-v1",
+    "shadowReport": "graph-shadow-report-v1",
+    "baseline": "accuracy-baseline-v1",
+    "goldenFixture": "accuracy-golden-fixture-v1",
+    "goldenResults": "accuracy-golden-results-v1",
+    "confidenceReport": "accuracy-confidence-report-v1"
+  },
+  "fingerprints": {
+    "datamine": "datamine-semantic-v1:0f97e147cf31833c8bc23dc961f96062cbb6aee902a99d8b4fe0acfaa7407d91",
+    "graph": "research-graph-v1:fba6d4a83e251bc72cb90b0916246a051b6fd479a4e436f8b8504ec33bcc8dc0",
+    "accuracy6Shadow": "graph-shadow-report-v1:bba2b2c9de7130beacad6031d615e2cc43a8901818edeb1603b0b6952d83281d",
+    "goldenFixture": "accuracy-golden-fixture-v1:980c9e297da274aa0d6d6570076128203adc430a3005ba516e7321d07da83a2a",
+    "goldenResults": "accuracy-golden-results-v1:90e2651a3c1cf554ed90177e44cba25072156803d134d125d7dcd83909a3f5ae"
+  },
+  "vehicleCount": 2232,
+  "countryCount": 10,
+  "researchTreeCount": 44,
+  "groupCount": 395,
+  "graphNodeCount": 3098,
+  "graphEdgeCount": 4746,
+  "ruleCount": 42,
+  "knownContractDifferences": [
+    "CONTRACT_SL_DISCOUNT_DOMAIN",
+    "CONTRACT_INVALID_PROGRESS",
+    "CONTRACT_RESEARCH_FLAG_RP_CONFLICT",
+    "CONTRACT_PARTIAL_OWNED_GE",
+    "CONTRACT_LEGACY_RANK_COMPATIBILITY"
+  ],
+  "knownCases": {
+    "shadowScenarioCount": 2090,
+    "unresolvedExpectedComparisons": 80,
+    "partialPipelineResults": 80,
+    "inputContractDifferences": 20,
+    "specialCaseCount": 49,
+    "specialCompleteCount": 35,
+    "specialPartialCount": 14,
+    "partialTargets": [
+      "fiat_cr42",
+      "fiat_g50_seria2",
+      "fiat_g50_seria7as",
+      "mc-202",
+      "mc200_serie3",
+      "mc200_serie7",
+      "r2y2_kai",
+      "r2y2_v1",
+      "r2y2_v2",
+      "sm_79_1936",
+      "sm_79_1939",
+      "sm_79_1941",
+      "sm_79_1943",
+      "sm_79_iar"
+    ]
+  },
+  "artifactReferences": {
+    "goldenFixture": "accuracy/golden/2.57.1.67.json",
+    "decisionRegister": "accuracy/contracts/decision_register.json",
+    "partialCaseDossier": "accuracy/research/partial_folder_cases_2.57.1.67.json",
+    "rollbackPlan": "accuracy/rollback/experimental_switch_plan.json"
+  },
+  "determinism": {
+    "timestampsIncluded": false,
+    "localPathsIncluded": false,
+    "objectAddressesIncluded": false,
+    "canonicalJson": true
+  },
+  "fingerprintVersion": "accuracy-baseline-v1",
+  "fingerprint": "accuracy-baseline-v1:dd5c411d64f424c9a300a82273282ad1b16173fb017eba67ac6223aa896894c2"
+}

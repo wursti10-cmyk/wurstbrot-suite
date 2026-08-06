@@ -69,6 +69,19 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     Objektadressen oder instabile Reihenfolgen aufnehmen.
 37. `ready_for_default_use` nur bei vollständig belegten Kriterien setzen. Null Mismatches allein
     genügt nicht.
+38. Golden Fixtures sind `manual_review_only` und unveränderlich. Niemals Erwartungen aus aktueller
+    Legacy- oder Graphausgabe automatisch überschreiben.
+39. `LEGACY_CONFIRMED` ist nur eine Herkunftsstütze; mindestens Datamine, Formel, manueller Review
+    oder synthetischer Contract muss unabhängig belegen.
+40. Confidence- und Baseline-Fingerprints schließen Zeitstempel, lokale Pfade, Plattform,
+    Python-Executable und Objektadressen aus.
+41. Browserstatus `fixture_validation_only` nie als Graph-Runtime-Parität oder erfolgreichen
+    Engine-Vergleich ausgeben.
+42. Die 14 Hidden-Folder-Fälle bleiben partial, bis konkrete neue Evidenz vorliegt. Keine Heuristik,
+    um die Zahl kosmetisch zu senken.
+43. `ready_for_experimental_use` und ein Accuracy-7-Release-Candidate gelten ausschließlich für
+    Shadow Mode. `ready_for_default_use` bleibt false.
+44. Kein Confidence-Prozentwert erfinden. Berichte nennen belegte Zähler, Kriterien und Blocker.
 
 ## Orientierung
 
@@ -86,6 +99,11 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Pipeline, Input-Grenze und Fingerprint: `graph_pipeline.py`
 - vollständiger Legacy-/Graph-Vergleich: `dual_engine.py`
 - Vollmatrix, Shadow Report und Readiness: `graph_shadow.py`
+- unabhängige Golden-/Metamorphic-/Confidence-Verträge: `accuracy_confidence.py`
+- versionierte Referenzartefakte: `accuracy/`
+- Confidence-Vertrag: `docs/28_ACCURACY_CONFIDENCE.md`
+- 14-Partial-Fall-Akte: `docs/29_PARTIAL_FOLDER_RESEARCH.md`
+- späterer Rollback-Plan: `docs/30_GRAPH_ROLLBACK_PLAN.md`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

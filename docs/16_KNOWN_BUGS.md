@@ -56,6 +56,14 @@
   eine ausdrückliche Contract-Entscheidung.
 - Fingerprints erkennen kanonische fachliche Änderungen, sind aber keine kryptografische Signatur
   oder Herkunftsbestätigung.
+- Der Browser-Shadow-Harness prüft nur kanonische Golden Fixtures. Eine ausführbare Browser-
+  Graphpipeline und echte Python-/Browser-Runtime-Parität existieren weiterhin nicht.
+- Drei Produktsemantik-Entscheidungen sind deferred und ausdrücklich release-blocking: Rabatt-Domain,
+  ungültiger Fortschritt und `researched=True`/RP-Konflikt.
+- Die Accuracy-Baseline gilt nur für `2.57.1.67`. Eine neue Datamine braucht eine neue, geprüfte
+  Baseline und darf die bestehende Datei nicht still überschreiben.
+- Ein Confidence-Prozentwert ist absichtlich nicht definiert; die aktuelle Evidenz wird als Zähler,
+  Herkunft und Readiness-Kriterien dargestellt.
 
 ## Klassifizierte offene Semantik
 
@@ -79,6 +87,9 @@
 - Die Accuracy-6-Vollmatrix enthält 2.090 getrennt gezählte Aufrufe: 1.988 exact, 80 unresolved,
   2 unsupported, 20 Input-Contract-Differenzen, 0 mismatch und 0 internal error. Experimenteller
   Shadow-Betrieb ist freigegeben; Default-Nutzung bleibt wegen der dokumentierten Blocker false.
+- Accuracy 7 klassifiziert alle 14 Partial-Ziele in vier Hidden-Folder-Ursachengruppen. Dataminewerte
+  und Reihenfolge sind bekannt; Erwerbs-, Kauf- und Rangzählungssemantik fehlen weiterhin. Die
+  vollständige Evidenzanforderung steht in [Partial Folder Research](29_PARTIAL_FOLDER_RESEARCH.md).
 
 ## Pflege
 

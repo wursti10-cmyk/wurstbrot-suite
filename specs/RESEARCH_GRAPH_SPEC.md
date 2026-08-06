@@ -414,3 +414,34 @@ Options- und Input-Abdeckung. `ready_for_default_use` verlangt zusätzlich besch
 Contract-Differenzen, belegte Folder-/Unlock-Grenzen, Browser-/Python-Abstimmung, repräsentative reale
 Referenzen und einen Rollback-Pfad. Der aktuelle Shadow-Stand darf deshalb experimentell true, aber
 nicht default true sein.
+
+## Accuracy Confidence Contract
+
+Die unabhängige Confidence-Schicht konsumiert `ResearchGraph` und
+`GraphCalculationPipeline`, definiert aber keine neue Graphregel. Ihr versionierter Vertrag umfasst:
+
+- deterministische Baseline für Datamine, Validator, Graph, Pipeline und Fingerprints;
+- statische Golden Inputs und Erwartungen für alle 44 realen Bäume;
+- mindestens neun manuell geprüfte reale A→B-Referenzen;
+- alle sechs Herkunftskategorien mit unabhängiger Stütze für `LEGACY_CONFIRMED`;
+- deterministische metamorphische Eigenschaften;
+- denselben Result-Fingerprint unter Python 3.10, 3.12 und 3.13;
+- Browser-Fixture-Prüfung mit explizitem Status `fixture_validation_only`;
+- Contract Decision Register, 14-Partial-Fall-Akte und Rollback-Plan.
+
+Golden Fixtures sind read-only. Weder Legacy noch Graph dürfen sie im Test neu berechnen oder
+überschreiben. Erwartete Required-IDs müssen aus der Datamine-Vorgänger-Closure stammen; erfüllter
+Startabschnitt und gekaufte Fahrzeuge dürfen nicht erneut required sein. Mehrfachvorgänger-, Folder-
+oder Unlock-Unklarheit bleibt `partial`/`unresolved`.
+
+Readiness besitzt drei getrennte Werte:
+
+- `ready_for_experimental_use`: ausschließlich Shadow-Ausführung;
+- `ready_for_release_candidate`: geprüfter Shadow-RC mit null Mismatch/Internal Error, vollständig
+  grünen Golden-/Metamorphic-Suites, voller Options-/Input-Abdeckung, dokumentierten Decisions,
+  Browserstatus, Rollback und realen Referenzen;
+- `ready_for_default_use`: produktive Umschaltung; bleibt in Accuracy 7 zwingend false.
+
+Offene Decisions dürfen den Shadow-RC nur dann nicht blockieren, wenn sie ausdrücklich als
+release-blocking dokumentiert sind. Für Default-Nutzung müssen sie angenommen oder verworfen sein.
+Ein Confidence-Score ist nicht Teil des Vertrags.
