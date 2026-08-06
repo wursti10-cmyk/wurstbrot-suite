@@ -78,6 +78,8 @@ class GraphEvaluationReport:
 
 
 class GraphRuleEvaluator:
+    version = "1.0.0-shadow"
+
     def __init__(self, graph: ResearchGraph) -> None:
         self.graph = graph
 

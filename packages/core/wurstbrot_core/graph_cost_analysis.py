@@ -295,7 +295,11 @@ def build_cost_scenarios(database: VehicleDatabase) -> tuple[CostShadowCase, ...
             start_id,
             PlayerProgress(
                 vehicles={
-                    target.id: VehicleProgress(researched=True, purchased=True)
+                    target.id: VehicleProgress(
+                        researched_rp=target.rp,
+                        researched=True,
+                        purchased=True,
+                    )
                 }
             ),
         ),

@@ -110,3 +110,20 @@ Legacy und Graph werden auf Required-Set, Rest-RP/GE/SL pro Fahrzeug, Gesamtsumm
 Convertible-RP-Shortfall verglichen. `equivalent_match` ist nur bei identischen Kosten je Fahrzeug und
 identischen Summen zulässig. `unresolved_expected` und `unsupported` sind weder Match noch Fehler;
 jeder definitive `mismatch` ist ein CI-Fehler.
+
+## Accuracy-6-Orchestrierungsvertrag
+
+`GraphCalculationPipeline` darf Kosten ausschließlich erzeugen, indem sie zuerst
+`GraphRuleEvaluator`, danach `GraphPrerequisiteResolver` und zuletzt `GraphCostEngine` aufruft. Der
+Orchestrator besitzt keine eigene RP-, GE-, SL-, Folder-, Unlock- oder Rank-Semantik.
+
+Vor Cost Calculation gilt eine gemeinsame Input-Grenze. Ungültige RP-Fortschritte, GE, Convertible
+RP, Optionen oder Graph-Rabatte ergeben `invalid_input`; ungültige Datenbankkosten ergeben
+`unavailable` mit Ursache `datamine_error`. Ein nicht blockierender Konflikt zwischen
+`researched=True` und numerischen RP bleibt mit Rule ID sichtbar. Der Dual-Vergleich klassifiziert
+einen daraus entstehenden Unterschied als `input_contract_difference`, niemals still als Match.
+
+Vollständige Kosten sind im Pipeline-Ergebnis genau dann vergleichbar, wenn
+`pipeline_status=complete` und `cost_status=complete` gelten. Partial behält vollständige Summen auf
+`null`; vorhandene GE werden nicht angewandt. Der `DualEngineRunner` vergleicht alle in diesem
+Dokument definierten Kostenwerte, verwendet produktiv aber ausschließlich `legacy_result`.

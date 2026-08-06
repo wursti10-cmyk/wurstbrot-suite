@@ -47,6 +47,15 @@
   konsistente Status- und RP-Werte.
 - Die Sample-Datenbank enthält kein reguläres Fahrzeug mit positivem RP und 0 SL. Die Null-SL-Regel
   ist deshalb synthetisch sowie mit einem Reservefahrzeug belegt, aber nicht breit realdatenvalidiert.
+- Die Graphpipeline läuft vollständig im Shadow Mode. Kein CLI-, GUI-, Desktop- oder Browser-Aufrufer
+  konsumiert ihr Ergebnis; insbesondere existiert noch keine Browser-Graphpipeline.
+- Legacy stellt satisfied-Fahrzeuge, Folder-, Unlock- und Rule-Evaluation-Ergebnisse nicht
+  strukturiert bereit. Diese Felder bleiben im Dual-Vergleich mit Begründung ausgeschlossen.
+- 20 Accuracy-6-Aufrufe sind bewusste Input-Contract-Differenzen: 18 Validierungsfälle und zwei
+  zusätzliche Legacy-Rabatte. Sie sind weder Match noch Mismatch und brauchen vor einer Umschaltung
+  eine ausdrückliche Contract-Entscheidung.
+- Fingerprints erkennen kanonische fachliche Änderungen, sind aber keine kryptografische Signatur
+  oder Herkunftsbestätigung.
 
 ## Klassifizierte offene Semantik
 
@@ -67,6 +76,9 @@
 - Die Accuracy-5-Cost-Matrix liefert 1.932 vollständige und 63 partielle Ergebnisse bei 0 Mismatches.
   Die separate Sonderfallmatrix enthält 35 vollständige und 14 partielle Kostenfälle; die 14
   Hidden-Folder-Ziele erhalten keine erfundene vollständige Summe.
+- Die Accuracy-6-Vollmatrix enthält 2.090 getrennt gezählte Aufrufe: 1.988 exact, 80 unresolved,
+  2 unsupported, 20 Input-Contract-Differenzen, 0 mismatch und 0 internal error. Experimenteller
+  Shadow-Betrieb ist freigegeben; Default-Nutzung bleibt wegen der dokumentierten Blocker false.
 
 ## Pflege
 

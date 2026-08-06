@@ -10,6 +10,7 @@
 | Graph Semantics | `graph_semantics.py`, `graph_evaluation.py`, `graph_analysis.py` | Kantenvertrag, regelweise Eligibility-Auswertung, Mirror- und Sonderfallanalyse |
 | Graph Resolution | `graph_resolution.py`, `graph_resolution_analysis.py` | eigenständige Voraussetzungsermittlung, Shadow-Vergleich und Progress-/Sonderfallmatrizen |
 | Graph Cost | `graph_cost.py`, `graph_cost_analysis.py` | strikte RP-/GE-/SL-Kostenprojektion, Cost-Shadow-Vergleich und Kostenmatrizen |
+| Graph Orchestration | `graph_pipeline.py`, `dual_engine.py`, `graph_shadow.py` | zentrale Pipeline, Dual-Vergleich, Fingerprints, Readiness und Shadow Reports |
 | Validator | `packages/validator/wurstbrot_validator/` | strukturierte Schema-, Graph-, Kosten- und Sonderfallprüfung |
 | CLI | `apps/ge-calculator/ge_calculator_cli.py` | Argumente in Core-Modelle übersetzen und Explain Mode ausgeben |
 | Desktop | `apps/ge-calculator/ge_calculator_gui.py` | Tkinter-Bedienoberfläche über dem Core |
@@ -30,14 +31,18 @@ flowchart TD
   G --> RE["GraphRuleEvaluator"]
   RE --> GR["GraphPrerequisiteResolver (Shadow)"]
   P --> GR
-  GR --> SM["Shadow Comparison"]
   GR --> GC["GraphCostEngine (Shadow)"]
   DB --> GC
   P --> GC
-  GC --> CM["Cost Shadow Comparison"]
+  RE --> GP["GraphCalculationPipeline"]
+  GR --> GP
+  GC --> GP
   DB --> S["ResearchSolver"]
   A --> S
   P["PlayerProgress + SolveOptions"] --> S
+  GP --> DE["DualEngineRunner"]
+  S --> DE
+  DE --> SR["Graph Shadow Report"]
   S --> R["SolveResult"]
   R --> E["Explain Mode / UI"]
 ```
@@ -66,6 +71,10 @@ JSON-Schema, importiert aber den Calculator-Core derzeit nicht.
   unveränderte bestehende Rangwahl. Sie ist kein neuer Optimizer.
 - `GraphCostEngine` konsumiert ausschließlich ein fertiges Resolution-Ergebnis. Nur `resolved`
   erzeugt vollständige Summen; `unresolved` bleibt als partielle Diagnose sichtbar.
+- `GraphCalculationPipeline` delegiert ausschließlich an Evaluation, Resolution und Cost. Sie
+  vereinheitlicht Input-Grenze, Status, Evidence, Trace und Fingerprint, aber keine Fachregel.
+- `DualEngineRunner` vergleicht beide Engines. `legacy` bleibt ausdrücklich die produktive
+  Ergebnisquelle; `mismatch` und `internal_error` sind CI-Fehler.
 - Produktiver Legacy-Solver, CLI, Desktop und Browser rufen weder Graph Resolver noch Cost Engine auf.
 
 ## Geplante Evolution
