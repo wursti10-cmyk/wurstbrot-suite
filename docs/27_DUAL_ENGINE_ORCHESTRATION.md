@@ -10,7 +10,8 @@ GraphRuleEvaluator -> GraphPrerequisiteResolver -> GraphCostEngine
 
 `GraphCalculationPipeline` orchestriert diese Komponenten, dupliziert aber keine fachliche Regel.
 `DualEngineRunner` führt zusätzlich den unveränderten `ResearchSolver` aus und vergleicht beide
-Ergebnisse strukturiert. Kein produktiver Aufrufer verwendet das Graph-Ergebnis.
+Ergebnisse strukturiert. Der Runner selbst wählt keine Benutzer-Ergebnisquelle; diese Entscheidung
+liegt seit Accuracy 8 ausschließlich im darüberliegenden `CalculationEngine`.
 
 ## Pipeline Contract
 
@@ -163,20 +164,29 @@ Aktueller maschinenlesbarer Status:
 }
 ```
 
-Shadow-Experimente sind erlaubt, weil Mismatch und Internal Error null sind und beide Coverage-Gates
-100 % erreichen. Eine Default-Umschaltung ist blockiert durch offene Folderfälle,
+Shadow- und explizite CLI-Experimente sind erlaubt, weil Mismatch und Internal Error null sind und
+beide Coverage-Gates 100 % erreichen. Eine Default-Umschaltung ist blockiert durch offene Folderfälle,
 Input-Contract-Entscheidungen, die Legacy-Rank-Compatibility-Brücke und die fehlende Graphpipeline im
-Browser. Der Rollback-Pfad ist objektiv: `ResearchSolver` bleibt die produktive Ergebnisquelle.
+Browser. Der Rollback-Pfad ist objektiv: ohne explizite Option bleibt `ResearchSolver` die Quelle.
 
-Accuracy 7 ergänzt diesen Legacy-Vergleich um unabhängige Referenzen. `ready_for_experimental_use`
-bedeutet weiterhin ausschließlich Shadow Mode; `ready_for_release_candidate` bezeichnet nur den
-geprüften Shadow-RC. `ready_for_default_use` bleibt false. Input-Contract-Differenzen zählen nicht als
-erfolgreiche Matches, und partielle Ergebnisse besitzen weiterhin keine verbindlichen Gesamtsummen.
+Accuracy 7 ergänzt diesen Legacy-Vergleich um unabhängige Referenzen. Accuracy 8 nutzt ihn erstmals
+im ausdrücklich aktivierten CLI-Modus `graph_experimental`: Nur `complete` + `exact_match` wird durch
+den Graph→`SolveResult`-Adapter freigegeben. Alle anderen darstellbaren Fälle verwenden sichtbaren
+Legacy-Fallback. `ready_for_default_use` bleibt false. Input-Contract-Differenzen zählen nicht als
+erfolgreiche Matches, und partielle Ergebnisse besitzen weiterhin keine verbindlichen Graphsummen.
 Vollständiger Nachweis: [Accuracy Confidence](28_ACCURACY_CONFIDENCE.md).
+
+## Accuracy-8-Execution-Ergebnis
+
+Über alle 2.090 Requests werden 1.988 vollständige Graphresultate verwendet, 96 Legacy-Fallbacks
+ausgelöst und sechs Fälle als nicht darstellbar ausgewiesen. Die Vergleichsverteilung selbst bleibt
+unverändert bei 0 Mismatches und 0 Internal Errors. Neun unabhängig erwartete reale A→B-Fälle
+verwenden Graph vollständig. Die 49 Sonderfälle ergeben 35 Graphresultate und 14 sichtbare
+`partial`→Legacy-Fallbacks. CI veröffentlicht `Graph_Experimental_<gameVersion>.json/.txt`.
 
 ## Nicht-Ziele
 
-- keine produktive Solver-Umschaltung
+- keine Default-Solver-Umschaltung
 - kein GUI- oder Browser-Schalter
 - kein Optimizer und keine neue Rangwahl
 - keine Folder- oder Unlock-Heuristik

@@ -1,36 +1,58 @@
-# Graph Shadow Rollback Plan
+# Graph Experimental Switch and Rollback Plan
 
 ## Status
 
-Dieser Plan ist `design_only`. Es existiert kein produktiver Graphschalter. Die produktive
-Ergebnisquelle ist weiterhin ausschließlich der Legacy-`ResearchSolver`.
+Der CLI-Experimentalmodus ist implementiert. Es existiert weiterhin keine Default-Umschaltung:
+`legacy` bleibt Standard und Empfehlung. Graph muss pro Aufruf ausdrücklich mit
+`--engine graph-experimental` aktiviert werden; die Auswahl wird weder gespeichert noch aus
+Confidence-Werten abgeleitet.
 
 Maschinenlesbarer Vertrag:
 [`accuracy/rollback/experimental_switch_plan.json`](../accuracy/rollback/experimental_switch_plan.json).
+Plan-Version 2 ersetzt das frühere mehrdeutige Feld `productiveSwitchImplemented` durch getrennte
+Fakten für den implementierten CLI-Experimentalmodus und die weiterhin fehlende Default-Umschaltung.
 
-## Spätere experimentelle Umschaltung
+## Ausführungsmodi
 
-Eine spätere, separat geprüfte Umsetzung braucht:
+- `legacy`: Nur Legacy läuft und liefert das Benutzerergebnis.
+- `shadow`: Legacy liefert das Benutzerergebnis, Graph wird parallel verglichen.
+- `graph_experimental`: Graph darf bei `complete` + `exact_match` das Benutzerergebnis liefern;
+  Legacy läuft parallel als Vergleich und Fallback.
 
-- ein standardmäßig deaktiviertes Feature Flag;
-- Legacy als jederzeit verfügbare Fallback- und Benutzer-Ergebnisquelle;
-- parallelen Shadow-Vergleich mit unveränderten Kategorien;
-- lokale, deterministische Graph-Shadow- und Confidence-Berichte;
-- strukturierte Behandlung von `mismatch`, `internal_error`, Contract-Differenzen,
-  `unresolved_expected` und `unsupported`;
-- einen vollständig deaktivierbaren Graphpfad ohne Datenmigration.
+Desktop und Browser bleiben Legacy-only. Es gibt keinen GUI-Schalter und keine Browser-Graph-Runtime.
 
-Ein Graphfehler darf den Legacy-Benutzerwert nicht überschreiben. Nicht exakte Kategorien dürfen
-nicht als erfolgreicher Match umetikettiert werden.
+## Fallback
+
+Graph Experimental verwirft das Graph-Benutzerergebnis bei `internal_error`, `unavailable`, einem von
+Legacy akzeptierten `invalid_input`, `partial`, `blocked`, nicht exaktem Vergleich oder
+Adapter-Contract-Verletzung. Ein vorhandenes Legacy-Ergebnis wird verwendet; Ergebnisquelle,
+Fallback-Grund, Graphstatus und Vergleichsstatus bleiben in der CLI sichtbar.
+
+`partial` besitzt keine verbindlichen Graph-Gesamtsummen. Der Graphstatus wird diagnostiziert, aber
+die Benutzerwerte stammen vollständig aus Legacy. Fehlt auch Legacy, ist das Ergebnis
+`unavailable`; es werden keine Kosten erfunden.
+
+## Rollback
+
+Rollback besteht aus dem Weglassen der Option oder `--engine legacy`. Da Aktivierung pro Prozess
+erfolgt, ist weder Neustart noch Datenmigration erforderlich. Gespeicherter Fortschritt und
+Datenbankschema werden nicht verändert.
+
+Lokale und CI-Artefakte bleiben verfügbar:
+
+- `Graph_Shadow_<gameVersion>.json/.txt`;
+- `Graph_Experimental_<gameVersion>.json/.txt`;
+- `Accuracy_Confidence_<gameVersion>.json/.txt`.
 
 ## Daten und Datenschutz
 
-Es ist keine Migration gespeicherter Fortschrittsdaten notwendig. Reports bleiben lokal oder werden
-als CI-Artefakte erzeugt. Benutzertelemetrie ist ausgeschlossen, bis eine spätere ausdrückliche
-Produkt- und Datenschutzentscheidung sie erlaubt.
+Reports bleiben lokal oder werden als CI-Artefakte erzeugt. Benutzertelemetrie ist ausgeschlossen,
+bis eine spätere ausdrückliche Produkt- und Datenschutzentscheidung sie erlaubt.
 
-## Nicht implementiert
+## Grenzen
 
-Accuracy 7 fügt weder Feature Flag noch GUI-/Browser-Schalter, Telemetrie, produktive Fallback-Logik
-oder Solver-Umschaltung hinzu. Der Plan beschreibt nur überprüfbare Voraussetzungen für einen
-späteren, eigenständigen Migrationssprint.
+- `ready_for_default_use` bleibt false.
+- Legacy ist vor 1.0 die einzige empfohlene Quelle.
+- Die 14 Partial-Folder-Fälle verwenden Legacy-Fallback; es wurde keine Heuristik ergänzt.
+- Offene Input-Contract-Entscheidungen werden nicht still vereinheitlicht.
+- Der Produktumfang bleibt auf Forschungsweg A → B und RP-/GE-/SL-Kosten begrenzt.

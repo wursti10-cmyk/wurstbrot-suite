@@ -19,14 +19,13 @@
 - [x] Evaluation, Resolution und Cost als einheitliche GraphCalculationPipeline orchestrieren
 - [x] vollständigen Dual-Engine-Shadow-Report mit Options-/Input-Coverage und Readiness erzeugen
 - [x] kanonische Pipeline- und Vergleichsfingerprints für Regressionen versionieren
-- [ ] Accuracy-Baseline, 60 unabhängige Golden References und 16 metamorphische Verträge betreiben
-  (Accuracy 7: in diesem Branch implementiert, noch nicht ausgeliefert)
-- [ ] Cross-Python- und kanonische Browser-Fixture-Prüfung als Confidence Gate betreiben
-  (Accuracy 7: in diesem Branch implementiert, noch nicht ausgeliefert)
+- [x] Accuracy-Baseline, 60 unabhängige Golden References und 16 metamorphische Verträge betreiben
+- [x] Cross-Python- und kanonische Browser-Fixture-Prüfung als Confidence Gate betreiben
+- [x] expliziten CLI-Modus `graph-experimental` mit Legacy-Vergleich und Fallback ergänzen
+- [x] neun reale A→B-Abnahmen und alle 49 Sonderfälle im Experimental-Gate prüfen
 - [ ] drei deferred Contract-Entscheidungen vor einer produktiven Migration abschließen
 - [ ] verbleibende 14 Hidden-Folder-Fälle mit zusätzlicher Quelldatenevidenz absichern
-- [ ] eigenständigen Graph Optimizer in einem getrennten Sprint spezifizieren
-- Explain Engine und Regressionen anhand exakter Datamine-Felder erweitern
+- [ ] Entscheidung über eine spätere Standardumschaltung anhand belegter Abnahmekriterien treffen
 
 ### Dokumentation und Verträge
 
@@ -36,19 +35,21 @@
 
 ### Beta
 
-- Browser-Oberfläche und CI betreiben
-- Browser- und Python-Ergebnisse über gemeinsame Fixtures gegeneinander testen
-- Such- und kompakte Pfadansicht ergänzen
-- portable Windows-Pakete erzeugen
+- Legacy-CLI, Desktop und Browser stabil betreiben
+- Browser- und Python-Kernwerte über gemeinsame Fixtures gegeneinander testen
+- Datamine-, Health-, Confidence- und Experimental-Berichte als CI-Gates betreiben
+- keine neue Oberfläche oder Komfortfunktion vor Abschluss der Accuracy-Arbeit beginnen
 
 ### 1.0
 
-- öffentliche Schema-Stabilität garantieren
-- Sonderfreischaltungen systematisch modellieren
-- reproduzierbare Releases mit Prüfsummen
-- vollständige Benutzer- und Entwicklerdokumentation
+- Forschungsweg A → B sowie RP-, GE- und SL-Kosten fachlich absichern
+- offene Folder-/Unlock- und Eingabeverträge entscheiden oder klar begrenzt lassen
+- Legacy-/Graph-Standardquelle anhand objektiver Evidenz entscheiden
+- öffentliche Schema-Stabilität und reproduzierbare Releases garantieren
+- vollständige Benutzer- und Entwicklerdokumentation für diesen Produktumfang liefern
 
 ## Priorisierungsregel
 
-Korrektheit des Graphen und der Kosten hat Vorrang vor visuellen Funktionen. Neue Oberflächen dürfen
-keine eigenen, ungetesteten Fachregeln einführen.
+Bis Version 1.0 werden ausschließlich Forschungsweg und RP-/GE-/SL-Kosten von A nach B bearbeitet.
+Keine neue Explain Engine, kein Dashboard, kein Project Intelligence, kein Optimizer-Ausbau und kein
+visueller Tech Tree. Korrektheit hat Vorrang; neue Oberflächen sind in dieser Linie kein Arbeitsziel.

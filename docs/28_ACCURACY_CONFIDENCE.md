@@ -3,8 +3,9 @@
 ## Zweck und Grenze
 
 Accuracy 7 prüft die bestehende Graphpipeline unabhängig vom Legacy-Solver. Die Pipeline selbst wird
-nicht erweitert. Die produktive Ergebnisquelle bleibt ausschließlich `ResearchSolver`; GUI,
-Desktop-App und produktive Browserlogik verwenden keine Graphresultate.
+nicht erweitert. Accuracy 8 verwendet diese Evidenz für einen ausdrücklich aktivierten
+CLI-Experimentalmodus. Legacy bleibt Standard und Empfehlung; GUI, Desktop-App und Browserlogik
+verwenden keine Graphresultate.
 
 Die Confidence-Schicht besteht aus versionierten Daten unter `accuracy/`, dem additiven Modul
 `accuracy_confidence.py` und ausführbaren Python-/JavaScript-Harnesses. Sie besitzt keine
@@ -127,13 +128,18 @@ Pipeline-Vergleichszahlen, offene Entscheidungen, Sonderfallstatus, Readiness, G
 
 ## Readiness
 
-- `ready_for_experimental_use=true` bedeutet ausschließlich Shadow Mode.
-- `ready_for_release_candidate=true` bedeutet ausschließlich einen geprüften Shadow-RC: null
+- `ready_for_experimental_use=true` erlaubt Shadow und explizites CLI Graph Experimental mit
+  parallelem Legacy-Vergleich und Fallback. Es ist keine Default-Freigabe.
+- `ready_for_release_candidate=true` bezeichnet ausschließlich diesen geprüften Experimentalumfang:
+  null
   Mismatches/Internal Errors, Golden und Metamorphic grün, 100 % Options-/Input-Abdeckung,
   dokumentierte Decisions, Browserstatus, Rollback-Plan und neun reale Referenzen.
 - `ready_for_default_use=false` bleibt hart gesetzt. Browser-Runtime-Parität, Folder-Evidenz,
-  Product-Owner-Entscheidungen, Entfernung der Compatibility-Brücke und ein eigener
-  Umschalt-Review fehlen weiterhin.
+  Product-Owner-Entscheidungen, Entfernung oder Ablösung der Compatibility-Brücke und ein eigener
+  Default-Umschalt-Review fehlen weiterhin.
+
+Readiness aktiviert nie selbst eine Rechenquelle. `graph_experimental` verlangt bei jedem
+CLI-Aufruf eine ausdrückliche Option; die Auswahl wird nicht gespeichert.
 
 ## Befehle
 
@@ -141,6 +147,7 @@ Pipeline-Vergleichszahlen, offene Entscheidungen, Sonderfallstatus, Readiness, G
 python tests/accuracy_golden_matrix.py
 python tests/accuracy_metamorphic_matrix.py
 python tests/accuracy_cross_python.py
+python tests/graph_experimental_matrix.py --output build/health
 node tests/browser_shadow_harness.mjs
 ```
 

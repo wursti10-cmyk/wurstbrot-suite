@@ -2,9 +2,10 @@
 
 ## Zweck und Abgrenzung
 
-`GraphPrerequisiteResolver` bestimmt im Shadow Mode, welche Fahrzeuge und fachlichen Voraussetzungen
+`GraphPrerequisiteResolver` bestimmt in Shadow oder ausdrücklich aktiviertem CLI Graph Experimental,
+welche Fahrzeuge und fachlichen Voraussetzungen
 für ein Forschungsziel notwendig sind. Er baut auf `ResearchGraph` und `GraphRuleEvaluator` auf, gibt
-aber weder RP, GE, SL oder Euro aus noch ersetzt er den produktiven `ResearchSolver`.
+aber weder RP, GE, SL oder Euro aus noch ersetzt er den standardmäßigen `ResearchSolver`.
 
 Evaluation und Resolution sind getrennte Schritte:
 
@@ -12,8 +13,7 @@ Evaluation und Resolution sind getrennte Schritte:
 |---|---|---:|---:|
 | Rule Evaluation | Ist eine einzelne Regel erfüllt? | nein | nein |
 | Prerequisite Resolution | Welche belegbaren Voraussetzungen fehlen? | ja | nein |
-| Legacy Compatibility | Welche Rangmenge hätte der bestehende Solver gewählt? | nur im Shadow Mode | delegiert temporär an Legacy |
-| zukünftiger Optimizer | Welche fachlich gültige Kombination ist optimal? | später | später |
+| Legacy Compatibility | Welche Rangmenge hätte der bestehende Solver gewählt? | nur in Vergleichsmodi | delegiert temporär an Legacy |
 
 ## Eingabe
 
@@ -166,7 +166,7 @@ Folder-Quelldaten bewusst unresolved; unsupported und mismatch sind jeweils 0.
 
 ## Nicht-Ziele und Grenzen
 
-- keine Ablösung des Legacy-Solvers
+- keine Default-Ablösung des Legacy-Solvers
 - keine RP-/GE-/SL-/Euro-Berechnung
 - keine neue Rank- oder Kostenoptimierung
 - keine automatische AND-/OR-Entscheidung für Mehrfachvorgänger
@@ -176,7 +176,8 @@ Folder-Quelldaten bewusst unresolved; unsupported und mismatch sind jeweils 0.
 
 Die Compatibility-Strategie greift vorübergehend auf eine private, unveränderte Legacy-Methode zu.
 Diese Kopplung ist absichtlich isoliert und muss entfernt werden, sobald ein späterer Optimizer-Sprint
-einen eigenen belegten Auswahlvertrag bereitstellt.
+einen eigenen belegten Auswahlvertrag bereitstellt. Ein solcher Sprint ist bis Version 1.0
+ausdrücklich kein Arbeitsziel.
 
 ## Nachgelagerte Kostenprojektion
 

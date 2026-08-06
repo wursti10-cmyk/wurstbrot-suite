@@ -9,8 +9,8 @@ betrachtet.
 
 Parallel dazu existiert das additive `ResearchGraph`: ein typisierter Multi-Edge-Graph mit Vehicle-,
 Folder-, Unlock- und Rank-Knoten. Er trägt Architektur, Export, Diagnose, Rule Evaluation,
-Prerequisite Resolution und Cost Calculation im Shadow Mode. Der produktive Solververtrag bleibt das
-Schema-v1-Modell. Details stehen in
+Prerequisite Resolution und Cost Calculation im Shadow sowie im ausdrücklich aktivierten
+CLI-Experimentalmodus. Der Standard-Solververtrag bleibt das Schema-v1-Modell. Details stehen in
 [Graph Engine Foundation](20_GRAPH_ENGINE_FOUNDATION.md).
 
 ## Pfadabschluss
@@ -60,9 +60,9 @@ Voraussetzungsmenge. Er löst eindeutige Vorgängerketten und interne Unlock-Clo
 Folder-Mitgliedschaft von separaten Pflichten und beschreibt Rank-Lücken samt Kandidaten. Unbekannte
 Mehrfachvorgänger-, Folder- und externe Unlock-Semantik bleibt unresolved.
 
-Der Resolver läuft ausschließlich im Shadow Mode. Für vollständige Vergleiche kann eine ausdrücklich
-benannte Legacy-Rank-Compatibility-Strategie dieselbe bestehende Rangmenge wählen. Das ist weder neue
-Kostenlogik noch der spätere Optimizer. Details und aktuelle Matrix stehen in
+Der Resolver läuft ausschließlich innerhalb von Shadow oder explizitem CLI Graph Experimental. Für
+vollständige Vergleiche kann eine ausdrücklich benannte Legacy-Rank-Compatibility-Strategie dieselbe
+bestehende Rangmenge wählen. Das ist weder neue Kostenlogik noch Optimizer-Semantik. Details und aktuelle Matrix stehen in
 [Graph Prerequisite Resolution](23_GRAPH_PREREQUISITE_RESOLUTION.md).
 
 ## Graph Cost Calculation
@@ -74,8 +74,9 @@ bei `resolved` ausgegeben; `unresolved` liefert höchstens klar markierte Teilze
 [Graph Cost Engine](25_GRAPH_COST_ENGINE.md).
 
 Der Cost-Shadow-Vergleich prüft die Legacy-Zeilen fahrzeugweise auf Rest-RP, individuell gerundete GE
-und rabattierte SL sowie auf identische Summen. Die Engine bleibt aus allen produktiven Pfaden
-ausgeschlossen.
+und rabattierte SL sowie auf identische Summen. `CalculationEngine` darf vollständige, exakt gleiche
+Kosten im ausdrücklich aktivierten CLI-Experimentalmodus in das bestehende `SolveResult`-Format
+adaptieren. Jeder andere Fall bleibt Legacy-Fallback.
 
 ## Graph Calculation Pipeline
 
@@ -89,6 +90,13 @@ satisfied, Folder und Unlock werden mit Grund ausgeschlossen statt geschätzt. D
 meldet 1.988 exact, 80 unresolved expected, 2 unsupported, 20 Input-Contract-Differenzen sowie
 0 Mismatches und 0 Internal Errors. Vollständiger Vertrag:
 [Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).
+
+## Experimental Execution
+
+Accuracy 8 ergänzt keine Graphregel. Die separate Execution-Schicht definiert `legacy`, `shadow` und
+`graph_experimental`; Default bleibt Legacy. Graph wird nur bei `complete` + `exact_match` als
+Benutzerquelle verwendet. Partial, unavailable, Fehler, Contract-Differenz oder Adapterverletzung
+führen zu sichtbarem Legacy-Fallback. Desktop und Browser bleiben Legacy-only.
 
 ## Independent Confidence Layer
 
