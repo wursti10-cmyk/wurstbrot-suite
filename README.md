@@ -165,8 +165,10 @@ python apps/ge-calculator/ge_calculator_cli.py \
 
 `graph-experimental` verwendet Graph nur bei `complete` und `exact_match`. Bei `partial`,
 `unavailable`, internem Fehler, nicht exaktem Vergleich oder Adapterverletzung bleibt das
-Legacy-Ergebnis sichtbar; Quelle und Fallback-Grund werden ausgegeben. Die Auswahl wird nicht
-gespeichert und nie anhand eines Confidence-Werts automatisch aktiviert.
+Legacy-Ergebnis sichtbar; Quelle und Fallback-Grund werden ausgegeben. Als `invalid_input`
+klassifizierte Aufrufe werden dagegen ohne Legacy-Fallback abgelehnt, damit ungültige Eingaben nicht
+wie erfolgreiche Berechnungen erscheinen. Die Auswahl wird nicht gespeichert und nie anhand eines
+Confidence-Werts automatisch aktiviert.
 
 Angeforschte RP:
 

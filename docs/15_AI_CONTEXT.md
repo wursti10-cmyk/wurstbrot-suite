@@ -89,6 +89,9 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     visueller Tech Tree.
 46. Standardmodus ist exakt `legacy`. `partial`, `unavailable`, Internal Error, nicht exakter
     Vergleich oder Adapterverletzung dürfen nie als vollständiges Graph-Benutzerergebnis erscheinen.
+47. `graph_experimental` mit deaktiviertem Prozess-Flag führt Graph nicht aus und verwendet sichtbar
+    Legacy. Ein `invalid_input` darf dagegen niemals durch Legacy-Fallback wie eine erfolgreiche
+    Berechnung erscheinen; Ergebnisquelle und Ergebnis bleiben in diesem Fall leer.
 
 ## Orientierung
 

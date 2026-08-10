@@ -178,8 +178,9 @@ Vollständiger Nachweis: [Accuracy Confidence](28_ACCURACY_CONFIDENCE.md).
 
 ## Accuracy-8-Execution-Ergebnis
 
-Über alle 2.090 Requests werden 1.988 vollständige Graphresultate verwendet, 96 Legacy-Fallbacks
-ausgelöst und sechs Fälle als nicht darstellbar ausgewiesen. Die Vergleichsverteilung selbst bleibt
+Über alle 2.090 Requests werden 1.988 vollständige Graphresultate verwendet, 80 Legacy-Fallbacks
+ausgelöst und 22 Fälle als nicht darstellbar ausgewiesen. Die 20 Input-Contract-Differenzen werden
+bewusst ohne Legacy-Fallback abgelehnt. Die Vergleichsverteilung selbst bleibt
 unverändert bei 0 Mismatches und 0 Internal Errors. Neun unabhängig erwartete reale A→B-Fälle
 verwenden Graph vollständig. Die 49 Sonderfälle ergeben 35 Graphresultate und 14 sichtbare
 `partial`→Legacy-Fallbacks. CI veröffentlicht `Graph_Experimental_<gameVersion>.json/.txt`.

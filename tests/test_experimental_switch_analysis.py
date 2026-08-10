@@ -49,6 +49,18 @@ class ExperimentalSwitchAnalysisTests(unittest.TestCase):
         self.assertEqual(report["specialCaseMatrix"]["partialGraphCases"], 14)
         self.assertEqual(report["runtimeScope"]["desktopResultSource"], "legacy")
         self.assertEqual(report["runtimeScope"]["browserResultSource"], "legacy")
+        self.assertFalse(
+            report["fallbackMatrix"]["invalidInputCanBecomeCompleteThroughFallback"]
+        )
+        policies = {
+            item["condition"]: item["action"]
+            for item in report["fallbackMatrix"]["policyCases"]
+        }
+        self.assertEqual(
+            policies["feature_flag_disabled"],
+            "legacy_fallback_without_graph_execution",
+        )
+        self.assertEqual(policies["invalid_input"], "reject_without_legacy_fallback")
         json.dumps(report, sort_keys=True)
 
     def test_report_is_deterministic_and_text_is_explicit(self):

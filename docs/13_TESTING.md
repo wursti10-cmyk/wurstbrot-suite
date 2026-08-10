@@ -90,16 +90,19 @@ als `fixture_validation_only`, nicht als Graph-Runtime-Parität.
 
 Accuracy 8 führt dieselben 2.090 Requests durch den ausdrücklich aktivierten
 `graph_experimental`-Modus. Zählebene bleibt ein Request: 1.988 Benutzerergebnisse stammen aus Graph,
-96 aus diagnostiziertem Legacy-Fallback und sechs sind mangels darstellbarem Legacy- und
-Graph-Ergebnis `unavailable`. Vergleichskategorien bleiben 1.988 exact, 80 unresolved expected,
+80 aus diagnostiziertem Legacy-Fallback und 22 sind `unavailable`: 20 Input-Contract-Differenzen
+werden ausdrücklich ohne Legacy-Fallback abgelehnt, zwei Fälle sind blockiert. Vergleichskategorien
+bleiben 1.988 exact, 80 unresolved expected,
 2 unsupported, 20 input contract differences, 0 mismatches und 0 internal errors.
 
 Die neun unabhängig festgeschriebenen realen A→B-Abnahmen müssen Graph vollständig und ohne Fallback
 verwenden. In der 49er-Sonderfallmatrix müssen 35 vollständige Graph-Ergebnisse und 14 sichtbare
 `partial`-Graphstatus mit Legacy-Fallback entstehen. Separat getestete Fallback-Verträge decken
-`internal_error`, `unavailable`, von Legacy akzeptiertes `invalid_input`, `partial`, nicht exakten
-Vergleich und Adapter-Contract-Verletzung ab. Der Standardmodus-Test beweist, dass ohne `--engine`
-kein Graph-Aufruf erfolgt.
+deaktiviertes Feature Flag, `internal_error`, `unavailable`, `blocked`, `unsupported`, `partial`,
+`mismatch`, abgelehntes `equivalent_match`, nicht adaptierbare Ergebnisse und Adapter-Contract-
+Verletzungen ab. `invalid_input` besitzt einen eigenen Negativtest und darf auch bei technischer
+Legacy-Akzeptanz kein vollständiges Benutzerergebnis erzeugen. Der Standardmodus-Test beweist, dass
+ohne `--engine` kein Graph-Aufruf erfolgt.
 
 ## Neue Tests
 

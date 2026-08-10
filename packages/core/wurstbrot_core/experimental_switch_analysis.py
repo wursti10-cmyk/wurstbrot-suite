@@ -166,6 +166,11 @@ def run_experimental_switch_matrix(
         "fallbackMatrix": {
             "policyCases": [
                 {
+                    "condition": "feature_flag_disabled",
+                    "action": "legacy_fallback_without_graph_execution",
+                    "verifiedBy": "test_disabled_feature_flag_uses_visible_legacy_fallback_without_graph",
+                },
+                {
                     "condition": "internal_error",
                     "action": "legacy_fallback",
                     "verifiedBy": "test_internal_error_uses_legacy_fallback_and_is_not_unresolved",
@@ -176,9 +181,9 @@ def run_experimental_switch_matrix(
                     "verifiedBy": "test_unavailable_and_mismatch_results_are_never_used_as_graph_output",
                 },
                 {
-                    "condition": "invalid_input_legacy_accepted",
-                    "action": "legacy_fallback",
-                    "verifiedBy": "test_invalid_graph_input_that_legacy_accepts_uses_visible_fallback",
+                    "condition": "invalid_input",
+                    "action": "reject_without_legacy_fallback",
+                    "verifiedBy": "test_invalid_graph_input_is_rejected_even_when_legacy_accepts_it",
                 },
                 {
                     "condition": "partial",
@@ -186,9 +191,24 @@ def run_experimental_switch_matrix(
                     "verifiedBy": "test_partial_graph_result_uses_visible_legacy_fallback",
                 },
                 {
-                    "condition": "comparison_not_exact",
+                    "condition": "blocked",
+                    "action": "legacy_fallback",
+                    "verifiedBy": "test_blocked_and_unsupported_results_use_visible_legacy_fallback",
+                },
+                {
+                    "condition": "unsupported",
+                    "action": "legacy_fallback",
+                    "verifiedBy": "test_blocked_and_unsupported_results_use_visible_legacy_fallback",
+                },
+                {
+                    "condition": "mismatch",
                     "action": "legacy_fallback",
                     "verifiedBy": "test_unavailable_and_mismatch_results_are_never_used_as_graph_output",
+                },
+                {
+                    "condition": "equivalent_match",
+                    "action": "legacy_fallback",
+                    "verifiedBy": "test_equivalent_match_is_not_accepted_as_graph_user_result",
                 },
                 {
                     "condition": "adapter_contract_violation",
@@ -198,6 +218,7 @@ def run_experimental_switch_matrix(
             ],
             "productiveLegacyFallback": True,
             "fallbackIsDiagnosed": True,
+            "invalidInputCanBecomeCompleteThroughFallback": False,
         },
         "runtimeScope": {
             "cliGraphExperimentalAvailable": True,
@@ -225,6 +246,9 @@ def validate_experimental_switch_report(report: dict[str, Any]) -> None:
     _require(full["scenarioCount"] == 2_090)
     _require(full["comparisonCounts"]["mismatch"] == 0)
     _require(full["comparisonCounts"]["internal_error"] == 0)
+    _require(full["resultSourceCounts"] == {"graph": 1_988, "legacy": 80, "none": 22})
+    _require(full["fallbackReasonCounts"].get("graph_invalid_input") == 20)
+    _require(report["fallbackMatrix"]["invalidInputCanBecomeCompleteThroughFallback"] is False)
     _require(report["acceptanceMatrix"]["caseCount"] == 9)
     _require(report["acceptanceMatrix"]["passed"] == 9)
     _require(report["specialCaseMatrix"]["caseCount"] == 49)

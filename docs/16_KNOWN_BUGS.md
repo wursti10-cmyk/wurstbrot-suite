@@ -68,9 +68,9 @@
   Herkunft und Readiness-Kriterien dargestellt.
 - `graph_experimental` ist kein Default und vor 1.0 nicht empfohlen. Die Aktivierung gilt nur für
   den aktuellen CLI-Aufruf; es gibt weder gespeicherte Aktivierung noch automatische Umschaltung.
-- In Accuracy 8 verwenden 96 von 2.090 Experimental-Requests Legacy-Fallback und sechs liefern kein
-  darstellbares Ergebnis. Diese sechs sind keine stillen Erfolge; Quelle und Status bleiben im
-  Report sichtbar.
+- In Accuracy 8 verwenden 80 von 2.090 Experimental-Requests Legacy-Fallback und 22 liefern kein
+  darstellbares Ergebnis. 20 davon sind bewusst abgelehnte Input-Contract-Differenzen, zwei sind
+  blockiert. Diese Fälle sind keine stillen Erfolge; Quelle, Status und Grund bleiben sichtbar.
 
 ## Klassifizierte offene Semantik
 

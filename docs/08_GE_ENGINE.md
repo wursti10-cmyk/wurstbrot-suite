@@ -93,12 +93,15 @@ bewahrt. Accuracy 8 führt damit keine neue Explain- oder Warntext-Semantik ein.
 
 `partial` wird nicht als vollständiges Graph-Ergebnis angezeigt. Der Graphstatus und der
 Fallback-Grund bleiben sichtbar, aber das bestehende Legacy-Ergebnis liefert die Benutzerwerte.
-Dasselbe gilt bei `internal_error`, `unavailable`, einem von Legacy akzeptierten `invalid_input`,
-nicht exaktem Vergleich oder nicht darstellbarem Adapter-Ergebnis. Fehlt auch ein Legacy-Ergebnis,
-lautet der Ausführungsstatus `unavailable`.
+Dasselbe gilt bei `internal_error`, `unavailable`, nicht exaktem Vergleich oder nicht darstellbarem
+Adapter-Ergebnis. `invalid_input` ist ausdrücklich kein Fallback-Fall: Das Ergebnis bleibt
+`unavailable`, auch wenn Legacy den Input technisch akzeptiert hätte. So wird ein ungültiger Graph-
+Request nicht als vollständige Berechnung dargestellt. Fehlt bei einem zulässigen Fallback auch ein
+Legacy-Ergebnis, lautet der Ausführungsstatus ebenfalls `unavailable`.
 
-Die Accuracy-8-Matrix verarbeitet 2.090 eindeutig gezählte Requests: 1.988 verwenden Graph, 96
-verwenden diagnostizierten Legacy-Fallback und sechs besitzen kein darstellbares Ergebnis. Es gibt
+Die Accuracy-8-Matrix verarbeitet 2.090 eindeutig gezählte Requests: 1.988 verwenden Graph, 80
+verwenden diagnostizierten Legacy-Fallback und 22 besitzen kein darstellbares Ergebnis. Davon sind
+20 ausdrücklich abgelehnte Input-Contract-Differenzen und zwei blockierte Fälle. Es gibt
 0 Mismatches und 0 Internal Errors. Neun reale A→B-Referenzen bestehen vollständig; von 49
 Sonderfällen verwenden 35 Graph und 14 wegen `partial` Legacy-Fallback.
 

@@ -402,10 +402,11 @@ nicht automatisch aus Readiness abgeleitet werden.
 - `graph_experimental`: beide ausführen, Graph ausschließlich bei `complete` und `exact_match`
   durch den Graph→`SolveResult`-Adapter verwenden.
 
-Alle anderen Graphstatus oder Vergleichskategorien verwenden ein vorhandenes Legacy-Ergebnis als
-sichtbar diagnostizierten Fallback. Insbesondere besitzt `partial` keine verbindlichen Graphsummen.
-Ist auch Legacy nicht darstellbar, lautet der Ausführungsstatus `unavailable`. Desktop und Browser
-bleiben Legacy-only.
+Alle anderen Graphstatus oder Vergleichskategorien verwenden grundsätzlich ein vorhandenes Legacy-
+Ergebnis als sichtbar diagnostizierten Fallback. `invalid_input` und daraus folgende Input-Contract-
+Differenzen sind die Ausnahme: Sie bleiben ohne Benutzerergebnis, selbst wenn Legacy sie technisch
+akzeptiert. Insbesondere besitzt `partial` keine verbindlichen Graphsummen. Ist auch Legacy nicht
+darstellbar, lautet der Ausführungsstatus `unavailable`. Desktop und Browser bleiben Legacy-only.
 
 ## Deterministic Fingerprint Contract
 

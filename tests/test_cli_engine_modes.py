@@ -59,6 +59,13 @@ class CliEngineModeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("Rechenmodus: legacy", result.stdout)
 
+    def test_unknown_engine_value_is_rejected(self):
+        result = self.run_cli("--engine", "automatic")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("invalid choice", result.stderr)
+        self.assertNotIn("Ergebnisquelle:", result.stdout)
+
     def test_partial_graph_status_is_visible_while_legacy_supplies_values(self):
         result = subprocess.run(
             (
@@ -82,6 +89,23 @@ class CliEngineModeTests(unittest.TestCase):
         self.assertIn("Fallback: ja", result.stdout)
         self.assertIn("Fallback-Grund: graph_partial", result.stdout)
         self.assertIn("Graph-Status: partial", result.stdout)
+
+    def test_invalid_graph_input_is_not_presented_as_valid_legacy_fallback(self):
+        result = self.run_cli(
+            "--engine",
+            "graph-experimental",
+            "--sl-discount",
+            "10",
+        )
+
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("Ergebnisquelle: keine", result.stdout)
+        self.assertIn("Fallback: nein", result.stdout)
+        self.assertIn("Fallback-Grund: graph_invalid_input", result.stdout)
+        self.assertIn("Comparison Status: input_contract_difference", result.stdout)
+        self.assertIn("Ergebnisstatus: unavailable", result.stdout)
+        self.assertIn("Graph-Status: invalid_input", result.stdout)
+        self.assertIn("Keine darstellbare Berechnung verfügbar.", result.stdout)
 
 
 if __name__ == "__main__":

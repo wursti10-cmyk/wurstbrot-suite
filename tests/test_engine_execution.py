@@ -19,7 +19,6 @@ from wurstbrot_core.engine_execution import (  # noqa: E402
     CalculationStatus,
     EngineFeatureFlags,
     ExecutionMode,
-    ExperimentalGraphDisabledError,
     FallbackReason,
     GraphCalculationResultAdapter,
     ResultAdapterContractError,
@@ -90,6 +89,11 @@ class FixedDualRunner:
         return self.result
 
 
+class ExplodingDualRunner:
+    def run(self, **_kwargs):
+        raise RuntimeError("deliberate dual-runner failure")
+
+
 class RejectingAdapter:
     version = "test"
 
@@ -125,13 +129,35 @@ class EngineExecutionTests(unittest.TestCase):
         self.assertFalse(result.experimental)
         self.assertEqual(result.diagnostics["defaultMode"], "legacy")
 
-    def test_graph_experimental_requires_explicit_process_local_flag(self):
-        engine = CalculationEngine(self.database)
-        with self.assertRaises(ExperimentalGraphDisabledError):
-            engine.calculate(
-                target_vehicle_id="b",
-                mode=ExecutionMode.GRAPH_EXPERIMENTAL,
-            )
+    def test_exactly_three_execution_modes_exist(self):
+        self.assertEqual(
+            {item.value for item in ExecutionMode},
+            {"legacy", "shadow", "graph_experimental"},
+        )
+
+    def test_disabled_feature_flag_uses_visible_legacy_fallback_without_graph(self):
+        dual = TrackingDualRunner(DualEngineRunner(self.database))
+        result = CalculationEngine(self.database, dual_runner=dual).calculate(
+            target_vehicle_id="b",
+            mode=ExecutionMode.GRAPH_EXPERIMENTAL,
+        )
+
+        self.assertEqual(result.result_source, ResultSource.LEGACY)
+        self.assertTrue(result.fallback_applied)
+        self.assertEqual(
+            result.fallback_reason,
+            FallbackReason.GRAPH_FEATURE_DISABLED,
+        )
+        self.assertEqual(dual.calls, 0)
+        self.assertFalse(result.shadow_comparison_exists)
+        self.assertFalse(result.diagnostics["graphExperimentalFeatureEnabled"])
+
+    def test_feature_flag_activation_is_process_local_and_not_persistent(self):
+        enabled = EngineFeatureFlags.explicit_graph_experimental()
+
+        self.assertTrue(enabled.graph_experimental_enabled)
+        self.assertFalse(EngineFeatureFlags().graph_experimental_enabled)
+        self.assertFalse(EngineFeatureFlags().graph_experimental_enabled)
 
     def test_shadow_returns_the_exact_legacy_user_result(self):
         engine = CalculationEngine(self.database)
@@ -146,6 +172,43 @@ class EngineExecutionTests(unittest.TestCase):
         self.assertEqual(shadow.result_source, ResultSource.LEGACY)
         self.assertEqual(shadow.comparison_status, ComparisonStatus.EXACT_MATCH)
         self.assertTrue(shadow.shadow_comparison_exists)
+        self.assertFalse(shadow.fallback_applied)
+
+    def test_unexpected_shadow_runner_error_cannot_change_legacy_user_result(self):
+        engine = CalculationEngine(self.database, dual_runner=ExplodingDualRunner())
+        legacy = engine.calculate(target_vehicle_id="b", start_vehicle_id="a")
+        shadow = engine.calculate(
+            target_vehicle_id="b",
+            start_vehicle_id="a",
+            mode=ExecutionMode.SHADOW,
+        )
+
+        self.assertEqual(shadow.result, legacy.result)
+        self.assertEqual(shadow.result_source, ResultSource.LEGACY)
+        self.assertEqual(shadow.graph_status, PipelineStatus.INTERNAL_ERROR)
+        self.assertEqual(shadow.comparison_status, ComparisonStatus.INTERNAL_ERROR)
+        self.assertFalse(shadow.fallback_applied)
+        self.assertEqual(shadow.diagnostics["failedStage"], "DualEngineRunner")
+
+    def test_shadow_mismatch_cannot_change_legacy_user_result(self):
+        baseline = DualEngineRunner(self.database).run(target_vehicle_id="b")
+        mismatch = replace(
+            baseline,
+            comparison_status=ComparisonStatus.MISMATCH,
+        )
+        engine = CalculationEngine(
+            self.database,
+            dual_runner=FixedDualRunner(mismatch),
+        )
+        legacy = engine.calculate(target_vehicle_id="b")
+        shadow = engine.calculate(
+            target_vehicle_id="b",
+            mode=ExecutionMode.SHADOW,
+        )
+
+        self.assertEqual(shadow.result, legacy.result)
+        self.assertEqual(shadow.result_source, ResultSource.LEGACY)
+        self.assertEqual(shadow.comparison_status, ComparisonStatus.MISMATCH)
         self.assertFalse(shadow.fallback_applied)
 
     def test_graph_experimental_uses_adapted_graph_result_only_for_exact_complete(self):
@@ -204,10 +267,12 @@ class EngineExecutionTests(unittest.TestCase):
 
     def test_partial_graph_result_uses_visible_legacy_fallback(self):
         db = database(vehicle("external", unlock="external_unlock"))
-        result = CalculationEngine(
+        engine = CalculationEngine(
             db,
             feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
-        ).calculate(
+        )
+        legacy = engine.calculate(target_vehicle_id="external")
+        result = engine.calculate(
             target_vehicle_id="external",
             mode=ExecutionMode.GRAPH_EXPERIMENTAL,
         )
@@ -217,8 +282,16 @@ class EngineExecutionTests(unittest.TestCase):
         self.assertTrue(result.fallback_applied)
         self.assertEqual(result.fallback_reason, FallbackReason.GRAPH_PARTIAL)
         self.assertEqual(result.calculation_status, CalculationStatus.COMPLETE)
+        self.assertEqual(result.result, legacy.result)
+        payload = result.to_dict()
+        self.assertEqual(payload["requested_engine"], "graph_experimental")
+        self.assertEqual(payload["result_source"], "legacy")
+        self.assertTrue(payload["fallback_used"])
+        self.assertEqual(payload["fallback_reason"], "graph_partial")
+        self.assertEqual(payload["pipeline_status"], "partial")
+        self.assertEqual(payload["comparison_status"], "unresolved_expected")
 
-    def test_invalid_graph_input_that_legacy_accepts_uses_visible_fallback(self):
+    def test_invalid_graph_input_is_rejected_even_when_legacy_accepts_it(self):
         result = CalculationEngine(
             self.database,
             feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
@@ -229,16 +302,44 @@ class EngineExecutionTests(unittest.TestCase):
         )
 
         self.assertEqual(result.graph_status, PipelineStatus.INVALID_INPUT)
-        self.assertEqual(result.result_source, ResultSource.LEGACY)
+        self.assertIsNone(result.result_source)
+        self.assertIsNone(result.result)
+        self.assertEqual(result.calculation_status, CalculationStatus.UNAVAILABLE)
         self.assertEqual(
             result.comparison_status,
             ComparisonStatus.INPUT_CONTRACT_DIFFERENCE,
         )
-        self.assertTrue(result.fallback_applied)
+        self.assertFalse(result.fallback_applied)
         self.assertEqual(
             result.fallback_reason,
-            FallbackReason.GRAPH_INVALID_INPUT_LEGACY_ACCEPTED,
+            FallbackReason.GRAPH_INVALID_INPUT,
         )
+        self.assertTrue(result.diagnostics["invalidInputRejected"])
+        self.assertTrue(result.diagnostics["legacyResultDiscarded"])
+
+    def test_nonblocking_invalid_input_difference_is_not_made_valid_by_legacy(self):
+        from wurstbrot_core.models import VehicleProgress
+
+        result = CalculationEngine(
+            self.database,
+            feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
+        ).calculate(
+            target_vehicle_id="b",
+            progress=PlayerProgress(
+                vehicles={"b": VehicleProgress(researched=True, researched_rp=0)}
+            ),
+            mode=ExecutionMode.GRAPH_EXPERIMENTAL,
+        )
+
+        self.assertEqual(result.graph_status, PipelineStatus.COMPLETE)
+        self.assertEqual(
+            result.comparison_status,
+            ComparisonStatus.INPUT_CONTRACT_DIFFERENCE,
+        )
+        self.assertIsNone(result.result_source)
+        self.assertIsNone(result.result)
+        self.assertFalse(result.fallback_applied)
+        self.assertEqual(result.fallback_reason, FallbackReason.GRAPH_INVALID_INPUT)
 
     def test_internal_error_uses_legacy_fallback_and_is_not_unresolved(self):
         class ExplodingEvaluator:
@@ -268,6 +369,22 @@ class EngineExecutionTests(unittest.TestCase):
             result.fallback_reason,
             FallbackReason.GRAPH_INTERNAL_ERROR,
         )
+
+    def test_unexpected_dual_runner_error_uses_visible_legacy_fallback(self):
+        result = CalculationEngine(
+            self.database,
+            feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
+            dual_runner=ExplodingDualRunner(),
+        ).calculate(
+            target_vehicle_id="b",
+            mode=ExecutionMode.GRAPH_EXPERIMENTAL,
+        )
+
+        self.assertEqual(result.result_source, ResultSource.LEGACY)
+        self.assertTrue(result.fallback_applied)
+        self.assertEqual(result.graph_status, PipelineStatus.INTERNAL_ERROR)
+        self.assertEqual(result.comparison_status, ComparisonStatus.INTERNAL_ERROR)
+        self.assertEqual(result.fallback_reason, FallbackReason.GRAPH_INTERNAL_ERROR)
 
     def test_unavailable_and_mismatch_results_are_never_used_as_graph_output(self):
         baseline = DualEngineRunner(self.database).run(target_vehicle_id="b")
@@ -318,6 +435,77 @@ class EngineExecutionTests(unittest.TestCase):
             mismatch.fallback_reason,
             FallbackReason.COMPARISON_NOT_EXACT,
         )
+
+    def test_blocked_and_unsupported_results_use_visible_legacy_fallback(self):
+        baseline = DualEngineRunner(self.database).run(target_vehicle_id="b")
+        blocked_contract = replace(
+            baseline.graph_result.status_contract,
+            status=PipelineStatus.BLOCKED,
+            cause="blocking_rule",
+            comparable_to_legacy=False,
+        )
+        blocked_dual = replace(
+            baseline,
+            graph_result=replace(
+                baseline.graph_result,
+                pipeline_status=PipelineStatus.BLOCKED,
+                status_contract=blocked_contract,
+            ),
+            comparison_status=ComparisonStatus.UNRESOLVED_EXPECTED,
+        )
+        unsupported_contract = replace(
+            baseline.graph_result.status_contract,
+            status=PipelineStatus.UNAVAILABLE,
+            cause="unsupported_feature",
+            comparable_to_legacy=False,
+        )
+        unsupported_dual = replace(
+            baseline,
+            graph_result=replace(
+                baseline.graph_result,
+                pipeline_status=PipelineStatus.UNAVAILABLE,
+                status_contract=unsupported_contract,
+            ),
+            comparison_status=ComparisonStatus.UNSUPPORTED,
+        )
+
+        blocked = CalculationEngine(
+            self.database,
+            feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
+            dual_runner=FixedDualRunner(blocked_dual),
+        ).calculate(target_vehicle_id="b", mode=ExecutionMode.GRAPH_EXPERIMENTAL)
+        unsupported = CalculationEngine(
+            self.database,
+            feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
+            dual_runner=FixedDualRunner(unsupported_dual),
+        ).calculate(target_vehicle_id="b", mode=ExecutionMode.GRAPH_EXPERIMENTAL)
+
+        self.assertEqual(blocked.result_source, ResultSource.LEGACY)
+        self.assertTrue(blocked.fallback_applied)
+        self.assertEqual(blocked.fallback_reason, FallbackReason.GRAPH_BLOCKED)
+        self.assertEqual(unsupported.result_source, ResultSource.LEGACY)
+        self.assertTrue(unsupported.fallback_applied)
+        self.assertEqual(unsupported.comparison_status, ComparisonStatus.UNSUPPORTED)
+        self.assertEqual(
+            unsupported.fallback_reason,
+            FallbackReason.GRAPH_UNAVAILABLE,
+        )
+
+    def test_equivalent_match_is_not_accepted_as_graph_user_result(self):
+        baseline = DualEngineRunner(self.database).run(target_vehicle_id="b")
+        equivalent = replace(
+            baseline,
+            comparison_status=ComparisonStatus.EQUIVALENT_MATCH,
+        )
+        result = CalculationEngine(
+            self.database,
+            feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
+            dual_runner=FixedDualRunner(equivalent),
+        ).calculate(target_vehicle_id="b", mode=ExecutionMode.GRAPH_EXPERIMENTAL)
+
+        self.assertEqual(result.result_source, ResultSource.LEGACY)
+        self.assertTrue(result.fallback_applied)
+        self.assertEqual(result.fallback_reason, FallbackReason.COMPARISON_NOT_EXACT)
 
     def test_adapter_contract_violation_falls_back_without_leaking_exception(self):
         result = CalculationEngine(
@@ -386,6 +574,14 @@ class EngineExecutionTests(unittest.TestCase):
         self.assertNotEqual(first.fingerprint, changed.fingerprint)
         self.assertTrue(first.fingerprint.startswith("calculation-execution-v1:"))
         json.dumps(first.to_dict(), sort_keys=True)
+
+        payload = first.to_dict()
+        self.assertEqual(payload["requested_engine"], "graph_experimental")
+        self.assertEqual(payload["result_source"], "graph")
+        self.assertFalse(payload["fallback_used"])
+        self.assertIsNone(payload["fallback_reason"])
+        self.assertEqual(payload["pipeline_status"], "complete")
+        self.assertEqual(payload["comparison_status"], "exact_match")
 
 
 if __name__ == "__main__":

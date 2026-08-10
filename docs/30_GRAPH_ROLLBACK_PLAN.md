@@ -23,10 +23,12 @@ Desktop und Browser bleiben Legacy-only. Es gibt keinen GUI-Schalter und keine B
 
 ## Fallback
 
-Graph Experimental verwirft das Graph-Benutzerergebnis bei `internal_error`, `unavailable`, einem von
-Legacy akzeptierten `invalid_input`, `partial`, `blocked`, nicht exaktem Vergleich oder
-Adapter-Contract-Verletzung. Ein vorhandenes Legacy-Ergebnis wird verwendet; Ergebnisquelle,
-Fallback-Grund, Graphstatus und Vergleichsstatus bleiben in der CLI sichtbar.
+Graph Experimental verwirft das Graph-Benutzerergebnis bei `internal_error`, `unavailable`,
+`partial`, `blocked`, nicht exaktem Vergleich oder Adapter-Contract-Verletzung. Ein vorhandenes
+Legacy-Ergebnis wird verwendet. Bei deaktiviertem Feature Flag geschieht dies ohne Graph-Ausführung.
+`invalid_input` ist die bewusste Ausnahme: Es wird auch bei technischer Legacy-Akzeptanz kein
+Benutzerergebnis ausgegeben. Ergebnisquelle, Fallback-Grund, Graphstatus und Vergleichsstatus
+bleiben in der CLI sichtbar.
 
 `partial` besitzt keine verbindlichen Graph-Gesamtsummen. Der Graphstatus wird diagnostiziert, aber
 die Benutzerwerte stammen vollständig aus Legacy. Fehlt auch Legacy, ist das Ergebnis

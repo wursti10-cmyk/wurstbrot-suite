@@ -164,16 +164,25 @@ ersten Experimentalvertrag absichtlich nicht.
 
 Fallback auf ein vorhandenes Legacy-Ergebnis ist verbindlich bei:
 
+- deaktiviertem Graph-Feature-Flag, ohne Graph auszuführen;
 - `internal_error`;
 - `unavailable`;
-- `invalid_input`, falls Legacy denselben Request akzeptiert;
 - `partial` oder `blocked`;
 - jeder nicht exakten Vergleichskategorie;
 - nicht darstellbarem oder vertragswidrigem Adapter-Ergebnis.
 
+Ausnahme: `invalid_input` darf niemals durch ein technisch akzeptierendes Legacy-Ergebnis zu einer
+scheinbar erfolgreichen Berechnung werden. Graph Experimental liefert in diesem Fall
+`calculation_status=unavailable`, keine Ergebnisquelle und kein Kostenresultat; Rule IDs und
+Input-Contract-Differenz bleiben diagnostisch sichtbar.
+
 Bei `partial` dürfen Graph-Teilsummen niemals als vollständiger Benutzerbedarf erscheinen. Der
 Graphstatus bleibt diagnostisch sichtbar, das Legacy-Ergebnis liefert die bestehenden Kernwerte.
 Fehlt auch Legacy, ist das Ausführungsergebnis `unavailable` und enthält keine erfundenen Kosten.
+
+Die maschinenlesbare Execution-Diagnostik enthält mindestens `requested_engine`, `result_source`,
+`fallback_used`, `fallback_reason`, `pipeline_status` und `comparison_status`. Die älteren
+Python-Feldnamen bleiben zusätzlich als kompatible Aliase erhalten.
 
 Desktop und Browser bleiben außerhalb dieses Vertrags auf Legacy. Der CLI-Experimentalmodus ist vor
 Version 1.0 nicht die empfohlene Quelle und erweitert den Produktumfang nicht über Forschungsweg A → B

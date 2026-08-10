@@ -77,6 +77,8 @@ Der Cost-Shadow-Vergleich prüft die Legacy-Zeilen fahrzeugweise auf Rest-RP, in
 und rabattierte SL sowie auf identische Summen. `CalculationEngine` darf vollständige, exakt gleiche
 Kosten im ausdrücklich aktivierten CLI-Experimentalmodus in das bestehende `SolveResult`-Format
 adaptieren. Jeder andere Fall bleibt Legacy-Fallback.
+`invalid_input` ist davon ausgenommen und bleibt ohne Benutzerergebnis, damit eine ungültige
+Graph-Anfrage nicht durch Legacy-Akzeptanz als erfolgreiche Berechnung erscheint.
 
 ## Graph Calculation Pipeline
 
@@ -95,8 +97,9 @@ meldet 1.988 exact, 80 unresolved expected, 2 unsupported, 20 Input-Contract-Dif
 
 Accuracy 8 ergänzt keine Graphregel. Die separate Execution-Schicht definiert `legacy`, `shadow` und
 `graph_experimental`; Default bleibt Legacy. Graph wird nur bei `complete` + `exact_match` als
-Benutzerquelle verwendet. Partial, unavailable, Fehler, Contract-Differenz oder Adapterverletzung
-führen zu sichtbarem Legacy-Fallback. Desktop und Browser bleiben Legacy-only.
+Benutzerquelle verwendet. Partial, unavailable, Fehler oder Adapterverletzung führen zu sichtbarem
+Legacy-Fallback. Input-Contract-Differenzen werden sichtbar abgelehnt und erzeugen kein
+Benutzerergebnis. Desktop und Browser bleiben Legacy-only.
 
 ## Independent Confidence Layer
 

@@ -41,9 +41,10 @@ class CalculationStatus(str, Enum):
 
 
 class FallbackReason(str, Enum):
+    GRAPH_FEATURE_DISABLED = "graph_feature_disabled"
     GRAPH_INTERNAL_ERROR = "graph_internal_error"
     GRAPH_UNAVAILABLE = "graph_unavailable"
-    GRAPH_INVALID_INPUT_LEGACY_ACCEPTED = "graph_invalid_input_legacy_accepted"
+    GRAPH_INVALID_INPUT = "graph_invalid_input"
     GRAPH_PARTIAL = "graph_partial"
     GRAPH_BLOCKED = "graph_blocked"
     COMPARISON_NOT_EXACT = "comparison_not_exact"
@@ -90,6 +91,9 @@ class CalculationExecutionResult:
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            # Accuracy 8 review aliases keep the original Python API stable while
+            # exposing the names required by the machine-readable execution contract.
+            "requested_engine": self.requested_mode.value,
             "requested_mode": self.requested_mode.value,
             "result_source": (
                 self.result_source.value if self.result_source is not None else None
@@ -97,6 +101,9 @@ class CalculationExecutionResult:
             "calculation_status": self.calculation_status.value,
             "result": (
                 serialize_solve_result(self.result) if self.result is not None else None
+            ),
+            "pipeline_status": (
+                self.graph_status.value if self.graph_status is not None else None
             ),
             "graph_status": (
                 self.graph_status.value if self.graph_status is not None else None
@@ -107,6 +114,7 @@ class CalculationExecutionResult:
                 else None
             ),
             "shadow_comparison_exists": self.shadow_comparison_exists,
+            "fallback_used": self.fallback_applied,
             "fallback_applied": self.fallback_applied,
             "fallback_reason": (
                 self.fallback_reason.value if self.fallback_reason is not None else None
@@ -300,16 +308,30 @@ class CalculationEngine:
             mode is ExecutionMode.GRAPH_EXPERIMENTAL
             and not self.feature_flags.graph_experimental_enabled
         ):
-            raise ExperimentalGraphDisabledError(
-                "Graph Experimental requires explicit process-local activation."
+            return self._feature_disabled_fallback(
+                mode=mode,
+                target_vehicle_id=target_vehicle_id,
+                start_vehicle_id=start_vehicle_id,
+                progress=progress,
+                options=options,
             )
 
-        dual = self.dual_runner.run(
-            target_vehicle_id=target_vehicle_id,
-            start_vehicle_id=start_vehicle_id,
-            progress=progress,
-            options=options,
-        )
+        try:
+            dual = self.dual_runner.run(
+                target_vehicle_id=target_vehicle_id,
+                start_vehicle_id=start_vehicle_id,
+                progress=progress,
+                options=options,
+            )
+        except Exception as exc:
+            return self._dual_runner_failure(
+                mode=mode,
+                target_vehicle_id=target_vehicle_id,
+                start_vehicle_id=start_vehicle_id,
+                progress=progress,
+                options=options,
+                exception=exc,
+            )
         legacy = _legacy_solve_result(dual.legacy_result)
         if mode is ExecutionMode.SHADOW:
             if legacy is None:
@@ -328,6 +350,17 @@ class CalculationEngine:
                     "dualFingerprint": dual.fingerprint,
                 },
             )
+
+        invalid_findings = tuple(
+            item
+            for item in dual.graph_result.input_findings
+            if item.category.value == "invalid_input"
+        )
+        if (
+            dual.graph_result.pipeline_status is PipelineStatus.INVALID_INPUT
+            or invalid_findings
+        ):
+            return self._invalid_input_result(mode, dual)
 
         if (
             dual.graph_result.pipeline_status is PipelineStatus.COMPLETE
@@ -377,6 +410,144 @@ class CalculationEngine:
             legacy,
             _fallback_reason(dual),
             {},
+        )
+
+    def _feature_disabled_fallback(
+        self,
+        *,
+        mode: ExecutionMode,
+        target_vehicle_id: str,
+        start_vehicle_id: str | None,
+        progress: PlayerProgress,
+        options: SolveOptions,
+    ) -> CalculationExecutionResult:
+        try:
+            legacy = self.legacy_solver.solve(
+                target_vehicle_id=target_vehicle_id,
+                start_vehicle_id=start_vehicle_id,
+                progress=progress,
+                options=options,
+            )
+        except Exception as exc:
+            return self._result(
+                requested_mode=mode,
+                result_source=None,
+                calculation_status=CalculationStatus.UNAVAILABLE,
+                result=None,
+                graph_status=None,
+                comparison_status=None,
+                fallback_applied=False,
+                fallback_reason=FallbackReason.GRAPH_FEATURE_DISABLED,
+                diagnostics={
+                    "graphExecutionSkipped": True,
+                    "legacyFallbackAvailable": False,
+                    "legacyErrorType": type(exc).__name__,
+                    "rawExceptionExposed": False,
+                },
+            )
+        return self._result(
+            requested_mode=mode,
+            result_source=ResultSource.LEGACY,
+            calculation_status=CalculationStatus.COMPLETE,
+            result=legacy,
+            graph_status=None,
+            comparison_status=None,
+            fallback_applied=True,
+            fallback_reason=FallbackReason.GRAPH_FEATURE_DISABLED,
+            diagnostics={
+                "graphExecutionSkipped": True,
+                "legacyFallbackAvailable": True,
+            },
+        )
+
+    def _dual_runner_failure(
+        self,
+        *,
+        mode: ExecutionMode,
+        target_vehicle_id: str,
+        start_vehicle_id: str | None,
+        progress: PlayerProgress,
+        options: SolveOptions,
+        exception: Exception,
+    ) -> CalculationExecutionResult:
+        diagnostics = {
+            "failedStage": "DualEngineRunner",
+            "dualRunnerErrorType": type(exception).__name__,
+            "rawExceptionExposed": False,
+        }
+        try:
+            legacy = self.legacy_solver.solve(
+                target_vehicle_id=target_vehicle_id,
+                start_vehicle_id=start_vehicle_id,
+                progress=progress,
+                options=options,
+            )
+        except Exception as legacy_exception:
+            return self._result(
+                requested_mode=mode,
+                result_source=None,
+                calculation_status=CalculationStatus.UNAVAILABLE,
+                result=None,
+                graph_status=PipelineStatus.INTERNAL_ERROR,
+                comparison_status=ComparisonStatus.INTERNAL_ERROR,
+                fallback_applied=False,
+                fallback_reason=FallbackReason.GRAPH_INTERNAL_ERROR,
+                diagnostics={
+                    **diagnostics,
+                    "legacyFallbackAvailable": False,
+                    "legacyErrorType": type(legacy_exception).__name__,
+                },
+            )
+        return self._result(
+            requested_mode=mode,
+            result_source=ResultSource.LEGACY,
+            calculation_status=CalculationStatus.COMPLETE,
+            result=legacy,
+            graph_status=PipelineStatus.INTERNAL_ERROR,
+            comparison_status=ComparisonStatus.INTERNAL_ERROR,
+            fallback_applied=mode is ExecutionMode.GRAPH_EXPERIMENTAL,
+            fallback_reason=(
+                FallbackReason.GRAPH_INTERNAL_ERROR
+                if mode is ExecutionMode.GRAPH_EXPERIMENTAL
+                else None
+            ),
+            diagnostics={
+                **diagnostics,
+                "legacyFallbackAvailable": True,
+                "legacyRemainsUserResult": True,
+            },
+        )
+
+    def _invalid_input_result(
+        self,
+        mode: ExecutionMode,
+        dual: DualEngineResult,
+    ) -> CalculationExecutionResult:
+        invalid_rule_ids = tuple(
+            sorted(
+                {
+                    item.rule_id
+                    for item in dual.graph_result.input_findings
+                    if item.category.value == "invalid_input"
+                }
+            )
+        )
+        return self._result(
+            requested_mode=mode,
+            result_source=None,
+            calculation_status=CalculationStatus.UNAVAILABLE,
+            result=None,
+            graph_status=dual.graph_result.pipeline_status,
+            comparison_status=dual.comparison_status,
+            fallback_applied=False,
+            fallback_reason=FallbackReason.GRAPH_INVALID_INPUT,
+            diagnostics={
+                "invalidInputRejected": True,
+                "legacyResultDiscarded": dual.legacy_result.result is not None,
+                "legacyFallbackAvailable": False,
+                "affectedRuleIds": list(invalid_rule_ids),
+                "dualFingerprint": dual.fingerprint,
+            },
         )
 
     def _fallback(
@@ -465,7 +636,9 @@ class CalculationEngine:
             result=result,
             graph_status=graph_status,
             comparison_status=comparison_status,
-            shadow_comparison_exists=requested_mode is not ExecutionMode.LEGACY,
+            shadow_comparison_exists=(
+                graph_status is not None or comparison_status is not None
+            ),
             fallback_applied=fallback_applied,
             fallback_reason=fallback_reason,
             experimental=requested_mode is ExecutionMode.GRAPH_EXPERIMENTAL,
@@ -577,7 +750,7 @@ def _fallback_reason(dual: DualEngineResult) -> FallbackReason:
     if graph_status is PipelineStatus.INTERNAL_ERROR:
         return FallbackReason.GRAPH_INTERNAL_ERROR
     if graph_status is PipelineStatus.INVALID_INPUT:
-        return FallbackReason.GRAPH_INVALID_INPUT_LEGACY_ACCEPTED
+        return FallbackReason.GRAPH_INVALID_INPUT
     if graph_status is PipelineStatus.PARTIAL:
         return FallbackReason.GRAPH_PARTIAL
     if graph_status is PipelineStatus.BLOCKED:
