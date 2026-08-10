@@ -19,6 +19,8 @@
 | Metamorphic Accuracy | `python tests/accuracy_metamorphic_matrix.py` | 16 deterministische Monotonie-, Summen-, Status- und Fingerprint-Eigenschaften |
 | Cross-Python | `python tests/accuracy_cross_python.py` | identische Golden- und Kernreferenz-Fingerprints unter Python 3.10/3.12/3.13 |
 | Browser Shadow Fixture | `node tests/browser_shadow_harness.mjs` | kanonische Inputs/Ergebnisse ohne zweite Graphimplementierung; Runtime-Parität bleibt offen |
+| Browser Release Hardening | `node tests/browser_release_hardening.mjs` | 44 reale Direktfälle mit produktiver Legacy-Browserengine; keine Graphaktivierung |
+| Accuracy 10 Release Hardening | `python tests/release_hardening_matrix.py ... --output build/health` | 61 reale A→B-Abnahmen, drei Modi, 32 Boundaries, 14 Partial-Fälle und RC-Readiness |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
 
@@ -118,6 +120,19 @@ Legacy-Pfad und Graphstatus geprüft und bleiben `partial`; kein Test darf sie h
 Die drei früher deferred Verträge testen nun für Legacy, Graph und Browser: nur 0/30/50 Prozent
 Rabatt, strikte RP-Bereiche sowie Ablehnung inkonsistenter Research-/Purchase-Status.
 
+Accuracy 10 ergänzt 44 manuell eingefrorene direkte A→B-Fälle: genau einen pro Forschungsbaum.
+Zusammen mit neun streng geprüften Golden-E2E- und acht Accuracy-9-Kernreferenzen umfasst die reale
+Abnahme 61 Fälle. Die 44 direkten Fälle laufen in `legacy`, `shadow` und `graph_experimental`; alle
+132 Modusausführungen müssen die unabhängigen Datamine-/Formelwerte treffen. Legacy ist dabei nie
+alleinige Sollwertquelle.
+
+Die deterministische Boundary-Matrix enthält 20 ungültige und 12 gültige Grenzfälle. Ungültige
+Graph-Experimental-Eingaben dürfen kein Ergebnis und keinen Fallback liefern. Der leere optionale
+Start bleibt eine sichtbare Repräsentationsdifferenz: Legacy interpretiert ihn als nicht gesetzt,
+Graph lehnt ihn ab. Das ist kein Match und wird nicht still normalisiert. Alle 14 Hidden-Folder-
+Fälle müssen weiterhin partial bleiben. Der Performance-Smoke ist nur ein grobes 30-Sekunden-Gate;
+die Messzeit ist kein fachlicher Fingerprintbestandteil.
+
 ## Neue Tests
 
 - kleine synthetische Datenbanken für Randfälle bevorzugen
@@ -165,6 +180,12 @@ Execution-Mode- und Feature-Flag-Verträge, einen Index aller 2.090 Requests, Er
 Fallbackgründe, neun reale Abnahmen, die 49 Sonderfälle und den stabilen
 `graph-experimental-report-v1`-Fingerprint. Es muss Default und Empfehlung als `legacy`, 0 Mismatches,
 0 Internal Errors, 9/9 Abnahmen sowie 35 Graph-/14 Legacy-Fallback-Sonderfälle ausweisen.
+
+CI lädt zusätzlich `Browser_Release_Hardening_2.57.1.67.json` sowie
+`Accuracy_Release_Hardening_2.57.1.67.json/.txt` hoch. Das Release-Gate verlangt 61/61 reale
+A→B-Abnahmen, 32/32 Boundary-Fälle, 14/14 bewusst partielle Hidden-Folder-Fälle, 0 Mismatches,
+0 Internal Errors und keine offene Contract Decision. `ready_for_rc_review` darf dann true sein;
+`ready_for_default_use` bleibt immer false.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

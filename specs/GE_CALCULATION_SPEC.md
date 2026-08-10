@@ -224,3 +224,21 @@ Accuracy 9 ergänzt acht unveränderliche Kernreferenzen in
 kurze und lange Wege, Rangwechsel, Folder, Hidden, `reqUnlock`, Fortschritt, Rabatt, vorhandene GE
 und Convertible-RP-Shortfall ab. Erwartungen stammen aus Datamine, Formel und manuellem Review;
 die aktuelle Graphausgabe darf sie nicht überschreiben.
+
+## Accuracy-10-Release-Hardening-Vertrag
+
+Die versionierte Direktmatrix ergänzt genau eine eindeutige A→B-Kante pro Forschungsbaum. Ihr
+Pfadorakel ist der statisch festgeschriebene direkte Datamine-Vorgänger; RP und SL kommen aus der
+versionierten Sample-Datenbank, Rest-RP, GE, Rabatt-SL, vorhandene GE und Convertible-RP-Shortfall
+aus den Formeln dieses Dokuments. Legacy und Graph sind Prüflinge, nicht Sollwertgeneratoren.
+
+Zusammen mit den neun Golden-E2E- und acht Accuracy-9-Kernreferenzen müssen mindestens 50 reale
+A→B-Fälle vollständig bestehen; der aktuelle Vertrag umfasst 61. Die direkten Fälle müssen in
+`legacy`, `shadow` und `graph_experimental` numerisch identisch sein. `graph_experimental` bleibt nur
+bei `complete + exact_match` zulässig. Die 14 Hidden-Folder-Fälle bleiben partial und besitzen keine
+verbindlichen Gesamtsummen.
+
+Ungültige Boundary-Eingaben dürfen in Graph Experimental kein Benutzerergebnis und keinen
+Legacy-Fallback erzeugen. Ein leerer optionaler Start bleibt als Repräsentationsdifferenz sichtbar:
+Legacy interpretiert ihn als nicht gesetzt, Graph lehnt ihn ab. Diese Differenz ist kein Match und
+ändert weder die Berechnungsformeln noch den Defaultmodus Legacy.

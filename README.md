@@ -54,6 +54,7 @@ experimentell aktivieren; Desktop und Browser bleiben unverändert auf Legacy.
 - [Datamine-Referenz](docs/07_DATAMINE_REFERENCE.md)
 - [GE Engine](docs/08_GE_ENGINE.md)
 - [Tests](docs/13_TESTING.md)
+- [Release Hardening](docs/31_RELEASE_HARDENING.md)
 - [Bekannte Fehler](docs/16_KNOWN_BUGS.md)
 - [Spezifikationen](specs/GE_CALCULATION_SPEC.md)
 
@@ -131,7 +132,12 @@ Tests starten:
 python run_tests.py
 python tests/regression_matrix.py
 node --test tests/web_solver.test.mjs
+node tests/browser_release_hardening.mjs
 ```
+
+Das vollständige Accuracy-10-Gate aggregiert 61 unabhängige reale A→B-Abnahmen, 32 deterministische
+Boundary-Fälle und die 14 bewusst partiellen Hidden-Folder-Fälle. Der genaue Artefaktaufruf steht in
+der [Release-Hardening-Dokumentation](docs/31_RELEASE_HARDENING.md).
 
 Beispielberechnung:
 

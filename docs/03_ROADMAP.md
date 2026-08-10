@@ -26,6 +26,7 @@
 - [x] v1-Verträge für SL-Rabatt, ungültigen Fortschritt und Forschungsstatus-/RP-Konflikt abschließen
 - [x] alle 14 Hidden-Folder-Fälle einzeln mit Datamine-, Legacy- und Graph-Evidenz klassifizieren
 - [x] unabhängige Kernreferenzen für weitere Nationen, Fahrzeugarten und Progress-Zustände ergänzen
+- [x] Release-Hardening mit 61 realen A→B-Abnahmen, Boundary-Matrix und RC-Readiness abschließen
 - [ ] autoritative Hidden-Folder-Erwerbsevidenz beschaffen; bis dahin bleiben 14 Fälle partial
 - [ ] Entscheidung über eine spätere Standardumschaltung anhand belegter Abnahmekriterien treffen
 

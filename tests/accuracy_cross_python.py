@@ -13,6 +13,10 @@ from wurstbrot_core.accuracy_confidence import (  # noqa: E402
     load_json,
 )
 from wurstbrot_core.database import VehicleDatabase  # noqa: E402
+from wurstbrot_core.release_hardening import (  # noqa: E402
+    execute_direct_acceptance,
+    load_release_fixture,
+)
 
 
 def main() -> int:
@@ -25,6 +29,10 @@ def main() -> int:
         ROOT / "accuracy" / "golden" / "core_contract_2.57.1.67.json"
     )
     core_result = execute_core_reference_suite(database, core_fixture)
+    release_fixture = load_release_fixture(
+        ROOT / "accuracy" / "acceptance" / "release_hardening_2.57.1.67.json"
+    )
+    release_result = execute_direct_acceptance(database, release_fixture)
     expected = fixture["resultFingerprint"]
     print(
         json.dumps(
@@ -39,6 +47,13 @@ def main() -> int:
                 "core_reference_identical": (
                     core_result.fingerprint == core_fixture["resultFingerprint"]
                 ),
+                "release_hardening_result_fingerprint": release_result["fingerprint"],
+                "release_hardening_expected_fingerprint": release_fixture[
+                    "resultFingerprint"
+                ],
+                "release_hardening_identical": (
+                    release_result["fingerprint"] == release_fixture["resultFingerprint"]
+                ),
             },
             sort_keys=True,
         )
@@ -49,6 +64,8 @@ def main() -> int:
         and result.fingerprint == expected
         and core_result.failed == 0
         and core_result.fingerprint == core_fixture["resultFingerprint"]
+        and release_result["failed"] == 0
+        and release_result["fingerprint"] == release_fixture["resultFingerprint"]
         else 1
     )
 

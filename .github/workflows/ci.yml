@@ -36,6 +36,7 @@ jobs:
       - run: node --test tests/web_solver.test.mjs
       - run: node tests/browser_regression.mjs
       - run: node tests/browser_shadow_harness.mjs
+      - run: node tests/browser_release_hardening.mjs
 
   datamine-health:
     runs-on: ubuntu-latest
@@ -59,10 +60,19 @@ jobs:
       - run: python tests/graph_experimental_matrix.py --output build/health
       - run: python tests/accuracy_core_reference_matrix.py > build/health/Accuracy_Core_References_2.57.1.67.json
       - run: node tests/browser_shadow_harness.mjs --output build/health/Browser_Shadow_2.57.1.67.json
+      - run: node tests/browser_release_hardening.mjs --output build/health/Browser_Release_Hardening_2.57.1.67.json
       - run: |
           python tests/accuracy_confidence_matrix.py \
             --shadow-report build/health/Graph_Shadow_2.57.1.67.json \
             --browser-report build/health/Browser_Shadow_2.57.1.67.json \
+            --output build/health
+      - run: |
+          python tests/release_hardening_matrix.py \
+            --shadow-report build/health/Graph_Shadow_2.57.1.67.json \
+            --experimental-report build/health/Graph_Experimental_2.57.1.67.json \
+            --confidence-report build/health/Accuracy_Confidence_2.57.1.67.json \
+            --health-report build/health/WT_Health_2.57.1.67.json \
+            --browser-report build/health/Browser_Release_Hardening_2.57.1.67.json \
             --output build/health
       - uses: actions/upload-artifact@v4
         with:
@@ -78,8 +88,11 @@ jobs:
             build/health/Graph_Experimental_2.57.1.67.txt
             build/health/Accuracy_Core_References_2.57.1.67.json
             build/health/Browser_Shadow_2.57.1.67.json
+            build/health/Browser_Release_Hardening_2.57.1.67.json
             build/health/Accuracy_Confidence_2.57.1.67.json
             build/health/Accuracy_Confidence_2.57.1.67.txt
+            build/health/Accuracy_Release_Hardening_2.57.1.67.json
+            build/health/Accuracy_Release_Hardening_2.57.1.67.txt
 
   whitespace:
     runs-on: ubuntu-latest
