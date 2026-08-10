@@ -47,3 +47,51 @@ test("matches the shared Python contract including rank unlocks", () => {
   assert.equal(result.convertibleRpShortfall, expected.convertibleRpShortfall);
   assert.equal(result.rankRequirements[0].availableAfter, expected.rankAvailableAfter);
 });
+
+test("accepts only the public 0, 30 and 50 percent SL discounts", () => {
+  for (const slDiscount of [0, 30, 50]) {
+    assert.doesNotThrow(() => calculate(database, {targetId: "b", slDiscount}));
+  }
+  for (const slDiscount of [10, 100]) {
+    assert.throws(
+      () => calculate(database, {targetId: "b", slDiscount}),
+      /0, 30 oder 50/,
+    );
+  }
+});
+
+test("rejects negative and excessive research progress instead of clamping", () => {
+  assert.throws(
+    () => calculate(database, {targetId: "b", partialRp: -1}),
+    /nicht-negative Ganzzahl/,
+  );
+  assert.throws(
+    () => calculate(database, {targetId: "b", partialRp: 101}),
+    /Fahrzeug-RP/,
+  );
+});
+
+test("rejects inconsistent research, purchase and economy progress", () => {
+  assert.throws(
+    () => calculate(database, {
+      targetId: "b",
+      progress: {vehicles: {b: {researchedRp: 99, researched: true}}},
+    }),
+    /researched=true/,
+  );
+  assert.throws(
+    () => calculate(database, {
+      targetId: "b",
+      progress: {vehicles: {b: {researchedRp: 100, purchased: true}}},
+    }),
+    /gekauftes Fahrzeug/,
+  );
+  assert.throws(
+    () => calculate(database, {targetId: "b", ownedGe: -1}),
+    /ownedGe/,
+  );
+  assert.throws(
+    () => calculate(database, {targetId: "b", convertibleRp: -1}),
+    /convertibleRp/,
+  );
+});

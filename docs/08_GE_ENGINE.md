@@ -18,8 +18,8 @@ $$
 ## Verbindliche Konsequenzen
 
 - Zwei Fahrzeuge mit je 1 fehlendem RP kosten zusammen 2 GE, nicht 1 GE.
-- Die neue Graph-Cost-Engine lehnt negative, nicht ganzzahlige oder zu hohe Fortschritts-RP ab. Der
-  unveränderte Legacy-Solver klemmt sie weiterhin aus Kompatibilitätsgründen.
+- Legacy-, Graph- und Browser-Grenzen lehnen negative, nicht ganzzahlige oder zu hohe
+  Fortschritts-RP ab; kein Pfad klemmt sie still.
 - Vollständig erforschte Fahrzeuge kosten 0 RP/GE, können bis zum Kauf aber weiterhin SL kosten.
 - Gekaufte und Reservefahrzeuge kosten 0 RP, GE und SL.
 - `convertible_rp` begrenzt die Konvertierbarkeit nicht, sondern erzeugt aktuell nur den ausgewiesenen
@@ -27,9 +27,8 @@ $$
 
 ## SL
 
-SL werden pro nicht gekauftem, nicht als Reserve verfügbaren Fahrzeug angesetzt. Der produktive
-Legacy-Solver akzeptiert historisch 0 bis 100 Prozent. Der neue Shadow-Contract akzeptiert nur die
-belegten Stufen 0 %, 30 % und 50 %. Beide verwenden pro Fahrzeug das deterministische
+SL werden pro nicht gekauftem, nicht als Reserve verfügbaren Fahrzeug angesetzt. Der gemeinsame
+v1-Vertrag akzeptiert nur die belegten Stufen 0 %, 30 % und 50 %. Beide Engines verwenden pro Fahrzeug das deterministische
 `apply_discount` mit Python-`round` auf `value * (1 - discount/100)`.
 
 ## Vollständigkeit
@@ -63,8 +62,9 @@ keine neue Optimizer-Semantik. Vollständiger Contract und Matrizen stehen in
 
 `GraphCalculationPipeline` führt Evaluation, Resolution und Cost in dieser Reihenfolge aus. Der
 nachgelagerte `DualEngineRunner` vergleicht Kostenzeilen und Summen mit Legacy. Zusätzliche
-Legacy-Rabatte außerhalb 0/30/50 und striktere Fortschrittsregeln heißen
-`input_contract_difference`, nicht Match oder Mismatch. Details und aktuelle Zahlen stehen in
+Ungültige Inputs können wegen strukturierter Graph- gegenüber Legacy-Fehlerrepräsentation
+`input_contract_difference` heißen; das ist kein Match oder Mismatch. Die fachlichen Rabatt- und
+Progress-Grenzen sind seit Accuracy 9 gleich. Details und aktuelle Zahlen stehen in
 [Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).
 
 ## Execution Modes
@@ -95,8 +95,8 @@ bewahrt. Accuracy 8 führt damit keine neue Explain- oder Warntext-Semantik ein.
 Fallback-Grund bleiben sichtbar, aber das bestehende Legacy-Ergebnis liefert die Benutzerwerte.
 Dasselbe gilt bei `internal_error`, `unavailable`, nicht exaktem Vergleich oder nicht darstellbarem
 Adapter-Ergebnis. `invalid_input` ist ausdrücklich kein Fallback-Fall: Das Ergebnis bleibt
-`unavailable`, auch wenn Legacy den Input technisch akzeptiert hätte. So wird ein ungültiger Graph-
-Request nicht als vollständige Berechnung dargestellt. Fehlt bei einem zulässigen Fallback auch ein
+`unavailable`; unterschiedliche Fehlerrepräsentationen dürfen keine erfolgreiche Berechnung
+erzeugen. Fehlt bei einem zulässigen Fallback auch ein
 Legacy-Ergebnis, lautet der Ausführungsstatus ebenfalls `unavailable`.
 
 Die Accuracy-8-Matrix verarbeitet 2.090 eindeutig gezählte Requests: 1.988 verwenden Graph, 80

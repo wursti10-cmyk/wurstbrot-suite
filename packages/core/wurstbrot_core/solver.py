@@ -5,7 +5,7 @@ from heapq import heappop, heappush
 from itertools import count
 
 from .database import DatabaseError, VehicleDatabase
-from .economy import apply_discount, ge_for_remaining_rp
+from .economy import ALLOWED_SL_DISCOUNTS, apply_discount, ge_for_remaining_rp
 from .models import (
     PlayerProgress,
     RankRequirement,
@@ -13,11 +13,16 @@ from .models import (
     SolveResult,
     Vehicle,
     VehicleCostLine,
+    VehicleProgress,
 )
 
 
 class SolveError(ValueError):
     pass
+
+
+def _nonnegative_int(value: object) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
 
 
 class ResearchSolver:
@@ -34,6 +39,8 @@ class ResearchSolver:
     ) -> SolveResult:
         progress = progress or PlayerProgress()
         options = options or SolveOptions()
+
+        self._validate_input_contract(progress, options)
 
         target = self.db.get(target_vehicle_id)
         start = self.db.get(start_vehicle_id) if start_vehicle_id else None
@@ -146,10 +153,7 @@ class ResearchSolver:
             vehicle_progress = progress.for_vehicle(vehicle_id)
             already_owned = vehicle_progress.owned or vehicle_id in owned
 
-            researched_rp = min(
-                max(vehicle_progress.researched_rp, 0),
-                vehicle.rp,
-            )
+            researched_rp = vehicle_progress.researched_rp
             remaining_rp = 0 if already_owned else max(vehicle.rp - researched_rp, 0)
             ge = ge_for_remaining_rp(remaining_rp, self.db.rp_per_ge)
             sl = 0 if already_owned else apply_discount(
@@ -249,7 +253,7 @@ class ResearchSolver:
             state = progress.for_vehicle(vehicle_id)
             if state.owned or vehicle.reserve:
                 continue
-            researched_rp = min(max(state.researched_rp, 0), vehicle.rp)
+            researched_rp = state.researched_rp
             remaining_rp = max(vehicle.rp - researched_rp, 0)
             rp += remaining_rp
             ge += ge_for_remaining_rp(remaining_rp, self.db.rp_per_ge)
@@ -266,6 +270,92 @@ class ResearchSolver:
 
         # Deterministic tie breakers.
         return (primary, ge, sl, tuple(sorted(new_ids)))
+
+    def _validate_input_contract(
+        self,
+        progress: PlayerProgress,
+        options: SolveOptions,
+    ) -> None:
+        """Enforce the evidence-backed version-1.0 user input contract."""
+        if not isinstance(progress, PlayerProgress):
+            raise SolveError("PlayerProgress ist ungültig.")
+        if not _nonnegative_int(progress.owned_ge):
+            raise SolveError("owned_ge muss eine nicht-negative Ganzzahl sein.")
+        if progress.convertible_rp is not None and not _nonnegative_int(
+            progress.convertible_rp
+        ):
+            raise SolveError(
+                "convertible_rp muss null oder eine nicht-negative Ganzzahl sein."
+            )
+        if not isinstance(progress.fulfilled_unlocks, (set, frozenset)) or any(
+            not isinstance(item, str) or not item
+            for item in progress.fulfilled_unlocks
+        ):
+            raise SolveError(
+                "fulfilled_unlocks darf nur nichtleere Zeichenketten enthalten."
+            )
+        if not isinstance(progress.vehicles, dict):
+            raise SolveError("progress.vehicles muss eine Zuordnung sein.")
+
+        for vehicle_id, state in sorted(
+            progress.vehicles.items(), key=lambda item: str(item[0])
+        ):
+            if vehicle_id not in self.db.vehicles:
+                raise SolveError(
+                    f"PlayerProgress enthält ein unbekanntes Fahrzeug: {vehicle_id}"
+                )
+            if not isinstance(state, VehicleProgress):
+                raise SolveError(
+                    f"Ungültiger Fortschrittsstatus für {vehicle_id}."
+                )
+            vehicle = self.db.get(vehicle_id)
+            if not _nonnegative_int(state.researched_rp):
+                raise SolveError(
+                    f"researched_rp für {vehicle_id} muss eine nicht-negative "
+                    "Ganzzahl sein."
+                )
+            if state.researched_rp > vehicle.rp:
+                raise SolveError(
+                    f"researched_rp für {vehicle_id} überschreitet die Fahrzeug-RP."
+                )
+            if not isinstance(state.researched, bool) or not isinstance(
+                state.purchased, bool
+            ):
+                raise SolveError(
+                    f"researched und purchased für {vehicle_id} müssen boolesch sein."
+                )
+            if state.purchased and not state.researched:
+                raise SolveError(
+                    f"Ein gekauftes Fahrzeug muss als erforscht markiert sein: {vehicle_id}"
+                )
+            if state.researched and state.researched_rp != vehicle.rp:
+                raise SolveError(
+                    f"researched=True für {vehicle_id} erfordert exakt "
+                    f"{vehicle.rp} researched_rp."
+                )
+
+        if not isinstance(options, SolveOptions):
+            raise SolveError("SolveOptions ist ungültig.")
+        if not isinstance(options.optimize_for, str) or options.optimize_for not in {
+            "ge",
+            "rp",
+            "sl",
+            "vehicles",
+        }:
+            raise SolveError("optimize_for muss ge, rp, sl oder vehicles sein.")
+        for field_name in (
+            "include_start_vehicle",
+            "include_hidden_legacy",
+            "assume_external_unlocks",
+        ):
+            if not isinstance(getattr(options, field_name), bool):
+                raise SolveError(f"{field_name} muss boolesch sein.")
+        if (
+            not isinstance(options.sl_discount_percent, int)
+            or isinstance(options.sl_discount_percent, bool)
+            or options.sl_discount_percent not in ALLOWED_SL_DISCOUNTS
+        ):
+            raise SolveError("SL-Rabatt muss 0, 30 oder 50 Prozent betragen.")
 
     def _find_minimum_rank_additions(
         self,

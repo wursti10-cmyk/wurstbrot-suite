@@ -65,10 +65,61 @@ function halfEvenDivide(numerator, denominator) {
 }
 
 function applyDiscount(value, percent) {
-  if (!Number.isInteger(percent) || percent < 0 || percent > 100) {
-    throw new Error("Rabatt muss zwischen 0 und 100 liegen.");
+  if (!Number.isInteger(percent) || !new Set([0, 30, 50]).has(percent)) {
+    throw new Error("SL-Rabatt muss 0, 30 oder 50 Prozent betragen.");
   }
   return halfEvenDivide(value * (100 - percent), 100);
+}
+
+function isNonNegativeInteger(value) {
+  return Number.isInteger(value) && value >= 0;
+}
+
+function validateProgress(progress, index) {
+  if (!progress || typeof progress !== "object" || Array.isArray(progress)) {
+    throw new Error("PlayerProgress ist ungültig.");
+  }
+  if (!progress.vehicles || typeof progress.vehicles !== "object"
+    || Array.isArray(progress.vehicles)) {
+    throw new Error("progress.vehicles muss eine Zuordnung sein.");
+  }
+  if (!isNonNegativeInteger(progress.ownedGe)) {
+    throw new Error("ownedGe muss eine nicht-negative Ganzzahl sein.");
+  }
+  if (progress.convertibleRp != null && !isNonNegativeInteger(progress.convertibleRp)) {
+    throw new Error("convertibleRp muss null oder eine nicht-negative Ganzzahl sein.");
+  }
+
+  for (const [id, state] of Object.entries(progress.vehicles)) {
+    const vehicle = index.get(id);
+    if (!vehicle) throw new Error(`PlayerProgress enthält ein unbekanntes Fahrzeug: ${id}`);
+    if (!state || typeof state !== "object" || Array.isArray(state)) {
+      throw new Error(`Ungültiger Fortschrittsstatus für ${id}.`);
+    }
+    const researchedRp = state.researchedRp ?? 0;
+    if (!isNonNegativeInteger(researchedRp)) {
+      throw new Error(`researchedRp für ${id} muss eine nicht-negative Ganzzahl sein.`);
+    }
+    if (researchedRp > vehicle.rp) {
+      throw new Error(`researchedRp für ${id} überschreitet die Fahrzeug-RP.`);
+    }
+    if (state.researched != null && typeof state.researched !== "boolean") {
+      throw new Error(`researched für ${id} muss boolesch sein.`);
+    }
+    if (state.purchased != null && typeof state.purchased !== "boolean") {
+      throw new Error(`purchased für ${id} muss boolesch sein.`);
+    }
+    const researched = state.researched ?? false;
+    const purchased = state.purchased ?? false;
+    if (purchased && !researched) {
+      throw new Error(`Ein gekauftes Fahrzeug muss als erforscht markiert sein: ${id}`);
+    }
+    if (researched && researchedRp !== vehicle.rp) {
+      throw new Error(
+        `researched=true für ${id} erfordert exakt ${vehicle.rp} researchedRp.`,
+      );
+    }
+  }
 }
 
 function compareTuples(left, right) {
@@ -142,7 +193,7 @@ function candidateCost(ids, base, index, progress, options, rpPerGe) {
     const vehicle = index.get(id);
     const state = stateFor(progress, id);
     if (isOwned(state) || vehicle.reserve) continue;
-    const researched = Math.min(Math.max(Number(state.researchedRp || 0), 0), vehicle.rp);
+    const researched = state.researchedRp ?? 0;
     const remaining = Math.max(vehicle.rp - researched, 0);
     rp += remaining;
     ge += remaining ? Math.ceil(remaining / rpPerGe) : 0;
@@ -205,26 +256,39 @@ export function calculate(database, input = {}) {
     throw new Error("Start und Ziel müssen im selben Forschungsbaum liegen.");
   }
 
-  const progressInput = input.progress || {};
+  const progressInput = input.progress ?? {};
+  if (!progressInput || typeof progressInput !== "object" || Array.isArray(progressInput)) {
+    throw new Error("PlayerProgress ist ungültig.");
+  }
+  if (progressInput.vehicles != null
+    && (typeof progressInput.vehicles !== "object" || Array.isArray(progressInput.vehicles))) {
+    throw new Error("progress.vehicles muss eine Zuordnung sein.");
+  }
   const progress = {
     ...progressInput,
     vehicles: {...(progressInput.vehicles || {})},
-    ownedGe: progressInput.ownedGe ?? input.ownedGe,
-    convertibleRp: progressInput.convertibleRp ?? input.convertibleRp,
+    ownedGe: progressInput.ownedGe ?? input.ownedGe ?? 0,
+    convertibleRp: progressInput.convertibleRp ?? input.convertibleRp ?? null,
   };
   if (input.partialRp != null && !progress.vehicles[target.id]) {
-    progress.vehicles[target.id] = {researchedRp: Number(input.partialRp) || 0};
+    progress.vehicles[target.id] = {researchedRp: input.partialRp};
+  }
+  const includeStartVehicle = input.includeStartVehicle ?? false;
+  const includeHiddenLegacy = input.includeHiddenLegacy ?? false;
+  if (typeof includeStartVehicle !== "boolean" || typeof includeHiddenLegacy !== "boolean") {
+    throw new Error("includeStartVehicle und includeHiddenLegacy müssen boolesch sein.");
   }
   const options = {
     optimizeFor: input.optimizeFor || "ge",
-    includeStartVehicle: Boolean(input.includeStartVehicle),
-    includeHiddenLegacy: Boolean(input.includeHiddenLegacy),
-    slDiscountPercent: Number(input.slDiscount || 0),
+    includeStartVehicle,
+    includeHiddenLegacy,
+    slDiscountPercent: input.slDiscount ?? 0,
   };
   if (!new Set(["ge", "rp", "sl", "vehicles"]).has(options.optimizeFor)) {
     throw new Error("Unbekanntes Optimierungsziel.");
   }
   applyDiscount(0, options.slDiscountPercent);
+  validateProgress(progress, index);
   if (target.hiddenResearch && !options.includeHiddenLegacy) {
     throw new Error(`${target.name || target.id} ist ein ausgeblendetes Altbestandsfahrzeug.`);
   }
@@ -288,7 +352,7 @@ export function calculate(database, input = {}) {
       const vehicle = index.get(id);
       const state = stateFor(progress, id);
       const alreadyOwned = isOwned(state) || owned.has(id);
-      const researched = Math.min(Math.max(Number(state.researchedRp || 0), 0), vehicle.rp);
+      const researched = state.researchedRp ?? 0;
       const remainingRp = alreadyOwned ? 0 : Math.max(vehicle.rp - researched, 0);
       if (vehicle.reqUnlock) warnings.push(`${vehicle.name}: zusätzliche Freischaltung ${vehicle.reqUnlock}`);
       if (vehicle.hiddenResearch) warnings.push(`${vehicle.name}: Altbestandsfahrzeug`);
@@ -302,8 +366,8 @@ export function calculate(database, input = {}) {
     });
   const totalRp = lines.reduce((sum, line) => sum + line.remainingRp, 0);
   const totalGeBeforeOwned = lines.reduce((sum, line) => sum + line.ge, 0);
-  const ownedGe = Math.max(Number(progress.ownedGe ?? input.ownedGe ?? 0), 0);
-  const convertibleRp = progress.convertibleRp ?? input.convertibleRp;
+  const ownedGe = progress.ownedGe;
+  const convertibleRp = progress.convertibleRp;
   return {
     startVehicleId: start?.id || null,
     targetVehicleId: target.id,
@@ -314,7 +378,7 @@ export function calculate(database, input = {}) {
     totalGeBeforeOwned,
     totalGe: Math.max(totalGeBeforeOwned - ownedGe, 0),
     totalSl: lines.reduce((sum, line) => sum + line.sl, 0),
-    convertibleRpShortfall: convertibleRp == null ? 0 : Math.max(totalRp - Number(convertibleRp), 0),
+    convertibleRpShortfall: convertibleRp == null ? 0 : Math.max(totalRp - convertibleRp, 0),
     warnings: [...new Set(warnings)],
   };
 }

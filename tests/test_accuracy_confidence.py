@@ -14,15 +14,19 @@ sys.path.insert(0, str(ROOT / "packages" / "validator"))
 from wurstbrot_core.accuracy_confidence import (  # noqa: E402
     EXPECTED_PARTIAL_TARGET_IDS,
     PROVENANCE_CATEGORIES,
+    REQUIRED_CORE_REFERENCE_TAGS,
     REQUIRED_E2E_TAGS,
     AccuracyContractError,
     baseline_fingerprint,
     build_confidence_report,
+    execute_core_reference_suite,
     execute_golden_suite,
     load_json,
     render_confidence_text,
     run_metamorphic_suite,
     validate_baseline,
+    validate_core_contract_closure,
+    validate_core_reference_fixture,
     validate_decision_register,
     validate_golden_fixture,
     validate_partial_dossier,
@@ -44,14 +48,24 @@ class AccuracyConfidenceTests(unittest.TestCase):
         )
         cls.baseline = load_json(ROOT / "accuracy" / "baselines" / "2.57.1.67.json")
         cls.golden_fixture = load_json(ROOT / "accuracy" / "golden" / "2.57.1.67.json")
+        cls.core_reference_fixture = load_json(
+            ROOT / "accuracy" / "golden" / "core_contract_2.57.1.67.json"
+        )
         cls.decisions = load_json(ROOT / "accuracy" / "contracts" / "decision_register.json")
         cls.partial_dossier = load_json(
             ROOT / "accuracy" / "research" / "partial_folder_cases_2.57.1.67.json"
+        )
+        cls.core_closure = load_json(
+            ROOT / "accuracy" / "research" / "core_contract_closure_2.57.1.67.json"
         )
         cls.rollback = load_json(
             ROOT / "accuracy" / "rollback" / "experimental_switch_plan.json"
         )
         cls.golden_summary = execute_golden_suite(cls.database, cls.golden_fixture)
+        cls.core_reference_summary = execute_core_reference_suite(
+            cls.database,
+            cls.core_reference_fixture,
+        )
         cls.metamorphic_summary = run_metamorphic_suite(cls.database)
 
     def test_baseline_is_exact_versioned_and_environment_independent(self):
@@ -130,6 +144,45 @@ class AccuracyConfidenceTests(unittest.TestCase):
         }
         self.assertEqual(set(REQUIRED_E2E_TAGS), reviewed)
 
+    def test_accuracy9_core_references_are_independent_reviewed_and_immutable(self):
+        validate_core_reference_fixture(self.core_reference_fixture, self.database)
+        self.assertEqual(self.core_reference_summary.total, 8)
+        self.assertEqual(self.core_reference_summary.passed, 8)
+        self.assertEqual(self.core_reference_summary.failed, 0)
+        self.assertEqual(
+            self.core_reference_summary.fingerprint,
+            self.core_reference_fixture["resultFingerprint"],
+        )
+        tags = {
+            tag
+            for case in self.core_reference_fixture["cases"]
+            for tag in case["tags"]
+        }
+        self.assertTrue(set(REQUIRED_CORE_REFERENCE_TAGS) <= tags)
+        self.assertTrue(
+            all(case["review_status"] == "reviewed" for case in self.core_reference_fixture["cases"])
+        )
+        self.assertTrue(
+            all(case["primary_origin"] != "LEGACY_CONFIRMED" for case in self.core_reference_fixture["cases"])
+        )
+        unlock_case = next(
+            case
+            for case in self.core_reference_fixture["cases"]
+            if case["case_id"] == "accuracy9:britain-helicopter-unlock-progress"
+        )
+        self.assertEqual(
+            unlock_case["expected"]["unlock_requirements"][0]["classification"],
+            "fulfilled_by_progress",
+        )
+        self.assertEqual(
+            unlock_case["expected"]["unlock_requirements"][0]["status"],
+            "satisfied",
+        )
+        changed = deepcopy(self.core_reference_fixture)
+        changed["cases"][0]["expected"]["rule_ids"].append("UNREVIEWED_CHANGE")
+        with self.assertRaises(AccuracyContractError):
+            validate_core_reference_fixture(changed, self.database)
+
     def test_all_sixteen_metamorphic_properties_pass_deterministically(self):
         repeated = run_metamorphic_suite(self.database)
         self.assertEqual(self.metamorphic_summary, repeated)
@@ -141,9 +194,26 @@ class AccuracyConfidenceTests(unittest.TestCase):
     def test_contract_decision_register_is_complete_and_has_no_silent_decisions(self):
         validate_decision_register(self.decisions)
         self.assertEqual(len(self.decisions["decisions"]), 5)
-        deferred = [item for item in self.decisions["decisions"] if item["status"] == "deferred"]
-        self.assertTrue(deferred)
-        self.assertTrue(all(item["release_blocking"] for item in deferred))
+        self.assertTrue(
+            all(item["status"] == "accepted" for item in self.decisions["decisions"])
+        )
+        self.assertFalse(any(item["release_blocking"] for item in self.decisions["decisions"]))
+
+    def test_accuracy9_core_contract_evidence_matches_live_matrices(self):
+        validate_core_contract_closure(
+            self.core_closure,
+            self.database,
+            self.core_reference_fixture,
+        )
+        self.assertEqual(
+            self.core_closure["contractClosure"],
+            {
+                "CONTRACT_SL_DISCOUNT_DOMAIN": "accepted_0_30_50",
+                "CONTRACT_INVALID_PROGRESS": "accepted_strict_rejection",
+                "CONTRACT_RESEARCH_FLAG_RP_CONFLICT": "accepted_invalid_input",
+                "readyForDefaultUseChanged": False,
+            },
+        )
 
     def test_partial_dossier_matches_all_fourteen_datamine_targets(self):
         validate_partial_dossier(self.partial_dossier, self.database)
@@ -153,6 +223,13 @@ class AccuracyConfidenceTests(unittest.TestCase):
         )
         self.assertTrue(
             all(not item["heuristic_applied"] for item in self.partial_dossier["cases"])
+        )
+        self.assertEqual(len(self.partial_dossier["caseEvidence"]), 14)
+        self.assertTrue(
+            all(
+                item["classification"] == "evidence_limited_partial"
+                for item in self.partial_dossier["caseEvidence"]
+            )
         )
         pipeline = GraphCalculationPipeline(
             self.database,
@@ -220,6 +297,7 @@ class AccuracyConfidenceTests(unittest.TestCase):
             database=self.database,
             baseline=self.baseline,
             golden=self.golden_summary,
+            core_references=self.core_reference_summary,
             metamorphic=self.metamorphic_summary,
             shadow_report=changed_shadow,
             browser_report=self._browser_report(),
@@ -235,6 +313,7 @@ class AccuracyConfidenceTests(unittest.TestCase):
             database=self.database,
             baseline=self.baseline,
             golden=self.golden_summary,
+            core_references=self.core_reference_summary,
             metamorphic=self.metamorphic_summary,
             shadow_report=self._shadow_report(),
             browser_report=self._browser_report(),
@@ -270,9 +349,11 @@ class AccuracyConfidenceTests(unittest.TestCase):
             "browserParityStatus": "fixture_validation_only",
             "graphRuntimeAvailable": False,
             "canonicalGoldenCasesValidated": 60,
-            "passed": 60,
+            "canonicalCoreReferenceCasesValidated": 8,
+            "passed": 68,
             "failed": 0,
             "resultFingerprint": self.golden_summary.fingerprint,
+            "coreResultFingerprint": self.core_reference_summary.fingerprint,
             "productiveBrowserLogicModified": False,
         }
 

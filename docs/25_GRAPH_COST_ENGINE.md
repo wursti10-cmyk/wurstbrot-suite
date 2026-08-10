@@ -53,15 +53,15 @@ remaining_rp = max(total_rp - researched_rp, 0)
 
 - Negative, nicht ganzzahlige oder über Gesamt-RP liegende Fortschrittswerte blockieren die
   Graph-Kostenberechnung; sie werden nicht geklemmt.
-- `researched=True` bedeutet 0 Rest-RP, auch wenn das Fahrzeug noch nicht gekauft ist.
+- `researched=True` bedeutet nur zusammen mit numerischen RP in Höhe der Gesamt-RP 0 Rest-RP; ein
+  Widerspruch wird vor der Kostenberechnung abgelehnt.
 - `purchased=True` impliziert 0 Rest-RP und 0 zusätzliche SL.
 - Forschungs- und Kaufstatus bleiben getrennt in jeder Zeile sichtbar.
 - Reservefahrzeuge verursachen keine zusätzlichen Kosten.
 - Null-RP- und Null-SL-Werte bleiben mit Evidence und Warning sichtbar.
 
-Der Legacy-Solver klemmt aus Kompatibilitätsgründen weiterhin numerische Fortschrittswerte. Diese
-unterschiedliche Eingabevalidierung bleibt als sichtbare Contract-Differenz bestehen; Graph
-Experimental verwendet in diesem Fall Legacy-Fallback.
+Legacy und Graph lehnen ungültige numerische Fortschrittswerte nach demselben v1-Vertrag ab. Graph
+Experimental darf daraus kein scheinbar gültiges Legacy-Fallback-Ergebnis machen.
 
 ## GE
 
@@ -75,7 +75,7 @@ und vorhandene GE abgezogen. Das Ergebnis nach Abzug ist mindestens 0. Ein nicht
 
 ## SL
 
-Die Shadow Engine akzeptiert ausschließlich die belegten Rabattstufen 0 %, 30 % und 50 %. Der
+Legacy und Graph akzeptieren ausschließlich die belegten Rabattstufen 0 %, 30 % und 50 %. Der
 Rabatt wird mit dem bestehenden deterministischen `apply_discount` pro Fahrzeug angewandt. Gekaufte
 und Reservefahrzeuge erzeugen 0 zusätzliche SL. Andere Rabattwerte werden mit
 `INVALID_SL_DISCOUNT` abgelehnt.

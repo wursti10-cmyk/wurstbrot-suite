@@ -180,6 +180,10 @@ python apps/ge-calculator/ge_calculator_cli.py \
   --progress germ_leopard_2a7v:100000
 ```
 
+Der v1-Eingabevertrag akzeptiert SL-Rabatte nur mit `--sl-discount 0`, `30` oder `50`. Negative oder
+über den Gesamt-RP liegende Fortschritte sowie widersprüchliche Forschungs-/Kaufstatus werden
+abgelehnt und nicht still geklemmt.
+
 Datamine-Health-Report für eine bestehende Datenbank:
 
 ```bash

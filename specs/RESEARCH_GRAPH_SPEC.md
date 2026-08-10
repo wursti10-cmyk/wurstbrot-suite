@@ -250,12 +250,22 @@ Closure. `include_start_vehicle` entfernt nur A selbst aus der erfüllten Menge 
 required. Teil-RP ist kein Besitz. Mehrfachvorgänger und Zyklen bleiben unresolved; eine stille
 Kantenauswahl ist verboten.
 
+Die Sample-Datenbank `2.57.1.67` enthält 2.232 Vorgängereinträge: 239 ohne Vorgänger und 1.993
+skalare IDs, aber kein Array. Schema v1 belegt daher nur Kardinalität 0..1; weder AND- noch
+OR-Semantik für mehrere Vorgänger ist aus realen Sample-Daten beweisbar.
+
 ### Folder
 
 Resolution unterscheidet `membership_only`, `required_member` und `satisfied_member`. Nur eine separat
 belegte Vorgängerkante kann ein Folder-Mitglied required machen. Fehlende, versteckte, mehrfach
 zugeordnete oder widersprüchlich sortierte noch offene Mitglieder bleiben unresolved. Für ein bereits
 erfülltes Mitglied bleibt die Quellenanomalie Evidence, öffnet seine Eligibility aber nicht erneut.
+
+Offizielle Gruppenbeschreibungen belegen die besondere Rolle des ersten Mitglieds und, für
+beschriebene reguläre Gruppen, dass nachgelagerte Gruppenmitglieder nicht zwingend für den
+Baumfortschritt sind. Sie belegen jedoch weder Forschungs-, Kauf- noch Rangzählungsregeln für die
+vier versteckten Legacy-Folder. Deshalb bleiben deren 14 Ziele `partial`; `groupIndex` allein darf
+keine Erwerbsheuristik erzeugen.
 
 ### Unlock
 
@@ -264,6 +274,10 @@ Eine interne Fahrzeugreferenz ergänzt ihre eindeutige fehlende Closure. Ein exp
 ist nur mit genau dieser Evidenz oder `assume_external_unlocks=True` erfüllt. Ohne Evidenz bleibt er
 unresolved. Owned beziehungsweise Start A beweisen die bereits überwundene Unlock-Bedingung des
 erfüllten Fahrzeugs. Unlocks dürfen nicht als normale Vorgängerkanten rekonstruiert werden.
+
+Im Sample besitzen 31 Fahrzeuge ein `reqUnlock`; alle 31 Tokens entsprechen dem dokumentierten
+externen Muster, null referenzieren eine interne Fahrzeug-ID und null bleiben unbekannt. Das ändert
+den Vertrag nicht: Nur exakter PlayerProgress oder die explizite Option erfüllt externe Tokens.
 
 ### Rang
 
@@ -404,8 +418,8 @@ nicht automatisch aus Readiness abgeleitet werden.
 
 Alle anderen Graphstatus oder Vergleichskategorien verwenden grundsätzlich ein vorhandenes Legacy-
 Ergebnis als sichtbar diagnostizierten Fallback. `invalid_input` und daraus folgende Input-Contract-
-Differenzen sind die Ausnahme: Sie bleiben ohne Benutzerergebnis, selbst wenn Legacy sie technisch
-akzeptiert. Insbesondere besitzt `partial` keine verbindlichen Graphsummen. Ist auch Legacy nicht
+Differenzen sind die Ausnahme: Sie bleiben unabhängig von der Fehlerrepräsentation ohne
+Benutzerergebnis. Insbesondere besitzt `partial` keine verbindlichen Graphsummen. Ist auch Legacy nicht
 darstellbar, lautet der Ausführungsstatus `unavailable`. Desktop und Browser bleiben Legacy-only.
 
 ## Deterministic Fingerprint Contract
@@ -443,6 +457,8 @@ Die unabhängige Confidence-Schicht konsumiert `ResearchGraph` und
 - deterministische Baseline für Datamine, Validator, Graph, Pipeline und Fingerprints;
 - statische Golden Inputs und Erwartungen für alle 44 realen Bäume;
 - mindestens neun manuell geprüfte reale A→B-Referenzen;
+- acht zusätzliche manuell geprüfte Accuracy-9-Kernreferenzen über sechs Nationen und fünf
+  Fahrzeugarten;
 - alle sechs Herkunftskategorien mit unabhängiger Stütze für `LEGACY_CONFIRMED`;
 - deterministische metamorphische Eigenschaften;
 - denselben Result-Fingerprint unter Python 3.10, 3.12 und 3.13;
@@ -460,8 +476,10 @@ Readiness besitzt drei getrennte Werte:
 - `ready_for_release_candidate`: geprüfter Experimentalumfang mit null Mismatch/Internal Error, vollständig
   grünen Golden-/Metamorphic-Suites, voller Options-/Input-Abdeckung, dokumentierten Decisions,
   Browserstatus, Rollback und realen Referenzen;
-- `ready_for_default_use`: Default-Umschaltung; bleibt in Accuracy 8 zwingend false.
+- `ready_for_default_use`: Default-Umschaltung; bleibt in Accuracy 9 zwingend false.
 
-Offene Decisions dürfen den Shadow-RC nur dann nicht blockieren, wenn sie ausdrücklich als
-release-blocking dokumentiert sind. Für Default-Nutzung müssen sie angenommen oder verworfen sein.
-Ein Confidence-Score ist nicht Teil des Vertrags.
+Die fünf Entscheidungen des Registers sind angenommen; insbesondere gelten für v1 exakt 0/30/50
+Prozent Rabatt, strikte Progress-Validierung und ein blockierender Forschungsstatus-/RP-Konflikt.
+Die geschlossenen Eingabeverträge rechtfertigen keine Default-Umschaltung: Hidden-Folder-Evidenz,
+Browser-Runtime-Parität, Ablösung der Rank-Compatibility-Brücke und ein eigener Default-Review fehlen
+weiterhin. Ein Confidence-Score ist nicht Teil des Vertrags.

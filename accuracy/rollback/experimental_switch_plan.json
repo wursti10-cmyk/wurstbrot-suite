@@ -32,7 +32,7 @@
       "adapter_contract_violation"
     ],
     "partialPolicy": "Do not expose binding Graph totals; report partial and use Legacy as the user result.",
-    "invalidInputPolicy": "Reject invalid_input without a Legacy user result, even when Legacy technically accepts the request."
+    "invalidInputPolicy": "Reject invalid_input without a Legacy user result; differing error representations must never create a successful fallback."
   },
   "shadowComparison": {
     "required": true,

@@ -7,6 +7,9 @@ nicht erweitert. Accuracy 8 verwendet diese Evidenz für einen ausdrücklich akt
 CLI-Experimentalmodus. Legacy bleibt Standard und Empfehlung; GUI, Desktop-App und Browserlogik
 verwenden keine Graphresultate.
 
+Accuracy 9 erweitert ausschließlich die unabhängige Referenzbasis und schließt drei v1-
+Eingabeverträge. Es entsteht keine neue Graph-, Folder- oder Solverregel.
+
 Die Confidence-Schicht besteht aus versionierten Daten unter `accuracy/`, dem additiven Modul
 `accuracy_confidence.py` und ausführbaren Python-/JavaScript-Harnesses. Sie besitzt keine
 Folder-, Unlock-, Rank-, Optimizer- oder Kostenregel.
@@ -69,6 +72,15 @@ Teilfortschritt am Ziel und Zwischenfahrzeug, ein gekauftes Zwischenfahrzeug, vo
 Convertible-RP-Shortfall sowie 0/30/50-Prozent-SL-Rabatte. Rank- und Folder-Ergebnisse bleiben als
 strukturierte Felder im erwarteten Contract sichtbar.
 
+### Accuracy-9-Kernreferenzen
+
+`accuracy/golden/core_contract_2.57.1.67.json` ergänzt acht unveränderliche, manuell geprüfte Fälle.
+Sie umfassen sechs Nationen und fünf Fahrzeugarten sowie kurze/lange Wege, Rangwechsel, Folder,
+Hidden, explizit erfülltes `reqUnlock`, Teilfortschritt, gekauftes Zwischenfahrzeug, 0/30/50 Prozent
+SL-Rabatt, vorhandene GE und Convertible-RP-Shortfall. Sieben Erwartungen sind `complete`, eine ist
+bewusst `partial`. Primäre Herkunft ist siebenmal `MANUALLY_REVIEWED` und einmal
+`UNRESOLVED_SOURCE_LIMITATION`; Legacy ist bei keinem Fall alleinige oder primäre Wahrheit.
+
 ## Metamorphic Suite
 
 Die 16 deterministischen Eigenschaften sind fahrzeugwertunabhängige Verträge:
@@ -90,12 +102,13 @@ Es werden keine Zufallswerte verwendet; `seed` ist deshalb ausdrücklich `null`.
 ## Cross-Python-Vertrag
 
 `tests/accuracy_cross_python.py` muss unter Python 3.10, 3.12 und 3.13 exakt denselben
-`accuracy-golden-results-v1`-Fingerprint liefern. Python-Version, Implementierung, Executable,
+`accuracy-golden-results-v1`- und `accuracy-core-reference-results-v1`-Fingerprint liefern.
+Python-Version, Implementierung, Executable,
 Plattform, Zeitstempel, Pfade und Objektadressen sind aus fachlichen Fingerprints ausgeschlossen.
 
 ## Browser-Shadow-Harness
 
-`tests/browser_shadow_harness.mjs` liest dieselben unveränderlichen Golden Inputs und Ergebnisse. Es
+`tests/browser_shadow_harness.mjs` liest dieselben 60 Golden- sowie acht Accuracy-9-Kernreferenzen. Es
 prüft Fixture-/Result-Fingerprint, Status, Rule IDs, RP-/GE-/SL-Zeilen, Summen und incomplete-Semantik.
 Es implementiert bewusst keine zweite Graphengine.
 
@@ -109,20 +122,20 @@ Browser-Solver bleiben unverändert.
 
 | Entscheidung | Status | Release-blocking |
 |---|---|---:|
-| SL-Rabatt-Domain | `deferred` | ja |
-| ungültige Progress-Werte | `deferred` | ja |
-| `researched=True`/RP-Konflikt | `deferred` | ja |
+| SL-Rabatt-Domain 0/30/50 | `accepted` | nein |
+| ungültige Progress-Werte strikt ablehnen | `accepted` | nein |
+| `researched=True`/RP-Konflikt ablehnen | `accepted` | nein |
 | vorhandene GE bei Partial | `accepted` | nein |
 | Legacy-Rank-Compatibility als Vergleichsbrücke | `accepted` | nein |
 
-`deferred` wird nicht als Match behandelt. Für einen Shadow Release Candidate genügt, dass eine
-offene Entscheidung ausdrücklich als release-blocking gekennzeichnet ist. Vor produktiver
-Default-Nutzung muss sie beschlossen sein.
+Damit sind keine Contract Decisions mehr offen. `input_contract_difference` bleibt für strukturierte
+Graphfehler gegenüber dem Legacy-Fehlerkanal sichtbar und zählt weiterhin nicht als erfolgreicher
+Match.
 
 ## Confidence Report
 
-CI erzeugt `Accuracy_Confidence_<gameVersion>.json` und `.txt`. Der JSON-Bericht enthält Golden- und
-Metamorphic-Ergebnisse, Herkunftsverteilung, Cross-Python-Vertrag, Browserstatus,
+CI erzeugt `Accuracy_Confidence_<gameVersion>.json` und `.txt`. Der JSON-Bericht enthält Golden-,
+Accuracy-9-Kernreferenz- und Metamorphic-Ergebnisse, Herkunftsverteilung, Cross-Python-Vertrag, Browserstatus,
 Pipeline-Vergleichszahlen, offene Entscheidungen, Sonderfallstatus, Readiness, Grenzen und
 `accuracy-confidence-report-v1`-Fingerprint. Es gibt bewusst keinen Prozent- oder Health-Score.
 
@@ -135,8 +148,8 @@ Pipeline-Vergleichszahlen, offene Entscheidungen, Sonderfallstatus, Readiness, G
   Mismatches/Internal Errors, Golden und Metamorphic grün, 100 % Options-/Input-Abdeckung,
   dokumentierte Decisions, Browserstatus, Rollback-Plan und neun reale Referenzen.
 - `ready_for_default_use=false` bleibt hart gesetzt. Browser-Runtime-Parität, Folder-Evidenz,
-  Product-Owner-Entscheidungen, Entfernung oder Ablösung der Compatibility-Brücke und ein eigener
-  Default-Umschalt-Review fehlen weiterhin.
+  Entfernung oder Ablösung der Compatibility-Brücke und ein eigener Default-Umschalt-Review fehlen
+  weiterhin. Die geschlossenen Eingabeverträge schalten keine Engine um.
 
 Readiness aktiviert nie selbst eine Rechenquelle. `graph_experimental` verlangt bei jedem
 CLI-Aufruf eine ausdrückliche Option; die Auswahl wird nicht gespeichert.

@@ -1,21 +1,33 @@
 # GE Calculation Specification
 
-Status: verbindlich für produktiven Legacy-Core und additive Graph-Cost-Engine. Abweichende
-Eingabevalidierung ist unten ausdrücklich getrennt.
+Status: verbindlich für produktiven Legacy-Core und additive Graph-Cost-Engine.
 
 ## Eingaben
 
 - `rpPerGE`: positiver Integer aus `economy.rpPerGE`
 - je benötigtem Fahrzeug: Gesamt-RP und bereits erforschte RP
 - `owned_ge`: nichtnegative vorhandene GE
-- `sl_discount_percent`: Legacy Integer 0 bis 100; Graph-Cost ausschließlich 0, 30 oder 50
+- `sl_discount_percent`: ausschließlich Integer 0, 30 oder 50
 - optional `convertible_rp`
 - fertiges `PrerequisiteResolution` für Graph-Cost
 
-## Legacy-Normalisierung
+## Gemeinsame v1-Eingabegrenze
+
+Legacy, Graph, CLI und Browser lehnen folgende Zustände ab, bevor Kosten entstehen:
+
+- negative RP oder RP über den Fahrzeug-Gesamt-RP;
+- `researched=True` bei numerischen RP ungleich Gesamt-RP;
+- `purchased=True` ohne `researched=True`;
+- negative vorhandene GE oder Convertible RP;
+- SL-Rabatte außerhalb 0, 30 und 50 Prozent.
+
+Ungültige Werte werden nicht geklemmt oder still normalisiert. Die Graphpipeline gibt dafür
+`invalid_input` mit Rule ID zurück; Legacy und Browser verwenden ihren bestehenden Fehlerkanal.
+
+## Legacy-Berechnung
 
 ```text
-researched_rp = min(max(input_rp, 0), vehicle.rp)
+researched_rp = input_rp nach erfolgreicher Eingabevalidierung
 remaining_rp  = 0, falls owned, sonst max(vehicle.rp - researched_rp, 0)
 vehicle_ge    = 0, falls remaining_rp == 0,
                 sonst ceil(remaining_rp / rpPerGE)
@@ -23,8 +35,9 @@ vehicle_sl    = 0, falls owned,
                 sonst round(vehicle.sl * (1 - discount / 100))
 ```
 
-Der Legacy-Solver bleibt unverändert und ist weiterhin Standard und Empfehlung. Er definiert `owned` weiterhin als
-`researched=True` und `purchased=True` und klemmt numerische Fortschrittswerte auf 0 bis Fahrzeug-RP.
+Der Legacy-Solver bleibt Standard und Empfehlung. Er definiert `owned` weiterhin als
+`researched=True` und `purchased=True`; die gemeinsame Eingabegrenze verhindert inkonsistente
+Status-/RP-Kombinationen.
 
 ## Graph-Cost-Validierung und Fahrzeugzeile
 
@@ -118,11 +131,12 @@ jeder definitive `mismatch` ist ein CI-Fehler.
 `GraphRuleEvaluator`, danach `GraphPrerequisiteResolver` und zuletzt `GraphCostEngine` aufruft. Der
 Orchestrator besitzt keine eigene RP-, GE-, SL-, Folder-, Unlock- oder Rank-Semantik.
 
-Vor Cost Calculation gilt eine gemeinsame Input-Grenze. Ungültige RP-Fortschritte, GE, Convertible
-RP, Optionen oder Graph-Rabatte ergeben `invalid_input`; ungültige Datenbankkosten ergeben
-`unavailable` mit Ursache `datamine_error`. Ein nicht blockierender Konflikt zwischen
-`researched=True` und numerischen RP bleibt mit Rule ID sichtbar. Der Dual-Vergleich klassifiziert
-einen daraus entstehenden Unterschied als `input_contract_difference`, niemals still als Match.
+Vor Cost Calculation gilt die gemeinsame Input-Grenze. Ungültige RP-Fortschritte, GE, Convertible
+RP, Optionen oder Rabatte ergeben `invalid_input`; ungültige Datenbankkosten ergeben `unavailable`
+mit Ursache `datamine_error`. Ein Konflikt zwischen `researched=True` und numerischen RP ist
+blockierend und bleibt mit `INPUT_RESEARCH_FLAG_RP_CONFLICT` sichtbar. Unterschiede zwischen
+strukturiertem Graphfehler und Legacy-Fehlerkanal heißen weiterhin `input_contract_difference` und
+sind niemals ein Match.
 
 Vollständige Kosten sind im Pipeline-Ergebnis genau dann vergleichbar, wenn
 `pipeline_status=complete` und `cost_status=complete` gelten. Partial behält vollständige Summen auf
@@ -171,8 +185,8 @@ Fallback auf ein vorhandenes Legacy-Ergebnis ist verbindlich bei:
 - jeder nicht exakten Vergleichskategorie;
 - nicht darstellbarem oder vertragswidrigem Adapter-Ergebnis.
 
-Ausnahme: `invalid_input` darf niemals durch ein technisch akzeptierendes Legacy-Ergebnis zu einer
-scheinbar erfolgreichen Berechnung werden. Graph Experimental liefert in diesem Fall
+Ausnahme: `invalid_input` darf niemals durch unterschiedliche Legacy-/Graph-Fehlerrepräsentationen zu
+einer scheinbar erfolgreichen Berechnung werden. Graph Experimental liefert in diesem Fall
 `calculation_status=unavailable`, keine Ergebnisquelle und kein Kostenresultat; Rule IDs und
 Input-Contract-Differenz bleiben diagnostisch sichtbar.
 
@@ -196,7 +210,7 @@ Golden Expectations dürfen während eines Tests weder aus Legacy noch aus Graph
 - `total_rp` und `base_sl` stimmen bytegenau mit der versionierten Datamine überein;
 - `remaining_rp` folgt dem hier definierten Progress-Vertrag;
 - `ge` ist `ceil(remaining_rp / rpPerGE)` je Fahrzeug;
-- `discounted_sl` folgt dem erlaubten 0/30/50-Prozent-Graphvertrag;
+- `discounted_sl` folgt dem gemeinsamen v1-Vertrag mit 0/30/50 Prozent;
 - vollständige Summen sind exakt die Zeilensummen und nur bei `complete` vorhanden;
 - `partial` besitzt ausschließlich diagnostische Teilsummen und wendet vorhandene GE nicht an;
 - `blocked`/`unavailable` besitzt keine erfundenen Kostenzeilen.
@@ -204,3 +218,9 @@ Golden Expectations dürfen während eines Tests weder aus Legacy noch aus Graph
 Monotonie ist verbindlich: mehr gültige RP, vorhandene GE oder Convertible RP dürfen ihren jeweiligen
 Restbedarf nicht erhöhen; 50 % SL dürfen nicht teurer als 30 %, 30 % nicht teurer als 0 % sein.
 Die kanonische Referenz und ihr Fingerprint müssen unter Python 3.10, 3.12 und 3.13 identisch sein.
+
+Accuracy 9 ergänzt acht unveränderliche Kernreferenzen in
+`accuracy/golden/core_contract_2.57.1.67.json`. Sie decken sechs Nationen, fünf Fahrzeugarten,
+kurze und lange Wege, Rangwechsel, Folder, Hidden, `reqUnlock`, Fortschritt, Rabatt, vorhandene GE
+und Convertible-RP-Shortfall ab. Erwartungen stammen aus Datamine, Formel und manuellem Review;
+die aktuelle Graphausgabe darf sie nicht überschreiben.

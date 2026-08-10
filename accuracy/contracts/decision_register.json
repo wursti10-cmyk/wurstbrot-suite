@@ -1,63 +1,68 @@
 {
   "schemaVersion": 1,
-  "registerVersion": "1.0.0",
-  "scope": "graph-shadow-contract-decisions",
+  "registerVersion": "2.0.0",
+  "scope": "accuracy-9-core-contract-closure",
   "decisions": [
     {
       "decision_id": "CONTRACT_SL_DISCOUNT_DOMAIN",
-      "legacy_behavior": "Accepts every integer SL discount from 0 through 100 percent.",
-      "graph_behavior": "Accepts only the evidenced 0, 30 and 50 percent discounts.",
-      "risk": "A default switch could reject a value that the current application accepts, or could preserve an unevidenced discount domain.",
-      "recommendation": "Keep the strict graph domain until the supported product contract is explicitly chosen.",
+      "legacy_behavior": "The v1 product contract accepts exactly 0, 30 and 50 percent and rejects every other value.",
+      "graph_behavior": "Accepts exactly the same evidenced 0, 30 and 50 percent discounts.",
+      "risk": "Reintroducing the former technical 0-through-100 range would create unevidenced product semantics and diverge from the public UI choices.",
+      "recommendation": "Keep 0, 30 and 50 percent as the shared v1 product contract.",
       "alternatives": [
         "Restrict the product contract to 0, 30 and 50 percent.",
         "Extend the graph contract to all integer values after evidence and tests exist."
       ],
-      "required_product_owner_decision": "Choose the supported public SL-discount domain before any default switch.",
-      "status": "deferred",
-      "release_blocking": true,
+      "required_product_owner_decision": "Accepted for v1: the public SL-discount domain is exactly 0, 30 and 50 percent.",
+      "status": "accepted",
+      "release_blocking": false,
       "evidence": [
-        "packages/core/wurstbrot_core/graph_cost.py:ALLOWED_SL_DISCOUNTS",
-        "accuracy6 options matrix: legacy discounts 10 and 100 are input_contract_difference"
+        "packages/core/wurstbrot_core/economy.py:ALLOWED_SL_DISCOUNTS",
+        "apps/ge-calculator/ge_calculator_gui.py and apps/web/index.html expose only 0, 30 and 50",
+        "tests/test_solver.py and tests/web_solver.test.mjs reject every other value"
       ]
     },
     {
       "decision_id": "CONTRACT_INVALID_PROGRESS",
-      "legacy_behavior": "Negative or excessive numeric research progress is clamped during calculation.",
-      "graph_behavior": "Negative progress and progress above vehicle RP are rejected as invalid_input.",
-      "risk": "Clamping can conceal corrupt progress; strict rejection can interrupt previously tolerated input.",
-      "recommendation": "Prefer strict rejection with a user-safe validation message, subject to product-owner approval.",
+      "legacy_behavior": "The v1 input boundary rejects negative progress and progress above the vehicle RP total.",
+      "graph_behavior": "Rejects the same invalid progress as invalid_input with structured evidence.",
+      "risk": "Permissive clamping would conceal corrupt saved progress and could produce a seemingly valid calculation from invalid input.",
+      "recommendation": "Keep strict rejection at every public calculation boundary.",
       "alternatives": [
         "Adopt strict rejection for both engines.",
         "Keep clamping but emit a mandatory structured warning.",
         "Retain different contracts and keep the graph path non-productive."
       ],
-      "required_product_owner_decision": "Decide whether invalid progress is rejected or normalized before a default switch.",
-      "status": "deferred",
-      "release_blocking": true,
+      "required_product_owner_decision": "Accepted for v1: invalid progress is rejected and never normalized silently.",
+      "status": "accepted",
+      "release_blocking": false,
       "evidence": [
         "INPUT_PROGRESS_RP_NEGATIVE_OR_INVALID",
         "INPUT_PROGRESS_RP_EXCEEDS_TOTAL",
-        "accuracy6 input validation matrix"
+        "packages/core/wurstbrot_core/solver.py:_validate_input_contract",
+        "apps/web/solver.mjs:validateProgress",
+        "tests/test_solver.py and tests/web_solver.test.mjs"
       ]
     },
     {
       "decision_id": "CONTRACT_RESEARCH_FLAG_RP_CONFLICT",
-      "legacy_behavior": "researched=True can coexist with incomplete numeric RP and the numeric value is used.",
-      "graph_behavior": "researched=True without consistent numeric RP remains a visible input contract difference.",
-      "risk": "Silent normalization can discard evidence of inconsistent saved progress; strict handling can reject historical states.",
-      "recommendation": "Do not normalize silently; define a migration or explicit reconciliation rule first.",
+      "legacy_behavior": "The v1 input boundary rejects researched=True unless numeric RP equals the vehicle RP total.",
+      "graph_behavior": "Rejects the same conflict as invalid_input with INPUT_RESEARCH_FLAG_RP_CONFLICT evidence.",
+      "risk": "Choosing either field silently would discard evidence of inconsistent saved progress and could change costs without user intent.",
+      "recommendation": "Reject the conflicting state until its source data is corrected.",
       "alternatives": [
         "Treat researched=True as authoritative and normalize RP to total.",
         "Treat numeric RP as authoritative and clear researched=True.",
         "Reject the conflict until the user resolves it."
       ],
-      "required_product_owner_decision": "Choose the authoritative field and user-facing recovery behavior.",
-      "status": "deferred",
-      "release_blocking": true,
+      "required_product_owner_decision": "Accepted for v1: neither field silently overrides the other; the conflict is invalid input.",
+      "status": "accepted",
+      "release_blocking": false,
       "evidence": [
         "INPUT_RESEARCH_FLAG_RP_CONFLICT",
-        "accuracy6 researched-flag options case"
+        "packages/core/wurstbrot_core/solver.py:_validate_input_contract",
+        "packages/core/wurstbrot_core/graph_pipeline.py:_validate_progress",
+        "tests/test_engine_execution.py and tests/test_graph_pipeline.py"
       ]
     },
     {

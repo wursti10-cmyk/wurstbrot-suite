@@ -23,8 +23,10 @@
 - [x] Cross-Python- und kanonische Browser-Fixture-Prüfung als Confidence Gate betreiben
 - [x] expliziten CLI-Modus `graph-experimental` mit Legacy-Vergleich und Fallback ergänzen
 - [x] neun reale A→B-Abnahmen und alle 49 Sonderfälle im Experimental-Gate prüfen
-- [ ] drei deferred Contract-Entscheidungen vor einer produktiven Migration abschließen
-- [ ] verbleibende 14 Hidden-Folder-Fälle mit zusätzlicher Quelldatenevidenz absichern
+- [x] v1-Verträge für SL-Rabatt, ungültigen Fortschritt und Forschungsstatus-/RP-Konflikt abschließen
+- [x] alle 14 Hidden-Folder-Fälle einzeln mit Datamine-, Legacy- und Graph-Evidenz klassifizieren
+- [x] unabhängige Kernreferenzen für weitere Nationen, Fahrzeugarten und Progress-Zustände ergänzen
+- [ ] autoritative Hidden-Folder-Erwerbsevidenz beschaffen; bis dahin bleiben 14 Fälle partial
 - [ ] Entscheidung über eine spätere Standardumschaltung anhand belegter Abnahmekriterien treffen
 
 ### Dokumentation und Verträge

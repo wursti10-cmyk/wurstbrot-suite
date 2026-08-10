@@ -6,9 +6,18 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fixturePath = path.join(root, "accuracy", "golden", "2.57.1.67.json");
 const fixture = JSON.parse(await readFile(fixturePath, "utf8"));
+const coreFixturePath = path.join(
+  root,
+  "accuracy",
+  "golden",
+  "core_contract_2.57.1.67.json",
+);
+const coreFixture = JSON.parse(await readFile(coreFixturePath, "utf8"));
 
 const FIXTURE_VERSION = "accuracy-golden-fixture-v1";
 const RESULT_VERSION = "accuracy-golden-results-v1";
+const CORE_FIXTURE_VERSION = "accuracy-core-reference-fixture-v1";
+const CORE_RESULT_VERSION = "accuracy-core-reference-results-v1";
 
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
@@ -49,7 +58,25 @@ assert(
   "fixture fingerprint",
 );
 
-for (const item of fixture.cases) {
+assert(coreFixture.schemaVersion === 1, "core fixture schema version");
+assert(coreFixture.gameVersion === fixture.gameVersion, "core fixture game version");
+assert(coreFixture.generationPolicy === "manual_review_only", "core manual-only generation");
+assert(coreFixture.immutable === true, "core immutable fixture flag");
+assert(Array.isArray(coreFixture.cases) && coreFixture.cases.length === 8, "8 core cases");
+const coreCaseIds = coreFixture.cases.map((item) => item.case_id);
+assert(JSON.stringify(coreCaseIds) === JSON.stringify([...coreCaseIds].sort()), "core case ordering");
+assert(new Set(coreCaseIds).size === coreCaseIds.length, "core case ID uniqueness");
+const coreFixtureContent = Object.fromEntries(
+  Object.entries(coreFixture).filter(
+    ([key]) => !["fixtureFingerprint", "resultFingerprint"].includes(key),
+  ),
+);
+assert(
+  fingerprint(coreFixtureContent, CORE_FIXTURE_VERSION) === coreFixture.fixtureFingerprint,
+  "core fixture fingerprint",
+);
+
+function validateCase(item) {
   const input = item.input;
   const expected = item.expected;
   const lines = expected.vehicle_cost_lines;
@@ -111,12 +138,21 @@ for (const item of fixture.cases) {
   assert(Array.isArray(expected.explanation_trace), `${item.case_id} explanation trace`);
 }
 
+for (const item of fixture.cases) validateCase(item);
+for (const item of coreFixture.cases) validateCase(item);
+
 const canonicalResults = fixture.cases.map((item) => ({
   caseId: item.case_id,
   actual: item.expected,
 }));
 const resultFingerprint = fingerprint(canonicalResults, RESULT_VERSION);
 assert(resultFingerprint === fixture.resultFingerprint, "canonical result fingerprint");
+const coreCanonicalResults = coreFixture.cases.map((item) => ({
+  caseId: item.case_id,
+  actual: item.expected,
+}));
+const coreResultFingerprint = fingerprint(coreCanonicalResults, CORE_RESULT_VERSION);
+assert(coreResultFingerprint === coreFixture.resultFingerprint, "core result fingerprint");
 
 const report = {
   schemaVersion: 1,
@@ -126,7 +162,8 @@ const report = {
   graphRuntimeAvailable: false,
   missingGraphRuntimeParity: true,
   canonicalGoldenCasesValidated: fixture.cases.length,
-  passed: fixture.cases.length,
+  canonicalCoreReferenceCasesValidated: coreFixture.cases.length,
+  passed: fixture.cases.length + coreFixture.cases.length,
   failed: 0,
   statusValuesValidated: [...new Set(fixture.cases.map((item) => item.expected.pipeline_status))].sort(),
   ruleIdsValidated: [...new Set(fixture.cases.flatMap((item) => item.expected.rule_ids))].sort(),
@@ -141,6 +178,8 @@ const report = {
   incompleteSemanticsValidated: true,
   fixtureFingerprint: fixture.fixtureFingerprint,
   resultFingerprint,
+  coreFixtureFingerprint: coreFixture.fixtureFingerprint,
+  coreResultFingerprint,
   platformFieldsInFingerprint: false,
   productiveBrowserLogicModified: false,
   knownLimit: "The browser harness validates canonical graph fixtures; it does not execute a browser graph runtime.",

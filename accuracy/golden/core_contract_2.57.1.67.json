@@ -1,0 +1,1166 @@
+{
+  "schemaVersion": 1,
+  "suiteVersion": "1.0.0-accuracy9",
+  "gameVersion": "2.57.1.67",
+  "generationPolicy": "manual_review_only",
+  "immutable": true,
+  "fixtureFingerprintVersion": "accuracy-core-reference-fixture-v1",
+  "fixtureFingerprint": "accuracy-core-reference-fixture-v1:fe2c3cd0a84e99fe2f7b299cef94e992482859226b50e09323def51e42e05147",
+  "resultFingerprintVersion": "accuracy-core-reference-results-v1",
+  "resultFingerprint": "accuracy-core-reference-results-v1:afc37ef9d63534076365b04ed7764311fd142d4029bba1b5a5f9270273903329",
+  "caseCount": 8,
+  "cases": [
+    {
+      "case_id": "accuracy9:britain-helicopter-unlock-progress",
+      "purpose": "British helicopter A-to-B path with an explicitly fulfilled external unlock token.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_britain",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "accuracy9:path_short",
+        "accuracy9:real_reference",
+        "accuracy9:req_unlock",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "wessex_mk5",
+        "start_vehicle_id": "scout_ah_mk1",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": [
+            "ch_heli_unlocked_britain"
+          ]
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=wessex_mk5",
+          "start=scout_ah_mk1",
+          "resolution=resolved",
+          "required=wasp_has_mk1",
+          "required=wessex_mk5",
+          "cost=wasp_has_mk1:rp=150000:ge=3334:sl=490000",
+          "cost=wessex_mk5:rp=360000:ge=8000:sl=980000",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "wasp_has_mk1",
+          "wessex_mk5"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 11334,
+          "ge_before_owned": 11334,
+          "remaining_rp": 510000,
+          "sl": 1470000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "fulfilled_by_progress",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_britain"
+            ],
+            "vehicle_id": "scout_ah_mk1"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 490000,
+            "discounted_sl": 490000,
+            "ge": 3334,
+            "remaining_rp": 150000,
+            "researched_rp": 0,
+            "total_rp": 150000,
+            "vehicle_id": "wasp_has_mk1"
+          },
+          {
+            "base_sl": 980000,
+            "discounted_sl": 980000,
+            "ge": 8000,
+            "remaining_rp": 360000,
+            "researched_rp": 0,
+            "total_rp": 360000,
+            "vehicle_id": "wessex_mk5"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of scout_ah_mk1 -> wessex_mk5."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for wessex_mk5 and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:germany-army-partial-progress-owned-ge",
+      "purpose": "German ground A-to-B path with partial target RP, folder membership and owned GE.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "accuracy9:folder",
+        "accuracy9:owned_ge",
+        "accuracy9:path_short",
+        "accuracy9:real_reference",
+        "accuracy9:target_partial",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "germ_pzkpfw_IV_ausf_F",
+        "start_vehicle_id": "germ_pzkpfw_IV_ausf_C",
+        "progress": {
+          "vehicles": {
+            "germ_pzkpfw_IV_ausf_F": {
+              "researched_rp": 500,
+              "researched": false,
+              "purchased": false
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 2,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=germ_pzkpfw_IV_ausf_F",
+          "start=germ_pzkpfw_IV_ausf_C",
+          "resolution=resolved",
+          "required=germ_pzkpfw_II_ausf_C",
+          "required=germ_pzkpfw_IV_ausf_E",
+          "required=germ_pzkpfw_IV_ausf_F",
+          "cost=germ_pzkpfw_II_ausf_C:rp=4000:ge=89:sl=2100",
+          "cost=germ_pzkpfw_IV_ausf_E:rp=5900:ge=132:sl=6300",
+          "cost=germ_pzkpfw_IV_ausf_F:rp=2500:ge=56:sl=6300",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "germ_pzkpfw_II_early_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "germ_pzkpfw_II_ausf_C"
+          },
+          {
+            "folder_ids": [
+              "germ_pzkpfw_4_early_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "germ_pzkpfw_IV_ausf_E"
+          },
+          {
+            "folder_ids": [
+              "germ_pzkpfw_4_early_group"
+            ],
+            "relationship": "membership_only",
+            "status": "satisfied",
+            "vehicle_id": "germ_pzkpfw_IV_ausf_F"
+          }
+        ],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "germ_pzkpfw_II_ausf_C",
+          "germ_pzkpfw_IV_ausf_E",
+          "germ_pzkpfw_IV_ausf_F"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 275,
+          "ge_before_owned": 277,
+          "remaining_rp": 12400,
+          "sl": 14700
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 2100,
+            "discounted_sl": 2100,
+            "ge": 89,
+            "remaining_rp": 4000,
+            "researched_rp": 0,
+            "total_rp": 4000,
+            "vehicle_id": "germ_pzkpfw_II_ausf_C"
+          },
+          {
+            "base_sl": 6300,
+            "discounted_sl": 6300,
+            "ge": 132,
+            "remaining_rp": 5900,
+            "researched_rp": 0,
+            "total_rp": 5900,
+            "vehicle_id": "germ_pzkpfw_IV_ausf_E"
+          },
+          {
+            "base_sl": 6300,
+            "discounted_sl": 6300,
+            "ge": 56,
+            "remaining_rp": 2500,
+            "researched_rp": 500,
+            "total_rp": 3000,
+            "vehicle_id": "germ_pzkpfw_IV_ausf_F"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of germ_pzkpfw_IV_ausf_C -> germ_pzkpfw_IV_ausf_F."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for germ_pzkpfw_IV_ausf_F and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:germany-aviation-hidden-folder",
+      "purpose": "German hidden legacy-folder A-to-B path remains explicitly partial.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_germany",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "accuracy9:folder",
+        "accuracy9:hidden",
+        "accuracy9:path_short",
+        "accuracy9:real_reference",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "fiat_g50_seria7as",
+        "start_vehicle_id": "fiat_cr42",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": true,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 0
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=fiat_g50_seria7as",
+          "start=fiat_cr42",
+          "resolution=unresolved",
+          "required=fiat_g50_seria2",
+          "required=fiat_g50_seria7as",
+          "cost=fiat_g50_seria2:rp=2000:ge=45:sl=2100",
+          "cost=fiat_g50_seria7as:rp=2000:ge=45:sl=2100",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "rule=TARGET_VISIBILITY",
+          "pipeline=partial"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "fiat_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "fiat_cr42"
+          },
+          {
+            "folder_ids": [
+              "fiat_group"
+            ],
+            "relationship": "required_member",
+            "status": "unresolved",
+            "vehicle_id": "fiat_g50_seria2"
+          },
+          {
+            "folder_ids": [
+              "fiat_group"
+            ],
+            "relationship": "membership_only",
+            "status": "unresolved",
+            "vehicle_id": "fiat_g50_seria7as"
+          }
+        ],
+        "incomplete_reason_codes": [
+          "RESOLUTION_UNRESOLVED"
+        ],
+        "partial_totals": {
+          "ge_before_owned": 90,
+          "remaining_rp": 4000,
+          "sl": 4200
+        },
+        "pipeline_status": "partial",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "fiat_g50_seria2",
+          "fiat_g50_seria7as"
+        ],
+        "resolution_status": "unresolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY",
+          "TARGET_VISIBILITY"
+        ],
+        "totals": null,
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 2100,
+            "discounted_sl": 2100,
+            "ge": 45,
+            "remaining_rp": 2000,
+            "researched_rp": 0,
+            "total_rp": 2000,
+            "vehicle_id": "fiat_g50_seria2"
+          },
+          {
+            "base_sl": 2100,
+            "discounted_sl": 2100,
+            "ge": 45,
+            "remaining_rp": 2000,
+            "researched_rp": 0,
+            "total_rp": 2000,
+            "vehicle_id": "fiat_g50_seria7as"
+          }
+        ]
+      },
+      "rationale": "The normalized path and known partial costs are fixed, but hidden-folder acquisition semantics are not evidenced; no binding total is asserted.",
+      "primary_origin": "UNRESOLVED_SOURCE_LIMITATION",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "MANUALLY_REVIEWED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "UNRESOLVED_SOURCE_LIMITATION",
+          "reference": "accuracy/research/partial_folder_cases_2.57.1.67.json"
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for fiat_g50_seria7as and its closure."
+        },
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "The hidden-folder evidence gap was reviewed without promoting the result to complete."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:israel-army-folder-owned-intermediate",
+      "purpose": "Israeli ground A-to-B path with an owned intermediate folder member and 30 percent SL discount.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_israel",
+        "vehicle_type": "army"
+      },
+      "tags": [
+        "accuracy9:folder",
+        "accuracy9:owned_intermediate",
+        "accuracy9:path_long",
+        "accuracy9:real_reference",
+        "accuracy9:sl_discount",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "il_magach_7c",
+        "start_vehicle_id": "il_magach_6r",
+        "progress": {
+          "vehicles": {
+            "il_magach_6m": {
+              "researched_rp": 160000,
+              "researched": true,
+              "purchased": true
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 30
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=il_magach_7c",
+          "start=il_magach_6r",
+          "resolution=resolved",
+          "required=il_magach_6b_gal_batash",
+          "required=il_magach_7c",
+          "cost=il_magach_6b_gal_batash:rp=190000:ge=4223:sl=364000",
+          "cost=il_magach_7c:rp=110000:ge=2445:sl=434000",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "il_magach_1_2_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "il_m48a1_patton_III"
+          },
+          {
+            "folder_ids": [
+              "il_magach_3_6_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_3_idf"
+          },
+          {
+            "folder_ids": [
+              "il_magach_6a_5_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_6a"
+          },
+          {
+            "folder_ids": [
+              "il_magach_batash_7_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_6b_gal_batash"
+          },
+          {
+            "folder_ids": [
+              "il_magach_6m_c_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_6m"
+          },
+          {
+            "folder_ids": [
+              "il_magach_6_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_6r"
+          },
+          {
+            "folder_ids": [
+              "il_magach_batash_7_group"
+            ],
+            "relationship": "membership_only",
+            "status": "satisfied",
+            "vehicle_id": "il_magach_7c"
+          }
+        ],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "il_magach_6b_gal_batash",
+          "il_magach_7c"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 6668,
+          "ge_before_owned": 6668,
+          "remaining_rp": 300000,
+          "sl": 798000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "fulfilled_by_progress",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "isr_tank_unlocked"
+            ],
+            "vehicle_id": "il_m_51"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 520000,
+            "discounted_sl": 364000,
+            "ge": 4223,
+            "remaining_rp": 190000,
+            "researched_rp": 0,
+            "total_rp": 190000,
+            "vehicle_id": "il_magach_6b_gal_batash"
+          },
+          {
+            "base_sl": 620000,
+            "discounted_sl": 434000,
+            "ge": 2445,
+            "remaining_rp": 110000,
+            "researched_rp": 0,
+            "total_rp": 110000,
+            "vehicle_id": "il_magach_7c"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of il_magach_6r -> il_magach_7c."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for il_magach_7c and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:japan-boats-short-discount",
+      "purpose": "Japanese coastal A-to-B path with 50 percent SL discount and owned GE.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_japan",
+        "vehicle_type": "boats"
+      },
+      "tags": [
+        "accuracy9:owned_ge",
+        "accuracy9:path_short",
+        "accuracy9:real_reference",
+        "accuracy9:sl_discount",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "jp_type7_pt808",
+        "start_vehicle_id": "jp_no1_ch2",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 1,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 50
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=jp_type7_pt808",
+          "start=jp_no1_ch2",
+          "resolution=resolved",
+          "required=jp_no4_ch8",
+          "required=jp_type7_pt808",
+          "cost=jp_no4_ch8:rp=36000:ge=800:sl=57500",
+          "cost=jp_type7_pt808:rp=61000:ge=1356:sl=115000",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "jp_no4_ch8",
+          "jp_type7_pt808"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 2155,
+          "ge_before_owned": 2156,
+          "remaining_rp": 97000,
+          "sl": 172500
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 115000,
+            "discounted_sl": 57500,
+            "ge": 800,
+            "remaining_rp": 36000,
+            "researched_rp": 0,
+            "total_rp": 36000,
+            "vehicle_id": "jp_no4_ch8"
+          },
+          {
+            "base_sl": 230000,
+            "discounted_sl": 115000,
+            "ge": 1356,
+            "remaining_rp": 61000,
+            "researched_rp": 0,
+            "total_rp": 61000,
+            "vehicle_id": "jp_type7_pt808"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of jp_no1_ch2 -> jp_type7_pt808."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for jp_type7_pt808 and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:usa-aviation-long-owned-intermediate",
+      "purpose": "US aviation long A-to-B path with an owned intermediate and 50 percent SL discount.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "aviation"
+      },
+      "tags": [
+        "accuracy9:folder",
+        "accuracy9:owned_intermediate",
+        "accuracy9:path_long",
+        "accuracy9:real_reference",
+        "accuracy9:sl_discount",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "f4u-1d",
+        "start_vehicle_id": "f2a-3",
+        "progress": {
+          "vehicles": {
+            "f4f-3": {
+              "researched_rp": 9200,
+              "researched": true,
+              "purchased": true
+            }
+          },
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 50
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=f4u-1d",
+          "start=f2a-3",
+          "resolution=resolved",
+          "required=f4u-1a",
+          "required=f4u-1a_usmc",
+          "required=f4u-1d",
+          "cost=f4u-1a:rp=11000:ge=245:sl=11000",
+          "cost=f4u-1a_usmc:rp=6900:ge=154:sl=16000",
+          "cost=f4u-1d:rp=9200:ge=205:sl=23500",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "f4f_group"
+            ],
+            "relationship": "satisfied_member",
+            "status": "satisfied",
+            "vehicle_id": "f4f-3"
+          },
+          {
+            "folder_ids": [
+              "f4u_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "f4u-1a"
+          },
+          {
+            "folder_ids": [
+              "f4u_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "f4u-1a_usmc"
+          },
+          {
+            "folder_ids": [
+              "f4u_group"
+            ],
+            "relationship": "membership_only",
+            "status": "satisfied",
+            "vehicle_id": "f4u-1d"
+          }
+        ],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "f4u-1a",
+          "f4u-1a_usmc",
+          "f4u-1d"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 604,
+          "ge_before_owned": 604,
+          "remaining_rp": 27100,
+          "sl": 50500
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 22000,
+            "discounted_sl": 11000,
+            "ge": 245,
+            "remaining_rp": 11000,
+            "researched_rp": 0,
+            "total_rp": 11000,
+            "vehicle_id": "f4u-1a"
+          },
+          {
+            "base_sl": 32000,
+            "discounted_sl": 16000,
+            "ge": 154,
+            "remaining_rp": 6900,
+            "researched_rp": 0,
+            "total_rp": 6900,
+            "vehicle_id": "f4u-1a_usmc"
+          },
+          {
+            "base_sl": 47000,
+            "discounted_sl": 23500,
+            "ge": 205,
+            "remaining_rp": 9200,
+            "researched_rp": 0,
+            "total_rp": 9200,
+            "vehicle_id": "f4u-1d"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of f2a-3 -> f4u-1d."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for f4u-1d and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:usa-helicopter-rank-transition",
+      "purpose": "US helicopter A-to-B path crossing a rank gate already satisfied by the start closure.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_usa",
+        "vehicle_type": "helicopters"
+      },
+      "tags": [
+        "accuracy9:path_short",
+        "accuracy9:rank_transition",
+        "accuracy9:real_reference",
+        "accuracy9:sl_discount",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "ah_1f",
+        "start_vehicle_id": "uh_1c",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": null,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 50
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ah_1f",
+          "start=uh_1c",
+          "resolution=resolved",
+          "required=ah_1f",
+          "cost=ah_1f:rp=370000:ge=8223:sl=495000",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=RANK_REQUIREMENT_5",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [
+          {
+            "missing_count": 0,
+            "rank": 5,
+            "required_count": 1,
+            "satisfied_count": 3,
+            "selected_vehicle_ids": []
+          }
+        ],
+        "required_vehicle_ids": [
+          "ah_1f"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "PREDECESSOR_REQUIREMENTS",
+          "RANK_REQUIREMENT_5",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 0,
+          "ge_after_owned": 8223,
+          "ge_before_owned": 8223,
+          "remaining_rp": 370000,
+          "sl": 495000
+        },
+        "unlock_requirements": [
+          {
+            "classification": "fulfilled_by_progress",
+            "required_vehicle_ids": [],
+            "status": "satisfied",
+            "tokens": [
+              "ch_heli_unlocked_usa"
+            ],
+            "vehicle_id": "ah_1g"
+          }
+        ],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 990000,
+            "discounted_sl": 495000,
+            "ge": 8223,
+            "remaining_rp": 370000,
+            "researched_rp": 0,
+            "total_rp": 370000,
+            "vehicle_id": "ah_1f"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of uh_1c -> ah_1f."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for ah_1f and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    },
+    {
+      "case_id": "accuracy9:ussr-ships-convertible-shortfall",
+      "purpose": "USSR bluewater A-to-B path with a long folder chain, 30 percent SL discount and Convertible-RP shortfall.",
+      "game_version": "2.57.1.67",
+      "database_ref": "sample",
+      "tree": {
+        "country_id": "country_ussr",
+        "vehicle_type": "ships"
+      },
+      "tags": [
+        "accuracy9:convertible_shortfall",
+        "accuracy9:folder",
+        "accuracy9:path_long",
+        "accuracy9:real_reference",
+        "accuracy9:sl_discount",
+        "start_a_target_b"
+      ],
+      "input": {
+        "target_vehicle_id": "ussr_cruiser_mikhail_kutuzov",
+        "start_vehicle_id": "ussr_cruiser_kirov",
+        "progress": {
+          "vehicles": {},
+          "convertible_rp": 100000,
+          "owned_ge": 0,
+          "fulfilled_unlocks": []
+        },
+        "options": {
+          "optimize_for": "ge",
+          "include_start_vehicle": false,
+          "include_hidden_legacy": false,
+          "assume_external_unlocks": false,
+          "sl_discount_percent": 30
+        }
+      },
+      "expected": {
+        "explanation_trace": [
+          "target=ussr_cruiser_mikhail_kutuzov",
+          "start=ussr_cruiser_kirov",
+          "resolution=resolved",
+          "required=ussr_cruiser_chapayev",
+          "required=ussr_cruiser_sverdlov",
+          "required=ussr_cruiser_mikhail_kutuzov",
+          "cost=ussr_cruiser_chapayev:rp=46000:ge=1023:sl=105000",
+          "cost=ussr_cruiser_sverdlov:rp=30000:ge=667:sl=129500",
+          "cost=ussr_cruiser_mikhail_kutuzov:rp=36000:ge=800:sl=161000",
+          "rule=FOLDER_MEMBERSHIP",
+          "rule=PREDECESSOR_REQUIREMENTS",
+          "rule=START_TREE_COMPATIBILITY",
+          "pipeline=complete"
+        ],
+        "folder_requirements": [
+          {
+            "folder_ids": [
+              "ussr_cruiser_chapaev_kutuzov_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "ussr_cruiser_chapayev"
+          },
+          {
+            "folder_ids": [
+              "ussr_cruiser_chapaev_kutuzov_group"
+            ],
+            "relationship": "membership_only",
+            "status": "satisfied",
+            "vehicle_id": "ussr_cruiser_mikhail_kutuzov"
+          },
+          {
+            "folder_ids": [
+              "ussr_cruiser_chapaev_kutuzov_group"
+            ],
+            "relationship": "required_member",
+            "status": "satisfied",
+            "vehicle_id": "ussr_cruiser_sverdlov"
+          }
+        ],
+        "incomplete_reason_codes": [],
+        "partial_totals": null,
+        "pipeline_status": "complete",
+        "rank_requirements": [],
+        "required_vehicle_ids": [
+          "ussr_cruiser_chapayev",
+          "ussr_cruiser_sverdlov",
+          "ussr_cruiser_mikhail_kutuzov"
+        ],
+        "resolution_status": "resolved",
+        "rule_ids": [
+          "FOLDER_MEMBERSHIP",
+          "PREDECESSOR_REQUIREMENTS",
+          "START_TREE_COMPATIBILITY"
+        ],
+        "totals": {
+          "convertible_rp_shortfall": 12000,
+          "ge_after_owned": 2490,
+          "ge_before_owned": 2490,
+          "remaining_rp": 112000,
+          "sl": 395500
+        },
+        "unlock_requirements": [],
+        "vehicle_cost_lines": [
+          {
+            "base_sl": 150000,
+            "discounted_sl": 105000,
+            "ge": 1023,
+            "remaining_rp": 46000,
+            "researched_rp": 0,
+            "total_rp": 46000,
+            "vehicle_id": "ussr_cruiser_chapayev"
+          },
+          {
+            "base_sl": 185000,
+            "discounted_sl": 129500,
+            "ge": 667,
+            "remaining_rp": 30000,
+            "researched_rp": 0,
+            "total_rp": 30000,
+            "vehicle_id": "ussr_cruiser_sverdlov"
+          },
+          {
+            "base_sl": 230000,
+            "discounted_sl": 161000,
+            "ge": 800,
+            "remaining_rp": 36000,
+            "researched_rp": 0,
+            "total_rp": 36000,
+            "vehicle_id": "ussr_cruiser_mikhail_kutuzov"
+          }
+        ]
+      },
+      "rationale": "The normalized predecessor path and every numeric value were independently checked against committed datamine fields and fixed formulas; Graph output is the subject under test, not the source of truth.",
+      "primary_origin": "MANUALLY_REVIEWED",
+      "supporting_origins": [
+        "DATAMINE_DIRECT",
+        "FORMULA_DERIVED"
+      ],
+      "origin_evidence": [
+        {
+          "origin": "MANUALLY_REVIEWED",
+          "reference": "Manual A-to-B review of ussr_cruiser_kirov -> ussr_cruiser_mikhail_kutuzov."
+        },
+        {
+          "origin": "DATAMINE_DIRECT",
+          "reference": "data/samples/WT_Database_2.57.1.67.json predecessor, rank, RP and SL fields for ussr_cruiser_mikhail_kutuzov and its closure."
+        },
+        {
+          "origin": "FORMULA_DERIVED",
+          "reference": "Per-vehicle ceil(remaining RP / 45), progress subtraction, owned-GE subtraction and the selected 0/30/50 SL formula."
+        }
+      ],
+      "review_status": "reviewed"
+    }
+  ]
+}

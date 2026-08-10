@@ -439,6 +439,12 @@ def render_cost_special_case_markdown(summary: CostSpecialCaseSummary) -> str:
         "Hidden targets use explicit `include_hidden_legacy`; reqUnlock targets use explicit "
         "`assume_external_unlocks`. Partial lines are diagnostic only and never represent totals.",
         "",
+        "Accuracy 9 bestätigt dieselbe Verteilung nach vollständiger Einzelfallprüfung. Alle 14 "
+        "Partial-",
+        "Zeilen bleiben wegen fehlender Hidden-Folder-Erwerbsevidenz partial und verwenden keine "
+        "vorhandenen",
+        "GE als scheinbar verbindlichen Abzug.",
+        "",
         "| Cost status | Count |",
         "|---|---:|",
         f"| Complete | {summary.complete} |",

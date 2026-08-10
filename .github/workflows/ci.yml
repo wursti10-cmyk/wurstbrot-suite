@@ -57,6 +57,7 @@ jobs:
       - run: python tests/graph_cost_matrix.py > build/health/Graph_Cost_2.57.1.67.json
       - run: python tests/graph_shadow_matrix.py --output build/health
       - run: python tests/graph_experimental_matrix.py --output build/health
+      - run: python tests/accuracy_core_reference_matrix.py > build/health/Accuracy_Core_References_2.57.1.67.json
       - run: node tests/browser_shadow_harness.mjs --output build/health/Browser_Shadow_2.57.1.67.json
       - run: |
           python tests/accuracy_confidence_matrix.py \
@@ -75,6 +76,7 @@ jobs:
             build/health/Graph_Shadow_2.57.1.67.txt
             build/health/Graph_Experimental_2.57.1.67.json
             build/health/Graph_Experimental_2.57.1.67.txt
+            build/health/Accuracy_Core_References_2.57.1.67.json
             build/health/Browser_Shadow_2.57.1.67.json
             build/health/Accuracy_Confidence_2.57.1.67.json
             build/health/Accuracy_Confidence_2.57.1.67.txt

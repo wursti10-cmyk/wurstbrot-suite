@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "analysisVersion": "1.0.0-accuracy9",
+  "gameVersion": "2.57.1.67",
+  "scope": "research-path-rp-ge-sl-player-progress",
+  "folderSemantics": {
+    "sampleFolderCount": 395,
+    "provenFacts": [
+      "groups records ordered membership and each retained vehicle records group and groupIndex.",
+      "The converter connects the first group member to the node-level incoming anchor.",
+      "The converter uses the first group member as the outgoing anchor for the following tree node.",
+      "Schema-v1 predecessors remains the current normalized Legacy path contract.",
+      "Official progression material identifies the first group member as the representative vehicle and states that nested grouped vehicles are not required to advance beyond a group."
+    ],
+    "unprovenFacts": [
+      "Whether every hidden legacy member must be researched before a later hidden member.",
+      "Whether purchase is required between hidden legacy folder members.",
+      "Whether hidden legacy members count for rank gates when they are unavailable to the current player.",
+      "Whether groupIndex alone defines research eligibility inside a hidden legacy folder."
+    ],
+    "officialEvidence": [
+      {
+        "source": "War Thunder official development article, 24 August 2023",
+        "url": "https://warthunder.com/en/news/8414-development-roadmap-following-the-roadmap-grouping-vehicles-rank-changes-and-improvements-to-premium-vehicle-en",
+        "supports": "Nested grouped vehicles have reduced RP and the first member is distinguished; it does not define hidden legacy acquisition order."
+      },
+      {
+        "source": "War Thunder official development article, 28 August 2025",
+        "url": "https://forum.warthunder.com/t/economy-changes-for-bluewater-fleet-trees/261217",
+        "supports": "Grouped vehicle research and purchase are not required to advance through the Bluewater tree; it does not prove hidden legacy intra-folder eligibility."
+      },
+      {
+        "source": "War Thunder official research-bonus article, 29 August 2024",
+        "url": "https://forum.warthunder.com/t/following-the-roadmap-vehicle-research-bonuses/161267/1",
+        "supports": "When a line ends in a group, the first member represents the line; hidden vehicles are excluded from the cited top-vehicle rule."
+      }
+    ],
+    "accuracy9Decision": "No hidden-folder heuristic is added; all 14 known hidden-folder targets remain partial."
+  },
+  "unlockSemantics": {
+    "vehiclesWithReqUnlock": 31,
+    "internalVehicleTokens": 0,
+    "recognizedExternalTokens": 31,
+    "unknownTokens": 0,
+    "provenContract": [
+      "A matching PlayerProgress.fulfilled_unlocks token satisfies the requirement.",
+      "assume_external_unlocks explicitly satisfies recognized external tokens for that calculation.",
+      "Without either form of evidence, an external token remains unresolved.",
+      "External unlocks are never converted into predecessor edges."
+    ],
+    "automaticExternalFulfillment": false
+  },
+  "multiplePredecessorSemantics": {
+    "samplePredecessorEntries": 2232,
+    "nullEntries": 239,
+    "scalarEntries": 1993,
+    "arrayEntries": 0,
+    "schemaV1Cardinality": "zero_or_one",
+    "andSemanticsProven": false,
+    "orSemanticsProven": false,
+    "normalizationArtifactFound": false,
+    "accuracy9Decision": "Real sample data has no multiple-predecessor case; synthetic multiple edges remain unresolved with all evidence preserved."
+  },
+  "playerProgressCoverage": {
+    "requiredCategories": [
+      "no_progress",
+      "start_vehicle_present",
+      "predecessor_researched",
+      "predecessor_purchased",
+      "target_partially_researched",
+      "target_fully_researched",
+      "target_purchased",
+      "rank_fully_satisfied",
+      "rank_partially_satisfied",
+      "folder_member_present",
+      "unlock_fulfilled",
+      "unlock_unfulfilled",
+      "owned_ge",
+      "convertible_rp_sufficient",
+      "convertible_rp_insufficient"
+    ],
+    "categoryEvidence": {
+      "no_progress": [
+        "resolution:no_progress",
+        "cost:01_no_progress"
+      ],
+      "start_vehicle_present": [
+        "resolution:start_vehicle_owned"
+      ],
+      "predecessor_researched": [
+        "resolution:start_researched_not_purchased"
+      ],
+      "predecessor_purchased": [
+        "resolution:single_predecessor_owned"
+      ],
+      "target_partially_researched": [
+        "resolution:target_partially_researched",
+        "cost:02_target_partially_researched"
+      ],
+      "target_fully_researched": [
+        "cost:04_fully_researched_not_purchased"
+      ],
+      "target_purchased": [
+        "cost:05_vehicle_purchased"
+      ],
+      "rank_fully_satisfied": [
+        "resolution:rank_satisfied"
+      ],
+      "rank_partially_satisfied": [
+        "resolution:rank_partial"
+      ],
+      "folder_member_present": [
+        "resolution:folder_member_owned"
+      ],
+      "unlock_fulfilled": [
+        "accuracy9:external_unlock_fulfilled_by_player_progress"
+      ],
+      "unlock_unfulfilled": [
+        "resolution:external_unlock_not_assumed",
+        "cost:18_unresolved_unlock"
+      ],
+      "owned_ge": [
+        "cost:08_owned_ge_below_total",
+        "cost:09_owned_ge_above_total"
+      ],
+      "convertible_rp_sufficient": [
+        "cost:10_convertible_rp_sufficient"
+      ],
+      "convertible_rp_insufficient": [
+        "cost:11_convertible_rp_insufficient"
+      ]
+    },
+    "resolutionMatrixCases": 13,
+    "costMatrixCases": 18,
+    "dedicatedAccuracy9Assertions": [
+      "external_unlock_fulfilled_by_player_progress",
+      "strict_invalid_progress_rejection",
+      "researched_flag_rp_consistency",
+      "public_sl_discount_domain"
+    ],
+    "coverageComplete": true
+  },
+  "referenceSuite": {
+    "path": "accuracy/golden/core_contract_2.57.1.67.json",
+    "caseCount": 8,
+    "manualReviewOnly": true,
+    "automaticallyOverwritten": false,
+    "expectedComplete": 7,
+    "expectedPartial": 1
+  },
+  "contractClosure": {
+    "CONTRACT_SL_DISCOUNT_DOMAIN": "accepted_0_30_50",
+    "CONTRACT_INVALID_PROGRESS": "accepted_strict_rejection",
+    "CONTRACT_RESEARCH_FLAG_RP_CONFLICT": "accepted_invalid_input",
+    "readyForDefaultUseChanged": false
+  },
+  "nonGoals": [
+    "No productive engine switch.",
+    "No folder or unlock heuristic.",
+    "No optimizer or GUI change.",
+    "No browser Graph runtime."
+  ]
+}

@@ -824,12 +824,13 @@ class GraphCalculationPipeline:
                     _finding(
                         "INPUT_RESEARCH_FLAG_RP_CONFLICT",
                         ValidationCategory.INVALID_INPUT,
-                        "researched=True conflicts with the numeric researched_rp value.",
+                        (
+                            "researched=True requires researched_rp to equal the "
+                            "vehicle RP value."
+                        ),
                         "progress.vehicles.researched_rp",
                         entity_id=vehicle.id,
                         details={"researchedRp": state.researched_rp, "totalRp": vehicle.rp},
-                        severity=ValidationSeverity.WARNING,
-                        blocking=False,
                     )
                 )
         return findings
@@ -877,12 +878,11 @@ class GraphCalculationPipeline:
                 _finding(
                     "INPUT_SL_DISCOUNT_INVALID",
                     ValidationCategory.INVALID_INPUT,
-                    "Graph pipeline SL discount must be 0, 30 or 50 percent.",
+                    "Version 1.0 SL discount must be 0, 30 or 50 percent.",
                     "options.sl_discount_percent",
                     details={
                         "value": options.sl_discount_percent,
                         "allowed": sorted(ALLOWED_SL_DISCOUNTS),
-                        "legacyAcceptedRange": [0, 100],
                     },
                 )
             )
