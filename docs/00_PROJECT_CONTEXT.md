@@ -3,7 +3,7 @@
 ## Zweck dieses Dokuments
 
 Diese Developer Bible ist die technische Referenz für Menschen und KI-Agenten. Sie beschreibt den
-Release-Stand `0.9.0-beta`. Aussagen über spätere Funktionen sind ausdrücklich als Ziel markiert.
+Release-Stand `1.0.0-rc.1`. Aussagen über spätere Funktionen sind ausdrücklich als Ziel markiert.
 
 ## Produkt
 

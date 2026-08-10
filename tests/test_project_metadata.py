@@ -10,8 +10,8 @@ import wurstbrot_core
 
 class ProjectMetadataTests(unittest.TestCase):
     def test_versions_match(self):
-        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "0.9.0-beta")
-        self.assertEqual(wurstbrot_core.__version__, "0.9.0-beta")
+        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "1.0.0-rc.1")
+        self.assertEqual(wurstbrot_core.__version__, "1.0.0-rc.1")
 
     def test_browser_entrypoints_exist(self):
         for path in ("index.html", "app.js", "solver.mjs", "manifest.webmanifest", "service-worker.js", "icon.svg"):
@@ -26,8 +26,8 @@ class ProjectMetadataTests(unittest.TestCase):
             first_line = launcher.read_text(encoding="utf-8").splitlines()[0]
             self.assertEqual(first_line.lower(), "@echo off", launcher)
 
-    def test_component_labels_use_beta_version(self):
-        expected = "0.9.0-beta"
+    def test_component_labels_use_rc_version(self):
+        expected = "1.0.0-rc.1"
         converter = (ROOT / "apps" / "datamine-manager" / "wurstbrot_converter.py").read_text(
             encoding="utf-8"
         )
@@ -35,7 +35,7 @@ class ProjectMetadataTests(unittest.TestCase):
         gui = (ROOT / "apps" / "ge-calculator" / "ge_calculator_gui.py").read_text(
             encoding="utf-8"
         )
-        self.assertIn("0.9.0 Beta", gui)
+        self.assertIn(expected, gui)
 
 
 if __name__ == "__main__":

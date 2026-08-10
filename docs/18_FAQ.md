@@ -26,7 +26,7 @@ Ja, solange Nation und Fahrzeugart gleich sind. Die Pflichtkette von B wird weit
 
 ## Ist die Browser-Version bereits veröffentlicht?
 
-Sie ist Bestandteil von `0.9.0-beta`. Lokal startet sie über `python -m http.server 8000` unter
+Sie ist Bestandteil von `1.0.0-rc.1`. Lokal startet sie über `python -m http.server 8000` unter
 `http://localhost:8000/apps/web/`; das öffentliche Pages-Deployment wird durch GitHub Actions erzeugt.
 
 ## Was bedeuten die 49 übersprungenen Regressionen?

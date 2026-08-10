@@ -16,9 +16,12 @@ Hauptbestandteile:
 
 ## Projektstatus
 
-Aktueller Stand: **0.9.0-beta**. Der Python-Kern, die Desktop-Oberflächen und eine
+Aktueller Stand: **1.0.0-rc.1**. Der Python-Kern, die Desktop-Oberflächen und eine
 installierbare Browser-Version sind nutzbar. GitHub Actions prüft Python 3.10, 3.12
 und 3.13, die Browser-Logik und den vollständigen Regressionstest.
+
+Dieser Stand ist ein Release Candidate und noch kein Stable Release. Legacy bleibt die
+standardmäßige und empfohlene Rechenquelle; Graph Experimental bleibt explizit opt-in.
 
 Bis Version 1.0 bleibt der Produktumfang bewusst eng: ein zuverlässiger Forschungsweg von
 Fahrzeug A zu Fahrzeug B sowie die zugehörigen RP-, GE- und SL-Kosten. Legacy ist weiterhin die
@@ -37,7 +40,7 @@ experimentell aktivieren; Desktop und Browser bleiben unverändert auf Legacy.
 - Validierung von Vorgängern, Zyklen, Rängen und Kosten
 - Patchvergleich zwischen zwei Datenbanken
 
-### Beta-Funktionen
+### Kernfunktionen
 
 - A → B Berechnung und Rangfreischaltungen
 - Fahrzeugordner, angeforschte RP und GE-Rundung je Fahrzeug
@@ -124,7 +127,7 @@ Die Verarbeitung findet lokal statt. Es werden keine Accountdaten benötigt und 
 
 War Thunder und alle zugehörigen Marken gehören Gaijin Entertainment. Dieses Projekt ist ein unabhängiges Fanprojekt und steht in keiner Verbindung zu Gaijin Entertainment.
 
-## Beta testen
+## RC testen
 
 Tests starten:
 
@@ -206,7 +209,7 @@ und Ordnerstatistiken. Der Health Score ist bewusst noch nicht implementiert; de
 maschinenlesbar als `healthScore: null` aus.
 
 
-## Desktop-Beta starten
+## Desktop-RC starten
 
 Windows-GUI:
 

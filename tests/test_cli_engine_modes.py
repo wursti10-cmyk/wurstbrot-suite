@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import unittest
@@ -35,6 +36,30 @@ class CliEngineModeTests(unittest.TestCase):
         self.assertIn("Ergebnisquelle: legacy", result.stdout)
         self.assertIn("Shadow-Vergleich: nicht vorhanden", result.stdout)
         self.assertIn("Comparison Status: nicht ausgeführt", result.stdout)
+
+    def test_version_is_available_without_database_arguments(self):
+        result = subprocess.run(
+            (sys.executable, str(CLI), "--version"),
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("1.0.0-rc.1", result.stdout)
+
+    def test_non_utf8_console_does_not_crash_on_explanation_symbols(self):
+        result = subprocess.run(
+            (sys.executable, str(CLI), *BASE_ARGS),
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            encoding="ascii",
+            errors="strict",
+            env={**os.environ, "PYTHONIOENCODING": "ascii"},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Rechenmodus: legacy", result.stdout)
 
     def test_shadow_keeps_legacy_as_user_result_and_reports_comparison(self):
         result = self.run_cli("--engine", "shadow")
