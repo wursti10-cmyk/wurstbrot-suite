@@ -61,6 +61,8 @@ jobs:
       - run: python tests/accuracy_core_reference_matrix.py > build/health/Accuracy_Core_References_2.57.1.67.json
       - run: node tests/browser_shadow_harness.mjs --output build/health/Browser_Shadow_2.57.1.67.json
       - run: node tests/browser_release_hardening.mjs --output build/health/Browser_Release_Hardening_2.57.1.67.json
+      - run: python tests/regression_matrix.py > build/health/Python_Regression_2.57.1.67.json
+      - run: node tests/browser_regression.mjs > build/health/Browser_Regression_2.57.1.67.json
       - run: |
           python tests/accuracy_confidence_matrix.py \
             --shadow-report build/health/Graph_Shadow_2.57.1.67.json \
@@ -73,6 +75,8 @@ jobs:
             --confidence-report build/health/Accuracy_Confidence_2.57.1.67.json \
             --health-report build/health/WT_Health_2.57.1.67.json \
             --browser-report build/health/Browser_Release_Hardening_2.57.1.67.json \
+            --python-regression-report build/health/Python_Regression_2.57.1.67.json \
+            --browser-regression-report build/health/Browser_Regression_2.57.1.67.json \
             --output build/health
       - uses: actions/upload-artifact@v4
         with:
@@ -89,6 +93,8 @@ jobs:
             build/health/Accuracy_Core_References_2.57.1.67.json
             build/health/Browser_Shadow_2.57.1.67.json
             build/health/Browser_Release_Hardening_2.57.1.67.json
+            build/health/Python_Regression_2.57.1.67.json
+            build/health/Browser_Regression_2.57.1.67.json
             build/health/Accuracy_Confidence_2.57.1.67.json
             build/health/Accuracy_Confidence_2.57.1.67.txt
             build/health/Accuracy_Release_Hardening_2.57.1.67.json

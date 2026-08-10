@@ -24,6 +24,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--confidence-report", type=Path)
     parser.add_argument("--health-report", type=Path)
     parser.add_argument("--browser-report", type=Path)
+    parser.add_argument("--python-regression-report", type=Path)
+    parser.add_argument("--browser-regression-report", type=Path)
     parser.add_argument("--output", type=Path)
     return parser.parse_args()
 
@@ -60,7 +62,16 @@ def main() -> int:
         ),
         "crossPythonPassed": False,
         "browserLegacyPassed": False,
+        "pythonRegressionPassed": False,
+        "pythonRegressionCases": 0,
+        "graphMirrorPassed": False,
+        "graphMirrorCases": 0,
+        "browserRegressionPassed": False,
+        "browserRegressionCases": 0,
         "healthErrors": 0,
+        "validatorCoverage": 0.0,
+        "validatorImplementedRules": 0,
+        "validatorTestedRules": 0,
     }
     if args.shadow_report:
         shadow = load_json(args.shadow_report)
@@ -85,6 +96,9 @@ def main() -> int:
     if args.health_report:
         health = load_json(args.health_report)
         evidence["healthErrors"] = health["counts"]["error"]
+        evidence["validatorCoverage"] = health["coverage"]
+        evidence["validatorImplementedRules"] = len(health["implementedRules"])
+        evidence["validatorTestedRules"] = len(health["testedRules"])
     if args.browser_report:
         browser = load_json(args.browser_report)
         evidence["browserLegacyPassed"] = (
@@ -92,6 +106,24 @@ def main() -> int:
             and browser.get("browserLegacyPassed") is True
             and browser.get("graphRuntimeAvailable") is False
             and browser.get("failed") == 0
+        )
+    if args.python_regression_report:
+        regression = load_json(args.python_regression_report)
+        evidence["pythonRegressionCases"] = regression.get("passed", 0)
+        evidence["graphMirrorCases"] = regression.get("mirror_matches", 0)
+        evidence["pythonRegressionPassed"] = (
+            regression.get("passed") == 1_977
+            and regression.get("mirror_matches") == 1_977
+            and regression.get("failed", 0) == 0
+        )
+        evidence["graphMirrorPassed"] = evidence["pythonRegressionPassed"]
+    if args.browser_regression_report:
+        browser_regression = load_json(args.browser_regression_report)
+        evidence["browserRegressionCases"] = browser_regression.get("passed", 0)
+        evidence["browserRegressionPassed"] = (
+            browser_regression.get("passed") == 1_977
+            and browser_regression.get("root_targets") == 206
+            and browser_regression.get("skipped_special") == 49
         )
 
     report = build_release_hardening_report(

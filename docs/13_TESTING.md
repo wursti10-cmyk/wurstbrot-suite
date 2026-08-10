@@ -123,8 +123,9 @@ Rabatt, strikte RP-Bereiche sowie Ablehnung inkonsistenter Research-/Purchase-St
 Accuracy 10 ergänzt 44 manuell eingefrorene direkte A→B-Fälle: genau einen pro Forschungsbaum.
 Zusammen mit neun streng geprüften Golden-E2E- und acht Accuracy-9-Kernreferenzen umfasst die reale
 Abnahme 61 Fälle. Die 44 direkten Fälle laufen in `legacy`, `shadow` und `graph_experimental`; alle
-132 Modusausführungen müssen die unabhängigen Datamine-/Formelwerte treffen. Legacy ist dabei nie
-alleinige Sollwertquelle.
+132 Modusausführungen müssen die unabhängigen Datamine-/Formelwerte treffen. Ein Reservefall nimmt
+das Startfahrzeug ausdrücklich auf und beweist echte Null-RP-/Null-SL-Kostenzeilen. Legacy ist dabei
+nie alleinige Sollwertquelle.
 
 Die deterministische Boundary-Matrix enthält 20 ungültige und 12 gültige Grenzfälle. Ungültige
 Graph-Experimental-Eingaben dürfen kein Ergebnis und keinen Fallback liefern. Der leere optionale
@@ -184,8 +185,10 @@ Fallbackgründe, neun reale Abnahmen, die 49 Sonderfälle und den stabilen
 CI lädt zusätzlich `Browser_Release_Hardening_2.57.1.67.json` sowie
 `Accuracy_Release_Hardening_2.57.1.67.json/.txt` hoch. Das Release-Gate verlangt 61/61 reale
 A→B-Abnahmen, 32/32 Boundary-Fälle, 14/14 bewusst partielle Hidden-Folder-Fälle, 0 Mismatches,
-0 Internal Errors und keine offene Contract Decision. `ready_for_rc_review` darf dann true sein;
-`ready_for_default_use` bleibt immer false.
+0 Internal Errors und keine offene Contract Decision. Zusätzlich müssen Python-Regression, Graph
+Mirror und Browser-Regression jeweils 1.977 Fälle sowie der Validator 42/42 Regeln bei 100 Prozent
+Coverage nachweisen. `ready_for_rc_review` darf dann true sein; `ready_for_default_use` bleibt immer
+false.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

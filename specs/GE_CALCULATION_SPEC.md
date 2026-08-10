@@ -232,6 +232,10 @@ Pfadorakel ist der statisch festgeschriebene direkte Datamine-Vorgänger; RP und
 versionierten Sample-Datenbank, Rest-RP, GE, Rabatt-SL, vorhandene GE und Convertible-RP-Shortfall
 aus den Formeln dieses Dokuments. Legacy und Graph sind Prüflinge, nicht Sollwertgeneratoren.
 
+Mindestens ein Direktfall muss `include_start_vehicle=true` mit einem Reserve-Start verwenden und
+dadurch tatsächliche Null-RP- und Null-SL-Kostenzeilen prüfen. Ein bloß ausgeschlossener
+Nullkosten-Start gilt nicht als Kostenabdeckung.
+
 Zusammen mit den neun Golden-E2E- und acht Accuracy-9-Kernreferenzen müssen mindestens 50 reale
 A→B-Fälle vollständig bestehen; der aktuelle Vertrag umfasst 61. Die direkten Fälle müssen in
 `legacy`, `shadow` und `graph_experimental` numerisch identisch sein. `graph_experimental` bleibt nur

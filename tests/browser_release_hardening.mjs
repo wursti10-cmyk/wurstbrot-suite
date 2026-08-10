@@ -77,25 +77,35 @@ for (const item of fixture.cases) {
     targetId: target.id,
     progress,
     slDiscount: profile.slDiscountPercent,
+    includeStartVehicle: profile.includeStartVehicle ?? false,
   });
+  const expectedLines = item.expectedRequiredVehicleIds.map((vehicleId) => {
+    const vehicle = vehicles.get(vehicleId);
+    const lineResearchedRp = vehicleId === target.id ? researchedRp : 0;
+    const lineRemainingRp = vehicle.rp - lineResearchedRp;
+    return {
+      id: vehicle.id,
+      remainingRp: lineRemainingRp,
+      ge: lineRemainingRp === 0 ? 0 : Math.ceil(lineRemainingRp / fixture.rpPerGE),
+      sl: Math.round(vehicle.sl * (1 - profile.slDiscountPercent / 100)),
+    };
+  });
+  const totalRp = expectedLines.reduce((sum, line) => sum + line.remainingRp, 0);
+  const geBeforeOwned = expectedLines.reduce((sum, line) => sum + line.ge, 0);
+  const sl = expectedLines.reduce((sum, line) => sum + line.sl, 0);
   const expected = {
     requiredVehicleIds: item.expectedRequiredVehicleIds,
-    remainingRp,
-    geBeforeOwned: remainingRp === 0 ? 0 : Math.ceil(remainingRp / fixture.rpPerGE),
-    geAfterOwned: Math.max(
-      (remainingRp === 0 ? 0 : Math.ceil(remainingRp / fixture.rpPerGE)) - profile.ownedGe,
-      0,
-    ),
-    sl: Math.round(target.sl * (1 - profile.slDiscountPercent / 100)),
-    convertibleRpShortfall: convertibleRp === null ? 0 : Math.max(remainingRp - convertibleRp, 0),
+    lines: expectedLines,
+    remainingRp: totalRp,
+    geBeforeOwned,
+    geAfterOwned: Math.max(geBeforeOwned - profile.ownedGe, 0),
+    sl,
+    convertibleRpShortfall: convertibleRp === null ? 0 : Math.max(totalRp - convertibleRp, 0),
   };
   const passed = JSON.stringify(actual.requiredVehicleIds)
     === JSON.stringify(expected.requiredVehicleIds)
-    && actual.lines.length === 1
-    && actual.lines[0].id === target.id
-    && actual.lines[0].remainingRp === expected.remainingRp
-    && actual.lines[0].ge === expected.geBeforeOwned
-    && actual.lines[0].sl === expected.sl
+    && JSON.stringify(actual.lines.map(({id, remainingRp, ge, sl}) => ({id, remainingRp, ge, sl})))
+      === JSON.stringify(expected.lines)
     && actual.totalRp === expected.remainingRp
     && actual.totalGeBeforeOwned === expected.geBeforeOwned
     && actual.totalGe === expected.geAfterOwned

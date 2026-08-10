@@ -6,9 +6,9 @@
   "immutable": true,
   "rpPerGE": 45,
   "fixtureFingerprintVersion": "accuracy10-direct-fixture-v1",
-  "fixtureFingerprint": "accuracy10-direct-fixture-v1:94b6e363fa0e541d957eae1e507f84b4b3a70f1a4689b2cd80a93549198739c5",
+  "fixtureFingerprint": "accuracy10-direct-fixture-v1:84e65f9dea8fc0c709da5a291adb573f2aef639ef3a643d3c9f8a7ab1135e7c5",
   "resultFingerprintVersion": "accuracy10-direct-results-v1",
-  "resultFingerprint": "accuracy10-direct-results-v1:05d9aca6775f3f54dd89c7e7cc978d45e3df656c4e6bb433803c4bf6da420208",
+  "resultFingerprint": "accuracy10-direct-results-v1:ed40c22b689bcb362445ac2ec122a6fe0f4ae9d81f94d2f73b0bad558ea82d74",
   "profiles": {
     "base_0": {"slDiscountPercent": 0, "targetProgress": "none", "ownedGe": 0, "convertibleRp": "unset"},
     "base_30": {"slDiscountPercent": 30, "targetProgress": "none", "ownedGe": 0, "convertibleRp": "unset"},
@@ -18,11 +18,12 @@
     "owned_ge_10_0": {"slDiscountPercent": 0, "targetProgress": "none", "ownedGe": 10, "convertibleRp": "unset"},
     "owned_ge_10_30": {"slDiscountPercent": 30, "targetProgress": "none", "ownedGe": 10, "convertibleRp": "unset"},
     "owned_ge_10_50": {"slDiscountPercent": 50, "targetProgress": "none", "ownedGe": 10, "convertibleRp": "unset"},
-    "partial_half_30": {"slDiscountPercent": 30, "targetProgress": "half", "ownedGe": 0, "convertibleRp": "unset"}
+    "partial_half_30": {"slDiscountPercent": 30, "targetProgress": "half", "ownedGe": 0, "convertibleRp": "unset"},
+    "reserve_start_0": {"slDiscountPercent": 0, "targetProgress": "none", "ownedGe": 0, "convertibleRp": "unset", "includeStartVehicle": true}
   },
   "caseCount": 44,
   "cases": [
-    {"caseId":"tree:britain:army","countryId":"country_britain","vehicleType":"army","startVehicleId":"uk_a_13_mk1","targetVehicleId":"uk_a_13_mk2","profile":"base_0","expectedRequiredVehicleIds":["uk_a_13_mk2"],"tags":["direct_predecessor","reserve_start"]},
+    {"caseId":"tree:britain:army","countryId":"country_britain","vehicleType":"army","startVehicleId":"uk_a_13_mk1","targetVehicleId":"uk_a_13_mk2","profile":"reserve_start_0","expectedRequiredVehicleIds":["uk_a_13_mk1","uk_a_13_mk2"],"tags":["direct_predecessor","reserve_start","zero_rp_line","zero_sl_line"]},
     {"caseId":"tree:britain:aviation","countryId":"country_britain","vehicleType":"aviation","startVehicleId":"nimrod_mk1","targetVehicleId":"nimrod_mk2","profile":"base_30","expectedRequiredVehicleIds":["nimrod_mk2"],"tags":["direct_predecessor","reserve_start"]},
     {"caseId":"tree:britain:boats","countryId":"country_britain","vehicleType":"boats","startVehicleId":"uk_mtb_vosper_1series","targetVehicleId":"uk_mtb_vosper_2series","profile":"base_50","expectedRequiredVehicleIds":["uk_mtb_vosper_2series"],"tags":["direct_predecessor"]},
     {"caseId":"tree:britain:helicopters","countryId":"country_britain","vehicleType":"helicopters","startVehicleId":"wasp_has_mk1","targetVehicleId":"wessex_mk5","profile":"base_0","expectedRequiredVehicleIds":["wessex_mk5"],"tags":["direct_predecessor"]},

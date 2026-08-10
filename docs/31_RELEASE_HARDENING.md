@@ -21,8 +21,10 @@ Die maschinenlesbare Eingabematrix liegt in
 | **Gesamt** | **61** | Legacy ist nie alleinige Sollwertquelle |
 
 Die 44 neuen Fälle decken jeden Forschungsbaum genau einmal ab. Sie verwenden absichtlich
-eindeutige sichtbare, ordnerfreie, unlockfreie Vorgängerkanten desselben Rangs. Dadurch ist
-`[target]` als Pflichtpfad unabhängig aus der Datamine beweisbar. Kosten werden je Fahrzeug aus
+eindeutige sichtbare, ordnerfreie, unlockfreie Vorgängerkanten desselben Rangs. Dadurch ist der
+statisch gespeicherte Direktpfad unabhängig aus der Datamine beweisbar. Ein Reservefall aktiviert
+`include_start_vehicle` ausdrücklich und prüft dadurch echte Null-RP-/Null-SL-Kostenzeilen; die
+übrigen Direktfälle erwarten nur das Ziel. Kosten werden je Fahrzeug aus
 Datamine-RP/SL, Fortschritt, `ceil(remainingRP / rpPerGE)`, vorhandenem GE, Convertible RP und dem
 0/30/50-SL-Vertrag abgeleitet. Graph- und Legacy-Ausgaben werden nur gegen diese Sollwerte geprüft.
 
@@ -95,8 +97,10 @@ Der Readiness-Block enthält mindestens:
 `ready_for_rc_review` und `ready_for_release_candidate` werden nur ohne Blocker true: 0 Mismatches,
 0 Internal Errors, alle unabhängigen Referenzen und Boundary-Fälle grün, mindestens 50 reale A→B-
 Fälle, 14 dokumentierte Partial-Fälle, kein Health Error, keine offene Contract Decision sowie
-belegte Cross-Python- und Browser-Legacy-Gates. `ready_for_default_use` bleibt in Accuracy 10 hart
-auf `false`; der Bericht schaltet keine Engine um.
+belegte Cross-Python- und Browser-Legacy-Gates. Zusätzlich müssen Python-Regression, Graph Mirror
+und Browser-Regression jeweils 1.977/1.977 sowie der Validator 100 Prozent Coverage bei identischer
+implementierter und getesteter Regelmenge melden. `ready_for_default_use` bleibt in Accuracy 10
+hart auf `false`; der Bericht schaltet keine Engine um.
 
 ## Befehle
 
@@ -109,6 +113,8 @@ python tests/release_hardening_matrix.py \
   --confidence-report build/health/Accuracy_Confidence_2.57.1.67.json \
   --health-report build/health/WT_Health_2.57.1.67.json \
   --browser-report build/health/Browser_Release_Hardening_2.57.1.67.json \
+  --python-regression-report build/health/Python_Regression_2.57.1.67.json \
+  --browser-regression-report build/health/Browser_Regression_2.57.1.67.json \
   --output build/health
 ```
 

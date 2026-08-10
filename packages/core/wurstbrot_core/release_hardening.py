@@ -163,7 +163,9 @@ def validate_release_fixture(
         _require(not target.req_unlock, "target without unlock ambiguity")
         _require(target.group is None, "target without folder ambiguity")
         _require(case["profile"] in profiles, "known profile")
-        _require(case["expectedRequiredVehicleIds"] == [target.id], "static path oracle")
+        include_start = bool(profiles[case["profile"]].get("includeStartVehicle", False))
+        expected_path = [start.id, target.id] if include_start else [target.id]
+        _require(case["expectedRequiredVehicleIds"] == expected_path, "static path oracle")
         _require("direct_predecessor" in case["tags"], "direct-path tag")
         if case["caseId"].startswith("tree:"):
             observed_trees.add(tree)
@@ -511,6 +513,15 @@ def build_release_hardening_report(
     cross_python_passed = bool(evidence.get("crossPythonPassed", False))
     browser_legacy_passed = bool(evidence.get("browserLegacyPassed", False))
     health_errors = int(evidence.get("healthErrors", 0))
+    python_regression_passed = bool(evidence.get("pythonRegressionPassed", False))
+    python_regression_cases = int(evidence.get("pythonRegressionCases", 0))
+    graph_mirror_passed = bool(evidence.get("graphMirrorPassed", False))
+    graph_mirror_cases = int(evidence.get("graphMirrorCases", 0))
+    browser_regression_passed = bool(evidence.get("browserRegressionPassed", False))
+    browser_regression_cases = int(evidence.get("browserRegressionCases", 0))
+    validator_coverage = float(evidence.get("validatorCoverage", 0.0))
+    validator_implemented = int(evidence.get("validatorImplementedRules", 0))
+    validator_tested = int(evidence.get("validatorTestedRules", 0))
     blockers: list[str] = []
     if direct["failed"]:
         blockers.append("direct_acceptance_failed")
@@ -530,6 +541,18 @@ def build_release_hardening_report(
         blockers.append("contract_decision_open")
     if health_errors:
         blockers.append("health_error")
+    if not python_regression_passed or python_regression_cases != 1_977:
+        blockers.append("python_regression_failed")
+    if not graph_mirror_passed or graph_mirror_cases != 1_977:
+        blockers.append("graph_mirror_failed")
+    if not browser_regression_passed or browser_regression_cases != 1_977:
+        blockers.append("browser_regression_failed")
+    if (
+        validator_coverage != 100.0
+        or validator_implemented == 0
+        or validator_implemented != validator_tested
+    ):
+        blockers.append("validator_coverage_incomplete")
     if not cross_python_passed:
         blockers.append("cross_python_evidence_missing")
     if not browser_legacy_passed:
@@ -585,6 +608,15 @@ def build_release_hardening_report(
             "boundary_cases_passed": boundary["passed"],
             "cross_python_passed": cross_python_passed,
             "browser_legacy_passed": browser_legacy_passed,
+            "python_regression_passed": python_regression_passed,
+            "python_regression_cases": python_regression_cases,
+            "graph_mirror_passed": graph_mirror_passed,
+            "graph_mirror_cases": graph_mirror_cases,
+            "browser_regression_passed": browser_regression_passed,
+            "browser_regression_cases": browser_regression_cases,
+            "validator_coverage": validator_coverage,
+            "validator_implemented_rules": validator_implemented,
+            "validator_tested_rules": validator_tested,
             "contract_decisions_open": contract_decisions_open,
             "partial_cases": partial["total"],
             "blockers": blockers,
@@ -633,6 +665,15 @@ def write_release_hardening_report(
             f"{report['directAcceptance']['passed']}/{report['directAcceptance']['total']}",
             "Boundary cases: "
             f"{report['boundaryMatrix']['passed']}/{report['boundaryMatrix']['total']}",
+            "Python regression and Graph Mirror: "
+            f"{readiness['python_regression_cases']}/1977 and "
+            f"{readiness['graph_mirror_cases']}/1977",
+            "Browser regression: "
+            f"{readiness['browser_regression_cases']}/1977",
+            "Validator coverage: "
+            f"{readiness['validator_tested_rules']}/"
+            f"{readiness['validator_implemented_rules']} "
+            f"({readiness['validator_coverage']:.2f}%)",
             f"Mismatches: {readiness['mismatches']}",
             f"Internal errors: {readiness['internal_errors']}",
             f"Intentional partial cases: {readiness['partial_cases']}",
@@ -667,7 +708,10 @@ def _direct_request(
         convertible_rp=convertible_rp,
         owned_ge=profile["ownedGe"],
     )
-    options = SolveOptions(sl_discount_percent=profile["slDiscountPercent"])
+    options = SolveOptions(
+        include_start_vehicle=bool(profile.get("includeStartVehicle", False)),
+        sl_discount_percent=profile["slDiscountPercent"],
+    )
     return progress, options
 
 
@@ -679,32 +723,41 @@ def _direct_expected(
     target = database.get(case["targetVehicleId"])
     profile = payload["profiles"][case["profile"]]
     researched_rp = target.rp // 2 if profile["targetProgress"] == "half" else 0
-    remaining_rp = target.rp - researched_rp
-    ge = 0 if remaining_rp == 0 else math.ceil(remaining_rp / database.rp_per_ge)
-    sl = round(target.sl * (1 - profile["slDiscountPercent"] / 100))
+    target_remaining_rp = target.rp - researched_rp
+    lines = []
+    for vehicle_id in case["expectedRequiredVehicleIds"]:
+        vehicle = database.get(vehicle_id)
+        line_researched_rp = researched_rp if vehicle_id == target.id else 0
+        remaining_rp = vehicle.rp - line_researched_rp
+        ge = 0 if remaining_rp == 0 else math.ceil(remaining_rp / database.rp_per_ge)
+        sl = round(vehicle.sl * (1 - profile["slDiscountPercent"] / 100))
+        lines.append(
+            {
+                "vehicleId": vehicle.id,
+                "totalRp": vehicle.rp,
+                "researchedRp": line_researched_rp,
+                "remainingRp": remaining_rp,
+                "ge": ge,
+                "sl": sl,
+            }
+        )
+    total_rp = sum(item["remainingRp"] for item in lines)
+    total_ge = sum(item["ge"] for item in lines)
+    total_sl = sum(item["sl"] for item in lines)
     convertible_rp = (
-        remaining_rp // 2
+        target_remaining_rp // 2
         if profile["convertibleRp"] == "half_remaining"
         else None
     )
     return {
         "requiredVehicleIds": case["expectedRequiredVehicleIds"],
-        "vehicleLines": [
-            {
-                "vehicleId": target.id,
-                "totalRp": target.rp,
-                "researchedRp": researched_rp,
-                "remainingRp": remaining_rp,
-                "ge": ge,
-                "sl": sl,
-            }
-        ],
-        "totalRp": remaining_rp,
-        "totalGeBeforeOwned": ge,
-        "totalGeAfterOwned": max(ge - profile["ownedGe"], 0),
-        "totalSl": sl,
+        "vehicleLines": lines,
+        "totalRp": total_rp,
+        "totalGeBeforeOwned": total_ge,
+        "totalGeAfterOwned": max(total_ge - profile["ownedGe"], 0),
+        "totalSl": total_sl,
         "convertibleRpShortfall": (
-            0 if convertible_rp is None else max(remaining_rp - convertible_rp, 0)
+            0 if convertible_rp is None else max(total_rp - convertible_rp, 0)
         ),
     }
 
@@ -931,8 +984,8 @@ def _coverage_evidence(
         + golden_tags.get("hidden:blocked", [])
         + core_tags.get("accuracy9:hidden", []),
         "reserve": direct_tags.get("reserve_start", []),
-        "zero_rp": direct_tags.get("zero_rp_target", []) + direct_tags.get("reserve_start", []),
-        "zero_sl": direct_tags.get("zero_sl_target", []) + direct_tags.get("reserve_start", []),
+        "zero_rp": direct_tags.get("zero_rp_line", []),
+        "zero_sl": direct_tags.get("zero_sl_line", []),
         "owned_ge": direct_tags.get("owned_ge", [])
         + golden_tags.get("owned_ge", [])
         + core_tags.get("accuracy9:owned_ge", []),

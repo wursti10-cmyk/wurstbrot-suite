@@ -58,7 +58,16 @@ class ReleaseHardeningTests(unittest.TestCase):
                 "contractDecisionsOpen": 0,
                 "crossPythonPassed": True,
                 "browserLegacyPassed": True,
+                "pythonRegressionPassed": True,
+                "pythonRegressionCases": 1_977,
+                "graphMirrorPassed": True,
+                "graphMirrorCases": 1_977,
+                "browserRegressionPassed": True,
+                "browserRegressionCases": 1_977,
                 "healthErrors": 0,
+                "validatorCoverage": 100.0,
+                "validatorImplementedRules": 42,
+                "validatorTestedRules": 42,
             },
         )
 
@@ -108,6 +117,13 @@ class ReleaseHardeningTests(unittest.TestCase):
             self.fixture["expectedValueSources"],
             ["DATAMINE_DIRECT", "FORMULA_DERIVED", "MANUALLY_REVIEWED"],
         )
+        direct_lines = [
+            line
+            for case in self.report["directAcceptance"]["caseResults"]
+            for line in case["expected"]["vehicleLines"]
+        ]
+        self.assertTrue(any(line["totalRp"] == 0 for line in direct_lines))
+        self.assertTrue(any(line["sl"] == 0 for line in direct_lines))
 
     def test_required_release_coverage_has_case_evidence(self) -> None:
         coverage = self.report["coverage"]
@@ -160,7 +176,43 @@ class ReleaseHardeningTests(unittest.TestCase):
         self.assertEqual(readiness["internal_errors"], 0)
         self.assertEqual(readiness["contract_decisions_open"], 0)
         self.assertEqual(readiness["partial_cases"], 14)
+        self.assertTrue(readiness["python_regression_passed"])
+        self.assertEqual(readiness["python_regression_cases"], 1_977)
+        self.assertTrue(readiness["graph_mirror_passed"])
+        self.assertEqual(readiness["graph_mirror_cases"], 1_977)
+        self.assertTrue(readiness["browser_regression_passed"])
+        self.assertEqual(readiness["browser_regression_cases"], 1_977)
+        self.assertEqual(readiness["validator_coverage"], 100.0)
+        self.assertEqual(readiness["validator_implemented_rules"], 42)
+        self.assertEqual(readiness["validator_tested_rules"], 42)
         self.assertEqual(readiness["blockers"], [])
+
+    def test_rc_readiness_requires_regression_and_validator_evidence(self) -> None:
+        report = build_release_hardening_report(
+            self.database,
+            self.fixture,
+            self.golden,
+            self.core,
+            self.dossier,
+            gate_evidence={
+                "mismatches": 0,
+                "internalErrors": 0,
+                "contractDecisionsOpen": 0,
+                "crossPythonPassed": True,
+                "browserLegacyPassed": True,
+                "healthErrors": 0,
+            },
+        )
+        self.assertFalse(report["readiness"]["ready_for_release_candidate"])
+        self.assertEqual(
+            report["readiness"]["blockers"],
+            [
+                "python_regression_failed",
+                "graph_mirror_failed",
+                "browser_regression_failed",
+                "validator_coverage_incomplete",
+            ],
+        )
 
     def test_report_fingerprint_excludes_observed_timing_and_files_are_serializable(self) -> None:
         original = self.report["reportFingerprint"]
