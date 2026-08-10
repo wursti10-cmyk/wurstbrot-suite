@@ -13,6 +13,7 @@
 | Graph-Resolution-Matrix | `python tests/graph_resolution_matrix.py` | 1.977 bestehende Fälle plus 13 Progress-Szenarien, Shadow-Diagnostik und 49 Sonderfälle |
 | Graph-Cost-Matrix | `python tests/graph_cost_matrix.py` | 1.977 bestehende Fälle plus 18 Cost-Szenarien, VehicleCostLine-Vergleich und 49 Kostensonderfälle |
 | Full Pipeline Shadow | `python tests/graph_shadow_matrix.py --output build/health` | 2.090 klar getrennte Zählebenen, Dual-Vergleich, Optionen, Invalid Input, Fingerprints und Readiness |
+| Graph Experimental | `python tests/graph_experimental_matrix.py --output build/health` | Execution-Mode, Result Adapter, Fallback, neun reale A→B-Abnahmen und alle 49 Sonderfälle |
 | Golden References | `python tests/accuracy_golden_matrix.py` | 60 eingefrorene Erwartungen, 44 Bäume, sechs Herkunftskategorien und direkte Formelprüfung |
 | Metamorphic Accuracy | `python tests/accuracy_metamorphic_matrix.py` | 16 deterministische Monotonie-, Summen-, Status- und Fingerprint-Eigenschaften |
 | Cross-Python | `python tests/accuracy_cross_python.py` | identischer kanonischer Result-Fingerprint unter Python 3.10/3.12/3.13 |
@@ -87,6 +88,22 @@ Die 16 metamorphischen Tests verwenden keine Zufallswerte. Die Cross-Python-CI-M
 JavaScript-Harness prüft dieselben Fixture-Werte, kennzeichnet den Browserstatus aber ausdrücklich
 als `fixture_validation_only`, nicht als Graph-Runtime-Parität.
 
+Accuracy 8 führt dieselben 2.090 Requests durch den ausdrücklich aktivierten
+`graph_experimental`-Modus. Zählebene bleibt ein Request: 1.988 Benutzerergebnisse stammen aus Graph,
+80 aus diagnostiziertem Legacy-Fallback und 22 sind `unavailable`: 20 Input-Contract-Differenzen
+werden ausdrücklich ohne Legacy-Fallback abgelehnt, zwei Fälle sind blockiert. Vergleichskategorien
+bleiben 1.988 exact, 80 unresolved expected,
+2 unsupported, 20 input contract differences, 0 mismatches und 0 internal errors.
+
+Die neun unabhängig festgeschriebenen realen A→B-Abnahmen müssen Graph vollständig und ohne Fallback
+verwenden. In der 49er-Sonderfallmatrix müssen 35 vollständige Graph-Ergebnisse und 14 sichtbare
+`partial`-Graphstatus mit Legacy-Fallback entstehen. Separat getestete Fallback-Verträge decken
+deaktiviertes Feature Flag, `internal_error`, `unavailable`, `blocked`, `unsupported`, `partial`,
+`mismatch`, abgelehntes `equivalent_match`, nicht adaptierbare Ergebnisse und Adapter-Contract-
+Verletzungen ab. `invalid_input` besitzt einen eigenen Negativtest und darf auch bei technischer
+Legacy-Akzeptanz kein vollständiges Benutzerergebnis erzeugen. Der Standardmodus-Test beweist, dass
+ohne `--engine` kein Graph-Aufruf erfolgt.
+
 ## Neue Tests
 
 - kleine synthetische Datenbanken für Randfälle bevorzugen
@@ -127,6 +144,12 @@ CI lädt zusätzlich `Browser_Shadow_2.57.1.67.json` und
 `Accuracy_Confidence_2.57.1.67.json/.txt` hoch. Der Confidence-Bericht muss Golden und Metamorphic
 vollständig grün, Pipeline-Mismatch/Internal Error bei null und `ready_for_default_use=false`
 ausweisen. Ein numerischer Confidence-Score ist verboten.
+
+CI lädt außerdem `Graph_Experimental_2.57.1.67.json` und `.txt` hoch. Das Artefakt enthält die
+Execution-Mode- und Feature-Flag-Verträge, einen Index aller 2.090 Requests, Ergebnisquellen,
+Fallbackgründe, neun reale Abnahmen, die 49 Sonderfälle und den stabilen
+`graph-experimental-report-v1`-Fingerprint. Es muss Default und Empfehlung als `legacy`, 0 Mismatches,
+0 Internal Errors, 9/9 Abnahmen sowie 35 Graph-/14 Legacy-Fallback-Sonderfälle ausweisen.
 
 `tests/validator_rule_matrix.py` ist der ausführbare Coverage-Vertrag. Der Test verlangt exakt dieselbe
 Rule-ID-Menge wie das Produktions-Registry und führt für jede Regel ein negatives Beispiel, das den

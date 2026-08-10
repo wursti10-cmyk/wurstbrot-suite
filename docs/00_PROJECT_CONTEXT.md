@@ -25,12 +25,18 @@ proprietären Spielassets benötigt oder hochgeladen.
 - Unit Tests, gemeinsame Solver-Contract-Fixture und Regressionen in Python und JavaScript
 - strukturierter Validator V2 mit 42/42 automatisch nachgewiesenen Regeln und Health Reports
 - paralleles typisiertes ResearchGraph-DAG mit Rule Evaluation, Prerequisite Resolution und
-  deterministischer RP-/GE-/SL-Kostenberechnung im Shadow Mode; produktiver Legacy-Solver und
-  Oberflächen bleiben unverändert
+  deterministischer RP-/GE-/SL-Kostenberechnung im Shadow Mode
 - zentrale GraphCalculationPipeline und DualEngineRunner mit 2.090 deterministischen Shadow-
   Vergleichen, 100 % Options-/Input-Abdeckung und stabilen fachlichen Fingerprints
 - unabhängige Accuracy-Baseline, 60 unveränderliche Golden References, 16 metamorphische Verträge
-  sowie Confidence-/Browser-Shadow-Reports; produktive Pfade bleiben unverändert
+  sowie Confidence-/Browser-Shadow-Reports
+- drei CLI-Execution-Modes mit Legacy als Standard und Empfehlung; Graph Experimental ist nur pro
+  Aufruf aktivierbar, verlangt `complete` + `exact_match` und besitzt sichtbaren Legacy-Fallback
+- Desktop und Browser bleiben unverändert auf Legacy; keine Browser-Graph-Runtime
+
+Bis Version 1.0 ist der Produktumfang verbindlich auf Forschungsweg A → B und zugehörige RP-, GE-
+und SL-Kosten begrenzt. Neue Explain Engine, Dashboard, Project Intelligence, Optimizer-Ausbau und
+visueller Tech Tree sind in dieser Release-Linie keine Arbeitsziele.
 
 ## Nicht-Ziele
 

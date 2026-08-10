@@ -269,7 +269,8 @@ erfüllten Fahrzeugs. Unlocks dürfen nicht als normale Vorgängerkanten rekonst
 
 Rank Resolution nennt Required Count, bereits erfüllte Zahl, Missing Count, zulässige Kandidaten und
 Ausschlussgründe. Ohne Auswahlstrategie bleibt eine notwendige Kombination unresolved. Die optionale
-`LegacyRankCompatibilityStrategy` darf ausschließlich im Shadow Mode die bestehende deterministische,
+`LegacyRankCompatibilityStrategy` darf ausschließlich in den vergleichsbasierten Modi Shadow und
+Graph Experimental die bestehende deterministische,
 kostenbewusste Rank-Auswahl delegieren. Das Ergebnis muss `graphCostCalculationPerformed=false`,
 `costValuesEmitted=false`, den aktivierten `legacyCompatibilityModeEnabled` und den tatsächlichen
 `legacyCompatibilitySelectionPerformed`-Status sowie
@@ -371,8 +372,8 @@ Ergebnis und werden nicht ausgegeben.
 
 ## Dual Engine Comparison Contract
 
-`DualEngineRunner` führt den unveränderten `ResearchSolver` und die Graphpipeline getrennt aus. Die
-produktive Ergebnisquelle bleibt `legacy`. Verglichen werden:
+`DualEngineRunner` führt den unveränderten `ResearchSolver` und die Graphpipeline getrennt aus. Der
+Runner selbst wählt keine Benutzer-Ergebnisquelle. Verglichen werden:
 
 - Required-Fahrzeuge und strukturierte Rank-Anforderungen
 - Gesamt-, Fortschritts- und Rest-RP je Fahrzeug
@@ -390,6 +391,23 @@ Darstellungs- oder Reihenfolgenabweichung bei identischen Mengen und Zahlen sein
 Internal Error sind CI-Fehler. Input-Contract-Differenzen brauchen Rule ID, Contract-Regel und
 Begründung und zählen nicht als Match.
 
+## Experimental Execution Contract
+
+`CalculationEngine` definiert exakt `legacy`, `shadow` und `graph_experimental`. Ohne explizite
+Auswahl gilt `legacy`; Graph Experimental ist pro Prozess deaktiviert, nicht persistent und darf
+nicht automatisch aus Readiness abgeleitet werden.
+
+- `legacy`: nur Legacy ausführen und verwenden;
+- `shadow`: beide ausführen, Legacy verwenden;
+- `graph_experimental`: beide ausführen, Graph ausschließlich bei `complete` und `exact_match`
+  durch den Graph→`SolveResult`-Adapter verwenden.
+
+Alle anderen Graphstatus oder Vergleichskategorien verwenden grundsätzlich ein vorhandenes Legacy-
+Ergebnis als sichtbar diagnostizierten Fallback. `invalid_input` und daraus folgende Input-Contract-
+Differenzen sind die Ausnahme: Sie bleiben ohne Benutzerergebnis, selbst wenn Legacy sie technisch
+akzeptiert. Insbesondere besitzt `partial` keine verbindlichen Graphsummen. Ist auch Legacy nicht
+darstellbar, lautet der Ausführungsstatus `unavailable`. Desktop und Browser bleiben Legacy-only.
+
 ## Deterministic Fingerprint Contract
 
 Versionen:
@@ -398,6 +416,8 @@ Versionen:
 - `legacy-result-v1`
 - `dual-engine-comparison-v1`
 - `graph-shadow-report-v1`
+- `calculation-execution-v1`
+- `graph-experimental-report-v1`
 
 Grundlage ist kanonisches JSON über fachliche Eingaben, Status und Ergebnisse. Dictionary-Schlüssel,
 Sets und Rule IDs sind deterministisch sortiert. Zeitstempel, Dateipfade, Objektadressen und zufällige
@@ -412,8 +432,8 @@ Input-Validation-Coverage werden aus den ausführbaren Cases abgeleitet.
 `ready_for_experimental_use` verlangt mindestens 0 Mismatches, 0 Internal Errors sowie vollständige
 Options- und Input-Abdeckung. `ready_for_default_use` verlangt zusätzlich beschlossene
 Contract-Differenzen, belegte Folder-/Unlock-Grenzen, Browser-/Python-Abstimmung, repräsentative reale
-Referenzen und einen Rollback-Pfad. Der aktuelle Shadow-Stand darf deshalb experimentell true, aber
-nicht default true sein.
+Referenzen und einen Rollback-Pfad. Der aktuelle Stand erlaubt deshalb Shadow und ausdrücklich
+aktiviertes CLI Graph Experimental, aber keine Default-Umschaltung.
 
 ## Accuracy Confidence Contract
 
@@ -436,11 +456,11 @@ oder Unlock-Unklarheit bleibt `partial`/`unresolved`.
 
 Readiness besitzt drei getrennte Werte:
 
-- `ready_for_experimental_use`: ausschließlich Shadow-Ausführung;
-- `ready_for_release_candidate`: geprüfter Shadow-RC mit null Mismatch/Internal Error, vollständig
+- `ready_for_experimental_use`: Shadow sowie explizites CLI Graph Experimental mit Legacy-Fallback;
+- `ready_for_release_candidate`: geprüfter Experimentalumfang mit null Mismatch/Internal Error, vollständig
   grünen Golden-/Metamorphic-Suites, voller Options-/Input-Abdeckung, dokumentierten Decisions,
   Browserstatus, Rollback und realen Referenzen;
-- `ready_for_default_use`: produktive Umschaltung; bleibt in Accuracy 7 zwingend false.
+- `ready_for_default_use`: Default-Umschaltung; bleibt in Accuracy 8 zwingend false.
 
 Offene Decisions dürfen den Shadow-RC nur dann nicht blockieren, wenn sie ausdrücklich als
 release-blocking dokumentiert sind. Für Default-Nutzung müssen sie angenommen oder verworfen sein.

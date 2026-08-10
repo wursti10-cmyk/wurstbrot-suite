@@ -7,7 +7,7 @@
       "decision_id": "CONTRACT_SL_DISCOUNT_DOMAIN",
       "legacy_behavior": "Accepts every integer SL discount from 0 through 100 percent.",
       "graph_behavior": "Accepts only the evidenced 0, 30 and 50 percent discounts.",
-      "risk": "A productive switch could reject a value that the current application accepts, or could preserve an unevidenced discount domain.",
+      "risk": "A default switch could reject a value that the current application accepts, or could preserve an unevidenced discount domain.",
       "recommendation": "Keep the strict graph domain until the supported product contract is explicitly chosen.",
       "alternatives": [
         "Restrict the product contract to 0, 30 and 50 percent.",
@@ -82,13 +82,13 @@
       "decision_id": "CONTRACT_LEGACY_RANK_COMPATIBILITY",
       "legacy_behavior": "The production solver selects a deterministic rank-unlock vehicle combination using its existing cost-aware routine.",
       "graph_behavior": "LegacyRankCompatibilityStrategy delegates only Shadow Mode rank selection to that unchanged routine.",
-      "risk": "Treating the bridge as graph semantics would import the legacy optimization policy into the future optimizer by accident.",
-      "recommendation": "Keep the bridge quarantined, comparison-only, and remove it before a graph-native default switch.",
+      "risk": "Treating the bridge as graph semantics would silently make the existing Legacy rank-selection policy a permanent Graph contract.",
+      "recommendation": "Keep the bridge quarantined and comparison-backed; do not expand optimizer scope before 1.0 and require an explicit decision before any Graph default switch.",
       "alternatives": [
-        "Implement a separately specified graph optimizer in a later sprint.",
+        "Specify a separate rank-selection contract only after the 1.0 product goal is complete.",
         "Leave rank-selection cases partial until such an optimizer exists."
       ],
-      "required_product_owner_decision": "The comparison-only status is accepted; the later optimizer policy still requires its own decision.",
+      "required_product_owner_decision": "The comparison-only status is accepted; no optimizer expansion belongs to the pre-1.0 scope.",
       "status": "accepted",
       "release_blocking": false,
       "evidence": [

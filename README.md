@@ -20,6 +20,11 @@ Aktueller Stand: **0.9.0-beta**. Der Python-Kern, die Desktop-Oberflächen und e
 installierbare Browser-Version sind nutzbar. GitHub Actions prüft Python 3.10, 3.12
 und 3.13, die Browser-Logik und den vollständigen Regressionstest.
 
+Bis Version 1.0 bleibt der Produktumfang bewusst eng: ein zuverlässiger Forschungsweg von
+Fahrzeug A zu Fahrzeug B sowie die zugehörigen RP-, GE- und SL-Kosten. Legacy ist weiterhin die
+standardmäßige und empfohlene Rechenquelle. Die Python-CLI kann die Graphpipeline ausdrücklich
+experimentell aktivieren; Desktop und Browser bleiben unverändert auf Legacy.
+
 ### Fertig
 
 - Parser für `shop.blkx`
@@ -131,13 +136,48 @@ node --test tests/web_solver.test.mjs
 Beispielberechnung:
 
 ```bash
-python apps/ge-calculator/ge_calculator_cli.py   --database data/samples/WT_Database_2.57.1.67.json   --start germ_leopard_2a5   --target germ_leopard_2a7v
+python apps/ge-calculator/ge_calculator_cli.py \
+  --database data/samples/WT_Database_2.57.1.67.json \
+  --start germ_leopard_2a5 \
+  --target germ_leopard_2a7v
 ```
+
+Rechenmodi der CLI:
+
+```bash
+# Standard: nur Legacy, kein Graph-Aufruf
+python apps/ge-calculator/ge_calculator_cli.py \
+  --database data/samples/WT_Database_2.57.1.67.json \
+  --start germ_sdkfz_222 --target germ_sdkfz_6_2_flak36
+
+# Legacy-Benutzerergebnis plus Graphvergleich
+python apps/ge-calculator/ge_calculator_cli.py \
+  --database data/samples/WT_Database_2.57.1.67.json \
+  --start germ_sdkfz_222 --target germ_sdkfz_6_2_flak36 \
+  --engine shadow
+
+# Pro Aufruf ausdrücklich aktivierter, nicht empfohlener Experimentalmodus
+python apps/ge-calculator/ge_calculator_cli.py \
+  --database data/samples/WT_Database_2.57.1.67.json \
+  --start germ_sdkfz_222 --target germ_sdkfz_6_2_flak36 \
+  --engine graph-experimental
+```
+
+`graph-experimental` verwendet Graph nur bei `complete` und `exact_match`. Bei `partial`,
+`unavailable`, internem Fehler, nicht exaktem Vergleich oder Adapterverletzung bleibt das
+Legacy-Ergebnis sichtbar; Quelle und Fallback-Grund werden ausgegeben. Als `invalid_input`
+klassifizierte Aufrufe werden dagegen ohne Legacy-Fallback abgelehnt, damit ungültige Eingaben nicht
+wie erfolgreiche Berechnungen erscheinen. Die Auswahl wird nicht gespeichert und nie anhand eines
+Confidence-Werts automatisch aktiviert.
 
 Angeforschte RP:
 
 ```bash
-python apps/ge-calculator/ge_calculator_cli.py   --database data/samples/WT_Database_2.57.1.67.json   --start germ_leopard_2a5   --target germ_leopard_2a7v   --progress germ_leopard_2a7v:100000
+python apps/ge-calculator/ge_calculator_cli.py \
+  --database data/samples/WT_Database_2.57.1.67.json \
+  --start germ_leopard_2a5 \
+  --target germ_leopard_2a7v \
+  --progress germ_leopard_2a7v:100000
 ```
 
 Datamine-Health-Report für eine bestehende Datenbank:

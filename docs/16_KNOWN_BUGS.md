@@ -31,12 +31,13 @@
   die Solver-API unterstützt diese Fortschrittsdaten bereits.
 - Graphdiagnostik zählt alle Kantentypen gemeinsam. Folder-, Unlock- und Rank-Kanten sind
   Analysestruktur und keine automatischen Validatorfehler.
-- Der Graph Resolver läuft nur im Shadow Mode; produktive Kostenberechnung und Oberflächen verwenden
-  weiterhin ausschließlich den Legacy-Solver.
+- Der Graph Resolver ist nur in Shadow und im ausdrücklich aktivierten CLI-Modus
+  `graph_experimental` erreichbar. Standard-CLI und alle Oberflächen verwenden Legacy.
 - Die `LegacyRankCompatibilityStrategy` delegiert vorübergehend an die private bestehende
   Rangwahlmethode. Sie ist absichtlich kein eigenständiger Optimizervertrag.
-- Die Graph-Cost-Engine läuft nur im Shadow Mode. Sie berechnet keine GE-Pakete, Europreise,
-  Crewkosten oder Sale-Empfehlungen und verteilt vorhandene GE nicht auf Fahrzeugzeilen.
+- Die Graph-Cost-Engine läuft in Shadow oder im ausdrücklich aktivierten CLI-Experimentalmodus. Sie
+  berechnet keine GE-Pakete, Europreise, Crewkosten oder Sale-Empfehlungen und verteilt vorhandene GE
+  nicht auf Fahrzeugzeilen.
 - Bei partiellen Kosten werden vorhandene GE und Convertible-RP-Shortfall bewusst nicht angewandt,
   weil unbekannte Voraussetzungen die vollständige Summe verändern können.
 - Der Graph-Cost-Contract akzeptiert nur 0/30/50 Prozent SL-Rabatt; Legacy akzeptiert historisch
@@ -47,8 +48,9 @@
   konsistente Status- und RP-Werte.
 - Die Sample-Datenbank enthält kein reguläres Fahrzeug mit positivem RP und 0 SL. Die Null-SL-Regel
   ist deshalb synthetisch sowie mit einem Reservefahrzeug belegt, aber nicht breit realdatenvalidiert.
-- Die Graphpipeline läuft vollständig im Shadow Mode. Kein CLI-, GUI-, Desktop- oder Browser-Aufrufer
-  konsumiert ihr Ergebnis; insbesondere existiert noch keine Browser-Graphpipeline.
+- Die Python-CLI kann ein Graphresultat ausdrücklich experimentell konsumieren, aber nur bei
+  `pipeline_status=complete` und `comparison_status=exact_match`. Desktop, GUI und Browser besitzen
+  weiterhin keine Graphintegration; insbesondere existiert keine Browser-Graphpipeline.
 - Legacy stellt satisfied-Fahrzeuge, Folder-, Unlock- und Rule-Evaluation-Ergebnisse nicht
   strukturiert bereit. Diese Felder bleiben im Dual-Vergleich mit Begründung ausgeschlossen.
 - 20 Accuracy-6-Aufrufe sind bewusste Input-Contract-Differenzen: 18 Validierungsfälle und zwei
@@ -64,6 +66,11 @@
   Baseline und darf die bestehende Datei nicht still überschreiben.
 - Ein Confidence-Prozentwert ist absichtlich nicht definiert; die aktuelle Evidenz wird als Zähler,
   Herkunft und Readiness-Kriterien dargestellt.
+- `graph_experimental` ist kein Default und vor 1.0 nicht empfohlen. Die Aktivierung gilt nur für
+  den aktuellen CLI-Aufruf; es gibt weder gespeicherte Aktivierung noch automatische Umschaltung.
+- In Accuracy 8 verwenden 80 von 2.090 Experimental-Requests Legacy-Fallback und 22 liefern kein
+  darstellbares Ergebnis. 20 davon sind bewusst abgelehnte Input-Contract-Differenzen, zwei sind
+  blockiert. Diese Fälle sind keine stillen Erfolge; Quelle, Status und Grund bleiben sichtbar.
 
 ## Klassifizierte offene Semantik
 
@@ -90,6 +97,9 @@
 - Accuracy 7 klassifiziert alle 14 Partial-Ziele in vier Hidden-Folder-Ursachengruppen. Dataminewerte
   und Reihenfolge sind bekannt; Erwerbs-, Kauf- und Rangzählungssemantik fehlen weiterhin. Die
   vollständige Evidenzanforderung steht in [Partial Folder Research](29_PARTIAL_FOLDER_RESEARCH.md).
+- Accuracy 8 ändert diese Semantik nicht: 35 Sonderfälle verwenden vollständige Graph-Ergebnisse,
+  14 zeigen `partial` und verwenden Legacy-Fallback. Die neun realen A→B-Abnahmen verwenden Graph
+  vollständig; Full Matrix und Abnahmen enthalten 0 Mismatches und 0 Internal Errors.
 
 ## Pflege
 

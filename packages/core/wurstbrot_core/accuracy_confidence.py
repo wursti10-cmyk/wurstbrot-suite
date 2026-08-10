@@ -17,7 +17,7 @@ from .research_graph import ResearchGraphBuilder
 ACCURACY_BASELINE_SCHEMA_VERSION = 1
 GOLDEN_SUITE_SCHEMA_VERSION = 1
 CONFIDENCE_REPORT_SCHEMA_VERSION = 1
-CONFIDENCE_SUITE_VERSION = "1.0.0-shadow"
+CONFIDENCE_SUITE_VERSION = "1.1.0-experimental"
 BASELINE_FINGERPRINT_VERSION = "accuracy-baseline-v1"
 DATAMINE_FINGERPRINT_VERSION = "datamine-semantic-v1"
 GRAPH_FINGERPRINT_VERSION = "research-graph-v1"
@@ -961,8 +961,39 @@ def validate_partial_dossier(payload: dict[str, Any], database: VehicleDatabase)
 
 def validate_rollback_plan(payload: dict[str, Any]) -> None:
     _require(payload.get("schemaVersion") == 1, "rollback schema")
-    _require(payload.get("status") == "design_only", "rollback remains design only")
-    _require(payload.get("productiveSwitchImplemented") is False, "no productive switch")
+    _require(
+        payload.get("status") == "cli_experimental_available",
+        "CLI experimental switch status",
+    )
+    _require(
+        payload.get("experimentalCliSwitchImplemented") is True,
+        "CLI experimental switch implemented",
+    )
+    _require(
+        payload.get("defaultProductiveSwitchImplemented") is False,
+        "no default productive switch",
+    )
+    _require(payload.get("defaultMode") == "legacy", "Legacy default mode")
+    _require(payload.get("recommendedMode") == "legacy", "Legacy recommended mode")
+    feature_flag = payload.get("featureFlag", {})
+    _require(feature_flag.get("default") is False, "feature flag default disabled")
+    _require(
+        feature_flag.get("explicitActivationRequired") is True,
+        "explicit experimental activation",
+    )
+    _require(feature_flag.get("persistent") is False, "activation is not persisted")
+    fallback = payload.get("legacyFallback", {})
+    _require(
+        fallback.get("invalidInputPolicy")
+        == (
+            "Reject invalid_input without a Legacy user result, even when Legacy "
+            "technically accepts the request."
+        ),
+        "invalid input is not normalized through fallback",
+    )
+    conditions = set(fallback.get("conditions", ()))
+    _require("feature_flag_disabled" in conditions, "feature flag fallback")
+    _require("invalid_input_if_legacy_accepts" not in conditions, "no invalid fallback")
     _require(payload.get("dataMigrationRequired") is False, "no data migration")
     _require(payload.get("telemetryEnabled") is False, "no telemetry")
     for field in (
@@ -973,6 +1004,7 @@ def validate_rollback_plan(payload: dict[str, Any]) -> None:
         "graphPathDisable",
         "localReports",
         "telemetryPolicy",
+        "runtimeScope",
     ):
         _require(bool(payload.get(field)), f"rollback field {field}")
     _reject_environment_fields(payload)
@@ -1015,11 +1047,18 @@ def build_confidence_report(
             browser_report.get("failed") == 0
             and browser_report.get("resultFingerprint") == golden.fingerprint
         ),
-        "rollbackPlanPresent": rollback_plan.get("status") == "design_only",
+        "rollbackPlanPresent": (
+            rollback_plan.get("status") == "cli_experimental_available"
+            and rollback_plan.get("defaultMode") == "legacy"
+            and rollback_plan.get("defaultProductiveSwitchImplemented") is False
+        ),
         "realEndToEndReferencesReviewed": e2e_count >= 9,
-        "productiveResultSource": "legacy",
+        "defaultResultSourceIsLegacy": (
+            rollback_plan.get("defaultMode") == "legacy"
+            and rollback_plan.get("recommendedMode") == "legacy"
+        ),
     }
-    release_candidate = all(evidence[key] for key in evidence if key != "productiveResultSource")
+    release_candidate = all(evidence.values())
     readiness = {
         "ready_for_experimental_use": (
             evidence["zeroMismatches"]
@@ -1029,9 +1068,9 @@ def build_confidence_report(
             and evidence["optionsCoverageComplete"]
             and evidence["inputCoverageComplete"]
         ),
-        "experimental_use_scope": "shadow_mode_only",
+        "experimental_use_scope": "explicit_cli_graph_experimental_with_legacy_fallback",
         "ready_for_release_candidate": release_candidate,
-        "release_candidate_scope": "shadow_release_candidate_only",
+        "release_candidate_scope": "experimental_cli_only_legacy_remains_default",
         "ready_for_default_use": False,
         "blockers": {
             "releaseCandidate": [] if release_candidate else sorted(
@@ -1043,7 +1082,7 @@ def build_confidence_report(
                     "CONTRACT_DECISIONS_OPEN",
                     "FOLDER_PARTIAL_CASES_OPEN",
                     "LEGACY_RANK_COMPATIBILITY_NOT_RETIRED",
-                    "PRODUCTIVE_SWITCH_NOT_REVIEWED",
+                    "DEFAULT_SWITCH_NOT_REVIEWED",
                 }
             ),
         },
@@ -1106,7 +1145,10 @@ def build_confidence_report(
                 "optimizer semantics."
             ),
             "Partial results do not expose binding totals and do not apply owned GE.",
-            "No productive solver switch, telemetry, GUI, or browser-runtime change is included.",
+            (
+                "Graph Experimental is CLI-only and opt-in; no default solver switch, "
+                "telemetry, GUI, or browser-runtime change is included."
+            ),
         ],
         "scorePolicy": "No numeric confidence score is defined.",
         "fingerprintVersion": CONFIDENCE_REPORT_FINGERPRINT_VERSION,
@@ -1149,9 +1191,17 @@ def render_confidence_text(payload: dict[str, Any]) -> str:
         f"Complete special cases: {payload['specialCases']['complete']}",
         f"Partial special cases: {payload['specialCases']['partial']}",
         "Ready for experimental use: "
-        + ("yes (Shadow Mode only)" if readiness["ready_for_experimental_use"] else "no"),
+        + (
+            "yes (explicit CLI Graph Experimental with Legacy fallback)"
+            if readiness["ready_for_experimental_use"]
+            else "no"
+        ),
         "Ready for release candidate: "
-        + ("yes (Shadow RC only)" if readiness["ready_for_release_candidate"] else "no"),
+        + (
+            "yes (experimental CLI only; Legacy remains default)"
+            if readiness["ready_for_release_candidate"]
+            else "no"
+        ),
         "Ready for default use: no",
         "Confidence score: not defined",
         f"Fingerprint: {payload['fingerprint']}",

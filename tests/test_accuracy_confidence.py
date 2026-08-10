@@ -170,9 +170,24 @@ class AccuracyConfidenceTests(unittest.TestCase):
         }
         self.assertEqual(set(statuses.values()), {"partial"})
 
-    def test_rollback_plan_is_design_only_without_migration_or_telemetry(self):
+    def test_rollback_plan_covers_opt_in_cli_without_default_switch(self):
         validate_rollback_plan(self.rollback)
-        self.assertFalse(self.rollback["productiveSwitchImplemented"])
+        self.assertTrue(self.rollback["experimentalCliSwitchImplemented"])
+        self.assertFalse(self.rollback["defaultProductiveSwitchImplemented"])
+        self.assertEqual(self.rollback["defaultMode"], "legacy")
+        self.assertFalse(self.rollback["featureFlag"]["persistent"])
+        self.assertIn(
+            "feature_flag_disabled",
+            self.rollback["legacyFallback"]["conditions"],
+        )
+        self.assertNotIn(
+            "invalid_input_if_legacy_accepts",
+            self.rollback["legacyFallback"]["conditions"],
+        )
+        self.assertIn(
+            "Reject invalid_input",
+            self.rollback["legacyFallback"]["invalidInputPolicy"],
+        )
         self.assertFalse(self.rollback["dataMigrationRequired"])
         self.assertFalse(self.rollback["telemetryEnabled"])
 
@@ -186,7 +201,7 @@ class AccuracyConfidenceTests(unittest.TestCase):
         self.assertFalse(first["readiness"]["ready_for_default_use"])
         self.assertEqual(
             first["readiness"]["experimental_use_scope"],
-            "shadow_mode_only",
+            "explicit_cli_graph_experimental_with_legacy_fallback",
         )
         self.assertEqual(first["browserParity"]["browserParityStatus"], "fixture_validation_only")
         with tempfile.TemporaryDirectory() as directory:

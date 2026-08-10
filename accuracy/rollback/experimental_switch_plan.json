@@ -1,17 +1,38 @@
 {
   "schemaVersion": 1,
-  "planVersion": "1.0.0",
-  "status": "design_only",
-  "productiveSwitchImplemented": false,
+  "planVersion": "2.0.0",
+  "status": "cli_experimental_available",
+  "experimentalCliSwitchImplemented": true,
+  "defaultProductiveSwitchImplemented": false,
+  "defaultMode": "legacy",
+  "recommendedMode": "legacy",
   "featureFlag": {
-    "proposedName": "WURSTBROT_GRAPH_PIPELINE_EXPERIMENTAL",
+    "internalName": "graph_experimental_enabled",
+    "cliOption": "--engine graph-experimental",
     "default": false,
-    "scope": "future local experimental execution only"
+    "scope": "current CLI process only",
+    "explicitActivationRequired": true,
+    "persistent": false,
+    "automaticConfidenceActivation": false
   },
   "legacyFallback": {
     "required": true,
     "resultSource": "legacy",
-    "onGraphFailure": "Discard graph output and preserve the legacy result while recording a local diagnostic."
+    "onGraphFailure": "Discard the graph user result and preserve the parallel Legacy result while recording the fallback reason.",
+    "conditions": [
+      "feature_flag_disabled",
+      "internal_error",
+      "unavailable",
+      "partial",
+      "blocked",
+      "unsupported",
+      "mismatch",
+      "equivalent_match",
+      "comparison_not_exact",
+      "adapter_contract_violation"
+    ],
+    "partialPolicy": "Do not expose binding Graph totals; report partial and use Legacy as the user result.",
+    "invalidInputPolicy": "Reject invalid_input without a Legacy user result, even when Legacy technically accepts the request."
   },
   "shadowComparison": {
     "required": true,
@@ -22,30 +43,40 @@
       "unresolved_expected",
       "unsupported"
     ],
-    "promotionRule": "No non-exact category is silently converted into a successful match."
+    "promotionRule": "Only pipeline complete plus exact_match may supply a Graph user result; no confidence value causes an automatic switch."
   },
   "errorHandling": {
-    "userResultOnGraphError": "legacy",
+    "userResultOnGraphError": "legacy_when_available",
     "graphInternalErrorsUserVisible": false,
+    "fallbackDiagnosticVisible": true,
     "localDiagnosticRequired": true
   },
   "graphPathDisable": {
-    "mechanism": "Turn the proposed feature flag off without changing saved user data.",
-    "restartRequired": "implementation decision deferred"
+    "mechanism": "Omit --engine or pass --engine legacy; activation never persists.",
+    "restartRequired": false
   },
   "dataMigrationRequired": false,
   "localReports": [
     "Graph_Shadow_<gameVersion>.json",
     "Graph_Shadow_<gameVersion>.txt",
+    "Graph_Experimental_<gameVersion>.json",
+    "Graph_Experimental_<gameVersion>.txt",
     "Accuracy_Confidence_<gameVersion>.json",
     "Accuracy_Confidence_<gameVersion>.txt"
   ],
   "telemetryEnabled": false,
   "telemetryPolicy": "No user telemetry may be added without a later explicit product and privacy decision.",
+  "runtimeScope": {
+    "cli": "legacy, shadow and explicitly selected graph_experimental",
+    "desktop": "legacy only",
+    "browser": "legacy only"
+  },
   "rollbackAcceptanceCriteria": [
-    "Legacy result remains available and unchanged.",
-    "Disabling the graph path requires no data migration.",
-    "Local comparison artifacts explain the disabling reason.",
-    "No GUI or browser control is introduced by this design document."
+    "Legacy remains the default and recommended result source.",
+    "Every Graph request also produces a Legacy comparison and fallback candidate.",
+    "Disabling Graph requires no migration and no saved-state change.",
+    "Fallback source, reason and comparison status are visible in CLI diagnostics.",
+    "Invalid input cannot become a successful calculation through Legacy fallback.",
+    "Desktop and Browser remain on their unchanged Legacy runtime."
   ]
 }

@@ -53,18 +53,60 @@ kein Bestandteil der aktuellen Solver-Summe.
 ## Verhältnis zur Graphpipeline
 
 `GraphPrerequisiteResolver` bestimmt ausschließlich Voraussetzungen und enthält weiterhin keine
-Kosten. Erst `GraphCostEngine` liest das fertige Ergebnis und erzeugt im Shadow Mode Kostenzeilen. Der
+Kosten. Erst `GraphCostEngine` liest das fertige Ergebnis und erzeugt im Shadow- oder ausdrücklich
+experimentellen Pipeline-Aufruf Kostenzeilen. Der
 Legacy Compatibility Mode darf ausschließlich die bestehende Fahrzeugauswahl delegieren; er ist
-keine neue Optimizer-Semantik. Der produktive Pfad bleibt unverändert `ResearchSolver`. Vollständiger
-Contract und Matrizen stehen in [Graph Cost Engine](25_GRAPH_COST_ENGINE.md).
+keine neue Optimizer-Semantik. Vollständiger Contract und Matrizen stehen in
+[Graph Cost Engine](25_GRAPH_COST_ENGINE.md).
 
 ## Dual-Engine-Orchestrierung
 
 `GraphCalculationPipeline` führt Evaluation, Resolution und Cost in dieser Reihenfolge aus. Der
-nachgelagerte `DualEngineRunner` vergleicht Kostenzeilen und Summen mit Legacy, gibt produktiv aber
-weiterhin ausschließlich das Legacy-Ergebnis frei. Zusätzliche Legacy-Rabatte außerhalb 0/30/50 und
-striktere Fortschrittsregeln heißen `input_contract_difference`, nicht Match oder Mismatch. Details
-und aktuelle Zahlen stehen in [Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).
+nachgelagerte `DualEngineRunner` vergleicht Kostenzeilen und Summen mit Legacy. Zusätzliche
+Legacy-Rabatte außerhalb 0/30/50 und striktere Fortschrittsregeln heißen
+`input_contract_difference`, nicht Match oder Mismatch. Details und aktuelle Zahlen stehen in
+[Dual Engine Orchestration](27_DUAL_ENGINE_ORCHESTRATION.md).
+
+## Execution Modes
+
+`CalculationEngine` liegt oberhalb des Dual-Runners und definiert genau drei Ausführungsmodi:
+
+| Modus | Benutzer-Ergebnis | Graph-Ausführung |
+|---|---|---|
+| `legacy` | Legacy | nein |
+| `shadow` | Legacy | ja, nur Vergleich |
+| `graph_experimental` | Graph nur bei `complete` + `exact_match`, sonst Legacy | ja |
+
+Standard und Empfehlung bleiben `legacy`. Die Python-CLI aktiviert den dritten Modus nur durch den
+expliziten Parameter `--engine graph-experimental`. Das interne Feature Flag ist standardmäßig
+deaktiviert, gilt nur im aktuellen Prozess, wird nicht gespeichert und reagiert nicht auf
+Confidence-Werte.
+
+`GraphCalculationResultAdapter` überträgt ausschließlich die bereits existierenden Kernwerte in
+`SolveResult`: Required Vehicles, Rest-RP, GE und SL je Fahrzeug, Gesamtsummen, vorhandene GE und
+Convertible-RP-Shortfall. Er fügt weder Fachregeln noch neue Produktfelder hinzu. Abweichende
+Required-/Cost-Line-Reihenfolge, fehlende vollständige Summen oder unbekannte Cost-Reasons verletzen
+den Adaptervertrag und erzwingen Legacy-Fallback.
+
+Die bestehenden benutzerseitigen Warntexte werden aus dem parallel geprüften Legacy-Ergebnis
+bewahrt. Accuracy 8 führt damit keine neue Explain- oder Warntext-Semantik ein.
+
+`partial` wird nicht als vollständiges Graph-Ergebnis angezeigt. Der Graphstatus und der
+Fallback-Grund bleiben sichtbar, aber das bestehende Legacy-Ergebnis liefert die Benutzerwerte.
+Dasselbe gilt bei `internal_error`, `unavailable`, nicht exaktem Vergleich oder nicht darstellbarem
+Adapter-Ergebnis. `invalid_input` ist ausdrücklich kein Fallback-Fall: Das Ergebnis bleibt
+`unavailable`, auch wenn Legacy den Input technisch akzeptiert hätte. So wird ein ungültiger Graph-
+Request nicht als vollständige Berechnung dargestellt. Fehlt bei einem zulässigen Fallback auch ein
+Legacy-Ergebnis, lautet der Ausführungsstatus ebenfalls `unavailable`.
+
+Die Accuracy-8-Matrix verarbeitet 2.090 eindeutig gezählte Requests: 1.988 verwenden Graph, 80
+verwenden diagnostizierten Legacy-Fallback und 22 besitzen kein darstellbares Ergebnis. Davon sind
+20 ausdrücklich abgelehnte Input-Contract-Differenzen und zwei blockierte Fälle. Es gibt
+0 Mismatches und 0 Internal Errors. Neun reale A→B-Referenzen bestehen vollständig; von 49
+Sonderfällen verwenden 35 Graph und 14 wegen `partial` Legacy-Fallback.
+
+Desktop und Browser besitzen keine Graph-Runtime-Integration und bleiben vollständig auf Legacy.
+Graph Experimental ist vor 1.0 ausdrücklich nicht die empfohlene Rechenquelle.
 
 ## Unabhängige Accuracy-Referenzen
 

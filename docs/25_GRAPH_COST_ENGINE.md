@@ -2,16 +2,16 @@
 
 ## Zweck und Abgrenzung
 
-`GraphCostEngine` berechnet im Shadow Mode RP-, GE- und SL-Kosten für eine bereits erzeugte
+`GraphCostEngine` berechnet in Shadow oder ausdrücklich aktiviertem CLI Graph Experimental RP-, GE-
+und SL-Kosten für eine bereits erzeugte
 `PrerequisiteResolution`. Die Engine wählt keine Fahrzeuge, löst keine Regeln und verändert den
-produktiven `ResearchSolver` nicht.
+standardmäßigen `ResearchSolver` nicht.
 
 | Ebene | Verantwortung | Kostenwerte |
 |---|---|---:|
 | Rule Evaluation | einzelne Voraussetzung bewerten | nein |
 | Prerequisite Resolution | erforderliche Fahrzeugmenge bestimmen | nein |
-| Graph Cost Engine | belegte Fahrzeugmenge bepreisen | ja, nur Shadow Mode |
-| zukünftiger Optimizer | eigenständige Rank-Kombination wählen | noch nicht implementiert |
+| Graph Cost Engine | belegte Fahrzeugmenge bepreisen | ja, Shadow/CLI Experimental |
 
 GUI, Browser, Desktop, GE-Pakete, Europreise und Crewkosten verwenden diese Schicht nicht.
 
@@ -60,7 +60,8 @@ remaining_rp = max(total_rp - researched_rp, 0)
 - Null-RP- und Null-SL-Werte bleiben mit Evidence und Warning sichtbar.
 
 Der Legacy-Solver klemmt aus Kompatibilitätsgründen weiterhin numerische Fortschrittswerte. Diese
-unterschiedliche Eingabevalidierung ist bewusst nicht in den produktiven Pfad zurückportiert.
+unterschiedliche Eingabevalidierung bleibt als sichtbare Contract-Differenz bestehen; Graph
+Experimental verwendet in diesem Fall Legacy-Fallback.
 
 ## GE
 
@@ -129,7 +130,7 @@ Mehrfachvorgänger-Heuristik vollständig gerechnet.
 
 ## Nicht-Ziele und Grenzen
 
-- keine produktive Solver-Umschaltung
+- keine Default-Solver-Umschaltung
 - keine neue Rank-Auswahl oder Optimizer-Semantik
 - keine Euro-, Paket-, Crew- oder Sale-Logik
 - keine Kosten für unbekannte Voraussetzungen
@@ -137,4 +138,5 @@ Mehrfachvorgänger-Heuristik vollständig gerechnet.
 - keine GUI-, Browser- oder Desktop-Integration
 
 Die `LegacyRankCompatibilityStrategy` kann weiterhin nur die Legacy-Fahrzeugmenge für den
-Shadow-Vergleich liefern. Ihre Auswahl ist keine fachliche Graph-Optimizer-Regel.
+Dual-Vergleich liefern. Ihre Auswahl ist keine fachliche Graph-Optimizer-Regel. Ein Optimizer-Ausbau
+ist bis Version 1.0 kein Arbeitsziel.
