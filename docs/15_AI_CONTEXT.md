@@ -104,6 +104,14 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
     unbekannten Token. Nur exakter PlayerProgress oder die explizite Option erfüllt sie.
 51. Die Sample-Daten besitzen keinen Mehrfachvorgänger. AND/OR-Semantik nicht aus synthetischen
     Kanten ableiten; sie bleiben unresolved.
+52. Accuracy-10-Sollwerte nie aus aktueller Legacy- oder Graphausgabe regenerieren. Die 44 direkten
+    Fälle verwenden statische Vorgängerkanten und Datamine-/Formelorakel; Fixture-Änderungen sind
+    ausschließlich manueller Review.
+53. `ready_for_rc_review` ist keine Default-Umschaltung. Legacy bleibt Standard,
+    `ready_for_default_use=false`, und die 14 Hidden-Folder-Fälle bleiben partial.
+54. Ein leerer optionaler Start ist eine dokumentierte Input-Repräsentationsdifferenz: Legacy
+    behandelt ihn wie `None`, Graph lehnt ihn ab. Graph Experimental darf das Legacy-Ergebnis dafür
+    nicht als gültigen Fallback anzeigen.
 
 ## Orientierung
 
@@ -130,6 +138,9 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - Accuracy-9-Kernreferenzen: `accuracy/golden/core_contract_2.57.1.67.json`
 - Accuracy-9-Evidenzabschluss: `accuracy/research/core_contract_closure_2.57.1.67.json`
 - experimenteller Switch- und Rollback-Plan: `docs/30_GRAPH_ROLLBACK_PLAN.md`
+- Release-Hardening-Matrix und RC-Readiness: `docs/31_RELEASE_HARDENING.md`
+- unveränderliche Accuracy-10-Direktfälle: `accuracy/acceptance/release_hardening_2.57.1.67.json`
+- Release-Hardening-Auswertung: `release_hardening.py`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
 - Converter: `apps/datamine-manager/wurstbrot_converter.py`

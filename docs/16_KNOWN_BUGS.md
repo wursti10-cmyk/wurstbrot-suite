@@ -71,6 +71,10 @@
 - In Accuracy 8 verwenden 80 von 2.090 Experimental-Requests Legacy-Fallback und 22 liefern kein
   darstellbares Ergebnis. 20 davon sind bewusst abgelehnte Input-Contract-Differenzen, zwei sind
   blockiert. Diese Fälle sind keine stillen Erfolge; Quelle, Status und Grund bleiben sichtbar.
+- Die Python-Legacy-API behandelt einen leeren optionalen `start_vehicle_id` wie `None`, während die
+  Graph-Eingabegrenze ihn als `invalid_input` ablehnt. Graph Experimental verwirft dabei das
+  Legacy-Ergebnis ohne Fallback. Die Differenz ist im Accuracy-10-Boundary-Report sichtbar; reguläre
+  CLI-Aufrufe verwenden `None`, wenn kein Start gesetzt ist.
 
 ## Klassifizierte offene Semantik
 
@@ -109,6 +113,8 @@
 - Die reale Sample-Datenbank enthält keinen Mehrfachvorgänger: 2.232 Einträge teilen sich in 239
   `null` und 1.993 skalare IDs. AND/OR-Semantik bleibt daher unbewiesen und synthetische Mehrfachkanten
   bleiben unresolved.
+- Accuracy 10 ändert keine dieser Semantiken. Die reale Abnahmematrix enthält 61 A→B-Fälle und alle
+  drei Modi, während die vier Hidden-Folder-Familien mit 14 Zielen unverändert partial bleiben.
 
 ## Pflege
 
