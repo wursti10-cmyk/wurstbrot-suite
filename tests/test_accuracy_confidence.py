@@ -176,6 +176,18 @@ class AccuracyConfidenceTests(unittest.TestCase):
         self.assertFalse(self.rollback["defaultProductiveSwitchImplemented"])
         self.assertEqual(self.rollback["defaultMode"], "legacy")
         self.assertFalse(self.rollback["featureFlag"]["persistent"])
+        self.assertIn(
+            "feature_flag_disabled",
+            self.rollback["legacyFallback"]["conditions"],
+        )
+        self.assertNotIn(
+            "invalid_input_if_legacy_accepts",
+            self.rollback["legacyFallback"]["conditions"],
+        )
+        self.assertIn(
+            "Reject invalid_input",
+            self.rollback["legacyFallback"]["invalidInputPolicy"],
+        )
         self.assertFalse(self.rollback["dataMigrationRequired"])
         self.assertFalse(self.rollback["telemetryEnabled"])
 

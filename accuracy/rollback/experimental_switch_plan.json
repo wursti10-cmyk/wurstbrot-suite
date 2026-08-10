@@ -20,14 +20,19 @@
     "resultSource": "legacy",
     "onGraphFailure": "Discard the graph user result and preserve the parallel Legacy result while recording the fallback reason.",
     "conditions": [
+      "feature_flag_disabled",
       "internal_error",
       "unavailable",
-      "invalid_input_if_legacy_accepts",
       "partial",
+      "blocked",
+      "unsupported",
+      "mismatch",
+      "equivalent_match",
       "comparison_not_exact",
       "adapter_contract_violation"
     ],
-    "partialPolicy": "Do not expose binding Graph totals; report partial and use Legacy as the user result."
+    "partialPolicy": "Do not expose binding Graph totals; report partial and use Legacy as the user result.",
+    "invalidInputPolicy": "Reject invalid_input without a Legacy user result, even when Legacy technically accepts the request."
   },
   "shadowComparison": {
     "required": true,
@@ -71,6 +76,7 @@
     "Every Graph request also produces a Legacy comparison and fallback candidate.",
     "Disabling Graph requires no migration and no saved-state change.",
     "Fallback source, reason and comparison status are visible in CLI diagnostics.",
+    "Invalid input cannot become a successful calculation through Legacy fallback.",
     "Desktop and Browser remain on their unchanged Legacy runtime."
   ]
 }

@@ -982,6 +982,18 @@ def validate_rollback_plan(payload: dict[str, Any]) -> None:
         "explicit experimental activation",
     )
     _require(feature_flag.get("persistent") is False, "activation is not persisted")
+    fallback = payload.get("legacyFallback", {})
+    _require(
+        fallback.get("invalidInputPolicy")
+        == (
+            "Reject invalid_input without a Legacy user result, even when Legacy "
+            "technically accepts the request."
+        ),
+        "invalid input is not normalized through fallback",
+    )
+    conditions = set(fallback.get("conditions", ()))
+    _require("feature_flag_disabled" in conditions, "feature flag fallback")
+    _require("invalid_input_if_legacy_accepts" not in conditions, "no invalid fallback")
     _require(payload.get("dataMigrationRequired") is False, "no data migration")
     _require(payload.get("telemetryEnabled") is False, "no telemetry")
     for field in (
