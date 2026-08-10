@@ -291,7 +291,7 @@ class EngineExecutionTests(unittest.TestCase):
         self.assertEqual(payload["pipeline_status"], "partial")
         self.assertEqual(payload["comparison_status"], "unresolved_expected")
 
-    def test_invalid_graph_input_is_rejected_even_when_legacy_accepts_it(self):
+    def test_invalid_discount_is_rejected_by_both_engines_without_fallback(self):
         result = CalculationEngine(
             self.database,
             feature_flags=EngineFeatureFlags.explicit_graph_experimental(),
@@ -315,9 +315,10 @@ class EngineExecutionTests(unittest.TestCase):
             FallbackReason.GRAPH_INVALID_INPUT,
         )
         self.assertTrue(result.diagnostics["invalidInputRejected"])
-        self.assertTrue(result.diagnostics["legacyResultDiscarded"])
+        self.assertFalse(result.diagnostics["legacyResultDiscarded"])
+        self.assertFalse(result.diagnostics["legacyFallbackAvailable"])
 
-    def test_nonblocking_invalid_input_difference_is_not_made_valid_by_legacy(self):
+    def test_research_flag_conflict_is_blocking_and_not_made_valid_by_legacy(self):
         from wurstbrot_core.models import VehicleProgress
 
         result = CalculationEngine(
@@ -331,7 +332,7 @@ class EngineExecutionTests(unittest.TestCase):
             mode=ExecutionMode.GRAPH_EXPERIMENTAL,
         )
 
-        self.assertEqual(result.graph_status, PipelineStatus.COMPLETE)
+        self.assertEqual(result.graph_status, PipelineStatus.INVALID_INPUT)
         self.assertEqual(
             result.comparison_status,
             ComparisonStatus.INPUT_CONTRACT_DIFFERENCE,
@@ -340,6 +341,7 @@ class EngineExecutionTests(unittest.TestCase):
         self.assertIsNone(result.result)
         self.assertFalse(result.fallback_applied)
         self.assertEqual(result.fallback_reason, FallbackReason.GRAPH_INVALID_INPUT)
+        self.assertFalse(result.diagnostics["legacyResultDiscarded"])
 
     def test_internal_error_uses_legacy_fallback_and_is_not_unresolved(self):
         class ExplodingEvaluator:

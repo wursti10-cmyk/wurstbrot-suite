@@ -48,8 +48,8 @@ OPTION_COVERAGE_LABELS = (
     "include_hidden_legacy:true",
     "include_start_vehicle:false",
     "include_start_vehicle:true",
-    "legacy_discount:10",
-    "legacy_discount:100",
+    "invalid_discount:10",
+    "invalid_discount:100",
     "optimize_for:ge",
     "optimize_for:rp",
     "optimize_for:sl",
@@ -64,21 +64,21 @@ OPTION_COVERAGE_LABELS = (
 KNOWN_CONTRACT_DIFFERENCES = (
     {
         "contractRule": "GRAPH_SL_DISCOUNT_SET",
-        "legacy": "Accepts every integer discount from 0 through 100.",
-        "graph": "Accepts only the evidenced 0, 30 and 50 percent levels.",
-        "decisionRequired": True,
+        "legacy": "The v1 product boundary accepts only 0, 30 and 50 percent.",
+        "graph": "Accepts the same evidenced 0, 30 and 50 percent levels.",
+        "decisionRequired": False,
     },
     {
         "contractRule": "STRICT_PROGRESS_RANGE",
-        "legacy": "Clamps negative and excessive numeric research progress.",
-        "graph": "Rejects invalid progress at the input boundary.",
-        "decisionRequired": True,
+        "legacy": "Rejects negative and excessive numeric research progress.",
+        "graph": "Rejects the same invalid progress with structured evidence.",
+        "decisionRequired": False,
     },
     {
         "contractRule": "RESEARCH_FLAG_NUMERIC_CONSISTENCY",
-        "legacy": "Uses numeric RP for a researched but unpurchased vehicle.",
-        "graph": "Keeps researched=True and conflicting numeric RP visible.",
-        "decisionRequired": True,
+        "legacy": "Rejects researched=True when numeric RP is not the vehicle total.",
+        "graph": "Rejects the same conflict with structured evidence.",
+        "decisionRequired": False,
     },
     {
         "contractRule": "STRUCTURED_INPUT_FAILURES",
@@ -351,19 +351,19 @@ def build_options_compatibility_cases(
         ),
         DualEngineCase(
             level,
-            "options:legacy_discount_10",
+            "options:invalid_discount_10",
             target.id,
             start,
             options=SolveOptions(sl_discount_percent=10),
-            coverage_labels=("legacy_discount:10",),
+            coverage_labels=("invalid_discount:10",),
         ),
         DualEngineCase(
             level,
-            "options:legacy_discount_100",
+            "options:invalid_discount_100",
             target.id,
             start,
             options=SolveOptions(sl_discount_percent=100),
-            coverage_labels=("legacy_discount:100",),
+            coverage_labels=("invalid_discount:100",),
         ),
         DualEngineCase(
             level,
@@ -760,6 +760,9 @@ def _readiness(
     zero_internal = comparisons[ComparisonStatus.INTERNAL_ERROR.value] == 0
     options_complete = options_coverage["coverage"] == 100.0
     inputs_complete = input_coverage["coverage"] == 100.0
+    contract_decisions_complete = not any(
+        item["decisionRequired"] for item in KNOWN_CONTRACT_DIFFERENCES
+    )
     experimental = zero_mismatch and zero_internal and options_complete and inputs_complete
     blockers = [
         "GRAPH_PIPELINE_NOT_IN_BROWSER",
@@ -769,7 +772,10 @@ def _readiness(
         blockers.append("UNRESOLVED_PREREQUISITE_CASES")
     if comparisons[ComparisonStatus.UNSUPPORTED.value]:
         blockers.append("UNSUPPORTED_COMPARISON_CASES")
-    if comparisons[ComparisonStatus.INPUT_CONTRACT_DIFFERENCE.value]:
+    if (
+        comparisons[ComparisonStatus.INPUT_CONTRACT_DIFFERENCE.value]
+        and not contract_decisions_complete
+    ):
         blockers.append("INPUT_CONTRACT_DIFFERENCES_REQUIRE_DECISION")
     if special_stats["pipelineStatusDistribution"][PipelineStatus.PARTIAL.value]:
         blockers.append("SPECIAL_FOLDER_CASES_PARTIAL")
@@ -778,6 +784,10 @@ def _readiness(
     warnings = [
         "Experimental means shadow-only; the productive result remains Legacy.",
         "Graph diagnostics are evidence and are not automatic validator errors.",
+        (
+            "Input-contract differences are structured error-representation "
+            "differences and are not successful matches."
+        ),
     ]
     return {
         "ready_for_experimental_use": experimental,
@@ -789,7 +799,7 @@ def _readiness(
             "zeroInternalErrors": zero_internal,
             "allProductiveOptionsCovered": options_complete,
             "inputValidationCovered": inputs_complete,
-            "knownContractDifferencesDecided": False,
+            "knownContractDifferencesDecided": contract_decisions_complete,
             "folderUnlockLimitsDocumented": True,
             "representativeRealReferenceCasesPresent": True,
             "browserGraphPipelineParity": False,

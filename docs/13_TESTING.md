@@ -15,8 +15,9 @@
 | Full Pipeline Shadow | `python tests/graph_shadow_matrix.py --output build/health` | 2.090 klar getrennte Zählebenen, Dual-Vergleich, Optionen, Invalid Input, Fingerprints und Readiness |
 | Graph Experimental | `python tests/graph_experimental_matrix.py --output build/health` | Execution-Mode, Result Adapter, Fallback, neun reale A→B-Abnahmen und alle 49 Sonderfälle |
 | Golden References | `python tests/accuracy_golden_matrix.py` | 60 eingefrorene Erwartungen, 44 Bäume, sechs Herkunftskategorien und direkte Formelprüfung |
+| Accuracy-9-Kernreferenzen | `python tests/accuracy_core_reference_matrix.py` | acht manuell geprüfte Kernfälle über sechs Nationen und fünf Fahrzeugarten |
 | Metamorphic Accuracy | `python tests/accuracy_metamorphic_matrix.py` | 16 deterministische Monotonie-, Summen-, Status- und Fingerprint-Eigenschaften |
-| Cross-Python | `python tests/accuracy_cross_python.py` | identischer kanonischer Result-Fingerprint unter Python 3.10/3.12/3.13 |
+| Cross-Python | `python tests/accuracy_cross_python.py` | identische Golden- und Kernreferenz-Fingerprints unter Python 3.10/3.12/3.13 |
 | Browser Shadow Fixture | `node tests/browser_shadow_harness.mjs` | kanonische Inputs/Ergebnisse ohne zweite Graphimplementierung; Runtime-Parität bleibt offen |
 | Datamine-Health | `python apps/datamine-manager/wurstbrot_converter.py --validate-database data/samples/WT_Database_2.57.1.67.json --output build/health` | strukturierte Regeln und freigegebene Sample-Daten |
 | Windows-Sammeltest | `Milestone1_pruefen.bat` | beide Python-Prüfungen unter Windows |
@@ -73,10 +74,11 @@ benannte Aufrufe: 1.977 reguläre Regressionen, 18 Cost-, 13 Progress-, 15 Optio
 und 18 Invalid-Input-Fälle. Jede Zeile besitzt eine Zählebene und einen stabilen Fingerprint.
 
 Aktueller Vertrag: 1.988 exact, 0 equivalent, 80 unresolved expected, 2 unsupported,
-20 input contract differences, 0 mismatches und 0 internal errors. Pipeline-Status sind 1.989
-complete, 80 partial, 2 blocked, 0 unavailable, 19 invalid input und 0 internal error. Mismatch und
-Internal Error sind harte Gate-Fehler. Options- und Input-Validation-Coverage müssen automatisch
-100 % ergeben; `ready_for_default_use` muss bei offenen Kriterien false bleiben.
+20 input contract differences, 0 mismatches und 0 internal errors. Nach der Accuracy-9-
+Vertragsentscheidung sind die Pipeline-Status 1.988 complete, 80 partial, 2 blocked, 0 unavailable,
+20 invalid input und 0 internal error. Der Forschungsstatus-/RP-Konflikt ist jetzt blockierender
+Invalid Input. Mismatch und Internal Error sind harte Gate-Fehler. Options- und
+Input-Validation-Coverage müssen automatisch 100 % ergeben; `ready_for_default_use` bleibt false.
 
 Accuracy 7 ergänzt 60 Golden Cases: 44 Baumreferenzen, neun reale A→B-Referenzen und sieben gezielte
 Contracts. Herkunft: 37 Datamine Direct, 7 Formula Derived, 1 Legacy Confirmed mit unabhängiger
@@ -100,9 +102,21 @@ verwenden. In der 49er-Sonderfallmatrix müssen 35 vollständige Graph-Ergebniss
 `partial`-Graphstatus mit Legacy-Fallback entstehen. Separat getestete Fallback-Verträge decken
 deaktiviertes Feature Flag, `internal_error`, `unavailable`, `blocked`, `unsupported`, `partial`,
 `mismatch`, abgelehntes `equivalent_match`, nicht adaptierbare Ergebnisse und Adapter-Contract-
-Verletzungen ab. `invalid_input` besitzt einen eigenen Negativtest und darf auch bei technischer
-Legacy-Akzeptanz kein vollständiges Benutzerergebnis erzeugen. Der Standardmodus-Test beweist, dass
+Verletzungen ab. `invalid_input` besitzt einen eigenen Negativtest und darf kein vollständiges
+Benutzerergebnis oder Legacy-Fallback erzeugen. Der Standardmodus-Test beweist, dass
 ohne `--engine` kein Graph-Aufruf erfolgt.
+
+Accuracy 9 ergänzt acht statische Kernreferenzen. Sieben sind vollständig, ein Hidden-Folder-Fall
+ist bewusst partial. Die Suite prüft Datamine-/Formelwerte, Unveränderlichkeit und den festen
+`accuracy-core-reference-results-v1`-Fingerprint; Legacy ist nicht die erwartete Wahrheit. Der
+Browser-Harness validiert damit 68 Fixtures (60 + 8), bleibt aber `fixture_validation_only`.
+
+Die maschinenlesbare Kernabschlussakte prüft außerdem 15 PlayerProgress-Kategorien gegen die
+bestehenden 13 Resolution- und 18 Cost-Szenarien. Der erfüllte External-Unlock-Fall besitzt einen
+exakten `fulfilled_unlocks`-Token. Alle 14 Hidden-Folder-Ziele werden einzeln gegen Datamine,
+Legacy-Pfad und Graphstatus geprüft und bleiben `partial`; kein Test darf sie heuristisch auflösen.
+Die drei früher deferred Verträge testen nun für Legacy, Graph und Browser: nur 0/30/50 Prozent
+Rabatt, strikte RP-Bereiche sowie Ablehnung inkonsistenter Research-/Purchase-Status.
 
 ## Neue Tests
 
@@ -140,10 +154,11 @@ Index jedes Pipeline-Aufrufs, vollständige Diagnostik aller nicht exakten Vergl
 Versionen, Statusverteilungen, Options-/Input-Coverage, Sonderfallstatus, Fingerprints und den
 maschinenlesbaren Readiness-Block. Zeitstempel und Dateipfade sind kein Fingerprint-Bestandteil.
 
-CI lädt zusätzlich `Browser_Shadow_2.57.1.67.json` und
-`Accuracy_Confidence_2.57.1.67.json/.txt` hoch. Der Confidence-Bericht muss Golden und Metamorphic
-vollständig grün, Pipeline-Mismatch/Internal Error bei null und `ready_for_default_use=false`
-ausweisen. Ein numerischer Confidence-Score ist verboten.
+CI lädt zusätzlich `Accuracy_Core_References_2.57.1.67.json`,
+`Browser_Shadow_2.57.1.67.json` und `Accuracy_Confidence_2.57.1.67.json/.txt` hoch. Der
+Confidence-Bericht muss Golden, Accuracy-9-Kernreferenzen und Metamorphic vollständig grün,
+Pipeline-Mismatch/Internal Error bei null und `ready_for_default_use=false` ausweisen. Ein
+numerischer Confidence-Score ist verboten.
 
 CI lädt außerdem `Graph_Experimental_2.57.1.67.json` und `.txt` hoch. Das Artefakt enthält die
 Execution-Mode- und Feature-Flag-Verträge, einen Index aller 2.090 Requests, Ergebnisquellen,

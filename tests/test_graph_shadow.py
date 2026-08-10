@@ -102,11 +102,11 @@ class GraphShadowTests(unittest.TestCase):
         self.assertTrue(readiness["ready_for_experimental_use"])
         self.assertFalse(readiness["ready_for_default_use"])
         self.assertIn("GRAPH_PIPELINE_NOT_IN_BROWSER", readiness["blockers"])
-        self.assertIn(
+        self.assertNotIn(
             "INPUT_CONTRACT_DIFFERENCES_REQUIRE_DECISION",
             readiness["blockers"],
         )
-        self.assertFalse(
+        self.assertTrue(
             readiness["evidence"]["knownContractDifferencesDecided"]
         )
         self.assertFalse(readiness["evidence"]["browserGraphPipelineParity"])

@@ -219,9 +219,9 @@ class GraphPipelineTests(unittest.TestCase):
             for item in result.input_findings
             if item.rule_id == "INPUT_RESEARCH_FLAG_RP_CONFLICT"
         )
-        self.assertFalse(conflict.blocking)
-        self.assertEqual(conflict.severity.value, "warning")
-        self.assertEqual(result.pipeline_status, PipelineStatus.COMPLETE)
+        self.assertTrue(conflict.blocking)
+        self.assertEqual(result.pipeline_status, PipelineStatus.INVALID_INPUT)
+        self.assertEqual(conflict.severity.value, "error")
 
     def test_all_datamine_errors_are_distinct_from_invalid_input(self):
         invalid_version = database(vehicle("target"))

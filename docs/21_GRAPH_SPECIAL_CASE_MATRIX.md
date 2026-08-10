@@ -57,6 +57,7 @@ Generated from the normalized sample database and graph evaluation. `—` means 
 ## Interpretation
 
 - `hiddenResearch` targets are `unsatisfied` under default solver options and classified as legacy only because that source flag is explicit.
-- Recognized external `reqUnlock` tokens are `unresolved`; `PlayerProgress` has no authoritative state for them.
+- Recognized external `reqUnlock` tokens are ohne Eingabeevidenz `unresolved`; ein exakt passender
+  `PlayerProgress.fulfilled_unlocks`-Token oder die explizite Option erfüllt sie.
 - Event and Squadron stay `—`: the released regular database does not preserve evidence for those acquisition classes.
 - Classification is the sprint goal. No row is silently promoted to a solved regression case.

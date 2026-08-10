@@ -40,12 +40,12 @@
   nicht auf Fahrzeugzeilen.
 - Bei partiellen Kosten werden vorhandene GE und Convertible-RP-Shortfall bewusst nicht angewandt,
   weil unbekannte Voraussetzungen die vollständige Summe verändern können.
-- Der Graph-Cost-Contract akzeptiert nur 0/30/50 Prozent SL-Rabatt; Legacy akzeptiert historisch
-  0 bis 100 Prozent. Diese Eingabegrenze wird erst bei einer späteren produktiven Migration vereinigt.
-- `researched=True` ohne passende numerische `researched_rp` bedeutet im Graph-Contract vollständig
-  erforscht. Legacy berücksichtigt für nicht gekaufte Fahrzeuge derzeit nur die numerischen RP. Ein
-  synthetischer Test hält diese bekannte Divergenz sichtbar; die reale Shadow-Matrix verwendet
-  konsistente Status- und RP-Werte.
+- Der gemeinsame v1-Vertrag akzeptiert ausschließlich 0/30/50 Prozent SL-Rabatt. Legacy, Graph, CLI
+  und Browser lehnen andere Werte ab; der historische technische 0-bis-100-Bereich ist keine
+  öffentliche Produktsemantik.
+- Negative oder überhöhte RP, `purchased=True` ohne Research sowie `researched=True` mit unpassenden
+  numerischen RP werden an den öffentlichen Legacy- und Graph-Grenzen abgelehnt. Es gibt weiterhin
+  keine automatische Reparatur historisch inkonsistenter Zustände.
 - Die Sample-Datenbank enthält kein reguläres Fahrzeug mit positivem RP und 0 SL. Die Null-SL-Regel
   ist deshalb synthetisch sowie mit einem Reservefahrzeug belegt, aber nicht breit realdatenvalidiert.
 - Die Python-CLI kann ein Graphresultat ausdrücklich experimentell konsumieren, aber nur bei
@@ -53,15 +53,15 @@
   weiterhin keine Graphintegration; insbesondere existiert keine Browser-Graphpipeline.
 - Legacy stellt satisfied-Fahrzeuge, Folder-, Unlock- und Rule-Evaluation-Ergebnisse nicht
   strukturiert bereit. Diese Felder bleiben im Dual-Vergleich mit Begründung ausgeschlossen.
-- 20 Accuracy-6-Aufrufe sind bewusste Input-Contract-Differenzen: 18 Validierungsfälle und zwei
-  zusätzliche Legacy-Rabatte. Sie sind weder Match noch Mismatch und brauchen vor einer Umschaltung
-  eine ausdrückliche Contract-Entscheidung.
+- 20 Accuracy-6/9-Aufrufe bleiben als `input_contract_difference` sichtbar: Beide Engines lehnen die
+  ungültigen Inputs fachlich ab, aber Graph liefert strukturierte `invalid_input`-Evidence, während
+  Legacy seinen Fehlerkanal verwendet. Diese Kategorie ist weiterhin kein erfolgreicher Match.
 - Fingerprints erkennen kanonische fachliche Änderungen, sind aber keine kryptografische Signatur
   oder Herkunftsbestätigung.
 - Der Browser-Shadow-Harness prüft nur kanonische Golden Fixtures. Eine ausführbare Browser-
   Graphpipeline und echte Python-/Browser-Runtime-Parität existieren weiterhin nicht.
-- Drei Produktsemantik-Entscheidungen sind deferred und ausdrücklich release-blocking: Rabatt-Domain,
-  ungültiger Fortschritt und `researched=True`/RP-Konflikt.
+- Die drei früher release-blocking Produktsemantik-Entscheidungen sind für v1 angenommen: Rabatt
+  exakt 0/30/50, strikte Progress-Validierung und Ablehnung des `researched=True`/RP-Konflikts.
 - Die Accuracy-Baseline gilt nur für `2.57.1.67`. Eine neue Datamine braucht eine neue, geprüfte
   Baseline und darf die bestehende Datei nicht still überschreiben.
 - Ein Confidence-Prozentwert ist absichtlich nicht definiert; die aktuelle Evidenz wird als Zähler,
@@ -74,8 +74,9 @@
 
 ## Klassifizierte offene Semantik
 
-- 31 Sample-Ziele besitzen externe `reqUnlock`-Tokens ohne abbildbaren PlayerProgress-Zustand und
-  bleiben in der Rule Evaluation unresolved.
+- 31 Sample-Ziele besitzen erkannte externe `reqUnlock`-Tokens. Ohne exakt passenden
+  `PlayerProgress.fulfilled_unlocks`-Eintrag oder explizite External-Unlock-Option bleiben sie
+  unresolved; eine automatische Erfüllung existiert nicht.
 - 18 Hidden-Ziele sind unter Default-Optionen eindeutig unsatisfied, ihre konkrete Erwerbs- und
   Verfügbarkeitssemantik bleibt außerhalb des normalen Solvers.
 - 44 Ziele sind in der breiten Mirror Evaluation erwartbar unresolved: externe Unlocks oder Folder mit
@@ -100,6 +101,14 @@
 - Accuracy 8 ändert diese Semantik nicht: 35 Sonderfälle verwenden vollständige Graph-Ergebnisse,
   14 zeigen `partial` und verwenden Legacy-Fallback. Die neun realen A→B-Abnahmen verwenden Graph
   vollständig; Full Matrix und Abnahmen enthalten 0 Mismatches und 0 Internal Errors.
+- Accuracy 9 prüft jeden der 14 Fälle zusätzlich gegen Nation, Rang, Folder-Reihenfolge, Vorgänger,
+  Nachfolger, Hidden-/Unlock-Felder, Kosten, Rank Gates sowie aktuelle Legacy- und Graphpfade. Alle
+  bleiben evidenzbasiert partial. Für `sm_79_group` sind zudem zwei rohe Gruppenmitglieder nicht im
+  normalisierten Fahrzeugbestand enthalten. Die drei offiziellen Gruppenquellen belegen keine
+  Hidden-Legacy-Erwerbs-, Kauf- oder Rangzählungsregel.
+- Die reale Sample-Datenbank enthält keinen Mehrfachvorgänger: 2.232 Einträge teilen sich in 239
+  `null` und 1.993 skalare IDs. AND/OR-Semantik bleibt daher unbewiesen und synthetische Mehrfachkanten
+  bleiben unresolved.
 
 ## Pflege
 

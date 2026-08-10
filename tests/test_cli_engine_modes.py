@@ -94,8 +94,8 @@ class CliEngineModeTests(unittest.TestCase):
         result = self.run_cli(
             "--engine",
             "graph-experimental",
-            "--sl-discount",
-            "10",
+            "--progress",
+            "germ_sdkfz_6_2_flak36:-1",
         )
 
         self.assertEqual(result.returncode, 2, result.stderr)
@@ -106,6 +106,13 @@ class CliEngineModeTests(unittest.TestCase):
         self.assertIn("Ergebnisstatus: unavailable", result.stdout)
         self.assertIn("Graph-Status: invalid_input", result.stdout)
         self.assertIn("Keine darstellbare Berechnung verfügbar.", result.stdout)
+
+    def test_cli_rejects_sl_discounts_outside_the_v1_contract(self):
+        result = self.run_cli("--sl-discount", "10")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("invalid choice", result.stderr)
+        self.assertNotIn("Ergebnisquelle:", result.stdout)
 
 
 if __name__ == "__main__":

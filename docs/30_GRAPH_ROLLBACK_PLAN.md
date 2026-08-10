@@ -26,7 +26,7 @@ Desktop und Browser bleiben Legacy-only. Es gibt keinen GUI-Schalter und keine B
 Graph Experimental verwirft das Graph-Benutzerergebnis bei `internal_error`, `unavailable`,
 `partial`, `blocked`, nicht exaktem Vergleich oder Adapter-Contract-Verletzung. Ein vorhandenes
 Legacy-Ergebnis wird verwendet. Bei deaktiviertem Feature Flag geschieht dies ohne Graph-Ausführung.
-`invalid_input` ist die bewusste Ausnahme: Es wird auch bei technischer Legacy-Akzeptanz kein
+`invalid_input` ist die bewusste Ausnahme: Es wird unabhängig von der Fehlerrepräsentation kein
 Benutzerergebnis ausgegeben. Ergebnisquelle, Fallback-Grund, Graphstatus und Vergleichsstatus
 bleiben in der CLI sichtbar.
 
@@ -56,5 +56,6 @@ bis eine spätere ausdrückliche Produkt- und Datenschutzentscheidung sie erlaub
 - `ready_for_default_use` bleibt false.
 - Legacy ist vor 1.0 die einzige empfohlene Quelle.
 - Die 14 Partial-Folder-Fälle verwenden Legacy-Fallback; es wurde keine Heuristik ergänzt.
-- Offene Input-Contract-Entscheidungen werden nicht still vereinheitlicht.
+- Die v1-Input-Verträge sind angenommen: Rabatt 0/30/50, strikte Progress-Grenzen und Ablehnung
+  inkonsistenter Forschungsstatus-/RP-Zustände. Das ändert weder Default noch Rollback.
 - Der Produktumfang bleibt auf Forschungsweg A → B und RP-/GE-/SL-Kosten begrenzt.

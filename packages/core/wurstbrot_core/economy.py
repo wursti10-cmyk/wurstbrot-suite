@@ -3,6 +3,9 @@ from __future__ import annotations
 import math
 
 
+ALLOWED_SL_DISCOUNTS = frozenset({0, 30, 50})
+
+
 def ge_for_remaining_rp(remaining_rp: int, rp_per_ge: int) -> int:
     """War Thunder rounds the conversion up for each vehicle separately."""
     if remaining_rp <= 0:

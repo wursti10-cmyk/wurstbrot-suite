@@ -14,7 +14,9 @@ Jede vollständige Calculator-Oberfläche muss mindestens Folgendes unterstütze
 
 ## Validierung
 
-- Zahlen sind nichtnegativ; Rabatt liegt bei 0..100.
+- Zahlen sind nichtnegativ; SL-Rabatt ist exakt 0, 30 oder 50 Prozent.
+- Fortschritt über Gesamt-RP sowie widersprüchliche Forschungs-/Kaufstatus werden als ungültig
+  abgelehnt und nicht still normalisiert.
 - A/B-Auswahl wird auf denselben Baum beschränkt.
 - versteckte Fahrzeuge erscheinen nur in einem expliziten Legacy-Modus.
 - leere optionale Werte werden von 0 unterschieden, wenn die Fachlogik dies verlangt.

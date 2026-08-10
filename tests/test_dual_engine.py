@@ -14,7 +14,10 @@ from wurstbrot_core.dual_engine import (  # noqa: E402
     ComparisonStatus,
     DualEngineRunner,
 )
-from wurstbrot_core.graph_pipeline import GraphCalculationPipeline  # noqa: E402
+from wurstbrot_core.graph_pipeline import (  # noqa: E402
+    GraphCalculationPipeline,
+    PipelineStatus,
+)
 from wurstbrot_core.models import (  # noqa: E402
     PlayerProgress,
     SolveOptions,
@@ -90,7 +93,7 @@ class DualEngineTests(unittest.TestCase):
         )
         json.dumps(result.to_dict(), sort_keys=True)
 
-    def test_additional_legacy_discount_is_an_input_contract_difference(self):
+    def test_out_of_contract_discount_is_rejected_by_both_engines(self):
         db = database(vehicle("target"))
         result = DualEngineRunner(db).run(
             target_vehicle_id="target",
@@ -100,7 +103,7 @@ class DualEngineTests(unittest.TestCase):
             result.comparison_status,
             ComparisonStatus.INPUT_CONTRACT_DIFFERENCE,
         )
-        self.assertEqual(result.legacy_result.status, "complete")
+        self.assertEqual(result.legacy_result.status, "error")
         self.assertEqual(result.differences[0].rule_ids, ("INPUT_SL_DISCOUNT_INVALID",))
 
     def test_unresolved_and_blocked_results_are_not_matches(self):
@@ -141,6 +144,8 @@ class DualEngineTests(unittest.TestCase):
             "INPUT_RESEARCH_FLAG_RP_CONFLICT",
             {item.rule_ids[0] for item in result.differences},
         )
+        self.assertEqual(result.legacy_result.status, "error")
+        self.assertEqual(result.graph_result.pipeline_status, PipelineStatus.INVALID_INPUT)
 
     def test_numeric_divergence_is_a_mismatch_with_vehicle_diagnostics(self):
         db = database(vehicle("target", rp=45))

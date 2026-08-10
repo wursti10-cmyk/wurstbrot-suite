@@ -55,9 +55,11 @@ Bauminkompatibilität, ungültige RP-Fortschritte und Status, ungültige GE/Conv
 Unlock-Tokens, Boolean-Optionen, `optimize_for` und SL-Rabatte. Die Datamine-Grenze besitzt zusätzlich
 drei fokussiert getestete Regeln für `gameVersion`, `rpPerGE` und Fahrzeugkosten.
 
-`researched=True` mit einer nicht zum Fahrzeug passenden numerischen RP-Zahl ist ein nicht
-blockierendes, aber sichtbares `INPUT_RESEARCH_FLAG_RP_CONFLICT`. Der Dual-Vergleich klassifiziert
-diesen Fall als `input_contract_difference`; er wird nicht still normalisiert oder als Match gezählt.
+`researched=True` mit einer nicht zum Fahrzeug passenden numerischen RP-Zahl ist ein blockierendes
+`INPUT_RESEARCH_FLAG_RP_CONFLICT`. Accuracy 9 wendet denselben v1-Vertrag auf Legacy und Graph an:
+Konflikt, negative/überhöhte RP und Rabatte außerhalb 0/30/50 werden abgelehnt und nie still
+normalisiert. Der Dual-Vergleich kann wegen strukturierter Graph-Evidence gegenüber dem Legacy-
+Fehlerkanal weiterhin `input_contract_difference` melden; diese Kategorie ist kein Match.
 
 ## Dual Engine Contract
 
@@ -91,12 +93,12 @@ hineininterpretiert.
 | `equivalent_match` | ausschließlich andere Reihenfolge/Repräsentation bei gleichen Mengen und Zahlen |
 | `unresolved_expected` | Graph bewahrt eine offene Regel und gibt nur partielle Kosten aus |
 | `unsupported` | keine belastbare gemeinsame Ergebnisrepräsentation |
-| `input_contract_difference` | neue Input-Grenze und Legacy-Verhalten unterscheiden sich ausdrücklich |
+| `input_contract_difference` | fachlich abgelehnter Input besitzt unterschiedliche Fehlerrepräsentationen |
 | `mismatch` | beide Ergebnisse sind definitiv, aber fachlich verschieden |
 | `internal_error` | mindestens eine Engine ist unerwartet fehlgeschlagen |
 
 `mismatch` und `internal_error` sind CI-Fehler. `input_contract_difference` ist weder Match noch
-Fehler und braucht eine dokumentierte Contract-Entscheidung.
+Fehler. Die zugrunde liegenden v1-Entscheidungen sind dokumentiert und angenommen.
 
 ## Fingerprints
 
@@ -135,7 +137,8 @@ ausdrücklich ausgewiesenen Ebene gezählt:
 | `mismatch` | **0** |
 | `internal_error` | **0** |
 
-Pipeline-Status: 1.989 complete, 80 partial, 2 blocked, 0 unavailable, 19 invalid input und
+Pipeline-Status nach Accuracy-9-Vertragsabschluss: 1.988 complete, 80 partial, 2 blocked,
+0 unavailable, 20 invalid input und
 0 internal error. Options- und Input-Validation-Coverage betragen jeweils 100 %.
 
 Die 49 Sonderfälle bleiben 35 complete und 14 partial. Die partiellen Fälle sind keine vollständigen
@@ -165,9 +168,10 @@ Aktueller maschinenlesbarer Status:
 ```
 
 Shadow- und explizite CLI-Experimente sind erlaubt, weil Mismatch und Internal Error null sind und
-beide Coverage-Gates 100 % erreichen. Eine Default-Umschaltung ist blockiert durch offene Folderfälle,
-Input-Contract-Entscheidungen, die Legacy-Rank-Compatibility-Brücke und die fehlende Graphpipeline im
-Browser. Der Rollback-Pfad ist objektiv: ohne explizite Option bleibt `ResearchSolver` die Quelle.
+beide Coverage-Gates 100 % erreichen. Eine Default-Umschaltung ist weiterhin blockiert durch offene
+Folderfälle, die Legacy-Rank-Compatibility-Brücke, die fehlende Graphpipeline im Browser und den
+fehlenden Default-Review. Der Rollback-Pfad ist objektiv: ohne explizite Option bleibt
+`ResearchSolver` die Quelle.
 
 Accuracy 7 ergänzt diesen Legacy-Vergleich um unabhängige Referenzen. Accuracy 8 nutzt ihn erstmals
 im ausdrücklich aktivierten CLI-Modus `graph_experimental`: Nur `complete` + `exact_match` wird durch

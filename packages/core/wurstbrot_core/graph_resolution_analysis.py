@@ -447,6 +447,12 @@ def render_resolution_special_case_markdown(
         "`include_hidden_legacy`; reqUnlock targets enable `assume_external_unlocks`. "
         "Folder ambiguity and missing source semantics remain unresolved.",
         "",
+        "Accuracy 9 hat alle 14 unresolved Hidden-Folder-Zeilen einzeln gegen Datamine, "
+        "Legacy-Pfad und",
+        "Graphstatus revalidiert. Die Matrix bleibt fachlich unverändert; es wurde keine "
+        "Folder-Heuristik",
+        "ergänzt. Details: [Partial Folder Research](29_PARTIAL_FOLDER_RESEARCH.md).",
+        "",
         "| Metric | Accuracy 3 | Accuracy 4 |",
         "|---|---:|---:|",
         f"| Exact/resolved | {summary.previous_resolved} | {summary.current_resolved} |",

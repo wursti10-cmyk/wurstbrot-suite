@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from collections import Counter
 from copy import deepcopy
 from dataclasses import dataclass
@@ -10,19 +11,26 @@ from typing import Any, Iterable
 
 from .database import VehicleDatabase
 from .graph_pipeline import GraphCalculationPipeline, canonicalize, stable_fingerprint
+from .graph_cost_analysis import build_cost_scenarios
+from .graph_resolution import LegacyRankCompatibilityStrategy
+from .graph_resolution_analysis import build_player_progress_scenarios
 from .models import PlayerProgress, SolveOptions, Vehicle, VehicleProgress
 from .research_graph import ResearchGraphBuilder
+from .solver import ResearchSolver
 
 
 ACCURACY_BASELINE_SCHEMA_VERSION = 1
 GOLDEN_SUITE_SCHEMA_VERSION = 1
 CONFIDENCE_REPORT_SCHEMA_VERSION = 1
-CONFIDENCE_SUITE_VERSION = "1.1.0-experimental"
+CONFIDENCE_SUITE_VERSION = "1.2.0-core-contract"
 BASELINE_FINGERPRINT_VERSION = "accuracy-baseline-v1"
 DATAMINE_FINGERPRINT_VERSION = "datamine-semantic-v1"
 GRAPH_FINGERPRINT_VERSION = "research-graph-v1"
 GOLDEN_FIXTURE_FINGERPRINT_VERSION = "accuracy-golden-fixture-v1"
 GOLDEN_RESULT_FINGERPRINT_VERSION = "accuracy-golden-results-v1"
+CORE_REFERENCE_SUITE_SCHEMA_VERSION = 1
+CORE_REFERENCE_FIXTURE_FINGERPRINT_VERSION = "accuracy-core-reference-fixture-v1"
+CORE_REFERENCE_RESULT_FINGERPRINT_VERSION = "accuracy-core-reference-results-v1"
 CONFIDENCE_REPORT_FINGERPRINT_VERSION = "accuracy-confidence-report-v1"
 
 PROVENANCE_CATEGORIES = (
@@ -92,6 +100,39 @@ EXPECTED_DECISION_IDS = (
     "CONTRACT_RESEARCH_FLAG_RP_CONFLICT",
     "CONTRACT_PARTIAL_OWNED_GE",
     "CONTRACT_LEGACY_RANK_COMPATIBILITY",
+)
+
+REQUIRED_CORE_REFERENCE_TAGS = (
+    "accuracy9:convertible_shortfall",
+    "accuracy9:folder",
+    "accuracy9:hidden",
+    "accuracy9:owned_ge",
+    "accuracy9:owned_intermediate",
+    "accuracy9:path_long",
+    "accuracy9:path_short",
+    "accuracy9:rank_transition",
+    "accuracy9:real_reference",
+    "accuracy9:req_unlock",
+    "accuracy9:sl_discount",
+    "accuracy9:target_partial",
+)
+
+REQUIRED_PLAYER_PROGRESS_CATEGORIES = (
+    "no_progress",
+    "start_vehicle_present",
+    "predecessor_researched",
+    "predecessor_purchased",
+    "target_partially_researched",
+    "target_fully_researched",
+    "target_purchased",
+    "rank_fully_satisfied",
+    "rank_partially_satisfied",
+    "folder_member_present",
+    "unlock_fulfilled",
+    "unlock_unfulfilled",
+    "owned_ge",
+    "convertible_rp_sufficient",
+    "convertible_rp_insufficient",
 )
 
 PLATFORM_EXCLUDED_FIELDS = (
@@ -258,6 +299,76 @@ def golden_fixture_fingerprint(payload: dict[str, Any]) -> str:
         if key not in {"fixtureFingerprint", "resultFingerprint"}
     }
     return stable_fingerprint(content, version=GOLDEN_FIXTURE_FINGERPRINT_VERSION)
+
+
+def core_reference_fixture_fingerprint(payload: dict[str, Any]) -> str:
+    content = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"fixtureFingerprint", "resultFingerprint"}
+    }
+    return stable_fingerprint(
+        content,
+        version=CORE_REFERENCE_FIXTURE_FINGERPRINT_VERSION,
+    )
+
+
+def validate_core_reference_fixture(
+    payload: dict[str, Any],
+    database: VehicleDatabase,
+) -> None:
+    _require(
+        payload.get("schemaVersion") == CORE_REFERENCE_SUITE_SCHEMA_VERSION,
+        "core reference schema",
+    )
+    _require(payload.get("suiteVersion") == "1.0.0-accuracy9", "suite version")
+    _require(payload.get("gameVersion") == database.game_version, "game version")
+    _require(payload.get("generationPolicy") == "manual_review_only", "generation policy")
+    _require(payload.get("immutable") is True, "fixture immutability flag")
+    _require(
+        payload.get("fixtureFingerprintVersion")
+        == CORE_REFERENCE_FIXTURE_FINGERPRINT_VERSION,
+        "fixture fingerprint version",
+    )
+    _require(
+        payload.get("resultFingerprintVersion")
+        == CORE_REFERENCE_RESULT_FINGERPRINT_VERSION,
+        "result fingerprint version",
+    )
+    cases = payload.get("cases")
+    _require(isinstance(cases, list) and len(cases) == 8, "eight Accuracy 9 references")
+    _require(payload.get("caseCount") == len(cases), "case count")
+    case_ids = [item.get("case_id") for item in cases if isinstance(item, dict)]
+    _require(len(case_ids) == len(cases), "reference cases are objects")
+    _require(case_ids == sorted(case_ids), "deterministic reference ordering")
+    _require(len(case_ids) == len(set(case_ids)), "unique reference case IDs")
+
+    tags: set[str] = set()
+    countries: set[str] = set()
+    vehicle_types: set[str] = set()
+    for case in cases:
+        _validate_golden_case(case, database, {})
+        _require(case["database_ref"] == "sample", "sample-only reference")
+        _require(case["review_status"] == "reviewed", "reviewed reference")
+        _require(case["input"]["start_vehicle_id"] is not None, "A-to-B start")
+        tags.update(case["tags"])
+        countries.add(case["tree"]["country_id"])
+        vehicle_types.add(case["tree"]["vehicle_type"])
+    _require(set(REQUIRED_CORE_REFERENCE_TAGS) <= tags, "Accuracy 9 category coverage")
+    _require(len(countries) >= 6, "multi-nation reference coverage")
+    _require(len(vehicle_types) >= 5, "multi-class reference coverage")
+    _require(
+        payload.get("fixtureFingerprint") == core_reference_fixture_fingerprint(payload),
+        "core reference fixture fingerprint",
+    )
+    _require(
+        isinstance(payload.get("resultFingerprint"), str)
+        and payload["resultFingerprint"].startswith(
+            f"{CORE_REFERENCE_RESULT_FINGERPRINT_VERSION}:"
+        ),
+        "core reference result fingerprint",
+    )
+    _reject_environment_fields(payload)
 
 
 def validate_golden_fixture(payload: dict[str, Any], database: VehicleDatabase) -> None:
@@ -569,6 +680,68 @@ def execute_golden_suite(
     )
 
 
+def execute_core_reference_suite(
+    database: VehicleDatabase,
+    payload: dict[str, Any],
+) -> AccuracySuiteResult:
+    validate_core_reference_fixture(payload, database)
+    pipeline = GraphCalculationPipeline(database)
+    cases: list[dict[str, Any]] = []
+    origins: dict[str, Counter[str]] = {
+        item: Counter() for item in PROVENANCE_CATEGORIES
+    }
+    for case in payload["cases"]:
+        request = case["input"]
+        result = pipeline.run(
+            target_vehicle_id=request["target_vehicle_id"],
+            start_vehicle_id=request["start_vehicle_id"],
+            progress=_progress_from_payload(request["progress"]),
+            options=_options_from_payload(request["options"]),
+        )
+        actual = golden_result_projection(result)
+        passed = actual == canonicalize(case["expected"])
+        origins[case["primary_origin"]]["passed" if passed else "failed"] += 1
+        cases.append(
+            {
+                "caseId": case["case_id"],
+                "passed": passed,
+                "primaryOrigin": case["primary_origin"],
+                "expected": canonicalize(case["expected"]),
+                "actual": actual,
+                "graphFingerprint": result.fingerprint,
+            }
+        )
+    result_payload = [
+        {"caseId": item["caseId"], "actual": item["actual"]} for item in cases
+    ]
+    fingerprint = stable_fingerprint(
+        result_payload,
+        version=CORE_REFERENCE_RESULT_FINGERPRINT_VERSION,
+    )
+    _require(
+        fingerprint == payload["resultFingerprint"],
+        "core reference result fingerprint changed",
+    )
+    passed_count = sum(item["passed"] for item in cases)
+    return AccuracySuiteResult(
+        total=len(cases),
+        passed=passed_count,
+        failed=len(cases) - passed_count,
+        results_by_origin={
+            origin: {
+                "total": counts["passed"] + counts["failed"],
+                "passed": counts["passed"],
+                "failed": counts["failed"],
+            }
+            for origin, counts in origins.items()
+        },
+        case_results=tuple(cases),
+        fingerprint_version=CORE_REFERENCE_RESULT_FINGERPRINT_VERSION,
+        fingerprint=fingerprint,
+        reviewed_end_to_end_references=len(cases),
+    )
+
+
 def golden_result_projection(result: Any) -> dict[str, Any]:
     resolution = result.prerequisite_resolution
     cost = result.cost_result
@@ -800,12 +973,20 @@ def run_metamorphic_suite(database: VehicleDatabase) -> AccuracySuiteResult:
     ordered_a = PlayerProgress(
         vehicles={
             "gladiator_mk2": VehicleProgress(researched_rp=100),
-            "fury_mk1": VehicleProgress(researched=True, purchased=True),
+            "fury_mk1": VehicleProgress(
+                researched_rp=database.get("fury_mk1").rp,
+                researched=True,
+                purchased=True,
+            ),
         }
     )
     ordered_b = PlayerProgress(
         vehicles={
-            "fury_mk1": VehicleProgress(researched=True, purchased=True),
+            "fury_mk1": VehicleProgress(
+                researched_rp=database.get("fury_mk1").rp,
+                researched=True,
+                purchased=True,
+            ),
             "gladiator_mk2": VehicleProgress(researched_rp=100),
         }
     )
@@ -931,7 +1112,7 @@ def validate_decision_register(payload: dict[str, Any]) -> None:
 
 
 def validate_partial_dossier(payload: dict[str, Any], database: VehicleDatabase) -> None:
-    _require(payload.get("schemaVersion") == 1, "partial dossier schema")
+    _require(payload.get("schemaVersion") == 2, "partial dossier schema")
     _require(payload.get("gameVersion") == database.game_version, "partial dossier game version")
     cases = payload.get("cases")
     _require(isinstance(cases, list) and len(cases) == 14, "exactly 14 partial cases")
@@ -950,12 +1131,225 @@ def validate_partial_dossier(payload: dict[str, Any], database: VehicleDatabase)
         _require(bool(item["why_not_complete"]), "partial rationale")
         _require(bool(item["required_evidence"]), "required evidence")
         _require(item["heuristic_applied"] is False, "no folder heuristic")
+
+    evidence = payload.get("caseEvidence")
+    _require(isinstance(evidence, list) and len(evidence) == 14, "14 evidence records")
+    evidence_ids = [item.get("target_vehicle_id") for item in evidence]
+    _require(
+        evidence_ids == list(EXPECTED_PARTIAL_TARGET_IDS),
+        "partial evidence IDs and ordering",
+    )
+    successors: dict[str, list[str]] = {vehicle_id: [] for vehicle_id in database.vehicles}
+    for vehicle_id, predecessor in database.predecessors.items():
+        if predecessor is not None:
+            successors[predecessor].append(vehicle_id)
+    graph_pipeline = GraphCalculationPipeline(
+        database,
+        rank_compatibility_strategy=LegacyRankCompatibilityStrategy(database),
+    )
+    legacy_solver = ResearchSolver(database)
+    hidden_options = SolveOptions(include_hidden_legacy=True)
+    for item in evidence:
+        vehicle = database.get(item["target_vehicle_id"])
+        _require(item["vehicle_name"] == vehicle.name, "partial vehicle name")
+        _require(item["nation"]["id"] == vehicle.country_id, "partial nation")
+        _require(bool(item["nation"]["name"]), "partial nation label")
+        _require(item["vehicle_type"]["id"] == vehicle.branch_id, "partial vehicle type")
+        _require(bool(item["vehicle_type"]["name"]), "partial vehicle type label")
+        _require(
+            item["successors"] == sorted(successors[vehicle.id]),
+            "partial successors",
+        )
+        _require(item["req_unlock"] == (vehicle.req_unlock or None), "partial reqUnlock")
+        rank_requirements = [
+            {
+                "source_rank": rank,
+                "unlocks_rank": rank + 1,
+                "required_vehicle_count": database.rank_requirement(
+                    vehicle.country_id,
+                    vehicle.branch_id,
+                    rank,
+                ),
+            }
+            for rank in range(1, vehicle.rank)
+            if database.rank_requirement(vehicle.country_id, vehicle.branch_id, rank) > 0
+        ]
+        _require(item["rank_requirements"] == rank_requirements, "partial rank requirements")
+
+        graph = graph_pipeline.run(
+            target_vehicle_id=vehicle.id,
+            options=hidden_options,
+        )
+        resolution = graph.prerequisite_resolution
+        _require(graph.pipeline_status.value == "partial", "partial graph pipeline status")
+        _require(resolution is not None, "partial graph resolution present")
+        _require(resolution.resolution_status.value == "unresolved", "partial graph resolution")
+        unresolved_rule_ids = sorted(
+            {result.rule_id for result in resolution.unresolved_rule_results}
+        )
+        _require(
+            item["current_graph_status"]
+            == {
+                "pipeline_status": graph.pipeline_status.value,
+                "resolution_status": resolution.resolution_status.value,
+                "rule_ids": unresolved_rule_ids,
+                "required_vehicle_ids": list(resolution.required_vehicle_ids),
+            },
+            "partial graph evidence",
+        )
+
+        legacy = legacy_solver.solve(
+            target_vehicle_id=vehicle.id,
+            options=hidden_options,
+        )
+        _require(
+            item["current_legacy_path"]
+            == {
+                "predecessor_path": list(database.closure(vehicle.id)),
+                "required_vehicle_ids": list(legacy.required_vehicle_ids),
+            },
+            "partial Legacy evidence",
+        )
+        _require(bool(item["partial_cause"]), "partial cause")
+        _require(
+            item["classification"] == "evidence_limited_partial",
+            "partial classification",
+        )
     grouped_ids = sorted(
         target
         for group in payload.get("causeGroups", [])
         for target in group.get("target_vehicle_ids", [])
     )
     _require(grouped_ids == sorted(EXPECTED_PARTIAL_TARGET_IDS), "partial cause grouping")
+    _reject_environment_fields(payload)
+
+
+def validate_core_contract_closure(
+    payload: dict[str, Any],
+    database: VehicleDatabase,
+    core_reference_fixture: dict[str, Any],
+) -> None:
+    """Validate the evidence-backed Accuracy 9 closure record against live fixtures."""
+
+    _require(payload.get("schemaVersion") == 1, "core closure schema")
+    _require(payload.get("gameVersion") == database.game_version, "core closure game version")
+    _require(
+        payload.get("scope") == "research-path-rp-ge-sl-player-progress",
+        "core closure scope",
+    )
+
+    folder = payload.get("folderSemantics", {})
+    _require(folder.get("sampleFolderCount") == len(database.raw_groups), "folder count")
+    _require(len(folder.get("officialEvidence", ())) == 3, "folder official evidence")
+    _require(bool(folder.get("provenFacts")), "folder proven facts")
+    _require(bool(folder.get("unprovenFacts")), "folder unproven facts")
+    _require(
+        folder.get("accuracy9Decision")
+        == "No hidden-folder heuristic is added; all 14 known hidden-folder targets remain partial.",
+        "folder no-heuristic decision",
+    )
+
+    unlock_vehicles = [
+        vehicle for vehicle in database.vehicles.values() if vehicle.req_unlock
+    ]
+    internal_tokens = sum(
+        vehicle.req_unlock in database.vehicles for vehicle in unlock_vehicles
+    )
+    recognized_external = sum(
+        bool(
+            re.fullmatch(
+                r"(?:ch_heli_unlocked_.+|unlocked_.+|isr_.+_unlocked)",
+                vehicle.req_unlock,
+            )
+        )
+        for vehicle in unlock_vehicles
+    )
+    unlock = payload.get("unlockSemantics", {})
+    _require(unlock.get("vehiclesWithReqUnlock") == len(unlock_vehicles), "reqUnlock count")
+    _require(unlock.get("internalVehicleTokens") == internal_tokens, "internal unlock count")
+    _require(
+        unlock.get("recognizedExternalTokens") == recognized_external,
+        "external unlock count",
+    )
+    _require(
+        unlock.get("unknownTokens")
+        == len(unlock_vehicles) - internal_tokens - recognized_external,
+        "unknown unlock count",
+    )
+    _require(unlock.get("automaticExternalFulfillment") is False, "no automatic unlock")
+
+    predecessor_values = tuple(database.predecessors.values())
+    multiple = payload.get("multiplePredecessorSemantics", {})
+    _require(
+        multiple.get("samplePredecessorEntries") == len(predecessor_values),
+        "predecessor entry count",
+    )
+    _require(
+        multiple.get("nullEntries") == sum(value is None for value in predecessor_values),
+        "null predecessor count",
+    )
+    _require(
+        multiple.get("scalarEntries") == sum(isinstance(value, str) for value in predecessor_values),
+        "scalar predecessor count",
+    )
+    _require(multiple.get("arrayEntries") == 0, "no sample multiple predecessors")
+    _require(multiple.get("schemaV1Cardinality") == "zero_or_one", "predecessor cardinality")
+    _require(multiple.get("andSemanticsProven") is False, "AND semantics unproven")
+    _require(multiple.get("orSemanticsProven") is False, "OR semantics unproven")
+
+    progress = payload.get("playerProgressCoverage", {})
+    _require(
+        progress.get("requiredCategories") == list(REQUIRED_PLAYER_PROGRESS_CATEGORIES),
+        "PlayerProgress category list",
+    )
+    _require(
+        progress.get("resolutionMatrixCases") == len(build_player_progress_scenarios(database)),
+        "PlayerProgress resolution matrix count",
+    )
+    _require(
+        progress.get("costMatrixCases") == len(build_cost_scenarios(database)),
+        "PlayerProgress cost matrix count",
+    )
+    category_evidence = progress.get("categoryEvidence", {})
+    _require(
+        set(category_evidence) == set(REQUIRED_PLAYER_PROGRESS_CATEGORIES),
+        "PlayerProgress category evidence",
+    )
+    executable_evidence = {
+        *(f"resolution:{item.scenario_id}" for item in build_player_progress_scenarios(database)),
+        *(f"cost:{item.scenario_id}" for item in build_cost_scenarios(database)),
+        "accuracy9:external_unlock_fulfilled_by_player_progress",
+    }
+    for category, evidence_ids in category_evidence.items():
+        _require(bool(evidence_ids), f"PlayerProgress evidence for {category}")
+        _require(
+            set(evidence_ids) <= executable_evidence,
+            f"executable PlayerProgress evidence for {category}",
+        )
+    _require(progress.get("coverageComplete") is True, "PlayerProgress coverage complete")
+
+    validate_core_reference_fixture(core_reference_fixture, database)
+    reference = payload.get("referenceSuite", {})
+    _require(reference.get("caseCount") == len(core_reference_fixture["cases"]), "reference count")
+    status_counts = Counter(
+        case["expected"]["pipeline_status"] for case in core_reference_fixture["cases"]
+    )
+    _require(reference.get("expectedComplete") == status_counts["complete"], "complete references")
+    _require(reference.get("expectedPartial") == status_counts["partial"], "partial references")
+    _require(reference.get("manualReviewOnly") is True, "manual reference ownership")
+    _require(reference.get("automaticallyOverwritten") is False, "immutable references")
+
+    closure = payload.get("contractClosure", {})
+    _require(closure.get("CONTRACT_SL_DISCOUNT_DOMAIN") == "accepted_0_30_50", "discount closure")
+    _require(
+        closure.get("CONTRACT_INVALID_PROGRESS") == "accepted_strict_rejection",
+        "progress closure",
+    )
+    _require(
+        closure.get("CONTRACT_RESEARCH_FLAG_RP_CONFLICT") == "accepted_invalid_input",
+        "research conflict closure",
+    )
+    _require(closure.get("readyForDefaultUseChanged") is False, "default readiness unchanged")
     _reject_environment_fields(payload)
 
 
@@ -986,8 +1380,8 @@ def validate_rollback_plan(payload: dict[str, Any]) -> None:
     _require(
         fallback.get("invalidInputPolicy")
         == (
-            "Reject invalid_input without a Legacy user result, even when Legacy "
-            "technically accepts the request."
+            "Reject invalid_input without a Legacy user result; differing error "
+            "representations must never create a successful fallback."
         ),
         "invalid input is not normalized through fallback",
     )
@@ -1015,6 +1409,7 @@ def build_confidence_report(
     database: VehicleDatabase,
     baseline: dict[str, Any],
     golden: AccuracySuiteResult,
+    core_references: AccuracySuiteResult,
     metamorphic: AccuracySuiteResult,
     shadow_report: dict[str, Any],
     browser_report: dict[str, Any],
@@ -1030,22 +1425,33 @@ def build_confidence_report(
     release_blocking_decisions = [
         item["decision_id"] for item in decisions if item["release_blocking"]
     ]
-    e2e_count = golden.reviewed_end_to_end_references
+    e2e_count = (
+        golden.reviewed_end_to_end_references
+        + core_references.reviewed_end_to_end_references
+    )
     evidence = {
         "zeroMismatches": comparisons.get("mismatch", 0) == 0,
         "zeroInternalErrors": comparisons.get("internal_error", 0) == 0,
         "goldenSuitePassed": golden.failed == 0,
+        "coreReferenceSuitePassed": core_references.failed == 0,
         "metamorphicSuitePassed": metamorphic.failed == 0,
         "optionsCoverageComplete": options_coverage == 100.0,
         "inputCoverageComplete": input_coverage == 100.0,
-        "contractDecisionsAcceptedOrReleaseBlocking": all(
-            item["status"] == "accepted" or item["release_blocking"] for item in decisions
+        "contractDecisionsAccepted": all(
+            item["status"] == "accepted" and not item["release_blocking"]
+            for item in decisions
         ),
         "browserParityDocumented": browser_report.get("browserParityStatus")
         in {"fixture_validation_only", "runtime_parity"},
         "browserCanonicalFixturePassed": (
             browser_report.get("failed") == 0
             and browser_report.get("resultFingerprint") == golden.fingerprint
+        ),
+        "browserCoreReferenceFixturePassed": (
+            browser_report.get("failed") == 0
+            and browser_report.get("coreResultFingerprint") == core_references.fingerprint
+            and browser_report.get("canonicalCoreReferenceCasesValidated")
+            == core_references.total
         ),
         "rollbackPlanPresent": (
             rollback_plan.get("status") == "cli_experimental_available"
@@ -1064,6 +1470,7 @@ def build_confidence_report(
             evidence["zeroMismatches"]
             and evidence["zeroInternalErrors"]
             and evidence["goldenSuitePassed"]
+            and evidence["coreReferenceSuitePassed"]
             and evidence["metamorphicSuitePassed"]
             and evidence["optionsCoverageComplete"]
             and evidence["inputCoverageComplete"]
@@ -1079,7 +1486,6 @@ def build_confidence_report(
             "defaultUse": sorted(
                 {
                     "BROWSER_GRAPH_RUNTIME_PARITY_MISSING",
-                    "CONTRACT_DECISIONS_OPEN",
                     "FOLDER_PARTIAL_CASES_OPEN",
                     "LEGACY_RANK_COMPATIBILITY_NOT_RETIRED",
                     "DEFAULT_SWITCH_NOT_REVIEWED",
@@ -1090,7 +1496,7 @@ def build_confidence_report(
             {
                 "Browser checks canonical fixtures only; it does not execute the graph runtime.",
                 "Fourteen special targets remain partial because folder evidence is insufficient.",
-                "Open contract decisions remain explicit release blockers, not successful matches.",
+                "The three Accuracy 9 core contract decisions are accepted for v1.",
             }
         ),
         "evidence": evidence,
@@ -1104,6 +1510,7 @@ def build_confidence_report(
             "fingerprint": baseline["fingerprint"],
         },
         "goldenCases": golden.to_dict(),
+        "coreReferenceCases": core_references.to_dict(),
         "metamorphicTests": metamorphic.to_dict(),
         "crossPython": {
             "requiredVersions": ["3.10", "3.12", "3.13"],
@@ -1112,6 +1519,7 @@ def build_confidence_report(
                 "validated-from-immutable-fixture",
             ),
             "canonicalResultFingerprint": golden.fingerprint,
+            "coreReferenceResultFingerprint": core_references.fingerprint,
             "status": "contract_enforced_by_ci_matrix",
             "excludedFields": list(PLATFORM_EXCLUDED_FIELDS),
         },
@@ -1173,14 +1581,25 @@ def write_confidence_reports(payload: dict[str, Any], output: str | Path) -> tup
 
 def render_confidence_text(payload: dict[str, Any]) -> str:
     golden = payload["goldenCases"]
+    core_references = payload["coreReferenceCases"]
     metamorphic = payload["metamorphicTests"]
     comparisons = payload["pipelineComparisons"]["comparisonCounts"]
     readiness = payload["readiness"]
     lines = [
         "Accuracy confidence validation: "
-        + ("passed" if golden["failed"] == 0 and metamorphic["failed"] == 0 else "failed"),
+        + (
+            "passed"
+            if golden["failed"] == 0
+            and core_references["failed"] == 0
+            and metamorphic["failed"] == 0
+            else "failed"
+        ),
         f"Game version: {payload['gameVersion']}",
         f"Golden cases: {golden['passed']}/{golden['total']}",
+        (
+            "Accuracy 9 core references: "
+            f"{core_references['passed']}/{core_references['total']}"
+        ),
         f"Metamorphic tests: {metamorphic['passed']}/{metamorphic['total']}",
         "Python versions: " + ", ".join(payload["crossPython"]["requiredVersions"]),
         f"Browser parity: {payload['browserParity']['browserParityStatus']}",

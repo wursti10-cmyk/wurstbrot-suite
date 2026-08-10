@@ -77,8 +77,8 @@ Der Cost-Shadow-Vergleich prüft die Legacy-Zeilen fahrzeugweise auf Rest-RP, in
 und rabattierte SL sowie auf identische Summen. `CalculationEngine` darf vollständige, exakt gleiche
 Kosten im ausdrücklich aktivierten CLI-Experimentalmodus in das bestehende `SolveResult`-Format
 adaptieren. Jeder andere Fall bleibt Legacy-Fallback.
-`invalid_input` ist davon ausgenommen und bleibt ohne Benutzerergebnis, damit eine ungültige
-Graph-Anfrage nicht durch Legacy-Akzeptanz als erfolgreiche Berechnung erscheint.
+`invalid_input` ist davon ausgenommen und bleibt ohne Benutzerergebnis; unterschiedliche
+Fehlerrepräsentationen dürfen keine erfolgreiche Berechnung erzeugen.
 
 ## Graph Calculation Pipeline
 

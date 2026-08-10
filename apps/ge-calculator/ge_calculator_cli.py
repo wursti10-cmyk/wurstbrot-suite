@@ -49,7 +49,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Ausgeblendete Altbestandsfahrzeuge einbeziehen (--legacy bleibt Alias).",
     )
-    parser.add_argument("--sl-discount", type=int, default=0)
+    parser.add_argument(
+        "--sl-discount",
+        type=int,
+        choices=(0, 30, 50),
+        default=0,
+    )
     parser.add_argument("--convertible-rp", type=int)
     parser.add_argument("--owned-ge", type=int, default=0)
     parser.add_argument(
@@ -75,8 +80,11 @@ def main() -> int:
 
     vehicle_progress: dict[str, VehicleProgress] = {}
     for vehicle_id in args.owned:
+        vehicle = database.get(vehicle_id)
         vehicle_progress[vehicle_id] = VehicleProgress(
-            researched=True, purchased=True
+            researched_rp=vehicle.rp,
+            researched=True,
+            purchased=True,
         )
     for item in args.progress:
         vehicle_id, separator, rp_text = item.partition(":")

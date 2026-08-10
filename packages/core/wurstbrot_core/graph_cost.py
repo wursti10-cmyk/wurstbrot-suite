@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Any, Iterable
 
 from .database import VehicleDatabase
-from .economy import apply_discount, ge_for_remaining_rp
+from .economy import ALLOWED_SL_DISCOUNTS, apply_discount, ge_for_remaining_rp
 from .graph_resolution import PrerequisiteResolution, ResolutionStatus
 from .models import PlayerProgress, SolveOptions, Vehicle, VehicleProgress
 
@@ -14,9 +14,6 @@ class CostStatus(str, Enum):
     COMPLETE = "complete"
     PARTIAL = "partial"
     UNAVAILABLE = "unavailable"
-
-
-ALLOWED_SL_DISCOUNTS = frozenset({0, 30, 50})
 
 
 @dataclass(frozen=True)

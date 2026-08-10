@@ -12,6 +12,7 @@ from wurstbrot_core import (
     VehicleDatabase,
     VehicleProgress,
 )
+from wurstbrot_core.solver import SolveError
 
 
 class SolverTests(unittest.TestCase):
@@ -52,6 +53,7 @@ class SolverTests(unittest.TestCase):
         progress = PlayerProgress(
             vehicles={
                 "germ_leopard_2a5_pso": VehicleProgress(
+                    researched_rp=self.db.get("germ_leopard_2a5_pso").rp,
                     researched=True,
                     purchased=True,
                 )
@@ -139,6 +141,80 @@ class SolverTests(unittest.TestCase):
         )
         self.assertIn("meteor_nfmk13", result.required_vehicle_ids)
         self.assertTrue(all(r.available_after >= r.required for r in result.rank_requirements))
+
+    def test_v1_sl_discount_contract_accepts_only_zero_thirty_and_fifty(self):
+        for discount in (0, 30, 50):
+            with self.subTest(discount=discount):
+                self.solver.solve(
+                    target_vehicle_id="germ_leopard_2a7v",
+                    start_vehicle_id="germ_leopard_2a5",
+                    options=SolveOptions(sl_discount_percent=discount),
+                )
+
+        for discount in (10, 100):
+            with self.subTest(discount=discount):
+                with self.assertRaisesRegex(SolveError, "0, 30 oder 50"):
+                    self.solver.solve(
+                        target_vehicle_id="germ_leopard_2a7v",
+                        start_vehicle_id="germ_leopard_2a5",
+                        options=SolveOptions(sl_discount_percent=discount),
+                    )
+
+    def test_invalid_progress_is_rejected_instead_of_clamped(self):
+        target = self.db.get("germ_leopard_2a7v")
+        invalid_progress = (
+            PlayerProgress(
+                vehicles={target.id: VehicleProgress(researched_rp=-1)}
+            ),
+            PlayerProgress(
+                vehicles={
+                    target.id: VehicleProgress(researched_rp=target.rp + 1)
+                }
+            ),
+            PlayerProgress(owned_ge=-1),
+            PlayerProgress(convertible_rp=-1),
+        )
+        for progress in invalid_progress:
+            with self.subTest(progress=progress):
+                with self.assertRaises(SolveError):
+                    self.solver.solve(
+                        target_vehicle_id=target.id,
+                        start_vehicle_id="germ_leopard_2a5",
+                        progress=progress,
+                    )
+
+    def test_researched_flag_requires_complete_numeric_rp(self):
+        target = self.db.get("germ_leopard_2a7v")
+        with self.assertRaisesRegex(SolveError, "researched=True"):
+            self.solver.solve(
+                target_vehicle_id=target.id,
+                start_vehicle_id="germ_leopard_2a5",
+                progress=PlayerProgress(
+                    vehicles={
+                        target.id: VehicleProgress(
+                            researched_rp=target.rp - 1,
+                            researched=True,
+                        )
+                    }
+                ),
+            )
+
+    def test_purchased_vehicle_requires_researched_state(self):
+        target = self.db.get("germ_leopard_2a7v")
+        with self.assertRaisesRegex(SolveError, "gekauftes Fahrzeug"):
+            self.solver.solve(
+                target_vehicle_id=target.id,
+                start_vehicle_id="germ_leopard_2a5",
+                progress=PlayerProgress(
+                    vehicles={
+                        target.id: VehicleProgress(
+                            researched_rp=target.rp,
+                            researched=False,
+                            purchased=True,
+                        )
+                    }
+                ),
+            )
 
 
 if __name__ == "__main__":

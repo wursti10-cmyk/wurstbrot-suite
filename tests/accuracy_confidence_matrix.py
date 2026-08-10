@@ -10,11 +10,13 @@ sys.path.insert(0, str(ROOT / "packages" / "validator"))
 
 from wurstbrot_core.accuracy_confidence import (  # noqa: E402
     build_confidence_report,
+    execute_core_reference_suite,
     execute_golden_suite,
     load_json,
     render_confidence_text,
     run_metamorphic_suite,
     validate_baseline,
+    validate_core_contract_closure,
     validate_decision_register,
     validate_partial_dossier,
     validate_rollback_plan,
@@ -25,7 +27,7 @@ from wurstbrot_validator.rules import RULE_DEFINITIONS, VALIDATOR_VERSION  # noq
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the Accuracy 7 confidence report.")
+    parser = argparse.ArgumentParser(description="Build the Accuracy core confidence report.")
     parser.add_argument("--shadow-report", type=Path, required=True)
     parser.add_argument("--browser-report", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=ROOT / "build" / "health")
@@ -36,9 +38,15 @@ def main() -> int:
     )
     baseline = load_json(ROOT / "accuracy" / "baselines" / "2.57.1.67.json")
     golden_fixture = load_json(ROOT / "accuracy" / "golden" / "2.57.1.67.json")
+    core_reference_fixture = load_json(
+        ROOT / "accuracy" / "golden" / "core_contract_2.57.1.67.json"
+    )
     decisions = load_json(ROOT / "accuracy" / "contracts" / "decision_register.json")
     dossier = load_json(
         ROOT / "accuracy" / "research" / "partial_folder_cases_2.57.1.67.json"
+    )
+    core_closure = load_json(
+        ROOT / "accuracy" / "research" / "core_contract_closure_2.57.1.67.json"
     )
     rollback = load_json(ROOT / "accuracy" / "rollback" / "experimental_switch_plan.json")
     validate_baseline(
@@ -49,13 +57,16 @@ def main() -> int:
     )
     validate_decision_register(decisions)
     validate_partial_dossier(dossier, database)
+    validate_core_contract_closure(core_closure, database, core_reference_fixture)
     validate_rollback_plan(rollback)
     golden = execute_golden_suite(database, golden_fixture)
+    core_references = execute_core_reference_suite(database, core_reference_fixture)
     metamorphic = run_metamorphic_suite(database)
     report = build_confidence_report(
         database=database,
         baseline=baseline,
         golden=golden,
+        core_references=core_references,
         metamorphic=metamorphic,
         shadow_report=load_json(args.shadow_report),
         browser_report=load_json(args.browser_report),
@@ -66,7 +77,7 @@ def main() -> int:
     write_confidence_reports(report, args.output)
     print(render_confidence_text(report), end="")
     comparisons = report["pipelineComparisons"]["comparisonCounts"]
-    if golden.failed or metamorphic.failed:
+    if golden.failed or core_references.failed or metamorphic.failed:
         return 1
     if comparisons["mismatch"] or comparisons["internal_error"]:
         return 1

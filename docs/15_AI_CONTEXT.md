@@ -10,7 +10,8 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 1. Die aktuelle Release-Linie ist `0.9.0-beta`; offene PRs sind kein ausgelieferter Stand.
 2. Keine erfundenen Gaijin-Regeln oder Datamine-Felder.
 3. GE wird pro Fahrzeug aufgerundet.
-4. Ein Fahrzeug ist nur mit `researched=True` und `purchased=True` im Solver „owned“.
+4. Ein Fahrzeug ist nur mit `researched=True`, vollständigen numerischen RP und `purchased=True` im
+   Solver „owned“.
 5. A und B müssen denselben `countryId` und `branchId` besitzen.
 6. Neue UI-Fachlogik gehört in den Core oder braucht Contract Tests.
 7. Keine Accountdaten, proprietären Assets oder Datamine-Großdateien ungefragt committen.
@@ -51,9 +52,10 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 26. Cost Calculation konsumiert Resolution, wählt aber niemals Voraussetzungen oder Rank-Kandidaten.
 27. Vollständige Kosten sind nur bei `resolution_status=resolved` und `cost_status=complete` zulässig.
     Partial darf nie als vollständiger Bedarf dargestellt werden.
-28. Graph-Cost lehnt negative oder über Gesamt-RP liegende Fortschrittswerte ab; nicht wie Legacy
-    klemmen oder still korrigieren.
-29. GE immer pro Fahrzeug aufrunden. Graph-SL-Rabatte sind ausschließlich 0, 30 oder 50 Prozent.
+28. Legacy, Graph und Browser lehnen negative oder über Gesamt-RP liegende Fortschrittswerte ab;
+    niemals klemmen oder still korrigieren.
+29. GE immer pro Fahrzeug aufrunden. Der gemeinsame v1-SL-Rabattvertrag umfasst ausschließlich 0,
+    30 oder 50 Prozent.
 30. Cost Shadow vergleicht Zeilen und Summen. Equivalent darf keine numerische Abweichung verbergen;
     jeder definitive Mismatch ist ein Gate-Fehler.
 31. `GraphCostEngine` darf Shadow und explizites CLI Graph Experimental bedienen. Legacy-Default,
@@ -65,8 +67,10 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 34. Der Dual-Runner bleibt eine Vergleichskomponente und erzeugt beide Resultate. Nur der separate
     `CalculationEngine` darf bei explizitem `graph_experimental`, `complete` und `exact_match` das
     adaptierte Graphresultat freigeben; sonst gilt Legacy-Fallback.
-35. `input_contract_difference` ist weder Match noch Fehler. Jede Differenz braucht Rule ID,
-    Contract-Regel und Begründung; Mismatch und Internal Error bleiben harte Gates.
+35. `input_contract_difference` ist weder Match noch Fehler. Nach Accuracy 9 bezeichnet es bei den
+    Validierungsfällen die strukturierte Graphfehler- gegenüber der Legacy-Fehlerrepräsentation,
+    nicht mehr eine offene Produktsemantik. Jede Differenz braucht Rule ID, Contract-Regel und
+    Begründung; Mismatch und Internal Error bleiben harte Gates.
 36. Fingerprints nur aus kanonischen fachlichen Inhalten bilden. Keine Zeitstempel, Pfade,
     Objektadressen oder instabile Reihenfolgen aufnehmen.
 37. `ready_for_default_use` nur bei vollständig belegten Kriterien setzen. Null Mismatches allein
@@ -92,6 +96,14 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 47. `graph_experimental` mit deaktiviertem Prozess-Flag führt Graph nicht aus und verwendet sichtbar
     Legacy. Ein `invalid_input` darf dagegen niemals durch Legacy-Fallback wie eine erfolgreiche
     Berechnung erscheinen; Ergebnisquelle und Ergebnis bleiben in diesem Fall leer.
+48. Die v1-Entscheidungen für Rabatt-Domain, ungültigen Progress und Forschungsstatus-/RP-Konflikt
+    sind angenommen. Änderungen daran brauchen einen neuen fachlichen Entscheidungsreview.
+49. Alle 14 Hidden-Folder-Ziele bleiben evidenzbasiert `partial`. Offizielle Gruppenquellen belegen
+    keine Forschungs-, Kauf- oder Rangzählungsregel für diese versteckten Legacy-Folder.
+50. Die Sample-Daten besitzen 31 externe `reqUnlock`-Tokens, aber keinen internen und keinen
+    unbekannten Token. Nur exakter PlayerProgress oder die explizite Option erfüllt sie.
+51. Die Sample-Daten besitzen keinen Mehrfachvorgänger. AND/OR-Semantik nicht aus synthetischen
+    Kanten ableiten; sie bleiben unresolved.
 
 ## Orientierung
 
@@ -115,6 +127,8 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 - versionierte Referenzartefakte: `accuracy/`
 - Confidence-Vertrag: `docs/28_ACCURACY_CONFIDENCE.md`
 - 14-Partial-Fall-Akte: `docs/29_PARTIAL_FOLDER_RESEARCH.md`
+- Accuracy-9-Kernreferenzen: `accuracy/golden/core_contract_2.57.1.67.json`
+- Accuracy-9-Evidenzabschluss: `accuracy/research/core_contract_closure_2.57.1.67.json`
 - experimenteller Switch- und Rollback-Plan: `docs/30_GRAPH_ROLLBACK_PLAN.md`
 - Solver/Optimierer: `solver.py`
 - Kosten: `economy.py`
