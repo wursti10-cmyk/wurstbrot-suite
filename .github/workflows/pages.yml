@@ -1,4 +1,4 @@
-name: Deploy browser beta
+name: Deploy browser app
 
 on:
   push:

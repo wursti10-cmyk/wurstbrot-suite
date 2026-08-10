@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.0-rc.1] - 2026-08-10
+
+### Changed
+
+- Produkt-, Paket-, CLI-, Desktop- und Browser-Version auf `1.0.0-rc.1` vereinheitlicht
+- installierbaren CLI-Einstiegspunkt und prüfbare RC-Build-Artefakte ergänzt
+- Release-Build-Acceptance, Clean-Install und maschinenlesbares RC.1-Readiness-Gate ergänzt
+
+### Known limitations
+
+- Legacy bleibt Default; Graph Experimental bleibt explizit opt-in
+- 14 Hidden-Folder-Fälle bleiben bewusst `partial` mit sichtbarem Legacy-Fallback
+- Browser und Desktop besitzen keine Graph-Runtime
+
 ## [0.9.0-beta] - 2026-08-05
 
 ### Added

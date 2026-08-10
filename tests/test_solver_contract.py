@@ -21,10 +21,12 @@ class SolverContractTests(unittest.TestCase):
         fixture = json.loads(
             (ROOT / "tests" / "fixtures" / "solver_contract.json").read_text(encoding="utf-8")
         )
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", encoding="utf-8") as handle:
-            json.dump(fixture["database"], handle)
-            handle.flush()
-            database = VehicleDatabase.from_json(handle.name)
+        with tempfile.TemporaryDirectory() as directory:
+            database_path = Path(directory) / "database.json"
+            database_path.write_text(
+                json.dumps(fixture["database"]), encoding="utf-8"
+            )
+            database = VehicleDatabase.from_json(database_path)
 
         case = fixture["input"]
         result = ResearchSolver(database).solve(

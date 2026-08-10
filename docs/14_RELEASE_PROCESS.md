@@ -3,7 +3,7 @@
 ## Versionierung
 
 Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Die lesbare
-Version `0.9.0-beta` wird in Python-Paketmetadaten PEP-440-konform als `0.9.0b0` dargestellt.
+Version `1.0.0-rc.1` wird in Python-Paketmetadaten PEP-440-konform als `1.0.0rc1` dargestellt.
 
 ## Vorbereitung
 

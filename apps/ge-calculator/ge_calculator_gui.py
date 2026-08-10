@@ -29,7 +29,7 @@ def main() -> int:
     class App:
         def __init__(self, root: tk.Tk) -> None:
             self.root = root
-            self.root.title("Wurstbrot GE Calculator 2.0 – 0.9.0 Beta")
+            self.root.title("Wurstbrot GE Calculator 2.0 – 1.0.0-rc.1")
             self.root.geometry("1040x760")
             self.root.minsize(840, 620)
             self.db: VehicleDatabase | None = None
@@ -67,7 +67,7 @@ def main() -> int:
             ).pack(anchor="w")
             ttk.Label(
                 outer,
-                text="0.9.0 Beta · A→B-Solver · Rangfreischaltungen · Explain Mode",
+                text="1.0.0-rc.1 · A→B-Solver · Rangfreischaltungen · Explain Mode",
             ).pack(anchor="w", pady=(0, 12))
 
             dbrow = ttk.Frame(outer)

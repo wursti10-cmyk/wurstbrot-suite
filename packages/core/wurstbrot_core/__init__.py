@@ -1,6 +1,6 @@
 """Wurstbrot GE Calculator 2.0 core engine."""
 
-__version__ = "0.9.0-beta"
+__version__ = "1.0.0-rc.1"
 
 from .database import VehicleDatabase
 from .graph_adapter import GraphDatabaseAdapter
