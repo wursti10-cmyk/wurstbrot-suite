@@ -1,3 +1,4 @@
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -36,6 +37,13 @@ class ProjectMetadataTests(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn(expected, gui)
+
+        sample = json.loads(
+            (ROOT / "data" / "samples" / "WT_Database_2.57.1.67.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(sample["converter"]["version"], expected)
 
 
 if __name__ == "__main__":
