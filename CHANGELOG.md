@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.0-rc.2] - 2026-08-17
+
+### Changed
+
+- Nationen und Fahrzeugarten in Browser und Desktop mit lesbaren deutschen Bezeichnungen angezeigt
+- Küsten- und Hochseeschiffe als getrennte Forschungsbäume beschriftet
+- Auswahl „Baumstart“ in „Forschungsbaum“ umbenannt
+- RC.2-Service-Worker-Cache für die aktualisierte Browser-Anzeige gesetzt
+
+### Known limitations
+
+- Legacy bleibt Default; Graph Experimental bleibt ausdrücklich opt-in
+- 14 Hidden-Folder-Fälle bleiben bewusst `partial` mit sichtbarem Legacy-Fallback
+- Browser und Desktop besitzen keine Graph-Runtime
+
 ## [1.0.0-rc.1] - 2026-08-10
 
 ### Changed

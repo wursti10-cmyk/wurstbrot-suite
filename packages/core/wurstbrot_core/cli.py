@@ -124,7 +124,7 @@ def _execution_summary(execution: CalculationExecutionResult) -> str:
     fallback_reason = execution.fallback_reason.value if execution.fallback_reason else "keiner"
     lines = []
     if execution.experimental:
-        lines.append("WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für RC.1.")
+        lines.append("WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für RC.2.")
     lines.extend(
         (
             f"Rechenmodus: {execution.requested_mode.value}",

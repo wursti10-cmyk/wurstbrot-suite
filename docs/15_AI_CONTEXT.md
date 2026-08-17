@@ -7,7 +7,7 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 
 ## Harte Regeln
 
-1. Die aktuelle Release-Linie ist `1.0.0-rc.1`; offene PRs sind kein ausgelieferter Stand.
+1. Die aktuelle Release-Linie ist `1.0.0-rc.2`; offene PRs sind kein ausgelieferter Stand.
 2. Keine erfundenen Gaijin-Regeln oder Datamine-Felder.
 3. GE wird pro Fahrzeug aufgerundet.
 4. Ein Fahrzeug ist nur mit `researched=True`, vollständigen numerischen RP und `purchased=True` im

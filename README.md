@@ -16,7 +16,7 @@ Hauptbestandteile:
 
 ## Projektstatus
 
-Aktueller Stand: **1.0.0-rc.1**. Der Python-Kern, die Desktop-Oberflächen und eine
+Aktueller Stand: **1.0.0-rc.2**. Der Python-Kern, die Desktop-Oberflächen und eine
 installierbare Browser-Version sind nutzbar. GitHub Actions prüft Python 3.10, 3.12
 und 3.13, die Browser-Logik und den vollständigen Regressionstest.
 
