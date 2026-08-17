@@ -46,7 +46,7 @@ class CliEngineModeTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("1.0.0-rc.1", result.stdout)
+        self.assertIn("1.0.0-rc.2", result.stdout)
 
     def test_non_utf8_console_does_not_crash_on_explanation_symbols(self):
         result = subprocess.run(

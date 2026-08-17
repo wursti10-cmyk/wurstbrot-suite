@@ -131,13 +131,13 @@ jobs:
           name: sample-datamine-health
           path: build/health
       - run: |
-          python scripts/rc1_readiness.py \
+          python scripts/rc2_readiness.py \
             --accuracy-report build/health/Accuracy_Release_Hardening_2.57.1.67.json \
-            --release-report build/release/Release_Build_Acceptance_1.0.0-rc.1.json \
+            --release-report build/release/Release_Build_Acceptance_1.0.0-rc.2.json \
             --output build/release
       - uses: actions/upload-artifact@v4
         with:
-          name: wurstbrot-suite-1.0.0-rc.1
+          name: wurstbrot-suite-1.0.0-rc.2
           path: |
             dist/*
             build/release/*

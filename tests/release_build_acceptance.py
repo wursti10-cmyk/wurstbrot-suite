@@ -14,8 +14,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0-rc.1"
-PEP440_VERSION = "1.0.0rc1"
+VERSION = "1.0.0-rc.2"
+PEP440_VERSION = "1.0.0rc2"
 
 
 def parse_args() -> argparse.Namespace:
@@ -84,7 +84,7 @@ def main() -> int:
                 "/packages/core/wurstbrot_core/graph_pipeline.py",
                 "/accuracy/acceptance/release_hardening_2.57.1.67.json",
                 "/data/samples/WT_Database_2.57.1.67.json",
-                "/docs/32_RELEASE_NOTES_1.0.0_RC1.md",
+                "/docs/33_RELEASE_NOTES_1.0.0_RC2.md",
                 "/specs/GE_CALCULATION_SPEC.md",
             ),
         )
@@ -113,7 +113,7 @@ def main() -> int:
             blockers.append("browser_artifact_invalid")
         details["browserMissing"] = missing
 
-    with tempfile.TemporaryDirectory(prefix="wurstbrot-rc1-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="wurstbrot-rc2-") as temporary:
         temporary_path = Path(temporary)
         environment = os.environ.copy()
         environment.pop("PYTHONPATH", None)
@@ -174,7 +174,7 @@ def main() -> int:
         )
         if invalid.returncode != 2 or "Ergebnisquelle: keine" not in invalid.stdout:
             blockers.append("installed_cli_invalid_input_failed")
-        installed_report = output / "Installed_Wheel_Acceptance_1.0.0-rc.1.json"
+        installed_report = output / "Installed_Wheel_Acceptance_1.0.0-rc.2.json"
         acceptance = run(
             (
                 str(python),
@@ -224,7 +224,7 @@ def main() -> int:
                 blockers.append("browser_artifact_runtime_failed")
             details["browserArtifactReturnCode"] = browser_run.returncode
 
-    installed = json.loads((output / "Installed_Wheel_Acceptance_1.0.0-rc.1.json").read_text(encoding="utf-8")) if (output / "Installed_Wheel_Acceptance_1.0.0-rc.1.json").is_file() else {}
+    installed = json.loads((output / "Installed_Wheel_Acceptance_1.0.0-rc.2.json").read_text(encoding="utf-8")) if (output / "Installed_Wheel_Acceptance_1.0.0-rc.2.json").is_file() else {}
     payload = {
         "schemaVersion": 1,
         "version": VERSION,
@@ -237,7 +237,7 @@ def main() -> int:
         "blockers": blockers,
         "details": details,
     }
-    report_path = output / "Release_Build_Acceptance_1.0.0-rc.1.json"
+    report_path = output / "Release_Build_Acceptance_1.0.0-rc.2.json"
     report_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0 if not blockers else 1

@@ -17,6 +17,30 @@ from wurstbrot_core import (  # noqa: E402
 )
 from wurstbrot_core.explain import explain_result  # noqa: E402
 
+COUNTRY_LABELS = {
+    "country_usa": "USA",
+    "country_germany": "Deutschland",
+    "country_ussr": "UdSSR",
+    "country_britain": "Großbritannien",
+    "country_japan": "Japan",
+    "country_china": "China",
+    "country_italy": "Italien",
+    "country_france": "Frankreich",
+    "country_sweden": "Schweden",
+    "country_israel": "Israel",
+}
+BRANCH_LABELS = {
+    "army": "Panzer",
+    "aviation": "Flugzeuge",
+    "helicopters": "Hubschrauber",
+    "boats": "Küstenschiffe",
+    "ships": "Hochseeschiffe",
+}
+
+
+def fallback_label(identifier: str) -> str:
+    return identifier.removeprefix("country_").replace("_", " ").title()
+
 
 def main() -> int:
     try:
@@ -29,20 +53,22 @@ def main() -> int:
     class App:
         def __init__(self, root: tk.Tk) -> None:
             self.root = root
-            self.root.title("Wurstbrot GE Calculator 2.0 – 1.0.0-rc.1")
+            self.root.title("Wurstbrot GE Calculator 2.0 – 1.0.0-rc.2")
             self.root.geometry("1040x760")
             self.root.minsize(840, 620)
             self.db: VehicleDatabase | None = None
             self.solver: ResearchSolver | None = None
             self.vehicle_ids: list[str] = []
             self.display_to_id: dict[str, str] = {}
+            self.nation_display_to_id: dict[str, str] = {}
+            self.branch_display_to_id: dict[str, str] = {}
 
             self.database_var = tk.StringVar(
                 value=str(ROOT / "data" / "samples" / "WT_Database_2.57.1.67.json")
             )
             self.nation_var = tk.StringVar()
             self.branch_var = tk.StringVar()
-            self.start_var = tk.StringVar(value="Baumstart / kein Fahrzeug")
+            self.start_var = tk.StringVar(value="Forschungsbaum / kein Fahrzeug")
             self.target_var = tk.StringVar()
             self.start_partial_var = tk.BooleanVar(value=False)
             self.start_rp_var = tk.StringVar(value="0")
@@ -67,7 +93,7 @@ def main() -> int:
             ).pack(anchor="w")
             ttk.Label(
                 outer,
-                text="1.0.0-rc.1 · A→B-Solver · Rangfreischaltungen · Explain Mode",
+                text="1.0.0-rc.2 · A→B-Solver · Rangfreischaltungen · Explain Mode",
             ).pack(anchor="w", pady=(0, 12))
 
             dbrow = ttk.Frame(outer)
@@ -131,7 +157,17 @@ def main() -> int:
             try:
                 self.db = VehicleDatabase.from_json(self.database_var.get())
                 self.solver = ResearchSolver(self.db)
-                nations = sorted({v.country_id for v in self.db.vehicles.values()})
+                nation_ids = sorted(
+                    {v.country_id for v in self.db.vehicles.values()},
+                    key=lambda country_id: COUNTRY_LABELS.get(
+                        country_id, fallback_label(country_id)
+                    ),
+                )
+                self.nation_display_to_id = {
+                    COUNTRY_LABELS.get(country_id, fallback_label(country_id)): country_id
+                    for country_id in nation_ids
+                }
+                nations = list(self.nation_display_to_id)
                 self.nation_combo["values"] = nations
                 if nations:
                     self.nation_var.set(nations[0])
@@ -142,7 +178,16 @@ def main() -> int:
 
         def refresh_branches(self) -> None:
             if not self.db: return
-            branches = sorted({v.branch_id for v in self.db.vehicles.values() if v.country_id == self.nation_var.get()})
+            country_id = self.nation_display_to_id.get(self.nation_var.get(), self.nation_var.get())
+            branch_ids = sorted(
+                {v.branch_id for v in self.db.vehicles.values() if v.country_id == country_id},
+                key=lambda branch_id: BRANCH_LABELS.get(branch_id, fallback_label(branch_id)),
+            )
+            self.branch_display_to_id = {
+                BRANCH_LABELS.get(branch_id, fallback_label(branch_id)): branch_id
+                for branch_id in branch_ids
+            }
+            branches = list(self.branch_display_to_id)
             self.branch_combo["values"] = branches
             if branches:
                 self.branch_var.set(branches[0])
@@ -150,14 +195,16 @@ def main() -> int:
 
         def refresh_vehicles(self) -> None:
             if not self.db: return
-            vehicles = self.db.tree_vehicles(self.nation_var.get(), self.branch_var.get())
+            country_id = self.nation_display_to_id.get(self.nation_var.get(), self.nation_var.get())
+            branch_id = self.branch_display_to_id.get(self.branch_var.get(), self.branch_var.get())
+            vehicles = self.db.tree_vehicles(country_id, branch_id)
             self.display_to_id = {
                 f"Rang {v.rank} · {v.name} [{v.id}]": v.id for v in vehicles if not v.hidden_research
             }
             displays = list(self.display_to_id)
-            self.start_combo["values"] = ["Baumstart / kein Fahrzeug"] + displays
+            self.start_combo["values"] = ["Forschungsbaum / kein Fahrzeug"] + displays
             self.target_combo["values"] = displays
-            self.start_var.set("Baumstart / kein Fahrzeug")
+            self.start_var.set("Forschungsbaum / kein Fahrzeug")
             if displays: self.target_var.set(displays[-1])
 
         @staticmethod

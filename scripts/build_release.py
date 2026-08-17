@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0-rc.1"
+VERSION = "1.0.0-rc.2"
 BROWSER_NAME = f"wurstbrot-suite-{VERSION}-browser.zip"
 
 
@@ -23,7 +23,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def add_file(archive: zipfile.ZipFile, source: Path, target: str) -> None:
-    info = zipfile.ZipInfo(target, date_time=(2026, 8, 10, 0, 0, 0))
+    info = zipfile.ZipInfo(target, date_time=(2026, 8, 17, 0, 0, 0))
     info.compress_type = zipfile.ZIP_DEFLATED
     info.external_attr = 0o644 << 16
     archive.writestr(info, source.read_bytes())

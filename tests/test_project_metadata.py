@@ -11,8 +11,8 @@ import wurstbrot_core
 
 class ProjectMetadataTests(unittest.TestCase):
     def test_versions_match(self):
-        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "1.0.0-rc.1")
-        self.assertEqual(wurstbrot_core.__version__, "1.0.0-rc.1")
+        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "1.0.0-rc.2")
+        self.assertEqual(wurstbrot_core.__version__, "1.0.0-rc.2")
 
     def test_browser_entrypoints_exist(self):
         for path in ("index.html", "app.js", "solver.mjs", "manifest.webmanifest", "service-worker.js", "icon.svg"):
@@ -28,7 +28,7 @@ class ProjectMetadataTests(unittest.TestCase):
             self.assertEqual(first_line.lower(), "@echo off", launcher)
 
     def test_component_labels_use_rc_version(self):
-        expected = "1.0.0-rc.1"
+        expected = "1.0.0-rc.2"
         converter = (ROOT / "apps" / "datamine-manager" / "wurstbrot_converter.py").read_text(
             encoding="utf-8"
         )
@@ -44,6 +44,39 @@ class ProjectMetadataTests(unittest.TestCase):
             )
         )
         self.assertEqual(sample["converter"]["version"], expected)
+
+    def test_browser_and_desktop_use_german_ui_labels(self):
+        browser = (ROOT / "apps" / "web" / "app.js").read_text(encoding="utf-8")
+        desktop = (ROOT / "apps" / "ge-calculator" / "ge_calculator_gui.py").read_text(
+            encoding="utf-8"
+        )
+        converter = (ROOT / "apps" / "datamine-manager" / "wurstbrot_converter.py").read_text(
+            encoding="utf-8"
+        )
+
+        for source in (browser, desktop):
+            for label in (
+                "Deutschland",
+                "USA",
+                "Schweden",
+                "Japan",
+                "Panzer",
+                "Flugzeuge",
+                "Hubschrauber",
+                "Küstenschiffe",
+                "Hochseeschiffe",
+                "Forschungsbaum",
+            ):
+                self.assertIn(label, source)
+            self.assertNotIn("Baumstart", source)
+
+        self.assertIn('"ships": "Hochseeschiffe"', converter)
+        self.assertIn('"boats": "Küstenschiffe"', converter)
+
+        service_worker = (ROOT / "apps" / "web" / "service-worker.js").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('wurstbrot-1.0.0-rc.2-ui-labels', service_worker)
 
 
 if __name__ == "__main__":

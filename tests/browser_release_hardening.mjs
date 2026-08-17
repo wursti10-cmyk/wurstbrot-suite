@@ -126,6 +126,23 @@ for (const relative of legacyEntryPoints) {
   assert(!source.includes("GraphCalculationPipeline"), `${relative} has no graph runtime`);
 }
 
+const browserApp = await readFile(path.join(root, "apps/web/app.js"), "utf8");
+for (const label of [
+  "Deutschland",
+  "USA",
+  "Schweden",
+  "Japan",
+  "Panzer",
+  "Flugzeuge",
+  "Hubschrauber",
+  "Küstenschiffe",
+  "Hochseeschiffe",
+  "Forschungsbaum",
+]) {
+  assert(browserApp.includes(label), `browser UI label ${label}`);
+}
+assert(!browserApp.includes("Baumstart"), "browser UI no longer uses Baumstart");
+
 const report = {
   schemaVersion: 1,
   harnessVersion: "1.0.0-accuracy10",

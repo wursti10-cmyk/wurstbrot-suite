@@ -2,11 +2,34 @@ import {calculate, validateDatabase} from "./solver.mjs";
 
 const $ = id => document.getElementById(id);
 const format = value => new Intl.NumberFormat("de-DE").format(value);
+const COUNTRY_LABELS = Object.freeze({
+  country_usa: "USA",
+  country_germany: "Deutschland",
+  country_ussr: "UdSSR",
+  country_britain: "Großbritannien",
+  country_japan: "Japan",
+  country_china: "China",
+  country_italy: "Italien",
+  country_france: "Frankreich",
+  country_sweden: "Schweden",
+  country_israel: "Israel",
+});
+const BRANCH_LABELS = Object.freeze({
+  army: "Panzer",
+  aviation: "Flugzeuge",
+  helicopters: "Hubschrauber",
+  boats: "Küstenschiffe",
+  ships: "Hochseeschiffe",
+});
+const fallbackLabel = value => value
+  .replace(/^country_/, "")
+  .replaceAll("_", " ")
+  .replace(/\b\p{L}/gu, character => character.toLocaleUpperCase("de-DE"));
 let database;
 
 function vehicles() { return database?.vehicles || []; }
 
-function setOptions(select, items, label = value => value) {
+function setOptions(select, items, label = value => value.name ?? value) {
   select.replaceChildren(...items.map(value => new Option(label(value), value.id ?? value)));
 }
 
@@ -14,7 +37,10 @@ function refreshBranches() {
   const branches = [...new Set(vehicles()
     .filter(vehicle => vehicle.countryId === $("country").value)
     .map(vehicle => vehicle.branchId))].sort();
-  setOptions($("branch"), branches);
+  setOptions($("branch"), branches.map(id => ({
+    id,
+    name: BRANCH_LABELS[id] ?? fallbackLabel(id),
+  })));
   refreshVehicles();
 }
 
@@ -24,7 +50,7 @@ function refreshVehicles() {
       && vehicle.branchId === $("branch").value && !vehicle.hiddenResearch)
     .sort((a, b) => a.rank - b.rank || a.order - b.order || a.name.localeCompare(b.name));
   const title = vehicle => `Rang ${vehicle.rank} · ${vehicle.name || vehicle.id}`;
-  setOptions($("start"), [{id: "", name: "Baumstart"}, ...list],
+  setOptions($("start"), [{id: "", name: "Forschungsbaum"}, ...list],
     vehicle => vehicle.id ? title(vehicle) : vehicle.name);
   setOptions($("target"), list, title);
   if (list.length) $("target").value = list.at(-1).id;
@@ -33,7 +59,10 @@ function refreshVehicles() {
 function load(raw) {
   database = validateDatabase(raw);
   const countries = [...new Set(vehicles().map(vehicle => vehicle.countryId))].sort();
-  setOptions($("country"), countries);
+  setOptions($("country"), countries.map(id => ({
+    id,
+    name: COUNTRY_LABELS[id] ?? fallbackLabel(id),
+  })));
   refreshBranches();
   $("status").textContent = `${database.gameVersion} · ${format(vehicles().length)} Fahrzeuge`;
 }
