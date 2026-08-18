@@ -38,6 +38,7 @@ class ProjectMetadataTests(unittest.TestCase):
             ROOT / "apps" / "ge-calculator" / "ge_calculator_gui.py",
             ROOT / "apps" / "web" / "index.html",
             ROOT / "apps" / "web" / "service-worker.js",
+            ROOT / "apps" / "web" / "visual-tree.mjs",
             ROOT / "docs" / "00_PROJECT_CONTEXT.md",
             ROOT / "docs" / "14_RELEASE_PROCESS.md",
             ROOT / "docs" / "15_AI_CONTEXT.md",
@@ -54,7 +55,15 @@ class ProjectMetadataTests(unittest.TestCase):
                 self.assertNotIn(marker, source, f"{path}: stale {marker}")
 
     def test_browser_entrypoints_exist(self):
-        for path in ("index.html", "app.js", "solver.mjs", "manifest.webmanifest", "service-worker.js", "icon.svg"):
+        for path in (
+            "index.html",
+            "app.js",
+            "solver.mjs",
+            "visual-tree.mjs",
+            "manifest.webmanifest",
+            "service-worker.js",
+            "icon.svg",
+        ):
             self.assertTrue((ROOT / "apps" / "web" / path).is_file(), path)
 
     def test_windows_launchers_start_with_echo_off(self):
@@ -88,7 +97,10 @@ class ProjectMetadataTests(unittest.TestCase):
         self.assertIn("WURSTBROT SUITE · 1.0.0", browser_index)
 
     def test_browser_and_desktop_use_german_ui_labels(self):
-        browser = (ROOT / "apps" / "web" / "app.js").read_text(encoding="utf-8")
+        browser = "\n".join(
+            (ROOT / "apps" / "web" / name).read_text(encoding="utf-8")
+            for name in ("app.js", "visual-tree.mjs")
+        )
         desktop = (ROOT / "apps" / "ge-calculator" / "ge_calculator_gui.py").read_text(
             encoding="utf-8"
         )

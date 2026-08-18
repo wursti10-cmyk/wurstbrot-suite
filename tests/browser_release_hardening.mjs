@@ -118,6 +118,7 @@ for (const item of fixture.cases) {
 const legacyEntryPoints = [
   "apps/web/app.js",
   "apps/web/solver.mjs",
+  "apps/web/visual-tree.mjs",
   "apps/ge-calculator/ge_calculator_gui.py",
 ];
 for (const relative of legacyEntryPoints) {
@@ -126,7 +127,8 @@ for (const relative of legacyEntryPoints) {
   assert(!source.includes("GraphCalculationPipeline"), `${relative} has no graph runtime`);
 }
 
-const browserApp = await readFile(path.join(root, "apps/web/app.js"), "utf8");
+const browserApp = `${await readFile(path.join(root, "apps/web/app.js"), "utf8")}\n`
+  + await readFile(path.join(root, "apps/web/visual-tree.mjs"), "utf8");
 for (const label of [
   "Deutschland",
   "USA",

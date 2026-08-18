@@ -20,34 +20,84 @@
     <span id="status" class="status">Datenbank wird geladen …</span>
   </header>
 
-  <main>
-    <section class="card controls" aria-labelledby="calculator-title">
-      <h2 id="calculator-title">Berechnung</h2>
-      <div class="grid">
-        <label>Datenbank
-          <input id="database-file" type="file" accept="application/json,.json">
-        </label>
-        <label>Nation<select id="country"></select></label>
-        <label>Fahrzeugart<select id="branch"></select></label>
-        <label>Von Fahrzeug A<select id="start"></select></label>
-        <label>Zu Fahrzeug B<select id="target"></select></label>
-        <label>Angeforschte RP auf B<input id="partial-rp" type="number" min="0" value="0"></label>
-        <label>Convertible RP<input id="convertible-rp" type="number" min="0" placeholder="unbegrenzt"></label>
-        <label>Vorhandene GE<input id="owned-ge" type="number" min="0" value="0"></label>
-        <label>SL-Rabatt<select id="discount"><option>0</option><option>30</option><option>50</option></select></label>
-        <label>Optimieren nach<select id="optimize"><option value="ge">GE</option><option value="rp">RP</option><option value="sl">SL</option><option value="vehicles">Fahrzeuganzahl</option></select></label>
-      </div>
-      <button id="calculate" type="button">Berechnen</button>
-      <p class="hint">Eigene Datenbank auswählen oder die mitgelieferte Beispieldatenbank verwenden.</p>
-    </section>
+  <nav class="app-nav" aria-label="Ansicht wählen">
+    <button class="nav-tab active" id="calculator-tab" type="button" aria-selected="true" aria-controls="calculator-view">Rechner</button>
+    <button class="nav-tab" id="tree-tab" type="button" aria-selected="false" aria-controls="tree-view">Forschungsbaum</button>
+  </nav>
 
-    <section class="card results" aria-live="polite">
-      <div class="result-head"><h2>Ergebnis</h2><button id="copy" class="secondary" type="button">Kopieren</button></div>
-      <div id="summary" class="summary empty">Noch keine Berechnung.</div>
-      <div id="rank-requirements"></div>
-      <div id="explanation"></div>
-      <div id="warnings"></div>
-    </section>
+  <main id="app-main">
+    <div id="calculator-view" class="app-view calculator-layout">
+      <section class="card controls" aria-labelledby="calculator-title">
+        <h2 id="calculator-title">Berechnung</h2>
+        <div class="grid">
+          <label>Datenbank
+            <input id="database-file" type="file" accept="application/json,.json">
+          </label>
+          <label>Nation<select id="country"></select></label>
+          <label>Fahrzeugart<select id="branch"></select></label>
+          <label>Von Fahrzeug A<select id="start"></select></label>
+          <label>Zu Fahrzeug B<select id="target"></select></label>
+          <label>Angeforschte RP auf B<input id="partial-rp" type="number" min="0" value="0"></label>
+          <label>Convertible RP<input id="convertible-rp" type="number" min="0" placeholder="unbegrenzt"></label>
+          <label>Vorhandene GE<input id="owned-ge" type="number" min="0" value="0"></label>
+          <label>SL-Rabatt<select id="discount"><option>0</option><option>30</option><option>50</option></select></label>
+          <label>Optimieren nach<select id="optimize"><option value="ge">GE</option><option value="rp">RP</option><option value="sl">SL</option><option value="vehicles">Fahrzeuganzahl</option></select></label>
+        </div>
+        <button id="calculate" type="button">Berechnen</button>
+        <p class="hint">Eigene Datenbank auswählen oder die mitgelieferte Beispieldatenbank verwenden.</p>
+      </section>
+
+      <section class="card results" aria-live="polite">
+        <div class="result-head"><h2>Ergebnis</h2><button id="copy" class="secondary" type="button">Kopieren</button></div>
+        <div id="summary" class="summary empty">Noch keine Berechnung.</div>
+        <div id="rank-requirements"></div>
+        <div id="explanation"></div>
+        <div id="warnings"></div>
+      </section>
+    </div>
+
+    <div id="tree-view" class="app-view tree-view" hidden>
+      <section class="card tree-controls" aria-labelledby="tree-title">
+        <div>
+          <p class="eyebrow">READ-ONLY · VERIFIZIERTE PROJEKTDATEN</p>
+          <h2 id="tree-title">Visueller Forschungsbaum</h2>
+          <p class="hint">Ränge, Fahrzeuglinien, Folder und Forschungsbeziehungen aus dem VT.1-Layout-Contract.</p>
+        </div>
+        <div class="tree-selectors">
+          <label>Nation<select id="tree-country"></select></label>
+          <label>Fahrzeugart<select id="tree-branch"></select></label>
+        </div>
+        <div class="tree-demo" id="tree-demo" hidden>
+          <span>Solver-Demonstration</span>
+          <strong>Tiger H1 → Leopard 2A7V</strong>
+          <small>Legacy-Ergebnis · Der Renderer berechnet keinen eigenen Weg.</small>
+        </div>
+        <div class="tree-legend" aria-label="Legende">
+          <span class="legend-a">A · Start</span>
+          <span class="legend-b">B · Ziel</span>
+          <span class="legend-path">Solver-Pfad</span>
+          <span class="legend-rank-unlock">Rangfreischaltung</span>
+          <span class="legend-folder">Folder</span>
+          <span class="legend-partial">Partial / unresolved</span>
+        </div>
+      </section>
+
+      <section class="tree-panel" aria-label="Forschungsbaumdarstellung">
+        <div class="tree-panel-head">
+          <div>
+            <strong id="tree-heading">Forschungsbaum</strong>
+            <span id="tree-status">Daten werden vorbereitet …</span>
+          </div>
+          <div class="tree-metrics" id="tree-metrics" aria-live="polite"></div>
+        </div>
+        <div class="tree-viewport" id="tree-viewport" tabindex="0">
+          <div class="visual-tree" id="visual-tree">
+            <svg id="tree-connections" aria-hidden="true"></svg>
+            <div id="tree-content"></div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer>Unabhängiges Community-Projekt · Keine Accountdaten · Keine Verbindung zu Gaijin Entertainment</footer>
