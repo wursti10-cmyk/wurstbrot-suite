@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Visual Tech Tree Foundation · Deutschland · Panzer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">WURSTBROT SUITE 1.1 · ISOLIERTER PROTOTYP</p>
+      <h1>Visueller Forschungsbaum</h1>
+      <p class="intro">Deutschland · Panzer · reale normalisierte Daten</p>
+    </div>
+    <div class="status" id="status">Layout wird geladen …</div>
+  </header>
+
+  <main>
+    <section class="contract-panel" aria-label="Prototypvertrag">
+      <div><span>A</span><strong id="start-label">–</strong></div>
+      <div><span>B</span><strong id="target-label">–</strong></div>
+      <div><span>Quelle</span><strong id="source-label">–</strong></div>
+      <div><span>Status</span><strong id="calculation-label">–</strong></div>
+    </section>
+
+    <section class="legend" aria-label="Legende">
+      <span class="legend-start">A · Start</span>
+      <span class="legend-target">B · Ziel</span>
+      <span class="legend-required">Pflichtfahrzeug</span>
+      <span class="legend-rank">Rangfreischaltung</span>
+      <span class="legend-folder">Folder</span>
+      <span class="legend-hidden">Hidden / unresolved</span>
+    </section>
+
+    <p class="foundation-note">
+      Foundation-Darstellung: keine War-Thunder-Assets, keine neue Solverlogik und kein Ersatz
+      für den produktiven Browser-Rechner.
+    </p>
+
+    <section class="tree-viewport" aria-label="Forschungsbaum">
+      <div class="tree" id="tree">
+        <svg id="connections" aria-hidden="true"></svg>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Layout aus Datamine-Fakten und deterministischen Ableitungen. Partial bleibt partial.
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
