@@ -53,6 +53,6 @@
 
 ## Priorisierungsregel
 
-Bis Version 1.0 werden ausschließlich Forschungsweg und RP-/GE-/SL-Kosten von A nach B bearbeitet.
+Für Version 1.0 werden ausschließlich Forschungsweg und RP-/GE-/SL-Kosten von A nach B bearbeitet.
 Keine neue Explain Engine, kein Dashboard, kein Project Intelligence, kein Optimizer-Ausbau und kein
 visueller Tech Tree. Korrektheit hat Vorrang; neue Oberflächen sind in dieser Linie kein Arbeitsziel.

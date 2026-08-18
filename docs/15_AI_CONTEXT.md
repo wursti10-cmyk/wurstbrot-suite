@@ -7,7 +7,7 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 
 ## Harte Regeln
 
-1. Die aktuelle Release-Linie ist `1.0.0-rc.2`; offene PRs sind kein ausgelieferter Stand.
+1. Die aktuelle Release-Linie ist `1.0.0`; offene PRs sind kein ausgelieferter Stand.
 2. Keine erfundenen Gaijin-Regeln oder Datamine-Felder.
 3. GE wird pro Fahrzeug aufgerundet.
 4. Ein Fahrzeug ist nur mit `researched=True`, vollständigen numerischen RP und `purchased=True` im
@@ -88,7 +88,7 @@ Tests, `VERSION`, Changelog, Spezifikationen und offene PRs zu prüfen.
 43. `ready_for_experimental_use` gilt für Shadow sowie explizites CLI Graph Experimental mit
     Legacy-Fallback. `ready_for_default_use` bleibt false; Confidence darf nie automatisch umschalten.
 44. Kein Confidence-Prozentwert erfinden. Berichte nennen belegte Zähler, Kriterien und Blocker.
-45. Bis Version 1.0 ausschließlich Forschungsweg A → B und RP-/GE-/SL-Kosten bearbeiten. Keine neue
+45. Für Version 1.0 ausschließlich Forschungsweg A → B und RP-/GE-/SL-Kosten bearbeiten. Keine neue
     Explain Engine, kein Dashboard, kein Project Intelligence, kein Optimizer-Ausbau und kein
     visueller Tech Tree.
 46. Standardmodus ist exakt `legacy`. `partial`, `unavailable`, Internal Error, nicht exakter

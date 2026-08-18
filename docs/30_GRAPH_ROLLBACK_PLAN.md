@@ -54,7 +54,7 @@ bis eine spätere ausdrückliche Produkt- und Datenschutzentscheidung sie erlaub
 ## Grenzen
 
 - `ready_for_default_use` bleibt false.
-- Legacy ist vor 1.0 die einzige empfohlene Quelle.
+- Legacy ist in 1.0 die einzige empfohlene Quelle.
 - Die 14 Partial-Folder-Fälle verwenden Legacy-Fallback; es wurde keine Heuristik ergänzt.
 - Die v1-Input-Verträge sind angenommen: Rabatt 0/30/50, strikte Progress-Grenzen und Ablehnung
   inkonsistenter Forschungsstatus-/RP-Zustände. Das ändert weder Default noch Rollback.

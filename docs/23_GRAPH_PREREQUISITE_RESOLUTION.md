@@ -176,7 +176,7 @@ Folder-Quelldaten bewusst unresolved; unsupported und mismatch sind jeweils 0.
 
 Die Compatibility-Strategie greift vorübergehend auf eine private, unveränderte Legacy-Methode zu.
 Diese Kopplung ist absichtlich isoliert und muss entfernt werden, sobald ein späterer Optimizer-Sprint
-einen eigenen belegten Auswahlvertrag bereitstellt. Ein solcher Sprint ist bis Version 1.0
+einen eigenen belegten Auswahlvertrag bereitstellt. Ein solcher Sprint ist für Version 1.0
 ausdrücklich kein Arbeitsziel.
 
 ## Nachgelagerte Kostenprojektion

@@ -46,7 +46,9 @@ class CliEngineModeTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("1.0.0-rc.2", result.stdout)
+        self.assertEqual(result.stdout.strip(), f"{CLI.name} 1.0.0")
+        self.assertNotIn("1.0.0-rc.1", result.stdout)
+        self.assertNotIn("1.0.0-rc.2", result.stdout)
 
     def test_non_utf8_console_does_not_crash_on_explanation_symbols(self):
         result = subprocess.run(
@@ -73,10 +75,11 @@ class CliEngineModeTests(unittest.TestCase):
         result = self.run_cli("--engine", "graph-experimental")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn(
-            "WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für RC.2.",
+            "WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für 1.0.0.",
             result.stdout,
         )
         self.assertNotIn("Rechenquelle für RC.1", result.stdout)
+        self.assertNotIn("Rechenquelle für RC.2", result.stdout)
         self.assertIn("Rechenmodus: graph_experimental", result.stdout)
         self.assertIn("Ergebnisquelle: graph", result.stdout)
         self.assertIn("Fallback: nein", result.stdout)

@@ -66,7 +66,7 @@
   Baseline und darf die bestehende Datei nicht still überschreiben.
 - Ein Confidence-Prozentwert ist absichtlich nicht definiert; die aktuelle Evidenz wird als Zähler,
   Herkunft und Readiness-Kriterien dargestellt.
-- `graph_experimental` ist kein Default und vor 1.0 nicht empfohlen. Die Aktivierung gilt nur für
+- `graph_experimental` ist kein Default und in 1.0 nicht empfohlen. Die Aktivierung gilt nur für
   den aktuellen CLI-Aufruf; es gibt weder gespeicherte Aktivierung noch automatische Umschaltung.
 - In Accuracy 8 verwenden 80 von 2.090 Experimental-Requests Legacy-Fallback und 22 liefern kein
   darstellbares Ergebnis. 20 davon sind bewusst abgelehnte Input-Contract-Differenzen, zwei sind
