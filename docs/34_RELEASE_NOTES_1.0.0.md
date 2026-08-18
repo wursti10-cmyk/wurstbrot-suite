@@ -3,7 +3,9 @@
 ## Zweck
 
 Die Wurstbrot Suite berechnet für War Thunder einen Forschungsweg von Fahrzeug A zu Fahrzeug B
-einschließlich RP-, GE- und SL-Kosten. Datamine-Konvertierung, Validierung, Desktop-CLI/-GUI und eine
+einschließlich RP-, GE- und SL-Kosten. Im Rahmen des bestehenden 1.0-Vertrags kann `PlayerProgress`
+angeforschte RP, Forschungs- und Kaufstatus, vorhandene GE, Convertible RP sowie erfüllte Freischaltungen
+in dieser A→B-Berechnung berücksichtigen. Datamine-Konvertierung, Validierung, Desktop-CLI/-GUI und eine
 lokal arbeitende Browser-App gehören zum Produktumfang.
 
 ## Stable-Basis
