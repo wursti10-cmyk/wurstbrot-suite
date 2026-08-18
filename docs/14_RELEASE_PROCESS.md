@@ -2,8 +2,8 @@
 
 ## Versionierung
 
-Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Die lesbare
-Version `1.0.0-rc.2` wird in Python-Paketmetadaten PEP-440-konform als `1.0.0rc2` dargestellt.
+Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Die Stable-
+Version `1.0.0` wird in den Python-Paketmetadaten ebenfalls als `1.0.0` dargestellt.
 
 ## Vorbereitung
 
@@ -34,6 +34,13 @@ Vor einem RC-Review muss der versionierte Accuracy-10-Bericht folgende Fakten be
 `ready_for_rc_review=true` ist eine Prüfempfehlung, keine Engine-Umschaltung und keine
 Veröffentlichung. Ein RC braucht weiterhin einen eigenen freigegebenen Branch/PR und vollständige
 CI. Details und Befehle stehen in [Release Hardening](31_RELEASE_HARDENING.md).
+
+## Stable-1.0-Gate
+
+Die Stable-Aggregation übernimmt die fachlichen Accuracy-Gates und ergänzt Release Build, Clean
+Install, Artefaktprüfung, Prüfsummen und Versionskonsistenz. `ready_for_stable_1_0=true` bestätigt
+den geprüften Stable-Artefaktstand. `ready_for_default_use=false` bleibt davon getrennt und hält
+Graph Experimental außerhalb der Default-Nutzung.
 
 ## Veröffentlichung
 

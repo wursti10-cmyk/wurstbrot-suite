@@ -16,7 +16,7 @@ from .models import PlayerProgress, SolveOptions, VehicleProgress
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Wurstbrot GE Calculator 2.0 RC")
+    parser = argparse.ArgumentParser(description="Wurstbrot GE Calculator 2.0")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--database", required=True)
     parser.add_argument("--target", required=True)
@@ -124,7 +124,7 @@ def _execution_summary(execution: CalculationExecutionResult) -> str:
     fallback_reason = execution.fallback_reason.value if execution.fallback_reason else "keiner"
     lines = []
     if execution.experimental:
-        lines.append("WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für RC.2.")
+        lines.append("WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für 1.0.0.")
     lines.extend(
         (
             f"Rechenmodus: {execution.requested_mode.value}",

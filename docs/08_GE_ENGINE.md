@@ -106,7 +106,7 @@ verwenden diagnostizierten Legacy-Fallback und 22 besitzen kein darstellbares Er
 Sonderfällen verwenden 35 Graph und 14 wegen `partial` Legacy-Fallback.
 
 Desktop und Browser besitzen keine Graph-Runtime-Integration und bleiben vollständig auf Legacy.
-Graph Experimental ist vor 1.0 ausdrücklich nicht die empfohlene Rechenquelle.
+Graph Experimental ist in 1.0 ausdrücklich nicht die empfohlene Rechenquelle.
 
 ## Unabhängige Accuracy-Referenzen
 

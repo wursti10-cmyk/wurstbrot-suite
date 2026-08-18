@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0] - 2026-08-18
+
+### Changed
+
+- den von Mario abgenommenen RC.2 ohne fachliche Änderungen als Stable 1.0.0 vorbereitet
+- Produkt-, Paket-, CLI-, Desktop-, Browser-, Converter- und Sample-Version auf `1.0.0` gesetzt
+- Stable-Service-Worker-Cache sowie Build-, Acceptance- und Readiness-Metadaten ergänzt
+
+### Known limitations
+
+- Legacy bleibt Default; Graph Experimental bleibt ausdrücklich opt-in und
+  `ready_for_default_use=false`
+- 14 Hidden-Folder-Fälle bleiben bewusst `partial` mit sichtbarem Legacy-Fallback
+- Browser und Desktop besitzen keine Graph-Runtime
+- GE-Euro-Anzeige und automatische Online-Datamine-Aktualisierung bleiben Post-1.0-Themen
+
 ## [1.0.0-rc.2] - 2026-08-17
 
 ### Changed

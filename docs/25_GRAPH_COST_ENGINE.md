@@ -139,4 +139,4 @@ Mehrfachvorgänger-Heuristik vollständig gerechnet.
 
 Die `LegacyRankCompatibilityStrategy` kann weiterhin nur die Legacy-Fahrzeugmenge für den
 Dual-Vergleich liefern. Ihre Auswahl ist keine fachliche Graph-Optimizer-Regel. Ein Optimizer-Ausbau
-ist bis Version 1.0 kein Arbeitsziel.
+ist für Version 1.0 kein Arbeitsziel.

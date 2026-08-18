@@ -21,7 +21,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
       - run: python -m pip install -e .
-      - run: python -m compileall -q packages apps tests
+      - run: python -m compileall -q packages apps scripts tests
       - run: python run_tests.py
       - run: python tests/regression_matrix.py
       - run: python tests/accuracy_cross_python.py
@@ -131,13 +131,13 @@ jobs:
           name: sample-datamine-health
           path: build/health
       - run: |
-          python scripts/rc2_readiness.py \
+          python scripts/stable_readiness.py \
             --accuracy-report build/health/Accuracy_Release_Hardening_2.57.1.67.json \
-            --release-report build/release/Release_Build_Acceptance_1.0.0-rc.2.json \
+            --release-report build/release/Release_Build_Acceptance_1.0.0.json \
             --output build/release
       - uses: actions/upload-artifact@v4
         with:
-          name: wurstbrot-suite-1.0.0-rc.2
+          name: wurstbrot-suite-1.0.0
           path: |
             dist/*
             build/release/*

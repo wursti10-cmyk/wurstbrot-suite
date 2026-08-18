@@ -11,12 +11,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0-rc.2"
+VERSION = "1.0.0"
 BROWSER_NAME = f"wurstbrot-suite-{VERSION}-browser.zip"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build Wurstbrot Suite RC artifacts.")
+    parser = argparse.ArgumentParser(description="Build Wurstbrot Suite Stable artifacts.")
     parser.add_argument("--dist", type=Path, default=ROOT / "dist")
     parser.add_argument("--clean", action="store_true")
     return parser.parse_args()
@@ -57,7 +57,7 @@ def main() -> int:
         shutil.rmtree(dist)
     dist.mkdir(parents=True, exist_ok=True)
     if (ROOT / "VERSION").read_text(encoding="utf-8").strip() != VERSION:
-        raise SystemExit("VERSION is not the RC version")
+        raise SystemExit("VERSION is not the Stable version")
     subprocess.run(
         (sys.executable, "-m", "build", "--outdir", str(dist)),
         cwd=ROOT,

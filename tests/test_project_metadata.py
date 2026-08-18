@@ -11,8 +11,47 @@ import wurstbrot_core
 
 class ProjectMetadataTests(unittest.TestCase):
     def test_versions_match(self):
-        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "1.0.0-rc.2")
-        self.assertEqual(wurstbrot_core.__version__, "1.0.0-rc.2")
+        expected = "1.0.0"
+        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), expected)
+        self.assertEqual(wurstbrot_core.__version__, expected)
+        self.assertIn(
+            'version = "1.0.0"',
+            (ROOT / "pyproject.toml").read_text(encoding="utf-8"),
+        )
+        self.assertFalse((ROOT / "scripts" / "rc2_readiness.py").exists())
+        self.assertTrue((ROOT / "scripts" / "stable_readiness.py").is_file())
+
+        forbidden = (
+            "1.0.0-rc.1",
+            "1.0.0-rc.2",
+            "1.0.0rc1",
+            "1.0.0rc2",
+            "1.0.0-RC.1",
+            "1.0.0-RC.2",
+            "RC.1",
+            "RC.2",
+        )
+        current_files = (
+            ROOT / "README.md",
+            ROOT / "SECURITY.md",
+            ROOT / "apps" / "datamine-manager" / "wurstbrot_converter.py",
+            ROOT / "apps" / "ge-calculator" / "ge_calculator_gui.py",
+            ROOT / "apps" / "web" / "index.html",
+            ROOT / "apps" / "web" / "service-worker.js",
+            ROOT / "docs" / "00_PROJECT_CONTEXT.md",
+            ROOT / "docs" / "14_RELEASE_PROCESS.md",
+            ROOT / "docs" / "15_AI_CONTEXT.md",
+            ROOT / "docs" / "18_FAQ.md",
+            ROOT / "packages" / "core" / "wurstbrot_core" / "__init__.py",
+            ROOT / "packages" / "core" / "wurstbrot_core" / "cli.py",
+            ROOT / "scripts" / "build_release.py",
+            ROOT / "scripts" / "stable_readiness.py",
+            ROOT / ".github" / "workflows" / "ci.yml",
+        )
+        for path in current_files:
+            source = path.read_text(encoding="utf-8")
+            for marker in forbidden:
+                self.assertNotIn(marker, source, f"{path}: stale {marker}")
 
     def test_browser_entrypoints_exist(self):
         for path in ("index.html", "app.js", "solver.mjs", "manifest.webmanifest", "service-worker.js", "icon.svg"):
@@ -27,8 +66,8 @@ class ProjectMetadataTests(unittest.TestCase):
             first_line = launcher.read_text(encoding="utf-8").splitlines()[0]
             self.assertEqual(first_line.lower(), "@echo off", launcher)
 
-    def test_component_labels_use_rc_version(self):
-        expected = "1.0.0-rc.2"
+    def test_component_labels_use_stable_version(self):
+        expected = "1.0.0"
         converter = (ROOT / "apps" / "datamine-manager" / "wurstbrot_converter.py").read_text(
             encoding="utf-8"
         )
@@ -44,6 +83,9 @@ class ProjectMetadataTests(unittest.TestCase):
             )
         )
         self.assertEqual(sample["converter"]["version"], expected)
+        browser_index = (ROOT / "apps" / "web" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("<title>Wurstbrot GE Calculator 1.0.0</title>", browser_index)
+        self.assertIn("WURSTBROT SUITE · 1.0.0", browser_index)
 
     def test_browser_and_desktop_use_german_ui_labels(self):
         browser = (ROOT / "apps" / "web" / "app.js").read_text(encoding="utf-8")
@@ -76,7 +118,7 @@ class ProjectMetadataTests(unittest.TestCase):
         service_worker = (ROOT / "apps" / "web" / "service-worker.js").read_text(
             encoding="utf-8"
         )
-        self.assertIn('wurstbrot-1.0.0-rc.2-ui-labels', service_worker)
+        self.assertIn('wurstbrot-1.0.0-stable', service_worker)
 
 
 if __name__ == "__main__":

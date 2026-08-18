@@ -3,7 +3,7 @@
 ## Zweck dieses Dokuments
 
 Diese Developer Bible ist die technische Referenz für Menschen und KI-Agenten. Sie beschreibt den
-Release-Stand `1.0.0-rc.2`. Aussagen über spätere Funktionen sind ausdrücklich als Ziel markiert.
+Release-Stand `1.0.0`. Aussagen über spätere Funktionen sind ausdrücklich als Ziel markiert.
 
 ## Produkt
 
@@ -33,10 +33,10 @@ proprietären Spielassets benötigt oder hochgeladen.
 - drei CLI-Execution-Modes mit Legacy als Standard und Empfehlung; Graph Experimental ist nur pro
   Aufruf aktivierbar, verlangt `complete` + `exact_match` und besitzt sichtbaren Legacy-Fallback
 - Accuracy-10-Release-Gate mit 61 unabhängigen realen A→B-Abnahmen, 32 deterministischen
-  Boundary-Fällen und einem maschinenlesbaren RC-Readiness-Block
+  Boundary-Fällen und einer maschinenlesbaren Stable-Readiness-Bewertung
 - Desktop und Browser bleiben unverändert auf Legacy; keine Browser-Graph-Runtime
 
-Bis Version 1.0 ist der Produktumfang verbindlich auf Forschungsweg A → B und zugehörige RP-, GE-
+Der Produktumfang von Version 1.0 ist verbindlich auf Forschungsweg A → B und zugehörige RP-, GE-
 und SL-Kosten begrenzt. Neue Explain Engine, Dashboard, Project Intelligence, Optimizer-Ausbau und
 visueller Tech Tree sind in dieser Release-Linie keine Arbeitsziele.
 

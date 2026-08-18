@@ -5,11 +5,11 @@ import json
 from pathlib import Path
 
 
-VERSION = "1.0.0-rc.2"
+VERSION = "1.0.0"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Aggregate the RC.2 readiness status.")
+    parser = argparse.ArgumentParser(description="Aggregate the Stable 1.0 readiness status.")
     parser.add_argument("--accuracy-report", type=Path, required=True)
     parser.add_argument("--release-report", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -26,6 +26,7 @@ def main() -> int:
     release = load(args.release_report)
     readiness = accuracy["readiness"]
     evidence = accuracy["externalGateEvidence"]
+    productive = accuracy["productiveBehavior"]
     blockers = list(readiness["blockers"]) + list(release.get("blockers", []))
     exact_gates = {
         "acceptance": accuracy["realAcceptance"] == {**accuracy["realAcceptance"], "total": 61, "passed": 61, "failed": 0},
@@ -40,18 +41,32 @@ def main() -> int:
         "browser_hardening": readiness["browser_legacy_passed"] and accuracy["directAcceptance"]["passed"] == 44,
         "validator": readiness["validator_coverage"] == 100.0 and readiness["validator_implemented_rules"] == readiness["validator_tested_rules"] == 42,
         "health": evidence["healthErrors"] == 0,
+        "mismatches": readiness["mismatches"] == evidence["mismatches"] == 0,
+        "internal_errors": readiness["internal_errors"] == evidence["internalErrors"] == 0,
         "cross_python": readiness["cross_python_passed"],
         "release_build": release["release_build_passed"],
         "clean_install": release["clean_install_passed"],
         "build_acceptance": release["release_build_acceptance_passed"],
         "version": release["version"] == VERSION and release["version_consistent"],
+        "execution_contracts": (
+            accuracy["defaultExecutionMode"] == "legacy"
+            and accuracy["executionModes"] == ["legacy", "shadow", "graph_experimental"]
+            and productive["legacyRemainsDefault"]
+            and productive["browserRemainsLegacy"]
+            and productive["desktopRemainsLegacy"]
+            and productive["guiRemainsLegacy"]
+            and not productive["readyForDefaultUse"]
+            and not productive["solverRulesChanged"]
+            and not productive["folderHeuristicsAdded"]
+            and not readiness["ready_for_default_use"]
+        ),
     }
     blockers.extend(f"{name}_failed" for name, passed in exact_gates.items() if not passed)
     blockers = list(dict.fromkeys(blockers))
     payload = {
         "schemaVersion": 1,
         "version": VERSION,
-        "ready_for_rc2": not blockers,
+        "ready_for_stable_1_0": not blockers,
         "release_blockers": blockers,
         "mismatches": readiness["mismatches"],
         "internal_errors": readiness["internal_errors"],
@@ -82,10 +97,10 @@ def main() -> int:
         "gates": exact_gates,
     }
     args.output.mkdir(parents=True, exist_ok=True)
-    path = args.output / "RC2_Readiness_1.0.0-rc.2.json"
+    path = args.output / "Stable_Readiness_1.0.0.json"
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2, sort_keys=True))
-    return 0 if payload["ready_for_rc2"] else 1
+    return 0 if payload["ready_for_stable_1_0"] else 1
 
 
 if __name__ == "__main__":
