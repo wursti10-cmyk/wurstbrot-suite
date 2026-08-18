@@ -1,0 +1,65 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0e12;
+  --panel: #151b22;
+  --panel-2: #1d252e;
+  --line: #34404c;
+  --text: #f4f2ea;
+  --muted: #a9b1ba;
+  --amber: #efb73e;
+  --red: #d85b55;
+  --blue: #61a8d8;
+  --green: #69c78e;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); }
+header, main, footer { width: min(1520px, calc(100% - 32px)); margin: auto; }
+header { display: flex; justify-content: space-between; gap: 24px; padding: 40px 0 22px; }
+h1 { margin: 4px 0 6px; font-size: clamp(2rem, 4vw, 3.8rem); }
+.eyebrow { color: var(--amber); font-weight: 800; letter-spacing: .12em; font-size: .75rem; }
+.intro, .foundation-note, footer { color: var(--muted); }
+.status { align-self: start; border: 1px solid #36654a; background: #13251b; color: #8de0ad; border-radius: 999px; padding: 9px 14px; }
+.contract-panel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.contract-panel div { padding: 14px 18px; border-right: 1px solid var(--line); }
+.contract-panel div:last-child { border: 0; }
+.contract-panel span { display: block; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+.contract-panel strong { display: block; margin-top: 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 9px; padding: 18px 0 4px; }
+.legend span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; font-size: .78rem; }
+.legend-start { color: var(--blue); }
+.legend-target { color: var(--red); }
+.legend-required { color: var(--amber); }
+.legend-rank { color: var(--green); }
+.legend-folder { border-style: dashed !important; }
+.legend-hidden { opacity: .65; }
+.foundation-note { margin: 10px 0 16px; font-size: .88rem; }
+.tree-viewport { overflow: auto; border: 1px solid var(--line); border-radius: 16px; background: radial-gradient(circle at 50% 0, #25303a 0, transparent 48rem), var(--panel); }
+.tree { position: relative; min-width: 1340px; padding: 20px; }
+#connections { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1; }
+.rank-band { position: relative; z-index: 2; display: grid; grid-template-columns: 72px 1fr; gap: 12px; padding: 16px 0; border-bottom: 1px solid #2c3640; }
+.rank-band:last-child { border-bottom: 0; }
+.rank-title { color: var(--amber); font-weight: 800; font-size: .85rem; padding-top: 10px; }
+.rank-grid { display: grid; grid-template-columns: repeat(var(--columns), minmax(150px, 1fr)); gap: 18px; align-items: start; }
+.tree-column { display: flex; flex-direction: column; gap: 9px; min-height: 54px; }
+.vehicle { position: relative; min-height: 54px; padding: 9px 10px; border: 1px solid #46515c; border-radius: 8px; background: var(--panel-2); box-shadow: 0 8px 18px #0004; font-size: .78rem; }
+.vehicle strong { display: block; font-size: .84rem; line-height: 1.2; }
+.vehicle small { display: block; color: var(--muted); margin-top: 4px; }
+.vehicle.folder-member { border-style: dashed; }
+.vehicle.required-direct-path { border-color: var(--amber); box-shadow: 0 0 0 1px #efb73e55, 0 8px 18px #0005; }
+.vehicle.required-rank-unlock { border-color: var(--green); }
+.vehicle.start-a::before, .vehicle.target-b::before { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; color: #071015; font-weight: 900; }
+.vehicle.start-a::before { content: "A"; background: var(--blue); }
+.vehicle.target-b::before { content: "B"; background: var(--red); color: white; }
+.vehicle.hidden-research, .vehicle.partial-unresolved { opacity: .55; background: repeating-linear-gradient(135deg, #1d252e, #1d252e 8px, #252e38 8px, #252e38 16px); }
+.edge { stroke: #65717d; stroke-width: 1.5; fill: none; opacity: .6; }
+.edge.required { stroke: var(--amber); stroke-width: 3; opacity: 1; }
+footer { padding: 22px 0 40px; text-align: center; font-size: .82rem; }
+@media (max-width: 780px) {
+  header { display: block; padding-top: 24px; }
+  .status { display: inline-block; margin-top: 8px; }
+  .contract-panel { grid-template-columns: 1fr 1fr; }
+  .contract-panel div:nth-child(2) { border-right: 0; }
+  .contract-panel div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+}

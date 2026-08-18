@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "contractId": "wurstbrot-visual-tech-tree-foundation-v1",
+  "status": "foundation",
+  "scope": {
+    "productiveBrowserReplacement": false,
+    "solverSemanticsChanged": false,
+    "folderSemanticsChanged": false,
+    "datamineSemanticsChanged": false,
+    "supportedDataset": "normalized regular research vehicles",
+    "knownExclusions": [
+      "premium and special vehicles filtered by the existing converter",
+      "copyrighted War Thunder interface assets",
+      "PlayerProgress editing UI",
+      "planning or recommendation features"
+    ]
+  },
+  "evidenceClasses": {
+    "A": "direct datamine or normalized source fact",
+    "B": "deterministic derivation from source facts",
+    "C": "heuristic; forbidden for authoritative layout",
+    "D": "not determinable; must remain visibly unresolved"
+  },
+  "layout": {
+    "treeKey": ["countryId", "branchId"],
+    "flowDirection": "top_to_bottom",
+    "nodeIdentity": "vehicleId",
+    "nodeFields": {
+      "countryId": {"evidenceClass": "A", "required": true},
+      "branchId": {
+        "evidenceClass": "A",
+        "required": true,
+        "meaning": "vehicle tree type, never a visible sub-line or column"
+      },
+      "rank": {"evidenceClass": "A", "required": true},
+      "column": {
+        "evidenceClass": "B",
+        "required": true,
+        "derivation": "zero-based source shop range column index"
+      },
+      "order": {
+        "evidenceClass": "B",
+        "required": true,
+        "derivation": "source shop order within the column"
+      },
+      "visualSlot": {
+        "evidenceClass": "B",
+        "required": true,
+        "derivation": "rank/column-local order then vehicleId"
+      },
+      "predecessorId": {
+        "evidenceClass": "B",
+        "required": true,
+        "rule": "copy normalized predecessor or null; never infer an alternative"
+      },
+      "successorIds": {
+        "evidenceClass": "B",
+        "required": true,
+        "rule": "reverse index of exact predecessor edges"
+      },
+      "groupId": {"evidenceClass": "A", "required": true},
+      "groupIndex": {
+        "evidenceClass": "B",
+        "required": true,
+        "meaning": "display order only; never acquisition semantics"
+      },
+      "hiddenResearch": {"evidenceClass": "A", "required": true},
+      "reqUnlock": {
+        "evidenceClass": "A",
+        "required": true,
+        "rule": "display evidence only; never convert to a vehicle edge"
+      }
+    },
+    "sparseNonAuthoritativeFields": {
+      "rankPosXY": {
+        "evidenceClass": "D",
+        "reason": "present only for a subset of helicopter records and absent from the core model"
+      },
+      "fakeReqUnitPosXY": {
+        "evidenceClass": "D",
+        "reason": "sparse helicopter metadata without proven general layout semantics"
+      }
+    }
+  },
+  "familiarity": {
+    "required": [
+      "nation and vehicle-type tree selection",
+      "horizontal rank bands",
+      "stable vertical source columns",
+      "top-to-bottom predecessor connections",
+      "visibly grouped folder members",
+      "visible hidden or unresolved state",
+      "separate Coastal and Bluewater tree types"
+    ],
+    "forbiddenClaims": [
+      "pixel-identical War Thunder layout",
+      "reconstructed premium or special positions",
+      "hidden-folder acquisition semantics",
+      "a complete path when upstream status is partial or unresolved"
+    ],
+    "copyright": {
+      "warThunderAssetsIncluded": false,
+      "implementation": "original HTML, CSS and text-only nodes"
+    }
+  },
+  "highlight": {
+    "inputAuthority": "existing user-visible SolveResult",
+    "nodeStates": [
+      "start_a",
+      "target_b",
+      "required_direct_path",
+      "required_rank_unlock",
+      "required_start_vehicle",
+      "not_required",
+      "folder_member",
+      "hidden_research",
+      "partial_unresolved"
+    ],
+    "requiredConnectionRule": "highlight only an exact predecessor edge whose source is A or a direct-path solver line and whose target is a direct-path solver line",
+    "fallbackRule": "preserve user-result source and fallback reason; fallback or unresolved evidence forces complete=false",
+    "partialRule": "partial or unresolved inputs remain visible and can never be promoted to complete by the layout layer",
+    "totalsRule": "the layout layer never calculates or changes RP, GE or SL"
+  },
+  "fullDatasetInvariants": [
+    "deterministic canonical fingerprint",
+    "every normalized vehicle occurs in exactly one layout",
+    "node nation, type and rank equal the normalized database",
+    "column and order are stable",
+    "every present folder member and every declared missing member is accounted for",
+    "edges equal normalized predecessor relationships exactly",
+    "no invented successors",
+    "no cycles",
+    "hidden and unresolved cases remain visible",
+    "highlight node membership equals SolveResult vehicle lines",
+    "repeated builds are byte-equivalent"
+  ]
+}

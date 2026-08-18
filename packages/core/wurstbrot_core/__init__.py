@@ -130,6 +130,18 @@ from .research_graph import (
     ResearchGraphBuilder,
 )
 from .solver import ResearchSolver
+from .visual_tree_layout import (
+    FIELD_EVIDENCE,
+    HIGHLIGHT_CONTRACT_VERSION,
+    LAYOUT_CONTRACT_VERSION,
+    LayoutEdge,
+    LayoutFolder,
+    LayoutNode,
+    VisualTreeHighlight,
+    VisualTreeLayout,
+    build_visual_tree_highlight,
+    build_visual_tree_layout,
+)
 
 __all__ = [
     "VehicleDatabase",
@@ -241,5 +253,15 @@ __all__ = [
     "SolveOptions",
     "SolveResult",
     "ResearchSolver",
+    "LAYOUT_CONTRACT_VERSION",
+    "HIGHLIGHT_CONTRACT_VERSION",
+    "FIELD_EVIDENCE",
+    "LayoutNode",
+    "LayoutEdge",
+    "LayoutFolder",
+    "VisualTreeLayout",
+    "VisualTreeHighlight",
+    "build_visual_tree_layout",
+    "build_visual_tree_highlight",
     "__version__",
 ]

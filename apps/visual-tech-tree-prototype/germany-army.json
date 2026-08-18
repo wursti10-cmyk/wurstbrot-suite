@@ -1,0 +1,3986 @@
+{
+  "prototype": {
+    "status": "isolated_foundation",
+    "productiveBrowserReplacement": false,
+    "countryLabel": "Deutschland",
+    "branchLabel": "Panzer",
+    "startLabel": "Tiger H1",
+    "targetLabel": "Leopard 2A7V",
+    "generatedBy": "scripts/build_visual_tree_prototype.py"
+  },
+  "layout": {
+    "contract_version": "visual-tech-tree-layout-v1",
+    "game_version": "2.57.1.67",
+    "country_id": "country_germany",
+    "branch_id": "army",
+    "flow_direction": "top_to_bottom",
+    "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "columns": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "nodes": [
+      {
+        "vehicle_id": "germ_pzkpfw_35t",
+        "name": "Pz.35(t)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 0,
+        "order": 1.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_pzkpfw_38t_ausf_A"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": true,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_38t_ausf_A",
+        "name": "Pz.38(t) A",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 0,
+        "order": 2.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_35t",
+        "successor_ids": [
+          "germ_pzkpfw_38t_ausf_F"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_38t_ausf_F",
+        "name": "Pz.38(t) F",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 0,
+        "order": 3.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_pzkpfw_38t_ausf_A",
+        "successor_ids": [
+          "germ_pzkpfw_38t_na"
+        ],
+        "group_id": "germ_pzkpfw_38t_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_38t_na",
+        "name": "Pz.38(t) n.A.",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 0,
+        "order": 3.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_pzkpfw_38t_ausf_F",
+        "successor_ids": [],
+        "group_id": "germ_pzkpfw_38t_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_E",
+        "name": "Pz.III E",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 1,
+        "order": 1.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_pzkpfw_III_ausf_B",
+          "germ_pzkpfw_III_ausf_F"
+        ],
+        "group_id": "germ_prewar_pz_III_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": true,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_B",
+        "name": "Pz.III B",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 1,
+        "order": 1.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_III_ausf_E",
+        "successor_ids": [],
+        "group_id": "germ_prewar_pz_III_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": true,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_F",
+        "name": "Pz.III F",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 1,
+        "order": 2.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_pzkpfw_III_ausf_E",
+        "successor_ids": [
+          "germ_pzkpfw_III_ausf_J_L42"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_J_L42",
+        "name": "Pz.III J",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 1,
+        "order": 3.0,
+        "visual_slot": 3,
+        "predecessor_id": "germ_pzkpfw_III_ausf_F",
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_C",
+        "name": "Pz.IV C",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 2,
+        "order": 1.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_pzkpfw_II_ausf_C"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_II_ausf_C",
+        "name": "Pz.II C",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 2,
+        "order": 2.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_IV_ausf_C",
+        "successor_ids": [
+          "germ_pzkpfw_II_ausf_F",
+          "germ_pzkpfw_IV_ausf_E"
+        ],
+        "group_id": "germ_pzkpfw_II_early_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_II_ausf_F",
+        "name": "Pz.II F",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 2,
+        "order": 2.1,
+        "visual_slot": 2,
+        "predecessor_id": "germ_pzkpfw_II_ausf_C",
+        "successor_ids": [],
+        "group_id": "germ_pzkpfw_II_early_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_E",
+        "name": "Pz.IV E",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 2,
+        "order": 3.0,
+        "visual_slot": 3,
+        "predecessor_id": "germ_pzkpfw_II_ausf_C",
+        "successor_ids": [
+          "germ_pzkpfw_IV_ausf_F"
+        ],
+        "group_id": "germ_pzkpfw_4_early_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_F",
+        "name": "Pz.IV F1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 2,
+        "order": 3.1,
+        "visual_slot": 4,
+        "predecessor_id": "germ_pzkpfw_IV_ausf_E",
+        "successor_ids": [],
+        "group_id": "germ_pzkpfw_4_early_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_I_ausf_A",
+        "name": "Flakpanzer I",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 3,
+        "order": 0.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_flakpanzer_38t_Gepard",
+          "germ_sdkfz_222"
+        ],
+        "group_id": "germ_flakpanzer_1_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_38t_Gepard",
+        "name": "Flakpanzer 38",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 3,
+        "order": 0.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_flakpanzer_I_ausf_A",
+        "successor_ids": [],
+        "group_id": "germ_flakpanzer_1_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_222",
+        "name": "Sd.Kfz. 222",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 3,
+        "order": 1.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_flakpanzer_I_ausf_A",
+        "successor_ids": [
+          "germ_sdkfz_6_2_flak36"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_6_2_flak36",
+        "name": "Sd.Kfz. 6/2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 3,
+        "order": 2.0,
+        "visual_slot": 3,
+        "predecessor_id": "germ_sdkfz_222",
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sturmpanzer_II",
+        "name": "15cm sIG 33 B Sfl",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 4,
+        "order": 0.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_sdkfz_221_s_pz_b_41",
+          "germ_panzerjager_1"
+        ],
+        "group_id": "germ_sturmpanzer_221_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_221_s_pz_b_41",
+        "name": "Sd.Kfz.221 (s.Pz.B.41)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 4,
+        "order": 0.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_sturmpanzer_II",
+        "successor_ids": [],
+        "group_id": "germ_sturmpanzer_221_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_panzerjager_1",
+        "name": "Panzerjäger I",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 4,
+        "order": 1.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_sturmpanzer_II",
+        "successor_ids": [
+          "germ_sdkfz_251_9",
+          "germ_pzkpfw_38t_Marder_III"
+        ],
+        "group_id": "germ_panzerjager_251_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_251_9",
+        "name": "Sd.Kfz. 251/9",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 4,
+        "order": 1.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_panzerjager_1",
+        "successor_ids": [],
+        "group_id": "germ_panzerjager_251_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_38t_Marder_III",
+        "name": "Marder III",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 4,
+        "order": 2.0,
+        "visual_slot": 4,
+        "predecessor_id": "germ_panzerjager_1",
+        "successor_ids": [
+          "germ_stug_III_ausf_A"
+        ],
+        "group_id": "germ_marder_stug_a_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_stug_III_ausf_A",
+        "name": "StuG III A",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 1,
+        "column": 4,
+        "order": 2.1,
+        "visual_slot": 5,
+        "predecessor_id": "germ_pzkpfw_38t_Marder_III",
+        "successor_ids": [],
+        "group_id": "germ_marder_stug_a_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_amd_35_kwk39",
+        "name": "P204(f) KwK 39/1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 0,
+        "order": 4.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_sdkfz_234_2"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_234_2",
+        "name": "Sd.Kfz.234/2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 0,
+        "order": 5.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_amd_35_kwk39",
+        "successor_ids": [
+          "germ_pzsfl_IVa_dickermax"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzsfl_IVa_dickermax",
+        "name": "Dicker Max",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 0,
+        "order": 6.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_sdkfz_234_2",
+        "successor_ids": [
+          "germ_pzsflk40_sturer_emil",
+          "germ_sdkfz_9_flak37"
+        ],
+        "group_id": "germ_dicker_sturer_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzsflk40_sturer_emil",
+        "name": "Sturer Emil",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 0,
+        "order": 6.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_pzsfl_IVa_dickermax",
+        "successor_ids": [],
+        "group_id": "germ_dicker_sturer_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_J",
+        "name": "Pz.III J1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 1,
+        "order": 4.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_pzkpfw_III_ausf_L"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_L",
+        "name": "Pz.III L",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 1,
+        "order": 5.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_III_ausf_J",
+        "successor_ids": [
+          "germ_pzkpfw_III_ausf_M",
+          "germ_pzkpfw_VI_ausf_h1_tiger"
+        ],
+        "group_id": "germ_pzkpfw_III_late_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_III_ausf_M",
+        "name": "Pz.III M",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 1,
+        "order": 5.1,
+        "visual_slot": 2,
+        "predecessor_id": "germ_pzkpfw_III_ausf_L",
+        "successor_ids": [],
+        "group_id": "germ_pzkpfw_III_late_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_F2",
+        "name": "Pz.IV F2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 2,
+        "order": 4.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_pzkpfw_IV_ausf_G",
+          "germ_pzkpfw_IV_ausf_H"
+        ],
+        "group_id": "germ_pz_4_fg_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_G",
+        "name": "Pz.IV G",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 2,
+        "order": 4.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_IV_ausf_F2",
+        "successor_ids": [],
+        "group_id": "germ_pz_4_fg_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_H",
+        "name": "Pz.IV H",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 2,
+        "order": 5.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_pzkpfw_IV_ausf_F2",
+        "successor_ids": [
+          "germ_pzkpfw_IV_ausf_J",
+          "germ_vk_3002m"
+        ],
+        "group_id": "germ_pz_4_late_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_IV_ausf_J",
+        "name": "Pz.IV J",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 2,
+        "order": 5.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_pzkpfw_IV_ausf_H",
+        "successor_ids": [],
+        "group_id": "germ_pz_4_late_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_251_21",
+        "name": "Sd.Kfz. 251/21",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 3,
+        "order": 3.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_flakpanzer_IV_Ostwind"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_38t_Marder_III_ausf_H",
+        "name": "Marder III H",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 4,
+        "order": 3.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [
+          "germ_stuh_III_ausf_G",
+          "germ_hummel"
+        ],
+        "group_id": "germ_marder_stuh_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_stuh_III_ausf_G",
+        "name": "StuH 42 G",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 4,
+        "order": 3.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_38t_Marder_III_ausf_H",
+        "successor_ids": [
+          "germ_stug_III_ausf_F"
+        ],
+        "group_id": "germ_marder_stuh_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_stug_III_ausf_F",
+        "name": "StuG III F",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 4,
+        "order": 3.2,
+        "visual_slot": 2,
+        "predecessor_id": "germ_stuh_III_ausf_G",
+        "successor_ids": [],
+        "group_id": "germ_marder_stuh_group",
+        "group_index": 2,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_hummel",
+        "name": "Hummel",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 4,
+        "order": 4.0,
+        "visual_slot": 3,
+        "predecessor_id": "germ_pzkpfw_38t_Marder_III_ausf_H",
+        "successor_ids": [
+          "germ_stug_III_ausf_G"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_stug_III_ausf_G",
+        "name": "StuG III G",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 2,
+        "column": 4,
+        "order": 5.0,
+        "visual_slot": 4,
+        "predecessor_id": "germ_hummel",
+        "successor_ids": [
+          "germ_m44"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sdkfz_9_flak37",
+        "name": "8,8 cm Flak 37 Sfl.",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 0,
+        "order": 7.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzsfl_IVa_dickermax",
+        "successor_ids": [
+          "germ_panzerjager_nashorn"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_panzerjager_nashorn",
+        "name": "Nashorn",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 0,
+        "order": 8.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_sdkfz_9_flak37",
+        "successor_ids": [
+          "germ_waffentrager_krupp_steyr",
+          "germ_m109g"
+        ],
+        "group_id": "germ_waffentrager_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_waffentrager_krupp_steyr",
+        "name": "Waffenträger",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 0,
+        "order": 8.1,
+        "visual_slot": 2,
+        "predecessor_id": "germ_panzerjager_nashorn",
+        "successor_ids": [],
+        "group_id": "germ_waffentrager_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_VI_ausf_h1_tiger",
+        "name": "Tiger H1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 1,
+        "order": 6.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzkpfw_III_ausf_L",
+        "successor_ids": [
+          "germ_pzkpfw_VI_ausf_e_tiger"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_VI_ausf_e_tiger",
+        "name": "Tiger E",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 1,
+        "order": 7.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_VI_ausf_h1_tiger",
+        "successor_ids": [
+          "germ_pzkpfw_VI_ausf_b_tiger_IIp"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_vk_3002m",
+        "name": "VK 30.02 (M)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 2,
+        "order": 6.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzkpfw_IV_ausf_H",
+        "successor_ids": [
+          "germ_pzkpfw_V_ausf_d_panther"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_V_ausf_d_panther",
+        "name": "Panther D",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 2,
+        "order": 7.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_vk_3002m",
+        "successor_ids": [
+          "germ_pzkpfw_V_ausf_a_panther"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_IV_Ostwind",
+        "name": "Ostwind",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 3,
+        "order": 4.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_sdkfz_251_21",
+        "successor_ids": [
+          "germ_flakpanzer_IV_Wirbelwind",
+          "germ_flakpanzer_IV_Ostwind_2"
+        ],
+        "group_id": "germ_flakpanzer_4_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_IV_Wirbelwind",
+        "name": "Wirbelwind",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 3,
+        "order": 4.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_flakpanzer_IV_Ostwind",
+        "successor_ids": [],
+        "group_id": "germ_flakpanzer_4_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_IV_Ostwind_2",
+        "name": "Ostwind II",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 3,
+        "order": 5.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_flakpanzer_IV_Ostwind",
+        "successor_ids": [
+          "germ_flakpanzer_zerstorer_45"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_m44",
+        "name": "M44",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 4,
+        "order": 6.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_stug_III_ausf_G",
+        "successor_ids": [
+          "germ_m55",
+          "germ_jgdpz_IV_L48"
+        ],
+        "group_id": "germ_m44_55_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_m55",
+        "name": "◄M55",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 4,
+        "order": 6.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_m44",
+        "successor_ids": [],
+        "group_id": "germ_m44_55_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_jgdpz_IV_L48",
+        "name": "Jagdpanzer IV",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 4,
+        "order": 7.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_m44",
+        "successor_ids": [
+          "germ_jgdpz_38t",
+          "germ_pz_IV_L70"
+        ],
+        "group_id": "germ_jagdpanzer_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_jgdpz_38t",
+        "name": "Jagdpanzer 38(t)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 4,
+        "order": 7.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_jgdpz_IV_L48",
+        "successor_ids": [],
+        "group_id": "germ_jagdpanzer_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pz_IV_L70",
+        "name": "Panzer IV/70 (V)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 3,
+        "column": 4,
+        "order": 8.0,
+        "visual_slot": 4,
+        "predecessor_id": "germ_jgdpz_IV_L48",
+        "successor_ids": [
+          "germ_panzerjager_panther"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_m109g",
+        "name": "M109G",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 0,
+        "order": 9.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_panzerjager_nashorn",
+        "successor_ids": [
+          "germ_le_kpz_m41"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_le_kpz_m41",
+        "name": "leKPz M41",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 0,
+        "order": 10.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_m109g",
+        "successor_ids": [
+          "germ_marder_1a1"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIp",
+        "name": "Tiger II (Nr.1-50)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 1,
+        "order": 8.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzkpfw_VI_ausf_e_tiger",
+        "successor_ids": [
+          "germ_pzkpfw_VI_ausf_b_tiger_IIh"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIh",
+        "name": "Tiger II",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 1,
+        "order": 9.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_VI_ausf_b_tiger_IIp",
+        "successor_ids": [
+          "germ_mkpz_m48a2c"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_V_ausf_a_panther",
+        "name": "Panther A",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 2,
+        "order": 8.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzkpfw_V_ausf_d_panther",
+        "successor_ids": [
+          "germ_pzkpfw_V_ausf_g_panther",
+          "germ_leopard_I"
+        ],
+        "group_id": "germ_pzkpfw_V_a_f_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_V_ausf_g_panther",
+        "name": "Panther G",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 2,
+        "order": 8.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzkpfw_V_ausf_a_panther",
+        "successor_ids": [
+          "germ_pzkpfw_V_ausf_f_panther"
+        ],
+        "group_id": "germ_pzkpfw_V_a_f_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_V_ausf_f_panther",
+        "name": "Panther F",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 2,
+        "order": 8.2,
+        "visual_slot": 2,
+        "predecessor_id": "germ_pzkpfw_V_ausf_g_panther",
+        "successor_ids": [],
+        "group_id": "germ_pzkpfw_V_a_f_group",
+        "group_index": 2,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_zerstorer_45",
+        "name": "Zerstörer 45",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 3,
+        "order": 6.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_flakpanzer_IV_Ostwind_2",
+        "successor_ids": [
+          "germ_flakpanzer_IV_Kugelblitz"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_IV_Kugelblitz",
+        "name": "Kugelblitz",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 3,
+        "order": 7.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_flakpanzer_zerstorer_45",
+        "successor_ids": [
+          "germ_wiesel_1_mk20"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_panzerjager_panther",
+        "name": "Jagdpanther G1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 4,
+        "order": 9.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pz_IV_L70",
+        "successor_ids": [
+          "germ_kanonenjagdpanzer",
+          "germ_panzerjager_tiger_P_ferdinand"
+        ],
+        "group_id": "germ_jagdpanther_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_kanonenjagdpanzer",
+        "name": "JPz 4-5",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 4,
+        "order": 9.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_panzerjager_panther",
+        "successor_ids": [],
+        "group_id": "germ_jagdpanther_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_panzerjager_tiger_P_ferdinand",
+        "name": "Ferdinand",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 4,
+        "order": 10.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_panzerjager_panther",
+        "successor_ids": [
+          "germ_panzerjager_tiger",
+          "germ_pzh_2000"
+        ],
+        "group_id": "germ_panzerjager_tiger_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_panzerjager_tiger",
+        "name": "Jagdtiger",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 4,
+        "order": 10.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_panzerjager_tiger_P_ferdinand",
+        "successor_ids": [],
+        "group_id": "germ_panzerjager_tiger_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_panther_II",
+        "name": "Panther II",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 5,
+        "order": 20.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": true,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpanzer_V_Coelian",
+        "name": "Flakpanzer 341",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 6,
+        "order": 16.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": true,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIh_kwk46",
+        "name": "10,5cm Tiger II",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 4,
+        "column": 6,
+        "order": 19.0,
+        "visual_slot": 1,
+        "predecessor_id": null,
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": true,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_marder_1a1",
+        "name": "Marder 1A1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 0,
+        "order": 11.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_le_kpz_m41",
+        "successor_ids": [
+          "germ_bmp_1_ddr",
+          "germ_marder_1a3"
+        ],
+        "group_id": "germ_marder_bmp_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_bmp_1_ddr",
+        "name": "SPz BMP-1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 0,
+        "order": 11.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_marder_1a1",
+        "successor_ids": [],
+        "group_id": "germ_marder_bmp_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_marder_1a3",
+        "name": "Marder 1A3",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 0,
+        "order": 12.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_marder_1a1",
+        "successor_ids": [
+          "germ_marder_df_105",
+          "germ_thyssen_henschel_tam"
+        ],
+        "group_id": "germ_marder_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_marder_df_105",
+        "name": "DF105",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 0,
+        "order": 12.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_marder_1a3",
+        "successor_ids": [],
+        "group_id": "germ_marder_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_mkpz_m48a2c",
+        "name": "M48A2 C",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 1,
+        "order": 10.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzkpfw_VI_ausf_b_tiger_IIh",
+        "successor_ids": [
+          "germ_mkpz_m48a2ga2"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_I",
+        "name": "Leopard I",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 2,
+        "order": 9.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_pzkpfw_V_ausf_a_panther",
+        "successor_ids": [
+          "germ_leopard_I_a1"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_wiesel_1_mk20",
+        "name": "Wiesel 1A4",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 3,
+        "order": 8.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_flakpanzer_IV_Kugelblitz",
+        "successor_ids": [
+          "germ_sppz2_luchs_a2"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sppz2_luchs_a2",
+        "name": "Luchs A2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 3,
+        "order": 9.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_wiesel_1_mk20",
+        "successor_ids": [
+          "germ_flakpz_I_Gepard"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzh_2000",
+        "name": "PzH 2000",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 4,
+        "order": 11.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_panzerjager_tiger_P_ferdinand",
+        "successor_ids": [
+          "germ_spz_oerlikon_raketenautomat"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_spz_oerlikon_raketenautomat",
+        "name": "Raketenautomat",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 4,
+        "order": 12.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_pzh_2000",
+        "successor_ids": [
+          "germ_raketenjagdpanzer_2",
+          "germ_raketenjagdpanzer_2_hot"
+        ],
+        "group_id": "germ_raketen_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_raketenjagdpanzer_2",
+        "name": "RakJPz 2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 4,
+        "order": 12.1,
+        "visual_slot": 2,
+        "predecessor_id": "germ_spz_oerlikon_raketenautomat",
+        "successor_ids": [],
+        "group_id": "germ_raketen_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_pzkpfw_Maus",
+        "name": "Maus",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 5,
+        "column": 6,
+        "order": 22.0,
+        "visual_slot": 0,
+        "predecessor_id": null,
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": true,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_thyssen_henschel_tam",
+        "name": "TAM",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 0,
+        "order": 13.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_marder_1a3",
+        "successor_ids": [
+          "germ_sk105_a2",
+          "germ_begleitpanzer_57"
+        ],
+        "group_id": "germ_tam_sk_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_sk105_a2",
+        "name": "JaPz.K A2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 0,
+        "order": 13.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_thyssen_henschel_tam",
+        "successor_ids": [],
+        "group_id": "germ_tam_sk_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_begleitpanzer_57",
+        "name": "Begleitpanzer 57",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 0,
+        "order": 14.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_thyssen_henschel_tam",
+        "successor_ids": [
+          "germ_radpanzer_90"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_mkpz_m48a2ga2",
+        "name": "M48A2 G A2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 1,
+        "order": 11.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_mkpz_m48a2c",
+        "successor_ids": [
+          "germ_kpz_70"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_kpz_70",
+        "name": "KPz-70",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 1,
+        "order": 12.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_mkpz_m48a2ga2",
+        "successor_ids": [
+          "germ_mkpz_super_m48",
+          "germ_kpz_t72m1"
+        ],
+        "group_id": "germ_kpz_super_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_mkpz_super_m48",
+        "name": "M48 Super",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 1,
+        "order": 12.1,
+        "visual_slot": 2,
+        "predecessor_id": "germ_kpz_70",
+        "successor_ids": [],
+        "group_id": "germ_kpz_super_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_kpz_t72m1",
+        "name": "◊T-72M1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 1,
+        "order": 13.0,
+        "visual_slot": 3,
+        "predecessor_id": "germ_kpz_70",
+        "successor_ids": [
+          "germ_leopard_2k"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_I_a1",
+        "name": "Leopard A1A1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 2,
+        "order": 10.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_leopard_I",
+        "successor_ids": [
+          "germ_leopard_1a5",
+          "germ_leopard_2a4"
+        ],
+        "group_id": "germ_leopard_1_late_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_1a5",
+        "name": "Leopard 1A5",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 2,
+        "order": 10.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_leopard_I_a1",
+        "successor_ids": [],
+        "group_id": "germ_leopard_1_late_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpz_I_Gepard",
+        "name": "Gepard",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 3,
+        "order": 10.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_sppz2_luchs_a2",
+        "successor_ids": [
+          "germ_wiesel_2_adwc"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_wiesel_2_adwc",
+        "name": "Ozelot",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 3,
+        "order": 11.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_flakpz_I_Gepard",
+        "successor_ids": [
+          "germ_flakpz_1a2_Gepard",
+          "germ_flarakpz_1"
+        ],
+        "group_id": "germ_wiesel_gepard_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flakpz_1a2_Gepard",
+        "name": "Gepard 1A2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 3,
+        "order": 11.1,
+        "visual_slot": 2,
+        "predecessor_id": "germ_wiesel_2_adwc",
+        "successor_ids": [],
+        "group_id": "germ_wiesel_gepard_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_raketenjagdpanzer_2_hot",
+        "name": "RakJPz 2 (HOT)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 4,
+        "order": 13.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_spz_oerlikon_raketenautomat",
+        "successor_ids": [
+          "germ_jaguar_2"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_jaguar_2",
+        "name": "Jaguar 2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 6,
+        "column": 4,
+        "order": 14.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_raketenjagdpanzer_2_hot",
+        "successor_ids": [
+          "germ_wiesel_1_tow"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_radpanzer_90",
+        "name": "Radkampfwagen 90",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 0,
+        "order": 15.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_begleitpanzer_57",
+        "successor_ids": [
+          "germ_thyssen_henschel_tam_2c",
+          "germ_schutzenpanzer_puma"
+        ],
+        "group_id": "germ_radpanzer_tam_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_thyssen_henschel_tam_2c",
+        "name": "TAM 2C",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 0,
+        "order": 15.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_radpanzer_90",
+        "successor_ids": [],
+        "group_id": "germ_radpanzer_tam_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_schutzenpanzer_puma",
+        "name": "Puma",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 0,
+        "order": 16.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_radpanzer_90",
+        "successor_ids": [
+          "germ_schutzenpanzer_puma_vjtf"
+        ],
+        "group_id": "germ_puma_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_schutzenpanzer_puma_vjtf",
+        "name": "Puma VJTF",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 0,
+        "order": 16.1,
+        "visual_slot": 3,
+        "predecessor_id": "germ_schutzenpanzer_puma",
+        "successor_ids": [],
+        "group_id": "germ_puma_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_2k",
+        "name": "Leopard 2K",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 1,
+        "order": 14.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_kpz_t72m1",
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_2a4",
+        "name": "Leopard 2A4",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 2,
+        "order": 11.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_leopard_I_a1",
+        "successor_ids": [
+          "germ_leopard_2a5"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flarakpz_1",
+        "name": "FlaRakPz 1",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 3,
+        "order": 12.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_wiesel_2_adwc",
+        "successor_ids": [
+          "germ_9a33bm3",
+          "germ_9a35_m"
+        ],
+        "group_id": "germ_roland_osa_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_9a33bm3",
+        "name": "◊Osa-AK",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 3,
+        "order": 12.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_flarakpz_1",
+        "successor_ids": [],
+        "group_id": "germ_roland_osa_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_9a35_m",
+        "name": "◊Strela-10M",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 3,
+        "order": 13.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_flarakpz_1",
+        "successor_ids": [
+          "germ_flarakrad"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_wiesel_1_tow",
+        "name": "Wiesel 1A2",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 4,
+        "order": 15.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_jaguar_2",
+        "successor_ids": [
+          "germ_boxer_swatrinf"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_boxer_swatrinf",
+        "name": "sWaTrgInf",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 7,
+        "column": 4,
+        "order": 16.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_wiesel_1_tow",
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_2a5",
+        "name": "Leopard 2A5",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 8,
+        "column": 2,
+        "order": 12.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_leopard_2a4",
+        "successor_ids": [
+          "germ_leopard_2a6",
+          "germ_leopard_2a5_pso"
+        ],
+        "group_id": "germ_leopard_2_group",
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_2a6",
+        "name": "Leopard 2A6",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 8,
+        "column": 2,
+        "order": 12.1,
+        "visual_slot": 1,
+        "predecessor_id": "germ_leopard_2a5",
+        "successor_ids": [],
+        "group_id": "germ_leopard_2_group",
+        "group_index": 1,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_2a5_pso",
+        "name": "Leopard 2 PSO",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 8,
+        "column": 2,
+        "order": 13.0,
+        "visual_slot": 2,
+        "predecessor_id": "germ_leopard_2a5",
+        "successor_ids": [
+          "germ_leopard_2a7v"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_leopard_2a7v",
+        "name": "Leopard 2A7V",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 8,
+        "column": 2,
+        "order": 14.0,
+        "visual_slot": 3,
+        "predecessor_id": "germ_leopard_2a5_pso",
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_flarakrad",
+        "name": "FlaRakRad",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 8,
+        "column": 3,
+        "order": 14.0,
+        "visual_slot": 0,
+        "predecessor_id": "germ_9a35_m",
+        "successor_ids": [
+          "germ_iris_slm_fcs"
+        ],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      },
+      {
+        "vehicle_id": "germ_iris_slm_fcs",
+        "name": "IRIS-T SLM (TADS)",
+        "country_id": "country_germany",
+        "branch_id": "army",
+        "rank": 8,
+        "column": 3,
+        "order": 15.0,
+        "visual_slot": 1,
+        "predecessor_id": "germ_flarakrad",
+        "successor_ids": [],
+        "group_id": null,
+        "group_index": 0,
+        "hidden_research": false,
+        "req_unlock": "",
+        "reserve": false,
+        "premium": false,
+        "special": false
+      }
+    ],
+    "edges": [
+      {
+        "source_vehicle_id": "germ_flarakpz_1",
+        "target_vehicle_id": "germ_9a33bm3",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flarakpz_1",
+        "target_vehicle_id": "germ_9a35_m",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_thyssen_henschel_tam",
+        "target_vehicle_id": "germ_begleitpanzer_57",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_marder_1a1",
+        "target_vehicle_id": "germ_bmp_1_ddr",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_wiesel_1_tow",
+        "target_vehicle_id": "germ_boxer_swatrinf",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_I_ausf_A",
+        "target_vehicle_id": "germ_flakpanzer_38t_Gepard",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_zerstorer_45",
+        "target_vehicle_id": "germ_flakpanzer_IV_Kugelblitz",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sdkfz_251_21",
+        "target_vehicle_id": "germ_flakpanzer_IV_Ostwind",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_IV_Ostwind",
+        "target_vehicle_id": "germ_flakpanzer_IV_Ostwind_2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_IV_Ostwind",
+        "target_vehicle_id": "germ_flakpanzer_IV_Wirbelwind",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_IV_Ostwind_2",
+        "target_vehicle_id": "germ_flakpanzer_zerstorer_45",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_wiesel_2_adwc",
+        "target_vehicle_id": "germ_flakpz_1a2_Gepard",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sppz2_luchs_a2",
+        "target_vehicle_id": "germ_flakpz_I_Gepard",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_wiesel_2_adwc",
+        "target_vehicle_id": "germ_flarakpz_1",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_9a35_m",
+        "target_vehicle_id": "germ_flarakrad",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_38t_Marder_III_ausf_H",
+        "target_vehicle_id": "germ_hummel",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flarakrad",
+        "target_vehicle_id": "germ_iris_slm_fcs",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_raketenjagdpanzer_2_hot",
+        "target_vehicle_id": "germ_jaguar_2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_jgdpz_IV_L48",
+        "target_vehicle_id": "germ_jgdpz_38t",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_m44",
+        "target_vehicle_id": "germ_jgdpz_IV_L48",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_panther",
+        "target_vehicle_id": "germ_kanonenjagdpanzer",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_mkpz_m48a2ga2",
+        "target_vehicle_id": "germ_kpz_70",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_kpz_70",
+        "target_vehicle_id": "germ_kpz_t72m1",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_m109g",
+        "target_vehicle_id": "germ_le_kpz_m41",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_I_a1",
+        "target_vehicle_id": "germ_leopard_1a5",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_I_a1",
+        "target_vehicle_id": "germ_leopard_2a4",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_2a4",
+        "target_vehicle_id": "germ_leopard_2a5",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_2a5",
+        "target_vehicle_id": "germ_leopard_2a5_pso",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_2a5",
+        "target_vehicle_id": "germ_leopard_2a6",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_2a5_pso",
+        "target_vehicle_id": "germ_leopard_2a7v",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_kpz_t72m1",
+        "target_vehicle_id": "germ_leopard_2k",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_V_ausf_a_panther",
+        "target_vehicle_id": "germ_leopard_I",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_leopard_I",
+        "target_vehicle_id": "germ_leopard_I_a1",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_nashorn",
+        "target_vehicle_id": "germ_m109g",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_stug_III_ausf_G",
+        "target_vehicle_id": "germ_m44",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_m44",
+        "target_vehicle_id": "germ_m55",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_le_kpz_m41",
+        "target_vehicle_id": "germ_marder_1a1",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_marder_1a1",
+        "target_vehicle_id": "germ_marder_1a3",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_marder_1a3",
+        "target_vehicle_id": "germ_marder_df_105",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIh",
+        "target_vehicle_id": "germ_mkpz_m48a2c",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_mkpz_m48a2c",
+        "target_vehicle_id": "germ_mkpz_m48a2ga2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_kpz_70",
+        "target_vehicle_id": "germ_mkpz_super_m48",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sturmpanzer_II",
+        "target_vehicle_id": "germ_panzerjager_1",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sdkfz_9_flak37",
+        "target_vehicle_id": "germ_panzerjager_nashorn",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pz_IV_L70",
+        "target_vehicle_id": "germ_panzerjager_panther",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_tiger_P_ferdinand",
+        "target_vehicle_id": "germ_panzerjager_tiger",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_panther",
+        "target_vehicle_id": "germ_panzerjager_tiger_P_ferdinand",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_jgdpz_IV_L48",
+        "target_vehicle_id": "germ_pz_IV_L70",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_tiger_P_ferdinand",
+        "target_vehicle_id": "germ_pzh_2000",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_1",
+        "target_vehicle_id": "germ_pzkpfw_38t_Marder_III",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_35t",
+        "target_vehicle_id": "germ_pzkpfw_38t_ausf_A",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_38t_ausf_A",
+        "target_vehicle_id": "germ_pzkpfw_38t_ausf_F",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_38t_ausf_F",
+        "target_vehicle_id": "germ_pzkpfw_38t_na",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_III_ausf_E",
+        "target_vehicle_id": "germ_pzkpfw_III_ausf_B",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_III_ausf_E",
+        "target_vehicle_id": "germ_pzkpfw_III_ausf_F",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_III_ausf_F",
+        "target_vehicle_id": "germ_pzkpfw_III_ausf_J_L42",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_III_ausf_J",
+        "target_vehicle_id": "germ_pzkpfw_III_ausf_L",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_III_ausf_L",
+        "target_vehicle_id": "germ_pzkpfw_III_ausf_M",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_IV_ausf_C",
+        "target_vehicle_id": "germ_pzkpfw_II_ausf_C",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_II_ausf_C",
+        "target_vehicle_id": "germ_pzkpfw_II_ausf_F",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_II_ausf_C",
+        "target_vehicle_id": "germ_pzkpfw_IV_ausf_E",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_IV_ausf_E",
+        "target_vehicle_id": "germ_pzkpfw_IV_ausf_F",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_IV_ausf_F2",
+        "target_vehicle_id": "germ_pzkpfw_IV_ausf_G",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_IV_ausf_F2",
+        "target_vehicle_id": "germ_pzkpfw_IV_ausf_H",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_IV_ausf_H",
+        "target_vehicle_id": "germ_pzkpfw_IV_ausf_J",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIp",
+        "target_vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIh",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_VI_ausf_e_tiger",
+        "target_vehicle_id": "germ_pzkpfw_VI_ausf_b_tiger_IIp",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_VI_ausf_h1_tiger",
+        "target_vehicle_id": "germ_pzkpfw_VI_ausf_e_tiger",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_III_ausf_L",
+        "target_vehicle_id": "germ_pzkpfw_VI_ausf_h1_tiger",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_V_ausf_d_panther",
+        "target_vehicle_id": "germ_pzkpfw_V_ausf_a_panther",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_vk_3002m",
+        "target_vehicle_id": "germ_pzkpfw_V_ausf_d_panther",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_V_ausf_g_panther",
+        "target_vehicle_id": "germ_pzkpfw_V_ausf_f_panther",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_V_ausf_a_panther",
+        "target_vehicle_id": "germ_pzkpfw_V_ausf_g_panther",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sdkfz_234_2",
+        "target_vehicle_id": "germ_pzsfl_IVa_dickermax",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzsfl_IVa_dickermax",
+        "target_vehicle_id": "germ_pzsflk40_sturer_emil",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_begleitpanzer_57",
+        "target_vehicle_id": "germ_radpanzer_90",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_spz_oerlikon_raketenautomat",
+        "target_vehicle_id": "germ_raketenjagdpanzer_2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_spz_oerlikon_raketenautomat",
+        "target_vehicle_id": "germ_raketenjagdpanzer_2_hot",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_radpanzer_90",
+        "target_vehicle_id": "germ_schutzenpanzer_puma",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_schutzenpanzer_puma",
+        "target_vehicle_id": "germ_schutzenpanzer_puma_vjtf",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sturmpanzer_II",
+        "target_vehicle_id": "germ_sdkfz_221_s_pz_b_41",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_I_ausf_A",
+        "target_vehicle_id": "germ_sdkfz_222",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_amd_35_kwk39",
+        "target_vehicle_id": "germ_sdkfz_234_2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_1",
+        "target_vehicle_id": "germ_sdkfz_251_9",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_sdkfz_222",
+        "target_vehicle_id": "germ_sdkfz_6_2_flak36",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzsfl_IVa_dickermax",
+        "target_vehicle_id": "germ_sdkfz_9_flak37",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_thyssen_henschel_tam",
+        "target_vehicle_id": "germ_sk105_a2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_wiesel_1_mk20",
+        "target_vehicle_id": "germ_sppz2_luchs_a2",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzh_2000",
+        "target_vehicle_id": "germ_spz_oerlikon_raketenautomat",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_38t_Marder_III",
+        "target_vehicle_id": "germ_stug_III_ausf_A",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_stuh_III_ausf_G",
+        "target_vehicle_id": "germ_stug_III_ausf_F",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_hummel",
+        "target_vehicle_id": "germ_stug_III_ausf_G",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_38t_Marder_III_ausf_H",
+        "target_vehicle_id": "germ_stuh_III_ausf_G",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_marder_1a3",
+        "target_vehicle_id": "germ_thyssen_henschel_tam",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_radpanzer_90",
+        "target_vehicle_id": "germ_thyssen_henschel_tam_2c",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_pzkpfw_IV_ausf_H",
+        "target_vehicle_id": "germ_vk_3002m",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_panzerjager_nashorn",
+        "target_vehicle_id": "germ_waffentrager_krupp_steyr",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpanzer_IV_Kugelblitz",
+        "target_vehicle_id": "germ_wiesel_1_mk20",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_jaguar_2",
+        "target_vehicle_id": "germ_wiesel_1_tow",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      },
+      {
+        "source_vehicle_id": "germ_flakpz_I_Gepard",
+        "target_vehicle_id": "germ_wiesel_2_adwc",
+        "edge_type": "research_predecessor",
+        "evidence": "normalized_predecessors"
+      }
+    ],
+    "folders": [
+      {
+        "group_id": "germ_dicker_sturer_group",
+        "declared_member_ids": [
+          "germ_pzsfl_IVa_dickermax",
+          "germ_pzsflk40_sturer_emil"
+        ],
+        "present_member_ids": [
+          "germ_pzsfl_IVa_dickermax",
+          "germ_pzsflk40_sturer_emil"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_flakpanzer_1_group",
+        "declared_member_ids": [
+          "germ_flakpanzer_I_ausf_A",
+          "germ_flakpanzer_38t_Gepard"
+        ],
+        "present_member_ids": [
+          "germ_flakpanzer_I_ausf_A",
+          "germ_flakpanzer_38t_Gepard"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_flakpanzer_4_group",
+        "declared_member_ids": [
+          "germ_flakpanzer_IV_Ostwind",
+          "germ_flakpanzer_IV_Wirbelwind"
+        ],
+        "present_member_ids": [
+          "germ_flakpanzer_IV_Ostwind",
+          "germ_flakpanzer_IV_Wirbelwind"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_jagdpanther_group",
+        "declared_member_ids": [
+          "germ_panzerjager_panther",
+          "germ_kanonenjagdpanzer"
+        ],
+        "present_member_ids": [
+          "germ_panzerjager_panther",
+          "germ_kanonenjagdpanzer"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_jagdpanzer_group",
+        "declared_member_ids": [
+          "germ_jgdpz_IV_L48",
+          "germ_jgdpz_38t"
+        ],
+        "present_member_ids": [
+          "germ_jgdpz_IV_L48",
+          "germ_jgdpz_38t"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_kpz_super_group",
+        "declared_member_ids": [
+          "germ_kpz_70",
+          "germ_mkpz_super_m48"
+        ],
+        "present_member_ids": [
+          "germ_kpz_70",
+          "germ_mkpz_super_m48"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_leopard_1_late_group",
+        "declared_member_ids": [
+          "germ_leopard_I_a1",
+          "germ_leopard_1a5"
+        ],
+        "present_member_ids": [
+          "germ_leopard_I_a1",
+          "germ_leopard_1a5"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_leopard_2_group",
+        "declared_member_ids": [
+          "germ_leopard_2a5",
+          "germ_leopard_2a6"
+        ],
+        "present_member_ids": [
+          "germ_leopard_2a5",
+          "germ_leopard_2a6"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_m44_55_group",
+        "declared_member_ids": [
+          "germ_m44",
+          "germ_m55"
+        ],
+        "present_member_ids": [
+          "germ_m44",
+          "germ_m55"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_marder_bmp_group",
+        "declared_member_ids": [
+          "germ_marder_1a1",
+          "germ_bmp_1_ddr"
+        ],
+        "present_member_ids": [
+          "germ_marder_1a1",
+          "germ_bmp_1_ddr"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_marder_group",
+        "declared_member_ids": [
+          "germ_marder_1a3",
+          "germ_marder_df_105"
+        ],
+        "present_member_ids": [
+          "germ_marder_1a3",
+          "germ_marder_df_105"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_marder_stug_a_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_38t_Marder_III",
+          "germ_stug_III_ausf_A"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_38t_Marder_III",
+          "germ_stug_III_ausf_A"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_marder_stuh_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_38t_Marder_III_ausf_H",
+          "germ_stuh_III_ausf_G",
+          "germ_stug_III_ausf_F"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_38t_Marder_III_ausf_H",
+          "germ_stuh_III_ausf_G",
+          "germ_stug_III_ausf_F"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_panzerjager_251_group",
+        "declared_member_ids": [
+          "germ_panzerjager_1",
+          "germ_sdkfz_251_9"
+        ],
+        "present_member_ids": [
+          "germ_panzerjager_1",
+          "germ_sdkfz_251_9"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_panzerjager_tiger_group",
+        "declared_member_ids": [
+          "germ_panzerjager_tiger_P_ferdinand",
+          "germ_panzerjager_tiger"
+        ],
+        "present_member_ids": [
+          "germ_panzerjager_tiger_P_ferdinand",
+          "germ_panzerjager_tiger"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_prewar_pz_III_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_III_ausf_E",
+          "germ_pzkpfw_III_ausf_B"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_III_ausf_E",
+          "germ_pzkpfw_III_ausf_B"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_puma_group",
+        "declared_member_ids": [
+          "germ_schutzenpanzer_puma",
+          "germ_schutzenpanzer_puma_vjtf"
+        ],
+        "present_member_ids": [
+          "germ_schutzenpanzer_puma",
+          "germ_schutzenpanzer_puma_vjtf"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pz_4_fg_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_IV_ausf_F2",
+          "germ_pzkpfw_IV_ausf_G"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_IV_ausf_F2",
+          "germ_pzkpfw_IV_ausf_G"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pz_4_late_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_IV_ausf_H",
+          "germ_pzkpfw_IV_ausf_J"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_IV_ausf_H",
+          "germ_pzkpfw_IV_ausf_J"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pzkpfw_38t_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_38t_ausf_F",
+          "germ_pzkpfw_38t_na"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_38t_ausf_F",
+          "germ_pzkpfw_38t_na"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pzkpfw_4_early_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_IV_ausf_E",
+          "germ_pzkpfw_IV_ausf_F"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_IV_ausf_E",
+          "germ_pzkpfw_IV_ausf_F"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pzkpfw_III_late_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_III_ausf_L",
+          "germ_pzkpfw_III_ausf_M"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_III_ausf_L",
+          "germ_pzkpfw_III_ausf_M"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pzkpfw_II_early_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_II_ausf_C",
+          "germ_pzkpfw_II_ausf_F"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_II_ausf_C",
+          "germ_pzkpfw_II_ausf_F"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_pzkpfw_V_a_f_group",
+        "declared_member_ids": [
+          "germ_pzkpfw_V_ausf_a_panther",
+          "germ_pzkpfw_V_ausf_g_panther",
+          "germ_pzkpfw_V_ausf_f_panther"
+        ],
+        "present_member_ids": [
+          "germ_pzkpfw_V_ausf_a_panther",
+          "germ_pzkpfw_V_ausf_g_panther",
+          "germ_pzkpfw_V_ausf_f_panther"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_radpanzer_tam_group",
+        "declared_member_ids": [
+          "germ_radpanzer_90",
+          "germ_thyssen_henschel_tam_2c"
+        ],
+        "present_member_ids": [
+          "germ_radpanzer_90",
+          "germ_thyssen_henschel_tam_2c"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_raketen_group",
+        "declared_member_ids": [
+          "germ_spz_oerlikon_raketenautomat",
+          "germ_raketenjagdpanzer_2"
+        ],
+        "present_member_ids": [
+          "germ_spz_oerlikon_raketenautomat",
+          "germ_raketenjagdpanzer_2"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_roland_osa_group",
+        "declared_member_ids": [
+          "germ_flarakpz_1",
+          "germ_9a33bm3"
+        ],
+        "present_member_ids": [
+          "germ_flarakpz_1",
+          "germ_9a33bm3"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_sturmpanzer_221_group",
+        "declared_member_ids": [
+          "germ_sturmpanzer_II",
+          "germ_sdkfz_221_s_pz_b_41"
+        ],
+        "present_member_ids": [
+          "germ_sturmpanzer_II",
+          "germ_sdkfz_221_s_pz_b_41"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_tam_sk_group",
+        "declared_member_ids": [
+          "germ_thyssen_henschel_tam",
+          "germ_sk105_a2"
+        ],
+        "present_member_ids": [
+          "germ_thyssen_henschel_tam",
+          "germ_sk105_a2"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_waffentrager_group",
+        "declared_member_ids": [
+          "germ_panzerjager_nashorn",
+          "germ_waffentrager_krupp_steyr"
+        ],
+        "present_member_ids": [
+          "germ_panzerjager_nashorn",
+          "germ_waffentrager_krupp_steyr"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      },
+      {
+        "group_id": "germ_wiesel_gepard_group",
+        "declared_member_ids": [
+          "germ_wiesel_2_adwc",
+          "germ_flakpz_1a2_Gepard"
+        ],
+        "present_member_ids": [
+          "germ_wiesel_2_adwc",
+          "germ_flakpz_1a2_Gepard"
+        ],
+        "missing_member_ids": [],
+        "complete_in_normalized_data": true
+      }
+    ],
+    "evidence": {
+      "nation": {
+        "classification": "A",
+        "source": "normalized vehicles.countryId",
+        "confidence": "direct"
+      },
+      "vehicleType": {
+        "classification": "A",
+        "source": "shop country branch container via vehicles.branchId",
+        "confidence": "direct"
+      },
+      "rank": {
+        "classification": "A",
+        "source": "normalized vehicles.rank",
+        "confidence": "direct"
+      },
+      "column": {
+        "classification": "B",
+        "source": "zero-based index of the source shop range column",
+        "confidence": "deterministic"
+      },
+      "order": {
+        "classification": "B",
+        "source": "source shop order within a column",
+        "confidence": "deterministic"
+      },
+      "predecessor": {
+        "classification": "B",
+        "source": "normalized predecessors (explicit reqAir or deterministic source sequence)",
+        "confidence": "deterministic"
+      },
+      "successors": {
+        "classification": "B",
+        "source": "reverse index of normalized predecessors",
+        "confidence": "deterministic"
+      },
+      "folder": {
+        "classification": "A",
+        "source": "normalized groups from source shop folders",
+        "confidence": "direct"
+      },
+      "groupIndex": {
+        "classification": "B",
+        "source": "zero-based member index in the source shop folder",
+        "confidence": "deterministic"
+      },
+      "hiddenResearch": {
+        "classification": "A",
+        "source": "normalized vehicles.hiddenResearch",
+        "confidence": "direct"
+      },
+      "reqUnlock": {
+        "classification": "A",
+        "source": "normalized vehicles.reqUnlock",
+        "confidence": "direct"
+      },
+      "visualSlot": {
+        "classification": "B",
+        "source": "rank/column-local sort by normalized order and vehicle id",
+        "confidence": "deterministic"
+      }
+    },
+    "limitations": [
+      "premium_and_special_vehicles_are_filtered_by_the_existing_converter",
+      "rankPosXY_and_fakeReqUnitPosXY_are_sparse_helicopter_metadata_and_not_layout_authority",
+      "folder_membership_does_not_define_hidden_folder_acquisition_semantics",
+      "reqUnlock_is_visible_evidence_and_never_an_invented_vehicle_edge"
+    ],
+    "fingerprint": "a55d7299b8c4c0f375006c5102737455a050e5e8633234146286624fa272b0c8"
+  },
+  "highlight": {
+    "contract_version": "visual-tech-tree-highlight-v1",
+    "layout_fingerprint": "a55d7299b8c4c0f375006c5102737455a050e5e8633234146286624fa272b0c8",
+    "start_vehicle_id": "germ_pzkpfw_VI_ausf_h1_tiger",
+    "target_vehicle_id": "germ_leopard_2a7v",
+    "user_result_source": "legacy",
+    "calculation_status": "complete",
+    "fallback_reason": null,
+    "complete": true,
+    "node_states": {
+      "germ_pzkpfw_35t": [
+        "not_required"
+      ],
+      "germ_pzkpfw_38t_ausf_A": [
+        "not_required"
+      ],
+      "germ_pzkpfw_38t_ausf_F": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_38t_na": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_III_ausf_E": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_III_ausf_B": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_III_ausf_F": [
+        "not_required"
+      ],
+      "germ_pzkpfw_III_ausf_J_L42": [
+        "not_required"
+      ],
+      "germ_pzkpfw_IV_ausf_C": [
+        "not_required"
+      ],
+      "germ_pzkpfw_II_ausf_C": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_II_ausf_F": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_IV_ausf_E": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_IV_ausf_F": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_flakpanzer_I_ausf_A": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_flakpanzer_38t_Gepard": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_sdkfz_222": [
+        "not_required"
+      ],
+      "germ_sdkfz_6_2_flak36": [
+        "not_required"
+      ],
+      "germ_sturmpanzer_II": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_sdkfz_221_s_pz_b_41": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_panzerjager_1": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_sdkfz_251_9": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_38t_Marder_III": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_stug_III_ausf_A": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_amd_35_kwk39": [
+        "required_rank_unlock"
+      ],
+      "germ_sdkfz_234_2": [
+        "required_rank_unlock"
+      ],
+      "germ_pzsfl_IVa_dickermax": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_pzsflk40_sturer_emil": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_III_ausf_J": [
+        "not_required"
+      ],
+      "germ_pzkpfw_III_ausf_L": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_III_ausf_M": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_IV_ausf_F2": [
+        "required_direct_path",
+        "folder_member"
+      ],
+      "germ_pzkpfw_IV_ausf_G": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_IV_ausf_H": [
+        "required_direct_path",
+        "folder_member"
+      ],
+      "germ_pzkpfw_IV_ausf_J": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_sdkfz_251_21": [
+        "required_rank_unlock"
+      ],
+      "germ_pzkpfw_38t_Marder_III_ausf_H": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_stuh_III_ausf_G": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_stug_III_ausf_F": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_hummel": [
+        "not_required"
+      ],
+      "germ_stug_III_ausf_G": [
+        "not_required"
+      ],
+      "germ_sdkfz_9_flak37": [
+        "required_rank_unlock"
+      ],
+      "germ_panzerjager_nashorn": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_waffentrager_krupp_steyr": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_VI_ausf_h1_tiger": [
+        "start_a",
+        "not_required"
+      ],
+      "germ_pzkpfw_VI_ausf_e_tiger": [
+        "required_rank_unlock"
+      ],
+      "germ_vk_3002m": [
+        "required_direct_path"
+      ],
+      "germ_pzkpfw_V_ausf_d_panther": [
+        "required_direct_path"
+      ],
+      "germ_flakpanzer_IV_Ostwind": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_flakpanzer_IV_Wirbelwind": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_flakpanzer_IV_Ostwind_2": [
+        "required_rank_unlock"
+      ],
+      "germ_m44": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_m55": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_jgdpz_IV_L48": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_jgdpz_38t": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pz_IV_L70": [
+        "not_required"
+      ],
+      "germ_m109g": [
+        "required_rank_unlock"
+      ],
+      "germ_le_kpz_m41": [
+        "required_rank_unlock"
+      ],
+      "germ_pzkpfw_VI_ausf_b_tiger_IIp": [
+        "required_rank_unlock"
+      ],
+      "germ_pzkpfw_VI_ausf_b_tiger_IIh": [
+        "not_required"
+      ],
+      "germ_pzkpfw_V_ausf_a_panther": [
+        "required_direct_path",
+        "folder_member"
+      ],
+      "germ_pzkpfw_V_ausf_g_panther": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_pzkpfw_V_ausf_f_panther": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_flakpanzer_zerstorer_45": [
+        "required_rank_unlock"
+      ],
+      "germ_flakpanzer_IV_Kugelblitz": [
+        "required_rank_unlock"
+      ],
+      "germ_panzerjager_panther": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_kanonenjagdpanzer": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_panzerjager_tiger_P_ferdinand": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_panzerjager_tiger": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_panther_II": [
+        "not_required",
+        "hidden_research"
+      ],
+      "germ_flakpanzer_V_Coelian": [
+        "not_required",
+        "hidden_research"
+      ],
+      "germ_pzkpfw_VI_ausf_b_tiger_IIh_kwk46": [
+        "not_required",
+        "hidden_research"
+      ],
+      "germ_marder_1a1": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_bmp_1_ddr": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_marder_1a3": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_marder_df_105": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_mkpz_m48a2c": [
+        "not_required"
+      ],
+      "germ_leopard_I": [
+        "required_direct_path"
+      ],
+      "germ_wiesel_1_mk20": [
+        "not_required"
+      ],
+      "germ_sppz2_luchs_a2": [
+        "not_required"
+      ],
+      "germ_pzh_2000": [
+        "not_required"
+      ],
+      "germ_spz_oerlikon_raketenautomat": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_raketenjagdpanzer_2": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_pzkpfw_Maus": [
+        "not_required",
+        "hidden_research"
+      ],
+      "germ_thyssen_henschel_tam": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_sk105_a2": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_begleitpanzer_57": [
+        "required_rank_unlock"
+      ],
+      "germ_mkpz_m48a2ga2": [
+        "not_required"
+      ],
+      "germ_kpz_70": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_mkpz_super_m48": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_kpz_t72m1": [
+        "not_required"
+      ],
+      "germ_leopard_I_a1": [
+        "required_direct_path",
+        "folder_member"
+      ],
+      "germ_leopard_1a5": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_flakpz_I_Gepard": [
+        "not_required"
+      ],
+      "germ_wiesel_2_adwc": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_flakpz_1a2_Gepard": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_raketenjagdpanzer_2_hot": [
+        "not_required"
+      ],
+      "germ_jaguar_2": [
+        "not_required"
+      ],
+      "germ_radpanzer_90": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_thyssen_henschel_tam_2c": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_schutzenpanzer_puma": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_schutzenpanzer_puma_vjtf": [
+        "required_rank_unlock",
+        "folder_member"
+      ],
+      "germ_leopard_2k": [
+        "not_required"
+      ],
+      "germ_leopard_2a4": [
+        "required_direct_path"
+      ],
+      "germ_flarakpz_1": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_9a33bm3": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_9a35_m": [
+        "not_required"
+      ],
+      "germ_wiesel_1_tow": [
+        "not_required"
+      ],
+      "germ_boxer_swatrinf": [
+        "not_required"
+      ],
+      "germ_leopard_2a5": [
+        "required_direct_path",
+        "folder_member"
+      ],
+      "germ_leopard_2a6": [
+        "not_required",
+        "folder_member"
+      ],
+      "germ_leopard_2a5_pso": [
+        "required_direct_path"
+      ],
+      "germ_leopard_2a7v": [
+        "target_b",
+        "required_direct_path"
+      ],
+      "germ_flarakrad": [
+        "not_required"
+      ],
+      "germ_iris_slm_fcs": [
+        "not_required"
+      ]
+    },
+    "required_edge_ids": [
+      "germ_leopard_I_a1->germ_leopard_2a4",
+      "germ_leopard_2a4->germ_leopard_2a5",
+      "germ_leopard_2a5->germ_leopard_2a5_pso",
+      "germ_leopard_2a5_pso->germ_leopard_2a7v",
+      "germ_pzkpfw_V_ausf_a_panther->germ_leopard_I",
+      "germ_leopard_I->germ_leopard_I_a1",
+      "germ_pzkpfw_IV_ausf_F2->germ_pzkpfw_IV_ausf_H",
+      "germ_pzkpfw_V_ausf_d_panther->germ_pzkpfw_V_ausf_a_panther",
+      "germ_vk_3002m->germ_pzkpfw_V_ausf_d_panther",
+      "germ_pzkpfw_IV_ausf_H->germ_vk_3002m"
+    ],
+    "unresolved_vehicle_ids": [],
+    "unresolved_folder_ids": [],
+    "fingerprint": "8ae2f7fac8ad005395ce2f6c17b5fc1afb95bede0d8e0113c304deea883d8895"
+  },
+  "solverSummary": {
+    "requiredVehicleIds": [
+      "germ_amd_35_kwk39",
+      "germ_sdkfz_234_2",
+      "germ_pzsfl_IVa_dickermax",
+      "germ_pzkpfw_IV_ausf_F2",
+      "germ_pzkpfw_IV_ausf_H",
+      "germ_sdkfz_251_21",
+      "germ_sdkfz_9_flak37",
+      "germ_panzerjager_nashorn",
+      "germ_pzkpfw_VI_ausf_e_tiger",
+      "germ_vk_3002m",
+      "germ_pzkpfw_V_ausf_d_panther",
+      "germ_flakpanzer_IV_Ostwind",
+      "germ_flakpanzer_IV_Wirbelwind",
+      "germ_flakpanzer_IV_Ostwind_2",
+      "germ_m109g",
+      "germ_le_kpz_m41",
+      "germ_pzkpfw_VI_ausf_b_tiger_IIp",
+      "germ_pzkpfw_V_ausf_a_panther",
+      "germ_pzkpfw_V_ausf_g_panther",
+      "germ_pzkpfw_V_ausf_f_panther",
+      "germ_flakpanzer_zerstorer_45",
+      "germ_flakpanzer_IV_Kugelblitz",
+      "germ_marder_1a1",
+      "germ_bmp_1_ddr",
+      "germ_marder_1a3",
+      "germ_marder_df_105",
+      "germ_leopard_I",
+      "germ_thyssen_henschel_tam",
+      "germ_sk105_a2",
+      "germ_begleitpanzer_57",
+      "germ_leopard_I_a1",
+      "germ_leopard_1a5",
+      "germ_radpanzer_90",
+      "germ_thyssen_henschel_tam_2c",
+      "germ_schutzenpanzer_puma",
+      "germ_schutzenpanzer_puma_vjtf",
+      "germ_leopard_2a4",
+      "germ_leopard_2a5",
+      "germ_leopard_2a5_pso",
+      "germ_leopard_2a7v"
+    ],
+    "requiredVehicleReasons": {
+      "germ_amd_35_kwk39": "rank_unlock",
+      "germ_sdkfz_234_2": "rank_unlock",
+      "germ_pzsfl_IVa_dickermax": "rank_unlock",
+      "germ_pzkpfw_IV_ausf_F2": "direct_path",
+      "germ_pzkpfw_IV_ausf_H": "direct_path",
+      "germ_sdkfz_251_21": "rank_unlock",
+      "germ_sdkfz_9_flak37": "rank_unlock",
+      "germ_panzerjager_nashorn": "rank_unlock",
+      "germ_pzkpfw_VI_ausf_e_tiger": "rank_unlock",
+      "germ_vk_3002m": "direct_path",
+      "germ_pzkpfw_V_ausf_d_panther": "direct_path",
+      "germ_flakpanzer_IV_Ostwind": "rank_unlock",
+      "germ_flakpanzer_IV_Wirbelwind": "rank_unlock",
+      "germ_flakpanzer_IV_Ostwind_2": "rank_unlock",
+      "germ_m109g": "rank_unlock",
+      "germ_le_kpz_m41": "rank_unlock",
+      "germ_pzkpfw_VI_ausf_b_tiger_IIp": "rank_unlock",
+      "germ_pzkpfw_V_ausf_a_panther": "direct_path",
+      "germ_pzkpfw_V_ausf_g_panther": "rank_unlock",
+      "germ_pzkpfw_V_ausf_f_panther": "rank_unlock",
+      "germ_flakpanzer_zerstorer_45": "rank_unlock",
+      "germ_flakpanzer_IV_Kugelblitz": "rank_unlock",
+      "germ_marder_1a1": "rank_unlock",
+      "germ_bmp_1_ddr": "rank_unlock",
+      "germ_marder_1a3": "rank_unlock",
+      "germ_marder_df_105": "rank_unlock",
+      "germ_leopard_I": "direct_path",
+      "germ_thyssen_henschel_tam": "rank_unlock",
+      "germ_sk105_a2": "rank_unlock",
+      "germ_begleitpanzer_57": "rank_unlock",
+      "germ_leopard_I_a1": "direct_path",
+      "germ_leopard_1a5": "rank_unlock",
+      "germ_radpanzer_90": "rank_unlock",
+      "germ_thyssen_henschel_tam_2c": "rank_unlock",
+      "germ_schutzenpanzer_puma": "rank_unlock",
+      "germ_schutzenpanzer_puma_vjtf": "rank_unlock",
+      "germ_leopard_2a4": "direct_path",
+      "germ_leopard_2a5": "direct_path",
+      "germ_leopard_2a5_pso": "direct_path",
+      "germ_leopard_2a7v": "direct_path"
+    },
+    "totalRP": 4245100,
+    "totalGE": 94351,
+    "totalSL": 13825000
+  }
+}

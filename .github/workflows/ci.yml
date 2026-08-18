@@ -37,6 +37,7 @@ jobs:
       - run: node tests/browser_regression.mjs
       - run: node tests/browser_shadow_harness.mjs
       - run: node tests/browser_release_hardening.mjs
+      - run: node --test tests/visual_tree_prototype.test.mjs
 
   datamine-health:
     runs-on: ubuntu-latest
