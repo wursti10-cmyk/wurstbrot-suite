@@ -7,6 +7,16 @@ import {
   buildVisualTreeLayout,
   renderTreeMarkup,
 } from "./visual-tree.mjs";
+import {
+  buildVehicleSearchIndex,
+  changeTreeZoom,
+  connectionGeometry,
+  findVehicleSearchEntry,
+  panScrollPosition,
+  searchVehicleIndex,
+  selectedDirectEdgeIds,
+  selectedVehicleDetails,
+} from "./visual-tree-interaction.mjs";
 
 const $ = id => document.getElementById(id);
 const format = value => new Intl.NumberFormat("de-DE").format(value);
@@ -17,6 +27,10 @@ const fallbackLabel = value => value
 let database;
 let currentTreeLayout = null;
 let currentTreeHighlight = null;
+let vehicleSearchIndex = [];
+let selectedTreeVehicleId = null;
+let treeZoom = 1;
+let panState = null;
 let treeRenderSequence = 0;
 let resizeFrame = 0;
 
@@ -51,6 +65,7 @@ function refreshVehicles() {
 
 function load(raw) {
   database = validateDatabase(raw);
+  vehicleSearchIndex = buildVehicleSearchIndex(database);
   const countries = [...new Set(vehicles().map(vehicle => vehicle.countryId))].sort();
   setOptions($("country"), countries.map(id => ({
     id,
@@ -59,7 +74,9 @@ function load(raw) {
   refreshBranches();
   refreshTreeSelectors();
   $("status").textContent = `${database.gameVersion} · ${format(vehicles().length)} Fahrzeuge`;
-  if (!$("tree-view").hidden) refreshVisualTree();
+  $("tree-search-count").textContent = `${format(vehicleSearchIndex.length)} Fahrzeuge indexiert`;
+  renderSearchResults("");
+  if (!$("tree-view").hidden) refreshVisualTree({resetNavigation: true});
 }
 
 function refreshTreeSelectors() {
@@ -77,6 +94,159 @@ function refreshTreeSelectors() {
     ? $("tree-branch").value : "army";
   setOptions($("tree-branch"), BRANCH_ORDER.map(id => ({id, name: BRANCH_LABELS[id]})));
   $("tree-branch").value = selectedBranch;
+}
+
+function setSearchResultsOpen(open) {
+  $("tree-search-results").hidden = !open;
+  $("tree-search-input").setAttribute("aria-expanded", String(open));
+}
+
+function renderSearchResults(query) {
+  const container = $("tree-search-results");
+  container.replaceChildren();
+  const results = searchVehicleIndex(vehicleSearchIndex, query);
+  if (!query.trim()) {
+    setSearchResultsOpen(false);
+    return;
+  }
+  if (!results.length) {
+    const empty = document.createElement("p");
+    empty.className = "tree-search-empty";
+    empty.textContent = "Keine Fahrzeuge gefunden.";
+    container.append(empty);
+    setSearchResultsOpen(true);
+    return;
+  }
+  for (const entry of results) {
+    const option = document.createElement("button");
+    option.type = "button";
+    option.className = "tree-search-result";
+    option.dataset.searchVehicleId = entry.vehicle_id;
+    option.setAttribute("role", "option");
+    const name = document.createElement("strong");
+    name.textContent = entry.name;
+    const context = document.createElement("span");
+    context.textContent = `${entry.country_label} · ${entry.branch_label} · Rang ${entry.rank}`;
+    const identity = document.createElement("span");
+    identity.textContent = `ID: ${entry.vehicle_id}`;
+    option.append(name, context, identity);
+    container.append(option);
+  }
+  setSearchResultsOpen(true);
+}
+
+function detailRow(label, value, className = "") {
+  const row = document.createElement("div");
+  if (className) row.className = className;
+  const term = document.createElement("dt");
+  term.textContent = label;
+  const detail = document.createElement("dd");
+  detail.textContent = value;
+  row.append(term, detail);
+  return row;
+}
+
+function renderSelectedVehicleDetails(vehicleId) {
+  const details = selectedVehicleDetails(database, currentTreeLayout, vehicleId);
+  const container = $("tree-selection-details");
+  const empty = $("tree-selection-empty");
+  container.replaceChildren();
+  if (!details) {
+    container.hidden = true;
+    empty.hidden = false;
+    return;
+  }
+  container.append(
+    detailRow("Fahrzeug", details.name),
+    detailRow("Nation", details.country),
+    detailRow("Fahrzeugart", details.branch),
+    detailRow("Rang", String(details.rank)),
+    detailRow("RP", format(details.rp)),
+    detailRow("SL", format(details.sl)),
+    detailRow("Folder/Gruppe", details.group_id || "–"),
+    detailRow(
+      "Status",
+      details.partial_unresolved ? "Partial / unresolved" : "Vollständig dargestellt",
+      details.partial_unresolved ? "partial-unresolved" : "",
+    ),
+  );
+  empty.hidden = true;
+  container.hidden = false;
+}
+
+function clearTreeSelection() {
+  for (const card of $("tree-content").querySelectorAll(".tree-vehicle.selected, .tree-vehicle.search-target")) {
+    card.classList.remove("selected", "search-target");
+    card.setAttribute("aria-pressed", "false");
+  }
+  selectedTreeVehicleId = null;
+  renderSelectedVehicleDetails(null);
+  requestAnimationFrame(drawConnections);
+}
+
+function jumpToTreeVehicle(vehicleId, {focus = true} = {}) {
+  const escaped = CSS.escape(vehicleId);
+  const cards = $("tree-content").querySelectorAll(`[data-vehicle-id="${escaped}"]`);
+  if (cards.length !== 1) throw new Error(`Fahrzeugkarte nicht eindeutig: ${vehicleId}`);
+  const card = cards[0];
+  card.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+  if (focus) card.focus({preventScroll: true});
+  return card;
+}
+
+function selectTreeVehicle(vehicleId, {fromSearch = false, jump = false, focus = false} = {}) {
+  const card = $("tree-content").querySelector(`[data-vehicle-id="${CSS.escape(vehicleId)}"]`);
+  if (!card) return false;
+  clearTreeSelection();
+  selectedTreeVehicleId = vehicleId;
+  card.classList.add("selected");
+  card.classList.toggle("search-target", fromSearch);
+  card.setAttribute("aria-pressed", "true");
+  renderSelectedVehicleDetails(vehicleId);
+  requestAnimationFrame(drawConnections);
+  if (jump) jumpToTreeVehicle(vehicleId, {focus});
+  return true;
+}
+
+function setTreeZoom(nextZoom, {preserveCenter = true} = {}) {
+  const viewport = $("tree-viewport");
+  const previous = treeZoom;
+  treeZoom = nextZoom;
+  $("visual-tree").style.zoom = String(treeZoom);
+  $("tree-zoom-value").textContent = `${Math.round(treeZoom * 100)} %`;
+  if (preserveCenter && previous !== treeZoom) {
+    const factor = treeZoom / previous;
+    viewport.scrollLeft = (viewport.scrollLeft + viewport.clientWidth / 2) * factor
+      - viewport.clientWidth / 2;
+    viewport.scrollTop = (viewport.scrollTop + viewport.clientHeight / 2) * factor
+      - viewport.clientHeight / 2;
+  }
+  requestAnimationFrame(drawConnections);
+}
+
+function resetTreeNavigation() {
+  clearTreeSelection();
+  setTreeZoom(1, {preserveCenter: false});
+  $("tree-viewport").scrollTo({left: 0, top: 0, behavior: "auto"});
+}
+
+async function activateSearchResult(vehicleId) {
+  const entry = findVehicleSearchEntry(vehicleSearchIndex, vehicleId);
+  if (!entry) return;
+  $("tree-search-input").value = entry.name;
+  setSearchResultsOpen(false);
+  const changed = $("tree-country").value !== entry.country_id
+    || $("tree-branch").value !== entry.branch_id;
+  $("tree-country").value = entry.country_id;
+  $("tree-branch").value = entry.branch_id;
+  showView("tree", {refresh: false});
+  if (changed || !currentTreeLayout
+    || currentTreeLayout.country_id !== entry.country_id
+    || currentTreeLayout.branch_id !== entry.branch_id) {
+    await refreshVisualTree({resetNavigation: true, selectVehicleId: vehicleId});
+  } else {
+    selectTreeVehicle(vehicleId, {fromSearch: true, jump: true, focus: true});
+  }
 }
 
 function treeDemoResult(countryId, branchId) {
@@ -117,8 +287,9 @@ function updateTreeHeader(layout, countryId, branchId) {
   }));
 }
 
-async function refreshVisualTree() {
+async function refreshVisualTree({resetNavigation = false, selectVehicleId = null} = {}) {
   if (!database) return;
+  if (resetNavigation) resetTreeNavigation();
   const sequence = ++treeRenderSequence;
   const countryId = $("tree-country").value;
   const branchId = $("tree-branch").value;
@@ -142,7 +313,12 @@ async function refreshVisualTree() {
       ? String(Math.max(...layout.columns) + 1) : "1");
     $("tree-content").innerHTML = renderTreeMarkup(layout, highlight);
     updateTreeHeader(layout, countryId, branchId);
-    requestAnimationFrame(drawConnections);
+    requestAnimationFrame(() => {
+      drawConnections();
+      if (selectVehicleId) {
+        selectTreeVehicle(selectVehicleId, {fromSearch: true, jump: true, focus: true});
+      }
+    });
   } catch (error) {
     if (sequence !== treeRenderSequence) return;
     currentTreeLayout = null;
@@ -151,6 +327,7 @@ async function refreshVisualTree() {
     $("tree-content").innerHTML = renderTreeMarkup(null);
     $("tree-status").textContent = `Fehler: ${error.message}`;
     $("tree-connections").replaceChildren();
+    clearTreeSelection();
   }
 }
 
@@ -168,28 +345,28 @@ function drawConnections() {
     [vehicleId, element.getBoundingClientRect()]
   )));
   const required = new Set(currentTreeHighlight?.required_edge_ids || []);
+  const selectedDirect = new Set(selectedDirectEdgeIds(currentTreeLayout, selectedTreeVehicleId));
   const fragment = document.createDocumentFragment();
   svg.setAttribute("viewBox", `0 0 ${origin.width} ${origin.height}`);
   for (const edge of currentTreeLayout.edges) {
     const from = rectangles.get(edge.source_vehicle_id);
     const to = rectangles.get(edge.target_vehicle_id);
     if (!from || !to) continue;
-    const x1 = from.left + from.width / 2 - origin.left;
-    const y1 = from.bottom - origin.top;
-    const x2 = to.left + to.width / 2 - origin.left;
-    const y2 = to.top - origin.top;
-    const middle = (y1 + y2) / 2;
+    const {x1, y1, x2, y2, middle} = connectionGeometry(origin, from, to);
     const edgeId = `${edge.source_vehicle_id}->${edge.target_vehicle_id}`;
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", `M ${x1} ${y1} C ${x1} ${middle}, ${x2} ${middle}, ${x2} ${y2}`);
-    path.setAttribute("class", required.has(edgeId) ? "tree-edge required" : "tree-edge");
+    const edgeClasses = ["tree-edge"];
+    if (required.has(edgeId)) edgeClasses.push("required");
+    if (selectedDirect.has(edgeId)) edgeClasses.push("selected-direct");
+    path.setAttribute("class", edgeClasses.join(" "));
     path.dataset.edgeId = edgeId;
     fragment.append(path);
   }
   svg.replaceChildren(fragment);
 }
 
-function showView(view) {
+function showView(view, {refresh = true} = {}) {
   const treeActive = view === "tree";
   $("calculator-view").hidden = treeActive;
   $("tree-view").hidden = !treeActive;
@@ -197,7 +374,7 @@ function showView(view) {
   $("tree-tab").classList.toggle("active", treeActive);
   $("calculator-tab").setAttribute("aria-selected", String(!treeActive));
   $("tree-tab").setAttribute("aria-selected", String(treeActive));
-  if (treeActive) refreshVisualTree();
+  if (treeActive && refresh) refreshVisualTree();
 }
 
 function metric(value, label) {
@@ -267,8 +444,85 @@ $("country").addEventListener("change", refreshBranches);
 $("branch").addEventListener("change", refreshVehicles);
 $("calculator-tab").addEventListener("click", () => showView("calculator"));
 $("tree-tab").addEventListener("click", () => showView("tree"));
-$("tree-country").addEventListener("change", refreshVisualTree);
-$("tree-branch").addEventListener("change", refreshVisualTree);
+$("tree-country").addEventListener("change", () => refreshVisualTree({resetNavigation: true}));
+$("tree-branch").addEventListener("change", () => refreshVisualTree({resetNavigation: true}));
+$("tree-search-input").addEventListener("input", event => {
+  renderSearchResults(event.target.value);
+});
+$("tree-search-input").addEventListener("keydown", event => {
+  if (event.key === "ArrowDown") {
+    const firstResult = $("tree-search-results").querySelector("button");
+    if (firstResult) {
+      event.preventDefault();
+      firstResult.focus();
+    }
+  } else if (event.key === "Escape") {
+    setSearchResultsOpen(false);
+  }
+});
+$("tree-search-results").addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    setSearchResultsOpen(false);
+    $("tree-search-input").focus();
+  }
+});
+$("tree-search-results").addEventListener("click", event => {
+  const result = event.target.closest("[data-search-vehicle-id]");
+  if (result) void activateSearchResult(result.dataset.searchVehicleId);
+});
+$("tree-zoom-out").addEventListener("click", () => {
+  setTreeZoom(changeTreeZoom(treeZoom, "out"));
+});
+$("tree-zoom-reset").addEventListener("click", () => {
+  setTreeZoom(changeTreeZoom(treeZoom, "reset"));
+});
+$("tree-zoom-in").addEventListener("click", () => {
+  setTreeZoom(changeTreeZoom(treeZoom, "in"));
+});
+$("tree-content").addEventListener("click", event => {
+  const card = event.target.closest(".tree-vehicle[data-vehicle-id]");
+  if (card) selectTreeVehicle(card.dataset.vehicleId, {focus: true});
+});
+$("tree-content").addEventListener("keydown", event => {
+  const card = event.target.closest(".tree-vehicle[data-vehicle-id]");
+  if (card && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    selectTreeVehicle(card.dataset.vehicleId, {focus: true});
+  }
+});
+
+const treeViewport = $("tree-viewport");
+treeViewport.addEventListener("pointerdown", event => {
+  if (event.button !== 0 || event.target.closest(".tree-vehicle, button, input, select, a")) return;
+  panState = {
+    pointerId: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    left: treeViewport.scrollLeft,
+    top: treeViewport.scrollTop,
+  };
+  treeViewport.setPointerCapture(event.pointerId);
+  treeViewport.classList.add("is-panning");
+});
+treeViewport.addEventListener("pointermove", event => {
+  if (!panState || panState.pointerId !== event.pointerId) return;
+  const next = panScrollPosition(
+    panState,
+    {x: panState.x, y: panState.y},
+    {x: event.clientX, y: event.clientY},
+  );
+  treeViewport.scrollLeft = next.left;
+  treeViewport.scrollTop = next.top;
+  event.preventDefault();
+});
+const stopTreePan = event => {
+  if (!panState || panState.pointerId !== event.pointerId) return;
+  if (treeViewport.hasPointerCapture(event.pointerId)) treeViewport.releasePointerCapture(event.pointerId);
+  panState = null;
+  treeViewport.classList.remove("is-panning");
+};
+treeViewport.addEventListener("pointerup", stopTreePan);
+treeViewport.addEventListener("pointercancel", stopTreePan);
 $("database-file").addEventListener("change", async event => {
   try { load(JSON.parse(await event.target.files[0].text())); }
   catch (error) { alert(error.message); }
