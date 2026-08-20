@@ -174,6 +174,7 @@ test("production wiring provides exact selection, keyboard access and state rese
   assert.doesNotMatch(inputHandler[0], /refreshVisualTree|buildVisualTreeLayout/);
   assert.match(app, /event\.key === "Enter" \|\| event\.key === " "/);
   assert.match(app, /refreshVisualTree\(\{resetNavigation: true\}\)/);
+  assert.match(app, /refreshVisualTree\(\{selectVehicleId: selectedTreeVehicleId\}\)/);
   assert.match(app, /event\.target\.closest\("\.tree-vehicle, button, input, select, a"\)/);
   assert.doesNotMatch(interaction, /from\s+["'][^"']*solver|function\s+(solve|calculate)\b/);
   const treeView = html.slice(html.indexOf('<div id="tree-view"'));

@@ -243,7 +243,11 @@ async function activateSearchResult(vehicleId) {
   if (changed || !currentTreeLayout
     || currentTreeLayout.country_id !== entry.country_id
     || currentTreeLayout.branch_id !== entry.branch_id) {
-    await refreshVisualTree({resetNavigation: true, selectVehicleId: vehicleId});
+    await refreshVisualTree({
+      resetNavigation: true,
+      selectVehicleId: vehicleId,
+      selectFromSearch: true,
+    });
   } else {
     selectTreeVehicle(vehicleId, {fromSearch: true, jump: true, focus: true});
   }
@@ -287,7 +291,11 @@ function updateTreeHeader(layout, countryId, branchId) {
   }));
 }
 
-async function refreshVisualTree({resetNavigation = false, selectVehicleId = null} = {}) {
+async function refreshVisualTree({
+  resetNavigation = false,
+  selectVehicleId = null,
+  selectFromSearch = false,
+} = {}) {
   if (!database) return;
   if (resetNavigation) resetTreeNavigation();
   const sequence = ++treeRenderSequence;
@@ -316,7 +324,11 @@ async function refreshVisualTree({resetNavigation = false, selectVehicleId = nul
     requestAnimationFrame(() => {
       drawConnections();
       if (selectVehicleId) {
-        selectTreeVehicle(selectVehicleId, {fromSearch: true, jump: true, focus: true});
+        selectTreeVehicle(selectVehicleId, {
+          fromSearch: selectFromSearch,
+          jump: selectFromSearch,
+          focus: selectFromSearch,
+        });
       }
     });
   } catch (error) {
@@ -374,7 +386,7 @@ function showView(view, {refresh = true} = {}) {
   $("tree-tab").classList.toggle("active", treeActive);
   $("calculator-tab").setAttribute("aria-selected", String(!treeActive));
   $("tree-tab").setAttribute("aria-selected", String(treeActive));
-  if (treeActive && refresh) refreshVisualTree();
+  if (treeActive && refresh) refreshVisualTree({selectVehicleId: selectedTreeVehicleId});
 }
 
 function metric(value, label) {
