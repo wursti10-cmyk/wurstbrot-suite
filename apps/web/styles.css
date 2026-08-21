@@ -61,6 +61,7 @@ h2 { margin-top: 0; }
 button, select, input { font: inherit; border: 1px solid var(--line); border-radius: 9px; }
 button { margin-top: 20px; padding: 12px 18px; color: #15110a; background: var(--accent); font-weight: 800; cursor: pointer; }
 button:hover { filter: brightness(1.08); }
+button:disabled { cursor: not-allowed; filter: grayscale(.7); opacity: .55; }
 button.secondary { margin: 0; color: var(--text); background: transparent; }
 .nav-tab {
   flex: 0 1 180px;
@@ -152,19 +153,18 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 .tree-selection dt { color: var(--muted); font-size: .62rem; }
 .tree-selection dd { overflow-wrap: anywhere; margin: 2px 0 0; font-size: .75rem; }
 .tree-selection .partial-unresolved dd { color: #dfb2ff; font-weight: 800; }
-.tree-demo {
+.tree-selection-actions {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 5px 12px;
-  padding: 12px 14px;
-  border: 1px solid #6a5428;
-  border-radius: 11px;
-  background: #211c12;
+  gap: 8px;
+  margin-top: 10px;
 }
-.tree-demo[hidden] { display: none; }
-.tree-demo span { color: var(--accent); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
-.tree-demo small { flex-basis: 100%; color: var(--muted); }
+.tree-selection-actions[hidden] { display: none; }
+.tree-selection-actions button { flex: 1; margin: 0; padding: 9px 11px; font-size: .78rem; }
+.tree-selection-actions button:last-child { color: white; background: var(--red); }
+.tree-selection-actions button:focus-visible, .tree-ab-actions button:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
 .tree-legend { display: flex; flex-wrap: wrap; align-content: center; gap: 7px; }
 .tree-legend span { padding: 5px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: .75rem; }
 .legend-a { color: var(--blue); }
@@ -173,6 +173,42 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 .legend-rank-unlock { color: var(--ok); }
 .legend-folder { border-style: dashed !important; }
 .legend-partial { color: #dfb2ff; }
+.tree-ab-bar {
+  position: sticky;
+  z-index: 15;
+  top: 10px;
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) auto minmax(140px, 1fr) auto;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 13px 16px;
+  border: 1px solid #6a5428;
+  border-radius: 14px;
+  background: #171a21f5;
+  box-shadow: 0 10px 30px #0009;
+  backdrop-filter: blur(9px);
+}
+.tree-ab-endpoint { min-width: 0; }
+.tree-ab-endpoint span { display: block; color: var(--muted); font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.tree-ab-endpoint strong { display: block; overflow: hidden; margin-top: 2px; text-overflow: ellipsis; white-space: nowrap; font-size: .84rem; }
+.tree-ab-arrow { color: var(--accent); font-size: 1.2rem; font-weight: 900; }
+.tree-ab-actions { display: flex; gap: 7px; }
+.tree-ab-actions button { margin: 0; padding: 8px 11px; white-space: nowrap; font-size: .76rem; }
+.tree-ab-message { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .75rem; }
+.tree-ab-message.error { color: #ff938c; font-weight: 700; }
+.tree-ab-message.success { color: var(--ok); }
+.tree-result-summary {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto;
+  gap: 3px 14px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+}
+.tree-result-summary[hidden] { display: none; }
+.tree-result-summary strong { color: var(--accent); }
+.tree-result-summary span { font-variant-numeric: tabular-nums; }
+.tree-result-summary small { grid-column: 1 / -1; color: var(--muted); }
 .tree-panel {
   min-width: 0;
   overflow: hidden;
@@ -316,7 +352,7 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 .tree-vehicle.target-b::before { content: "B"; color: white; background: var(--red); }
 .tree-vehicle.required-direct-path { border-color: var(--accent); box-shadow: 0 0 0 1px #ffb00055, 0 8px 20px #0005; }
 .tree-vehicle.required-rank-unlock { border-color: var(--ok); box-shadow: 0 0 0 1px #55d38a44, 0 8px 20px #0005; }
-.visual-tree.has-highlight .tree-vehicle.not-required:not(.start-a) { opacity: .43; }
+.visual-tree.has-highlight .tree-vehicle.not-required:not(.start-a):not(.target-b) { opacity: .43; }
 .tree-vehicle.hidden-research, .tree-vehicle.partial-unresolved {
   background: repeating-linear-gradient(135deg, #25222b, #25222b 8px, #2d2833 8px, #2d2833 16px);
 }
@@ -344,6 +380,10 @@ footer { padding: 30px 0 50px; text-align: center; }
   .summary { grid-template-columns: 1fr; }
   .tree-controls { grid-template-columns: 1fr; }
   .tree-selection dl { grid-template-columns: 1fr 1fr; }
+  .tree-ab-bar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .tree-ab-actions { grid-column: 1 / -1; flex-wrap: wrap; }
+  .tree-result-summary { grid-template-columns: 1fr; }
+  .tree-result-summary small { grid-column: 1; }
   .tree-panel-head { align-items: flex-start; flex-direction: column; }
   .tree-panel-tools { justify-items: start; }
   .tree-metrics { justify-content: flex-start; }

@@ -122,3 +122,144 @@ export function selectedVehicleDetails(database, layout, vehicleId) {
     partial_unresolved: partialVehicleIds.has(vehicle.id),
   });
 }
+
+export function createTreeAbState(initial = {}) {
+  return Object.freeze({
+    startId: initial.startId || null,
+    targetId: initial.targetId || null,
+    result: initial.result || null,
+    userResultSource: initial.userResultSource || "legacy",
+    calculationStatus: initial.calculationStatus || null,
+    fallbackReason: initial.fallbackReason || null,
+  });
+}
+
+function databaseVehicle(database, vehicleId) {
+  if (!vehicleId) return null;
+  return (database?.vehicles || []).find(vehicle => vehicle.id === vehicleId) || null;
+}
+
+function assertCompatibleVehicles(start, target) {
+  if (start && target
+    && (start.countryId !== target.countryId || start.branchId !== target.branchId)) {
+    throw new Error("Start A und Ziel B müssen im selben Forschungsbaum liegen.");
+  }
+}
+
+export function setTreeAbEndpoint(database, state, role, vehicleId) {
+  if (role !== "start" && role !== "target") throw new Error("Unbekannte A/B-Rolle.");
+  const current = createTreeAbState(state);
+  const vehicle = databaseVehicle(database, vehicleId);
+  if (vehicleId && !vehicle) throw new Error(`Unbekanntes Fahrzeug: ${vehicleId}`);
+  const startId = role === "start" ? vehicle?.id || null : current.startId;
+  const targetId = role === "target" ? vehicle?.id || null : current.targetId;
+  const start = databaseVehicle(database, startId);
+  const target = databaseVehicle(database, targetId);
+  assertCompatibleVehicles(start, target);
+  return createTreeAbState({
+    ...current,
+    startId,
+    targetId,
+    result: null,
+    calculationStatus: null,
+    fallbackReason: null,
+  });
+}
+
+export function attachTreeAbResult(state, result, options = {}) {
+  const current = createTreeAbState(state);
+  if (!result || result.startVehicleId !== current.startId
+    || result.targetVehicleId !== current.targetId) {
+    throw new Error("Das Solver-Ergebnis passt nicht zur aktuellen A/B-Auswahl.");
+  }
+  return createTreeAbState({
+    ...current,
+    result,
+    userResultSource: options.userResultSource || "legacy",
+    calculationStatus: options.calculationStatus || "complete",
+    fallbackReason: options.fallbackReason || null,
+  });
+}
+
+export function resetTreeAbState() {
+  return createTreeAbState();
+}
+
+export function treeAbTreeKey(database, state) {
+  const current = createTreeAbState(state);
+  const start = databaseVehicle(database, current.startId);
+  const target = databaseVehicle(database, current.targetId);
+  assertCompatibleVehicles(start, target);
+  const vehicle = target || start;
+  return vehicle ? `${vehicle.countryId}/${vehicle.branchId}` : null;
+}
+
+export function treeAbMatchesLayout(database, state, layout) {
+  if (!layout) return false;
+  const key = treeAbTreeKey(database, state);
+  return key === `${layout.country_id}/${layout.branch_id}`;
+}
+
+export function buildTreeAbSelectionHighlight(layout, state) {
+  if (!layout) return null;
+  const current = createTreeAbState(state);
+  const nodeIds = new Set(layout.nodes.map(node => node.vehicle_id));
+  const startId = nodeIds.has(current.startId) ? current.startId : null;
+  const targetId = nodeIds.has(current.targetId) ? current.targetId : null;
+  if (!startId && !targetId) return null;
+  const nodeStates = {};
+  for (const node of layout.nodes) {
+    const states = [];
+    if (node.vehicle_id === startId) states.push("start_a");
+    if (node.vehicle_id === targetId) states.push("target_b");
+    states.push("not_required");
+    if (node.group_id) states.push("folder_member");
+    if (node.hidden_research) states.push("hidden_research");
+    if (partialVehicleIds.has(node.vehicle_id)) states.push("partial_unresolved");
+    nodeStates[node.vehicle_id] = states;
+  }
+  return Object.freeze({
+    contract_version: "visual-tree-ab-selection-v1",
+    start_vehicle_id: startId,
+    target_vehicle_id: targetId,
+    node_states: nodeStates,
+    required_edge_ids: [],
+    user_result_source: null,
+    calculation_status: null,
+    fallback_reason: null,
+    complete: false,
+  });
+}
+
+export function treeResultPresentation(database, result) {
+  if (!result) return null;
+  const start = databaseVehicle(database, result.startVehicleId);
+  const target = databaseVehicle(database, result.targetVehicleId);
+  if (!target) throw new Error("Das Solver-Ziel ist in der Datenbank nicht vorhanden.");
+  assertCompatibleVehicles(start, target);
+  const requiredVehicleIds = [...result.requiredVehicleIds];
+  const directVehicleIds = result.lines
+    .filter(line => line.reason === "direct_path")
+    .map(line => line.id);
+  const additionalVehicleIds = result.lines
+    .filter(line => line.reason !== "direct_path")
+    .map(line => line.id);
+  const partialVehicleIdsInResult = [...new Set([
+    result.startVehicleId,
+    result.targetVehicleId,
+    ...requiredVehicleIds,
+  ].filter(vehicleId => partialVehicleIds.has(vehicleId)))].sort();
+  return Object.freeze({
+    start_name: start?.name || start?.id || "Forschungsbaum",
+    target_name: target.name || target.id,
+    vehicle_count: requiredVehicleIds.length,
+    total_rp: result.totalRp,
+    total_sl: result.totalSl,
+    total_ge: result.totalGe,
+    required_vehicle_ids: Object.freeze(requiredVehicleIds),
+    direct_vehicle_ids: Object.freeze(directVehicleIds),
+    additional_vehicle_ids: Object.freeze(additionalVehicleIds),
+    partial_vehicle_ids: Object.freeze(partialVehicleIdsInResult),
+    calculation_status: partialVehicleIdsInResult.length ? "partial" : "complete",
+  });
+}
