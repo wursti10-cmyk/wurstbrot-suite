@@ -381,11 +381,10 @@ async function activateSearchResult(vehicleId) {
   }
 }
 
-function calculatorInput() {
+function calculatorInput({startId = $("start").value || null, targetId = $("target").value} = {}) {
   const convertibleText = $("convertible-rp").value.trim();
-  const targetId = $("target").value;
   return {
-    startId: $("start").value || null,
+    startId,
     targetId,
     progress: {
       vehicles: {[targetId]: {researchedRp: Number($("partial-rp").value) || 0}},
@@ -398,10 +397,13 @@ function calculatorInput() {
 }
 
 async function executeCalculation({origin}) {
+  const input = origin === "tree"
+    ? calculatorInput({startId: treeAbState.startId, targetId: treeAbState.targetId})
+    : calculatorInput();
   if (origin === "tree") syncCalculatorFromTreeState();
-  updateTreeAbFromCalculator();
+  else updateTreeAbFromCalculator();
   if (!treeAbState.targetId) throw new Error("Bitte Ziel B auswählen.");
-  const result = calculate(database, calculatorInput());
+  const result = calculate(database, input);
   const presentation = treeResultPresentation(database, result);
   treeAbState = attachTreeAbResult(treeAbState, result, {
     userResultSource: "legacy",

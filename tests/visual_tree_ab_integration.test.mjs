@@ -198,6 +198,28 @@ test("known hidden-folder vehicles remain visibly partial without invented total
   assert.equal(highlight.fallback_reason, "legacy_partial_fallback");
 });
 
+test("a rejected hidden partial target preserves the authoritative tree A/B state", () => {
+  const partialId = KNOWN_PARTIAL_VEHICLE_IDS[0];
+  const partialVehicle = database.vehicles.find(vehicle => vehicle.id === partialId);
+  const visibleStart = database.vehicles.find(vehicle => (
+    vehicle.countryId === partialVehicle.countryId
+      && vehicle.branchId === partialVehicle.branchId
+      && !vehicle.hiddenResearch
+  ));
+  let state = setTreeAbEndpoint(database, createTreeAbState(), "start", visibleStart.id);
+  state = setTreeAbEndpoint(database, state, "target", partialId);
+  assert.throws(() => calculate(database, {
+    startId: state.startId,
+    targetId: state.targetId,
+    progress: {vehicles: {}, ownedGe: 0, convertibleRp: null},
+    slDiscount: 0,
+    optimizeFor: "ge",
+  }), /ausgeblendetes Altbestandsfahrzeug/);
+  assert.equal(state.startId, visibleStart.id);
+  assert.equal(state.targetId, partialId);
+  assert.equal(state.result, null);
+});
+
 test("VT.4 production wiring shares one calculation pipeline and has accessible controls", async () => {
   const html = await readFile(new URL("apps/web/index.html", root), "utf8");
   const app = await readFile(new URL("apps/web/app.js", root), "utf8");
@@ -211,6 +233,8 @@ test("VT.4 production wiring shares one calculation pipeline and has accessible 
   ]) assert.match(html, new RegExp(`id="${id}"`), id);
   assert.match(html, /role="status" aria-live="polite"/);
   assert.equal(app.match(/calculate\(database,/g)?.length, 1, "one existing solver call site");
+  assert.match(app, /origin === "tree"[\s\S]*calculatorInput\(\{startId: treeAbState\.startId, targetId: treeAbState\.targetId\}\)/);
+  assert.match(app, /if \(origin === "tree"\) syncCalculatorFromTreeState\(\);[\s\S]*else updateTreeAbFromCalculator\(\);/);
   assert.match(app, /executeCalculation\(\{origin: "tree"\}\)/);
   assert.match(app, /executeCalculation\(\{origin: "calculator"\}\)/);
   assert.match(app, /syncCalculatorFromTreeState/);
