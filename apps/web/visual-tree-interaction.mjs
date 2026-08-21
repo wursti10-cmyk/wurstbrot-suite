@@ -7,6 +7,7 @@ import {
 export const TREE_ZOOM_MIN = 0.5;
 export const TREE_ZOOM_MAX = 1.5;
 export const TREE_ZOOM_STEP = 0.1;
+export const TREE_PAN_THRESHOLD = 6;
 
 const partialVehicleIds = new Set(KNOWN_PARTIAL_VEHICLE_IDS);
 const collator = new Intl.Collator("de", {numeric: true, sensitivity: "base"});
@@ -86,6 +87,25 @@ export function panScrollPosition(scroll, pointerStart, pointerCurrent) {
   return {
     left: Math.max(0, scroll.left - (pointerCurrent.x - pointerStart.x)),
     top: Math.max(0, scroll.top - (pointerCurrent.y - pointerStart.y)),
+  };
+}
+
+export function pointerMovementExceedsThreshold(
+  pointerStart,
+  pointerCurrent,
+  threshold = TREE_PAN_THRESHOLD,
+) {
+  const deltaX = Number(pointerCurrent.x) - Number(pointerStart.x);
+  const deltaY = Number(pointerCurrent.y) - Number(pointerStart.y);
+  return Math.hypot(deltaX, deltaY) >= Math.max(0, Number(threshold));
+}
+
+export function clampTreeScrollPosition(scroll, viewport) {
+  const maxLeft = Math.max(0, Number(viewport.scrollWidth) - Number(viewport.clientWidth));
+  const maxTop = Math.max(0, Number(viewport.scrollHeight) - Number(viewport.clientHeight));
+  return {
+    left: Math.min(maxLeft, Math.max(0, Number(scroll.left) || 0)),
+    top: Math.min(maxTop, Math.max(0, Number(scroll.top) || 0)),
   };
 }
 

@@ -4,7 +4,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 const workerSource = await readFile(new URL("../apps/web/service-worker.js", import.meta.url), "utf8");
-const CURRENT_CACHE = "wurstbrot-1.0.0-stable-vt5";
+const CURRENT_CACHE = "wurstbrot-1.0.0-stable-vt6";
 
 function createWorker({cacheNames = [], clients = [], failPrecache = false, cacheHit = null} = {}) {
   const handlers = new Map();
@@ -108,7 +108,7 @@ function createWorker({cacheNames = [], clients = [], failPrecache = false, cach
   return {addedAssets, calls, deletedCaches, dispatch, freshRequests, storedCaches, windows};
 }
 
-test("fresh user precaches VT.5 and activates without an unnecessary reload", async () => {
+test("fresh user precaches VT.6 and activates without an unnecessary reload", async () => {
   const worker = createWorker({cacheNames: ["other-app-cache"], clients: ["https://example.test/app/"]});
   await worker.dispatch("install");
   await worker.dispatch("activate");
@@ -128,10 +128,10 @@ test("fresh user precaches VT.5 and activates without an unnecessary reload", as
   assert(worker.freshRequests.every(item => new URL(item.url).searchParams.get("wurstbrot-cache") === CURRENT_CACHE));
 });
 
-test("existing VT.4 user switches immediately after the complete VT.5 precache", async () => {
+test("existing VT.5 user switches immediately after the complete VT.6 precache", async () => {
   const url = "https://example.test/wurstbrot-suite/";
   const worker = createWorker({
-    cacheNames: ["wurstbrot-1.0.0-stable-vt4", "other-app-cache"],
+    cacheNames: ["wurstbrot-1.0.0-stable-vt5", "other-app-cache"],
     clients: [url],
   });
   await worker.dispatch("install");
@@ -139,7 +139,7 @@ test("existing VT.4 user switches immediately after the complete VT.5 precache",
 
   assert.equal(worker.calls.skipWaiting, 1);
   assert.equal(worker.calls.claim, 1);
-  assert.deepEqual(worker.deletedCaches, ["wurstbrot-1.0.0-stable-vt4"]);
+  assert.deepEqual(worker.deletedCaches, ["wurstbrot-1.0.0-stable-vt5"]);
   assert.deepEqual(worker.windows[0].navigations, [url]);
   assert(worker.storedCaches.has(CURRENT_CACHE));
   assert(worker.storedCaches.has("other-app-cache"));

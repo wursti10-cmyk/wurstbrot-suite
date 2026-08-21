@@ -18,6 +18,10 @@
 body {
   margin: 0;
   min-height: 100vh;
+  max-width: 100%;
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  overflow-wrap: break-word;
   color: var(--text);
   background: radial-gradient(circle at 10% 0, #292316 0, transparent 32rem), var(--bg);
 }
@@ -42,12 +46,14 @@ h2 { margin-top: 0; }
   letter-spacing: .14em;
 }
 .status {
+  min-width: 0;
   padding: 9px 14px;
   border: 1px solid #2e6646;
   border-radius: 999px;
   color: var(--ok);
   background: #15291f;
   font-size: .9rem;
+  overflow-wrap: anywhere;
 }
 .app-nav {
   display: flex;
@@ -73,6 +79,7 @@ button.secondary { margin: 0; color: var(--text); background: transparent; }
 .nav-tab.active { color: #15110a; background: var(--accent); }
 select, input { width: 100%; padding: 11px; color: var(--text); background: var(--panel-2); }
 .app-view[hidden] { display: none; }
+#app-main, .app-view, .card { min-width: 0; }
 .calculator-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
@@ -122,7 +129,7 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
   top: calc(100% - 8px);
   right: 14px;
   left: 14px;
-  max-height: 320px;
+  max-height: min(320px, 45dvh);
   overflow: auto;
   padding: 6px;
   border: 1px solid #56606c;
@@ -146,6 +153,7 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 .tree-search-result:hover, .tree-search-result:focus-visible { background: #2b323c; filter: none; }
 .tree-search-result strong { font-size: .84rem; }
 .tree-search-result span { color: var(--muted); font-size: .7rem; }
+.tree-search-result strong, .tree-search-result span { overflow-wrap: anywhere; }
 .tree-selection h3 { margin: 0 0 9px; font-size: .95rem; }
 .tree-selection p { margin: 0; color: var(--muted); font-size: .78rem; }
 .tree-selection dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin: 0; }
@@ -209,6 +217,7 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 }
 .tree-result-summary[hidden] { display: none; }
 .tree-result-summary strong { color: var(--accent); }
+.tree-result-summary strong, .tree-result-summary span, .tree-result-summary small { overflow-wrap: anywhere; }
 .tree-result-summary span { font-variant-numeric: tabular-nums; }
 .tree-result-summary small { grid-column: 1 / -1; color: var(--muted); }
 .tree-panel {
@@ -243,7 +252,8 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
   background: radial-gradient(circle at 50% 0, #28313a 0, transparent 55rem), #11151a;
   scrollbar-color: #59616b #171b20;
   cursor: grab;
-  touch-action: none;
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 .tree-viewport.is-panning { cursor: grabbing; user-select: none; }
 .tree-viewport:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
@@ -378,22 +388,68 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 }
 .tree-empty strong { color: var(--accent); font-size: 1.2rem; }
 .tree-empty span { max-width: 460px; color: var(--muted); }
-footer { padding: 30px 0 50px; text-align: center; }
+footer { padding: 30px 0 calc(50px + env(safe-area-inset-bottom, 0px)); text-align: center; }
 
-@media (max-width: 820px) {
+@media (max-width: 900px), (max-height: 520px) and (max-width: 1024px) {
   header { display: block; padding-top: 30px; }
   .status { display: inline-block; margin-top: 8px; }
+  .app-nav button, .calculator-layout button, .tree-view button,
+  .tree-view select, .tree-view input { min-height: 44px; }
   .calculator-layout { grid-template-columns: 1fr; }
   .grid, .tree-selectors { grid-template-columns: 1fr; }
   .summary { grid-template-columns: 1fr; }
   .tree-controls { grid-template-columns: 1fr; }
   .tree-selection dl { grid-template-columns: 1fr 1fr; }
-  .tree-ab-bar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .tree-search-results { max-height: min(280px, 42dvh); }
+  .tree-ab-bar {
+    top: calc(env(safe-area-inset-top, 0px) + 8px);
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .tree-ab-endpoint strong {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
   .tree-ab-actions { grid-column: 1 / -1; flex-wrap: wrap; }
+  .tree-ab-actions button { flex: 1 1 150px; }
   .tree-result-summary { grid-template-columns: 1fr; }
   .tree-result-summary small { grid-column: 1; }
   .tree-panel-head { align-items: flex-start; flex-direction: column; }
   .tree-panel-tools { justify-items: start; }
   .tree-metrics { justify-content: flex-start; }
-  .tree-viewport { min-height: 480px; }
+  .tree-zoom button { min-width: 44px; }
+  .tree-viewport {
+    min-height: min(480px, 62dvh);
+    max-height: 72dvh;
+  }
+}
+
+@media (max-width: 480px) {
+  header, .app-nav, #app-main, footer { width: calc(100% - 20px); }
+  header { padding-top: calc(22px + env(safe-area-inset-top, 0px)); }
+  h1 { font-size: clamp(1.75rem, 11vw, 2.5rem); }
+  .app-nav { align-items: stretch; }
+  .nav-tab { flex: 1 1 0; min-width: 0; padding: 10px 8px; }
+  .card { padding: 14px; border-radius: 14px; }
+  .result-head { flex-wrap: wrap; gap: 8px; }
+  .vehicle { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .vehicle span:last-child { white-space: normal; }
+  .tree-controls { gap: 14px; }
+  .tree-search, .tree-selection { padding: 10px; }
+  .tree-search-results { right: 8px; left: 8px; }
+  .tree-selection dl { grid-template-columns: 1fr; }
+  .tree-selection-actions { flex-wrap: wrap; }
+  .tree-selection-actions button { flex: 1 1 120px; }
+  .tree-ab-bar { gap: 8px; padding: 10px; border-radius: 12px; }
+  .tree-ab-arrow { font-size: 1rem; }
+  .tree-ab-actions button { flex-basis: 110px; padding-inline: 8px; white-space: normal; }
+  .tree-result-summary { gap: 5px; }
+  .tree-panel { border-radius: 14px; }
+  .tree-panel-head { gap: 12px; padding: 12px; }
+  .tree-panel-tools { width: 100%; }
+  .tree-metrics { justify-content: flex-start; }
+  .tree-metrics span { padding: 5px 7px; font-size: .72rem; }
+  .tree-zoom { flex-wrap: wrap; }
+  .tree-viewport { min-height: min(420px, 62dvh); }
 }

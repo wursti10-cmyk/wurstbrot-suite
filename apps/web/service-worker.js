@@ -1,4 +1,4 @@
-const CACHE = "wurstbrot-1.0.0-stable-vt5";
+const CACHE = "wurstbrot-1.0.0-stable-vt6";
 const CACHE_PREFIX = "wurstbrot-";
 const ASSETS = ["./", "index.html", "styles.css", "app.js", "solver.mjs", "visual-tree.mjs", "visual-tree-interaction.mjs", "manifest.webmanifest", "icon.svg", "../../data/samples/WT_Database_2.57.1.67.json"];
 self.addEventListener("install", event => event.waitUntil((async () => {
