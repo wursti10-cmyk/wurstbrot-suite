@@ -330,6 +330,8 @@ function renderVehicle(node, highlight) {
   if (partialVehicleIds.has(node.vehicle_id)) states.add("partial_unresolved");
   const classes = [...states].map(state => state.replaceAll("_", "-")).join(" ");
   const badges = [];
+  if (states.has("start_a")) badges.push("A · Start");
+  if (states.has("target_b")) badges.push("B · Ziel");
   if (node.reserve) badges.push("Reserve");
   if (node.hidden_research) badges.push("Hidden");
   if (partialVehicleIds.has(node.vehicle_id)) badges.push("Partial");

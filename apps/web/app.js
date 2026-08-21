@@ -8,14 +8,22 @@ import {
   renderTreeMarkup,
 } from "./visual-tree.mjs";
 import {
+  attachTreeAbResult,
+  buildTreeAbSelectionHighlight,
   buildVehicleSearchIndex,
   changeTreeZoom,
   connectionGeometry,
+  createTreeAbState,
   findVehicleSearchEntry,
   panScrollPosition,
+  resetTreeAbState,
   searchVehicleIndex,
   selectedDirectEdgeIds,
   selectedVehicleDetails,
+  setTreeAbEndpoint,
+  treeAbMatchesLayout,
+  treeAbTreeKey,
+  treeResultPresentation,
 } from "./visual-tree-interaction.mjs";
 
 const $ = id => document.getElementById(id);
@@ -33,6 +41,7 @@ let treeZoom = 1;
 let panState = null;
 let treeRenderSequence = 0;
 let resizeFrame = 0;
+let treeAbState = createTreeAbState();
 
 function vehicles() { return database?.vehicles || []; }
 
@@ -40,7 +49,8 @@ function setOptions(select, items, label = value => value.name ?? value) {
   select.replaceChildren(...items.map(value => new Option(label(value), value.id ?? value)));
 }
 
-function refreshBranches() {
+function refreshBranches({preserveSelection = false} = {}) {
+  const previousBranch = preserveSelection ? $("branch").value : null;
   const branches = [...new Set(vehicles()
     .filter(vehicle => vehicle.countryId === $("country").value)
     .map(vehicle => vehicle.branchId))].sort();
@@ -48,10 +58,13 @@ function refreshBranches() {
     id,
     name: BRANCH_LABELS[id] ?? fallbackLabel(id),
   })));
-  refreshVehicles();
+  if (previousBranch && branches.includes(previousBranch)) $("branch").value = previousBranch;
+  refreshVehicles({preserveSelection});
 }
 
-function refreshVehicles() {
+function refreshVehicles({preserveSelection = false} = {}) {
+  const previousStart = preserveSelection ? $("start").value : null;
+  const previousTarget = preserveSelection ? $("target").value : null;
   const list = vehicles()
     .filter(vehicle => vehicle.countryId === $("country").value
       && vehicle.branchId === $("branch").value && !vehicle.hiddenResearch)
@@ -59,8 +72,16 @@ function refreshVehicles() {
   const title = vehicle => `Rang ${vehicle.rank} · ${vehicle.name || vehicle.id}`;
   setOptions($("start"), [{id: "", name: "Forschungsbaum"}, ...list],
     vehicle => vehicle.id ? title(vehicle) : vehicle.name);
-  setOptions($("target"), list, title);
-  if (list.length) $("target").value = list.at(-1).id;
+  setOptions($("target"), [{id: "", name: "Ziel wählen"}, ...list],
+    vehicle => vehicle.id ? title(vehicle) : vehicle.name);
+  if (previousStart && list.some(vehicle => vehicle.id === previousStart)) {
+    $("start").value = previousStart;
+  }
+  if (previousTarget && list.some(vehicle => vehicle.id === previousTarget)) {
+    $("target").value = previousTarget;
+  } else if (!preserveSelection && list.length) {
+    $("target").value = list.at(-1).id;
+  }
 }
 
 function load(raw) {
@@ -72,10 +93,13 @@ function load(raw) {
     name: COUNTRY_LABELS[id] ?? fallbackLabel(id),
   })));
   refreshBranches();
+  $("target").value = "";
+  treeAbState = resetTreeAbState();
   refreshTreeSelectors();
   $("status").textContent = `${database.gameVersion} · ${format(vehicles().length)} Fahrzeuge`;
   $("tree-search-count").textContent = `${format(vehicleSearchIndex.length)} Fahrzeuge indexiert`;
   renderSearchResults("");
+  renderTreeAbState();
   if (!$("tree-view").hidden) refreshVisualTree({resetNavigation: true});
 }
 
@@ -154,6 +178,7 @@ function renderSelectedVehicleDetails(vehicleId) {
   if (!details) {
     container.hidden = true;
     empty.hidden = false;
+    $("tree-selection-actions").hidden = true;
     return;
   }
   container.append(
@@ -172,6 +197,102 @@ function renderSelectedVehicleDetails(vehicleId) {
   );
   empty.hidden = true;
   container.hidden = false;
+  $("tree-selection-actions").hidden = false;
+}
+
+function vehicleLabel(vehicleId, emptyLabel = "Nicht gewählt") {
+  if (!vehicleId) return emptyLabel;
+  const vehicle = vehicles().find(item => item.id === vehicleId);
+  return vehicle?.name || vehicleId;
+}
+
+function setTreeAbMessage(message, tone = "") {
+  const element = $("tree-ab-message");
+  element.textContent = message;
+  element.className = `tree-ab-message${tone ? ` ${tone}` : ""}`;
+}
+
+function renderTreeAbState() {
+  $("tree-ab-start").textContent = vehicleLabel(treeAbState.startId);
+  $("tree-ab-target").textContent = vehicleLabel(treeAbState.targetId);
+  $("tree-calculate").disabled = !(treeAbState.startId && treeAbState.targetId);
+  $("tree-reset").disabled = !(treeAbState.startId || treeAbState.targetId || treeAbState.result);
+  $("tree-details-calculator").hidden = !treeAbState.result;
+  const summary = $("tree-result-summary");
+  if (!treeAbState.result) {
+    summary.hidden = true;
+    return;
+  }
+  const presentation = treeResultPresentation(database, treeAbState.result);
+  $("tree-result-route").textContent = `${presentation.start_name} → ${presentation.target_name}`;
+  $("tree-result-values").textContent = `${format(presentation.vehicle_count)} Fahrzeuge · ${format(presentation.total_rp)} RP · ${format(presentation.total_sl)} SL · ${format(presentation.total_ge)} GE`;
+  const status = presentation.calculation_status === "partial" ? "Partial / unresolved" : "Complete";
+  const fallback = treeAbState.fallbackReason ? " · Sichtbarer Legacy-Fallback" : "";
+  $("tree-result-meta").textContent = `${status} · Legacy-Ergebnis${fallback} · Details im Rechner`;
+  summary.hidden = false;
+}
+
+function setCalculatorTree(countryId, branchId, startId = null, targetId = null) {
+  $("country").value = countryId;
+  refreshBranches();
+  $("branch").value = branchId;
+  refreshVehicles();
+  if (startId && [...$("start").options].some(option => option.value === startId)) {
+    $("start").value = startId;
+  }
+  if (targetId && [...$("target").options].some(option => option.value === targetId)) {
+    $("target").value = targetId;
+  } else {
+    $("target").value = "";
+  }
+}
+
+function syncCalculatorFromTreeState() {
+  const vehicleId = treeAbState.targetId || treeAbState.startId;
+  const vehicle = vehicles().find(item => item.id === vehicleId);
+  if (!vehicle) return;
+  setCalculatorTree(
+    vehicle.countryId,
+    vehicle.branchId,
+    treeAbState.startId,
+    treeAbState.targetId,
+  );
+}
+
+function updateTreeAbFromCalculator() {
+  let next = resetTreeAbState();
+  if ($("start").value) next = setTreeAbEndpoint(database, next, "start", $("start").value);
+  if ($("target").value) next = setTreeAbEndpoint(database, next, "target", $("target").value);
+  treeAbState = next;
+  renderTreeAbState();
+}
+
+function resetTreeAb({message = "A/B-Auswahl zurückgesetzt."} = {}) {
+  treeAbState = resetTreeAbState();
+  currentTreeHighlight = null;
+  $("start").value = "";
+  $("target").value = "";
+  renderTreeAbState();
+  setTreeAbMessage(message);
+  if (!$("tree-view").hidden) {
+    void refreshVisualTree({selectVehicleId: selectedTreeVehicleId});
+  }
+}
+
+function setSelectedTreeEndpoint(role) {
+  if (!selectedTreeVehicleId) return;
+  try {
+    treeAbState = setTreeAbEndpoint(database, treeAbState, role, selectedTreeVehicleId);
+    syncCalculatorFromTreeState();
+    renderTreeAbState();
+    setTreeAbMessage(
+      `${vehicleLabel(selectedTreeVehicleId)} ist jetzt ${role === "start" ? "Start A" : "Ziel B"}.`,
+      "success",
+    );
+    void refreshVisualTree({selectVehicleId: selectedTreeVehicleId});
+  } catch (error) {
+    setTreeAbMessage(error.message, "error");
+  }
 }
 
 function clearTreeSelection() {
@@ -237,6 +358,13 @@ async function activateSearchResult(vehicleId) {
   setSearchResultsOpen(false);
   const changed = $("tree-country").value !== entry.country_id
     || $("tree-branch").value !== entry.branch_id;
+  if (changed && treeAbState.result) {
+    treeAbState = resetTreeAbState();
+    $("start").value = "";
+    $("target").value = "";
+    renderTreeAbState();
+    setTreeAbMessage("A/B-Ergebnis wegen Forschungsbaumwechsel zurückgesetzt.");
+  }
   $("tree-country").value = entry.country_id;
   $("tree-branch").value = entry.branch_id;
   showView("tree", {refresh: false});
@@ -253,19 +381,54 @@ async function activateSearchResult(vehicleId) {
   }
 }
 
-function treeDemoResult(countryId, branchId) {
-  if (countryId !== "country_germany" || branchId !== "army") return null;
-  const ids = new Set(vehicles().map(vehicle => vehicle.id));
-  const startId = "germ_pzkpfw_VI_ausf_h1_tiger";
-  const targetId = "germ_leopard_2a7v";
-  if (!ids.has(startId) || !ids.has(targetId)) return null;
-  return calculate(database, {
+function calculatorInput({startId = $("start").value || null, targetId = $("target").value} = {}) {
+  const convertibleText = $("convertible-rp").value.trim();
+  return {
     startId,
     targetId,
-    progress: {vehicles: {}, ownedGe: 0, convertibleRp: null},
-    slDiscount: 0,
-    optimizeFor: "ge",
+    progress: {
+      vehicles: {[targetId]: {researchedRp: Number($("partial-rp").value) || 0}},
+      ownedGe: Number($("owned-ge").value) || 0,
+      convertibleRp: convertibleText === "" ? null : Number(convertibleText),
+    },
+    slDiscount: Number($("discount").value),
+    optimizeFor: $("optimize").value,
+  };
+}
+
+async function executeCalculation({origin}) {
+  const input = origin === "tree"
+    ? calculatorInput({startId: treeAbState.startId, targetId: treeAbState.targetId})
+    : calculatorInput();
+  if (origin === "tree") syncCalculatorFromTreeState();
+  else updateTreeAbFromCalculator();
+  if (!treeAbState.targetId) throw new Error("Bitte Ziel B auswählen.");
+  const result = calculate(database, input);
+  const presentation = treeResultPresentation(database, result);
+  treeAbState = attachTreeAbResult(treeAbState, result, {
+    userResultSource: "legacy",
+    calculationStatus: presentation.calculation_status,
+    fallbackReason: presentation.calculation_status === "partial"
+      ? "known_partial_legacy_fallback" : null,
   });
+  render(result);
+  renderTreeAbState();
+  setTreeAbMessage(
+    presentation.calculation_status === "partial"
+      ? "Legacy-Ergebnis ist partial; der sichtbare Fallback-Status bleibt erhalten."
+      : "Legacy-Ergebnis erfolgreich im Forschungsbaum dargestellt.",
+    presentation.calculation_status === "partial" ? "" : "success",
+  );
+  const resultTreeKey = treeAbTreeKey(database, treeAbState);
+  if (resultTreeKey) {
+    const [countryId, branchId] = resultTreeKey.split("/");
+    $("tree-country").value = countryId;
+    $("tree-branch").value = branchId;
+  }
+  if (!$("tree-view").hidden) {
+    await refreshVisualTree({selectVehicleId: selectedTreeVehicleId || treeAbState.targetId});
+  }
+  return result;
 }
 
 function updateTreeHeader(layout, countryId, branchId) {
@@ -305,18 +468,24 @@ async function refreshVisualTree({
   try {
     const layout = await buildVisualTreeLayout(database, {countryId, branchId});
     if (sequence !== treeRenderSequence) return;
-    const result = layout ? treeDemoResult(countryId, branchId) : null;
-    const highlight = result ? await buildVisualTreeHighlight(layout, result, {
-      userResultSource: "legacy",
-      calculationStatus: "complete",
-    }) : null;
+    let highlight = layout ? buildTreeAbSelectionHighlight(layout, treeAbState) : null;
+    let hasSolverHighlight = false;
+    if (layout && treeAbState.result && treeAbMatchesLayout(database, treeAbState, layout)) {
+      const presentation = treeResultPresentation(database, treeAbState.result);
+      highlight = await buildVisualTreeHighlight(layout, treeAbState.result, {
+        userResultSource: treeAbState.userResultSource,
+        calculationStatus: treeAbState.calculationStatus,
+        fallbackReason: treeAbState.fallbackReason,
+        unresolvedVehicleIds: presentation.partial_vehicle_ids,
+      });
+      hasSolverHighlight = true;
+    }
     if (sequence !== treeRenderSequence) return;
 
     currentTreeLayout = layout;
     currentTreeHighlight = highlight;
-    $("tree-demo").hidden = !highlight;
     const visualTree = $("visual-tree");
-    visualTree.classList.toggle("has-highlight", Boolean(highlight));
+    visualTree.classList.toggle("has-highlight", hasSolverHighlight);
     visualTree.style.setProperty("--active-columns", layout
       ? String(Math.max(...layout.columns) + 1) : "1");
     $("tree-content").innerHTML = renderTreeMarkup(layout, highlight);
@@ -335,7 +504,7 @@ async function refreshVisualTree({
     if (sequence !== treeRenderSequence) return;
     currentTreeLayout = null;
     currentTreeHighlight = null;
-    $("tree-demo").hidden = true;
+    $("visual-tree").classList.remove("has-highlight");
     $("tree-content").innerHTML = renderTreeMarkup(null);
     $("tree-status").textContent = `Fehler: ${error.message}`;
     $("tree-connections").replaceChildren();
@@ -386,6 +555,10 @@ function showView(view, {refresh = true} = {}) {
   $("tree-tab").classList.toggle("active", treeActive);
   $("calculator-tab").setAttribute("aria-selected", String(!treeActive));
   $("tree-tab").setAttribute("aria-selected", String(treeActive));
+  if (!treeActive) {
+    syncCalculatorFromTreeState();
+    if (treeAbState.result) render(treeAbState.result);
+  }
   if (treeActive && refresh) refreshVisualTree({selectVehicleId: selectedTreeVehicleId});
 }
 
@@ -452,12 +625,35 @@ function render(result) {
   }
 }
 
-$("country").addEventListener("change", refreshBranches);
-$("branch").addEventListener("change", refreshVehicles);
+$("country").addEventListener("change", () => {
+  refreshBranches();
+  updateTreeAbFromCalculator();
+});
+$("branch").addEventListener("change", () => {
+  refreshVehicles();
+  updateTreeAbFromCalculator();
+});
+$("start").addEventListener("change", updateTreeAbFromCalculator);
+$("target").addEventListener("change", updateTreeAbFromCalculator);
 $("calculator-tab").addEventListener("click", () => showView("calculator"));
 $("tree-tab").addEventListener("click", () => showView("tree"));
-$("tree-country").addEventListener("change", () => refreshVisualTree({resetNavigation: true}));
-$("tree-branch").addEventListener("change", () => refreshVisualTree({resetNavigation: true}));
+const changeTreeExplicitly = () => {
+  treeAbState = resetTreeAbState();
+  setCalculatorTree($("tree-country").value, $("tree-branch").value);
+  renderTreeAbState();
+  setTreeAbMessage("A/B-Auswahl wegen Forschungsbaumwechsel zurückgesetzt.");
+  void refreshVisualTree({resetNavigation: true});
+};
+$("tree-country").addEventListener("change", changeTreeExplicitly);
+$("tree-branch").addEventListener("change", changeTreeExplicitly);
+$("tree-set-start").addEventListener("click", () => setSelectedTreeEndpoint("start"));
+$("tree-set-target").addEventListener("click", () => setSelectedTreeEndpoint("target"));
+$("tree-reset").addEventListener("click", () => resetTreeAb());
+$("tree-calculate").addEventListener("click", async () => {
+  try { await executeCalculation({origin: "tree"}); }
+  catch (error) { setTreeAbMessage(error.message, "error"); }
+});
+$("tree-details-calculator").addEventListener("click", () => showView("calculator"));
 $("tree-search-input").addEventListener("input", event => {
   renderSearchResults(event.target.value);
 });
@@ -544,22 +740,9 @@ window.addEventListener("resize", () => {
   cancelAnimationFrame(resizeFrame);
   resizeFrame = requestAnimationFrame(drawConnections);
 });
-$("calculate").addEventListener("click", () => {
-  try {
-    const convertibleText = $("convertible-rp").value.trim();
-    const targetId = $("target").value;
-    render(calculate(database, {
-      startId: $("start").value || null,
-      targetId,
-      progress: {
-        vehicles: {[targetId]: {researchedRp: Number($("partial-rp").value) || 0}},
-        ownedGe: Number($("owned-ge").value) || 0,
-        convertibleRp: convertibleText === "" ? null : Number(convertibleText),
-      },
-      slDiscount: Number($("discount").value),
-      optimizeFor: $("optimize").value,
-    }));
-  } catch (error) { alert(error.message); }
+$("calculate").addEventListener("click", async () => {
+  try { await executeCalculation({origin: "calculator"}); }
+  catch (error) { alert(error.message); }
 });
 $("copy").addEventListener("click", async () => {
   await navigator.clipboard.writeText(

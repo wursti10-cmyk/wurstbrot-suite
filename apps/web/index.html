@@ -83,12 +83,11 @@
           <h3 id="tree-selection-title">Fahrzeugdetails</h3>
           <p id="tree-selection-empty">Keine Fahrzeugkarte ausgewählt.</p>
           <dl id="tree-selection-details" hidden></dl>
+          <div class="tree-selection-actions" id="tree-selection-actions" hidden>
+            <button id="tree-set-start" type="button">Als Start A</button>
+            <button id="tree-set-target" type="button">Als Ziel B</button>
+          </div>
         </section>
-        <div class="tree-demo" id="tree-demo" hidden>
-          <span>Solver-Demonstration</span>
-          <strong>Tiger H1 → Leopard 2A7V</strong>
-          <small>Legacy-Ergebnis · Der Renderer berechnet keinen eigenen Weg.</small>
-        </div>
         <div class="tree-legend" aria-label="Legende">
           <span class="legend-a">A · Start</span>
           <span class="legend-b">B · Ziel</span>
@@ -96,6 +95,31 @@
           <span class="legend-rank-unlock">Rangfreischaltung</span>
           <span class="legend-folder">Folder</span>
           <span class="legend-partial">Partial / unresolved</span>
+        </div>
+      </section>
+
+      <section class="tree-ab-bar" id="tree-ab-bar" aria-label="A-nach-B-Auswahl">
+        <div class="tree-ab-endpoint">
+          <span>Start A</span>
+          <strong id="tree-ab-start">Nicht gewählt</strong>
+        </div>
+        <span class="tree-ab-arrow" aria-hidden="true">→</span>
+        <div class="tree-ab-endpoint">
+          <span>Ziel B</span>
+          <strong id="tree-ab-target">Nicht gewählt</strong>
+        </div>
+        <div class="tree-ab-actions">
+          <button id="tree-calculate" type="button" disabled>Berechnen</button>
+          <button id="tree-reset" class="secondary" type="button" disabled>Zurücksetzen</button>
+          <button id="tree-details-calculator" class="secondary" type="button" hidden>Details im Rechner</button>
+        </div>
+        <p id="tree-ab-message" class="tree-ab-message" role="status" aria-live="polite">
+          Start A und Ziel B im selben Forschungsbaum auswählen.
+        </p>
+        <div id="tree-result-summary" class="tree-result-summary" aria-live="polite" hidden>
+          <strong id="tree-result-route"></strong>
+          <span id="tree-result-values"></span>
+          <small id="tree-result-meta"></small>
         </div>
       </section>
 
