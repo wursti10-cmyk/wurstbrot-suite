@@ -110,6 +110,9 @@ export function selectedVehicleDetails(database, layout, vehicleId) {
   const vehicle = (database?.vehicles || []).find(item => item.id === vehicleId);
   const node = layout?.nodes?.find(item => item.vehicle_id === vehicleId);
   if (!vehicle || !node) return null;
+  const folder = vehicle.group
+    ? layout?.folders?.find(item => item.group_id === vehicle.group) || null
+    : null;
   return Object.freeze({
     vehicle_id: vehicle.id,
     name: vehicle.name || vehicle.id,
@@ -119,6 +122,12 @@ export function selectedVehicleDetails(database, layout, vehicleId) {
     rp: Number(vehicle.rp || 0),
     sl: Number(vehicle.sl || 0),
     group_id: vehicle.group || null,
+    group_index: vehicle.group ? Number(vehicle.groupIndex || 0) : null,
+    folder_visible_member_count: folder?.visible_member_count || 0,
+    folder_declared_member_count: folder?.declared_member_count || 0,
+    folder_missing_member_count: folder?.missing_member_count || 0,
+    folder_data_incomplete: Boolean(folder && !folder.complete_in_normalized_data),
+    hidden_research: Boolean(vehicle.hiddenResearch),
     partial_unresolved: partialVehicleIds.has(vehicle.id),
   });
 }

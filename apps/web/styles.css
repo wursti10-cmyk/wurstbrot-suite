@@ -153,6 +153,7 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 .tree-selection dt { color: var(--muted); font-size: .62rem; }
 .tree-selection dd { overflow-wrap: anywhere; margin: 2px 0 0; font-size: .75rem; }
 .tree-selection .partial-unresolved dd { color: #dfb2ff; font-weight: 800; }
+.tree-selection .folder-data-incomplete dd { color: #f0c8ff; font-weight: 700; }
 .tree-selection-actions {
   display: flex;
   gap: 8px;
@@ -173,6 +174,7 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
 .legend-rank-unlock { color: var(--ok); }
 .legend-folder { border-style: dashed !important; }
 .legend-partial { color: #dfb2ff; }
+.legend-hidden { background: repeating-linear-gradient(135deg, #25222b, #25222b 5px, #332d3a 5px, #332d3a 10px); }
 .tree-ab-bar {
   position: sticky;
   z-index: 15;
@@ -333,8 +335,14 @@ label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); fo
   border-radius: 12px;
   background: #171c22cc;
 }
-.folder-label { color: #c5cad0; font-size: .63rem; text-transform: uppercase; letter-spacing: .05em; }
-.tree-folder.partial-unresolved { border-color: #9668ac; background: #211a26dd; }
+.folder-header { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.folder-label { color: #e2e5e9; font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; }
+.folder-count { padding: 2px 6px; border-radius: 999px; color: #d5dae0; background: #303741; font-size: .6rem; white-space: nowrap; }
+.folder-semantics, .folder-state, .folder-data-notice { margin: 0; font-size: .61rem; line-height: 1.35; }
+.folder-semantics { color: var(--muted); }
+.folder-state { color: #dfb2ff; font-weight: 800; }
+.folder-data-notice { padding: 5px 6px; border-radius: 6px; color: #f0c8ff; background: #4a305966; }
+.tree-folder.partial-unresolved, .tree-folder.incomplete-data { border-color: #9668ac; background: #211a26dd; }
 .tree-vehicle.start-a::before, .tree-vehicle.target-b::before {
   position: absolute;
   top: -8px;

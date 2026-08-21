@@ -1,5 +1,6 @@
 export const LAYOUT_CONTRACT_VERSION = "visual-tech-tree-layout-v1";
 export const HIGHLIGHT_CONTRACT_VERSION = "visual-tech-tree-highlight-v1";
+export const FOLDER_UX_CONTRACT_VERSION = "visual-tech-tree-folder-ux-v1";
 
 export const COUNTRY_LABELS = Object.freeze({
   country_usa: "USA",
@@ -156,6 +157,42 @@ export function availableTrees(database) {
   return trees;
 }
 
+export function buildFolderMetadataSummary(database) {
+  const vehicles = database?.vehicles || [];
+  const vehicleIds = new Set(vehicles.map(vehicle => vehicle.id));
+  const folders = Object.entries(database?.groups || {}).sort(([left], [right]) => (
+    compareValues(left, right)
+  )).map(([groupId, declaredMemberIds]) => {
+    const presentMemberIds = declaredMemberIds.filter(vehicleId => vehicleIds.has(vehicleId));
+    const missingMemberIds = declaredMemberIds.filter(vehicleId => !vehicleIds.has(vehicleId));
+    return Object.freeze({
+      group_id: groupId,
+      declared_member_ids: Object.freeze([...declaredMemberIds]),
+      present_member_ids: Object.freeze(presentMemberIds),
+      missing_member_ids: Object.freeze(missingMemberIds),
+      complete_in_normalized_data: missingMemberIds.length === 0,
+      displayable: presentMemberIds.length > 0,
+    });
+  });
+  return Object.freeze({
+    contract_version: FOLDER_UX_CONTRACT_VERSION,
+    folder_count: folders.length,
+    present_member_count: folders.reduce(
+      (total, folder) => total + folder.present_member_ids.length,
+      0,
+    ),
+    missing_member_count: folders.reduce(
+      (total, folder) => total + folder.missing_member_ids.length,
+      0,
+    ),
+    incomplete_folder_count: folders.filter(folder => (
+      folder.missing_member_ids.length > 0
+    )).length,
+    non_displayable_folder_count: folders.filter(folder => !folder.displayable).length,
+    folders: Object.freeze(folders),
+  });
+}
+
 export async function buildVisualTreeLayout(database, {countryId, branchId}) {
   const vehicles = (database.vehicles || [])
     .filter(vehicle => vehicle.countryId === countryId && vehicle.branchId === branchId)
@@ -217,17 +254,23 @@ export async function buildVisualTreeLayout(database, {countryId, branchId}) {
     sl: Number(vehicle.sl || 0),
   }));
 
+  const folderMetadata = buildFolderMetadataSummary(database);
+  const metadataByGroupId = new Map(folderMetadata.folders.map(folder => [folder.group_id, folder]));
   const groupIds = [...new Set(vehicles.map(vehicle => vehicle.group).filter(Boolean))].sort();
   const folders = groupIds.map(groupId => {
-    const declared = [...((database.groups || {})[groupId] || [])];
+    const metadata = metadataByGroupId.get(groupId);
+    const declared = [...(metadata?.declared_member_ids || [])];
     const present = declared.filter(vehicleId => vehicleIds.has(vehicleId));
-    const missing = declared.filter(vehicleId => !vehicleIds.has(vehicleId));
+    const missing = [...(metadata?.missing_member_ids || [])];
     return {
       group_id: groupId,
       declared_member_ids: declared,
       present_member_ids: present,
       missing_member_ids: missing,
       complete_in_normalized_data: missing.length === 0,
+      visible_member_count: present.length,
+      declared_member_count: declared.length,
+      missing_member_count: missing.length,
     };
   });
   edges.sort((left, right) => compareValues(left.target_vehicle_id, right.target_vehicle_id)
@@ -368,12 +411,34 @@ function renderColumnNodes(nodes, folders, highlight) {
       index += 1;
     }
     const folder = folderById.get(node.group_id);
-    const incomplete = !folder?.complete_in_normalized_data
-      || members.some(member => partialVehicleIds.has(member.vehicle_id));
-    const status = incomplete ? " · Partial/unresolved" : "";
-    markup += `<section class="tree-folder${incomplete ? " partial-unresolved" : ""}"`
-      + ` data-folder-id="${escapeHtml(node.group_id)}">`
-      + `<div class="folder-label">Folder · ${members.length} Fahrzeuge${status}</div>`
+    const partial = members.some(member => partialVehicleIds.has(member.vehicle_id));
+    const incompleteData = !folder?.complete_in_normalized_data;
+    const visibleCount = folder?.visible_member_count ?? members.length;
+    const countLabel = `${visibleCount} ${visibleCount === 1 ? "Fahrzeug" : "Fahrzeuge"}`;
+    const accessibleStatus = [
+      incompleteData ? "Folder-Daten unvollständig" : "Folder-Daten vollständig",
+      partial ? "Partial / unresolved" : null,
+    ].filter(Boolean).join(", ");
+    const dataNotice = incompleteData
+      ? `<p class="folder-data-notice">Folder-Daten unvollständig · ${folder.missing_member_count}`
+        + ` ${folder.missing_member_count === 1 ? "deklariertes Mitglied" : "deklarierte Mitglieder"}`
+        + " im Datensatz nicht verfügbar</p>"
+      : "";
+    const folderClasses = [
+      "tree-folder",
+      partial ? "partial-unresolved" : null,
+      incompleteData ? "incomplete-data" : null,
+    ].filter(Boolean).join(" ");
+    markup += `<section class="${folderClasses}"`
+      + ` data-folder-id="${escapeHtml(node.group_id)}" data-folder-reveal="always"`
+      + ` role="group" aria-label="${escapeHtml(`Folder, ${countLabel}, ${accessibleStatus}`)}">`
+      + '<div class="folder-header">'
+      + '<span class="folder-label">Folder/Gruppe</span>'
+      + `<span class="folder-count">${escapeHtml(countLabel)}</span>`
+      + "</div>"
+      + `<p class="folder-semantics">Gruppierung · keine Forschungsbeziehung</p>`
+      + (partial ? '<p class="folder-state">Partial / unresolved</p>' : "")
+      + dataNotice
       + members.map(member => renderVehicle(member, highlight)).join("")
       + "</section>";
   }
