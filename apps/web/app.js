@@ -181,6 +181,12 @@ function renderSelectedVehicleDetails(vehicleId) {
     $("tree-selection-actions").hidden = true;
     return;
   }
+  const folderMembership = details.group_id
+    ? `${details.group_index + 1} von ${details.folder_declared_member_count} (Darstellungsmetadatum)`
+    : "–";
+  const folderData = details.folder_data_incomplete
+    ? `Unvollständig · ${details.folder_missing_member_count} deklarierte Mitglieder nicht verfügbar`
+    : details.group_id ? "Vollständig im produktiven Datensatz" : "–";
   container.append(
     detailRow("Fahrzeug", details.name),
     detailRow("Nation", details.country),
@@ -189,6 +195,13 @@ function renderSelectedVehicleDetails(vehicleId) {
     detailRow("RP", format(details.rp)),
     detailRow("SL", format(details.sl)),
     detailRow("Folder/Gruppe", details.group_id || "–"),
+    detailRow("Folder-Position", folderMembership),
+    detailRow(
+      "Folder-Daten",
+      folderData,
+      details.folder_data_incomplete ? "folder-data-incomplete" : "",
+    ),
+    detailRow("Sichtbarkeit", details.hidden_research ? "Hidden (Altbestand)" : "Normal sichtbar"),
     detailRow(
       "Status",
       details.partial_unresolved ? "Partial / unresolved" : "Vollständig dargestellt",
