@@ -40,6 +40,7 @@ jobs:
       - run: node --test tests/service_worker_update.test.mjs
       - run: node --test tests/visual_tree_prototype.test.mjs
       - run: node --test tests/visual_tree_renderer.test.mjs
+      - run: node --test tests/visual_tree_interaction.test.mjs
 
   datamine-health:
     runs-on: ubuntu-latest

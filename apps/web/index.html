@@ -67,6 +67,23 @@
           <label>Nation<select id="tree-country"></select></label>
           <label>Fahrzeugart<select id="tree-branch"></select></label>
         </div>
+        <section class="tree-search" aria-labelledby="tree-search-label">
+          <label id="tree-search-label" for="tree-search-input">Fahrzeug suchen</label>
+          <div class="tree-search-input-wrap">
+            <input id="tree-search-input" type="search" autocomplete="off"
+              placeholder="Name oder Fahrzeug-ID"
+              role="combobox" aria-autocomplete="list"
+              aria-controls="tree-search-results" aria-expanded="false">
+            <span id="tree-search-count">Suche wird vorbereitet …</span>
+          </div>
+          <div id="tree-search-results" class="tree-search-results" role="listbox"
+            aria-label="Suchergebnisse" hidden></div>
+        </section>
+        <section class="tree-selection" aria-labelledby="tree-selection-title">
+          <h3 id="tree-selection-title">Fahrzeugdetails</h3>
+          <p id="tree-selection-empty">Keine Fahrzeugkarte ausgewählt.</p>
+          <dl id="tree-selection-details" hidden></dl>
+        </section>
         <div class="tree-demo" id="tree-demo" hidden>
           <span>Solver-Demonstration</span>
           <strong>Tiger H1 → Leopard 2A7V</strong>
@@ -88,9 +105,18 @@
             <strong id="tree-heading">Forschungsbaum</strong>
             <span id="tree-status">Daten werden vorbereitet …</span>
           </div>
-          <div class="tree-metrics" id="tree-metrics" aria-live="polite"></div>
+          <div class="tree-panel-tools">
+            <div class="tree-metrics" id="tree-metrics" aria-live="polite"></div>
+            <div class="tree-zoom" aria-label="Forschungsbaum-Zoom">
+              <button class="secondary" id="tree-zoom-out" type="button" aria-label="Verkleinern">−</button>
+              <button class="secondary" id="tree-zoom-reset" type="button">100 %</button>
+              <button class="secondary" id="tree-zoom-in" type="button" aria-label="Vergrößern">+</button>
+              <span id="tree-zoom-value" aria-live="polite">100 %</span>
+            </div>
+          </div>
         </div>
-        <div class="tree-viewport" id="tree-viewport" tabindex="0">
+        <div class="tree-viewport" id="tree-viewport" tabindex="0"
+          aria-label="Forschungsbaum; auf freier Fläche ziehen zum Verschieben">
           <div class="visual-tree" id="visual-tree">
             <svg id="tree-connections" aria-hidden="true"></svg>
             <div id="tree-content"></div>

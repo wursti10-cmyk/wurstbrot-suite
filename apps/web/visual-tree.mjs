@@ -339,7 +339,9 @@ function renderVehicle(node, highlight) {
     : "";
   return `<article class="tree-vehicle ${classes}" data-vehicle-id="${escapeHtml(node.vehicle_id)}"`
     + ` data-rank="${node.rank}" data-column="${node.column}"`
-    + `${node.group_id ? ` data-group-id="${escapeHtml(node.group_id)}"` : ""}>`
+    + `${node.group_id ? ` data-group-id="${escapeHtml(node.group_id)}"` : ""}`
+    + ` role="button" tabindex="0" aria-pressed="false"`
+    + ` aria-label="${escapeHtml(`${node.name}, Rang ${romanRank(node.rank)}`)}">`
     + `<strong>${escapeHtml(node.name)}</strong>`
     + `<span class="vehicle-rank">Rang ${romanRank(node.rank)}</span>`
     + `<dl><div><dt>RP</dt><dd>${formatNumber(node.rp)}</dd></div>`

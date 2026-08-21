@@ -1,6 +1,6 @@
-const CACHE = "wurstbrot-1.0.0-stable-vt2";
+const CACHE = "wurstbrot-1.0.0-stable-vt3";
 const CACHE_PREFIX = "wurstbrot-";
-const ASSETS = ["./", "index.html", "styles.css", "app.js", "solver.mjs", "visual-tree.mjs", "manifest.webmanifest", "icon.svg", "../../data/samples/WT_Database_2.57.1.67.json"];
+const ASSETS = ["./", "index.html", "styles.css", "app.js", "solver.mjs", "visual-tree.mjs", "visual-tree-interaction.mjs", "manifest.webmanifest", "icon.svg", "../../data/samples/WT_Database_2.57.1.67.json"];
 self.addEventListener("install", event => event.waitUntil((async () => {
   const cache = await caches.open(CACHE);
   await Promise.all(ASSETS.map(async asset => {

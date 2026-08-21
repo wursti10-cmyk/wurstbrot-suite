@@ -4,7 +4,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 const workerSource = await readFile(new URL("../apps/web/service-worker.js", import.meta.url), "utf8");
-const CURRENT_CACHE = "wurstbrot-1.0.0-stable-vt2";
+const CURRENT_CACHE = "wurstbrot-1.0.0-stable-vt3";
 
 function createWorker({cacheNames = [], clients = [], failPrecache = false, cacheHit = null} = {}) {
   const handlers = new Map();
@@ -108,7 +108,7 @@ function createWorker({cacheNames = [], clients = [], failPrecache = false, cach
   return {addedAssets, calls, deletedCaches, dispatch, freshRequests, storedCaches, windows};
 }
 
-test("fresh user precaches VT.2 and activates without an unnecessary reload", async () => {
+test("fresh user precaches VT.3 and activates without an unnecessary reload", async () => {
   const worker = createWorker({cacheNames: ["other-app-cache"], clients: ["https://example.test/app/"]});
   await worker.dispatch("install");
   await worker.dispatch("activate");
@@ -120,7 +120,7 @@ test("fresh user precaches VT.2 and activates without an unnecessary reload", as
   assert.deepEqual(worker.deletedCaches, []);
   assert(worker.storedCaches.has(CURRENT_CACHE));
   assert(worker.storedCaches.has("other-app-cache"));
-  for (const required of ["index.html", "app.js", "solver.mjs", "visual-tree.mjs", "styles.css"]) {
+  for (const required of ["index.html", "app.js", "solver.mjs", "visual-tree.mjs", "visual-tree-interaction.mjs", "styles.css"]) {
     assert(worker.addedAssets.some(url => url.endsWith(required)), required);
   }
   assert.equal(worker.freshRequests.length, worker.addedAssets.length);
@@ -128,10 +128,10 @@ test("fresh user precaches VT.2 and activates without an unnecessary reload", as
   assert(worker.freshRequests.every(item => new URL(item.url).searchParams.get("wurstbrot-cache") === CURRENT_CACHE));
 });
 
-test("existing Stable user switches immediately after the complete VT.2 precache", async () => {
+test("existing VT.2 user switches immediately after the complete VT.3 precache", async () => {
   const url = "https://example.test/wurstbrot-suite/";
   const worker = createWorker({
-    cacheNames: ["wurstbrot-1.0.0-stable", "other-app-cache"],
+    cacheNames: ["wurstbrot-1.0.0-stable-vt2", "other-app-cache"],
     clients: [url],
   });
   await worker.dispatch("install");
@@ -139,7 +139,7 @@ test("existing Stable user switches immediately after the complete VT.2 precache
 
   assert.equal(worker.calls.skipWaiting, 1);
   assert.equal(worker.calls.claim, 1);
-  assert.deepEqual(worker.deletedCaches, ["wurstbrot-1.0.0-stable"]);
+  assert.deepEqual(worker.deletedCaches, ["wurstbrot-1.0.0-stable-vt2"]);
   assert.deepEqual(worker.windows[0].navigations, [url]);
   assert(worker.storedCaches.has(CURRENT_CACHE));
   assert(worker.storedCaches.has("other-app-cache"));
