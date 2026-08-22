@@ -12,10 +12,12 @@ import {
   buildTreeAbSelectionHighlight,
   buildVehicleSearchIndex,
   changeTreeZoom,
+  clampTreeScrollPosition,
   connectionGeometry,
   createTreeAbState,
   findVehicleSearchEntry,
   panScrollPosition,
+  pointerMovementExceedsThreshold,
   resetTreeAbState,
   searchVehicleIndex,
   selectedDirectEdgeIds,
@@ -355,7 +357,26 @@ function setTreeZoom(nextZoom, {preserveCenter = true} = {}) {
     viewport.scrollTop = (viewport.scrollTop + viewport.clientHeight / 2) * factor
       - viewport.clientHeight / 2;
   }
-  requestAnimationFrame(drawConnections);
+  scheduleTreeGeometryRefresh();
+}
+
+function clampTreeViewportScroll() {
+  const viewport = $("tree-viewport");
+  const next = clampTreeScrollPosition(
+    {left: viewport.scrollLeft, top: viewport.scrollTop},
+    viewport,
+  );
+  if (next.left !== viewport.scrollLeft || next.top !== viewport.scrollTop) {
+    viewport.scrollTo({...next, behavior: "auto"});
+  }
+}
+
+function scheduleTreeGeometryRefresh() {
+  cancelAnimationFrame(resizeFrame);
+  resizeFrame = requestAnimationFrame(() => {
+    clampTreeViewportScroll();
+    drawConnections();
+  });
 }
 
 function resetTreeNavigation() {
@@ -413,8 +434,10 @@ async function executeCalculation({origin}) {
   const input = origin === "tree"
     ? calculatorInput({startId: treeAbState.startId, targetId: treeAbState.targetId})
     : calculatorInput();
+  const authoritativeTreeState = treeAbState;
   if (origin === "tree") syncCalculatorFromTreeState();
   else updateTreeAbFromCalculator();
+  if (origin === "tree") treeAbState = authoritativeTreeState;
   if (!treeAbState.targetId) throw new Error("Bitte Ziel B auswählen.");
   const result = calculate(database, input);
   const presentation = treeResultPresentation(database, result);
@@ -714,45 +737,62 @@ $("tree-content").addEventListener("keydown", event => {
 
 const treeViewport = $("tree-viewport");
 treeViewport.addEventListener("pointerdown", event => {
-  if (event.button !== 0 || event.target.closest(".tree-vehicle, button, input, select, a")) return;
+  if (!event.isPrimary
+    || (event.pointerType === "mouse" && event.button !== 0)
+    || event.target.closest(".tree-vehicle, button, input, select, a")) return;
   panState = {
     pointerId: event.pointerId,
+    active: false,
     x: event.clientX,
     y: event.clientY,
     left: treeViewport.scrollLeft,
     top: treeViewport.scrollTop,
   };
-  treeViewport.setPointerCapture(event.pointerId);
-  treeViewport.classList.add("is-panning");
 });
 treeViewport.addEventListener("pointermove", event => {
   if (!panState || panState.pointerId !== event.pointerId) return;
+  if (!panState.active) {
+    if (!pointerMovementExceedsThreshold(
+      {x: panState.x, y: panState.y},
+      {x: event.clientX, y: event.clientY},
+    )) return;
+    panState.active = true;
+    treeViewport.setPointerCapture(event.pointerId);
+    treeViewport.classList.add("is-panning");
+  }
   const next = panScrollPosition(
     panState,
     {x: panState.x, y: panState.y},
     {x: event.clientX, y: event.clientY},
   );
-  treeViewport.scrollLeft = next.left;
-  treeViewport.scrollTop = next.top;
+  const clamped = clampTreeScrollPosition(next, treeViewport);
+  treeViewport.scrollLeft = clamped.left;
+  treeViewport.scrollTop = clamped.top;
   event.preventDefault();
 });
 const stopTreePan = event => {
   if (!panState || panState.pointerId !== event.pointerId) return;
-  if (treeViewport.hasPointerCapture(event.pointerId)) treeViewport.releasePointerCapture(event.pointerId);
+  if (panState.active && treeViewport.hasPointerCapture(event.pointerId)) {
+    treeViewport.releasePointerCapture(event.pointerId);
+  }
   panState = null;
   treeViewport.classList.remove("is-panning");
 };
 treeViewport.addEventListener("pointerup", stopTreePan);
 treeViewport.addEventListener("pointercancel", stopTreePan);
+treeViewport.addEventListener("lostpointercapture", stopTreePan);
 $("database-file").addEventListener("change", async event => {
   try { load(JSON.parse(await event.target.files[0].text())); }
   catch (error) { alert(error.message); }
 });
 
-window.addEventListener("resize", () => {
-  cancelAnimationFrame(resizeFrame);
-  resizeFrame = requestAnimationFrame(drawConnections);
-});
+window.addEventListener("resize", scheduleTreeGeometryRefresh);
+window.addEventListener("orientationchange", scheduleTreeGeometryRefresh);
+if ("ResizeObserver" in window) {
+  const treeResizeObserver = new ResizeObserver(scheduleTreeGeometryRefresh);
+  treeResizeObserver.observe(treeViewport);
+  treeResizeObserver.observe($("visual-tree"));
+}
 $("calculate").addEventListener("click", async () => {
   try { await executeCalculation({origin: "calculator"}); }
   catch (error) { alert(error.message); }
