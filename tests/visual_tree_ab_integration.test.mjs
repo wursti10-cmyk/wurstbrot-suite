@@ -240,7 +240,7 @@ test("VT.4 production wiring shares one calculation pipeline and has accessible 
   assert.match(app, /syncCalculatorFromTreeState/);
   assert.match(app, /if \(!treeActive\)[\s\S]*syncCalculatorFromTreeState\(\)/);
   assert.match(app, /A\/B-Auswahl wegen Forschungsbaumwechsel zurückgesetzt/);
-  assert.match(app, /changed && treeAbState\.result[\s\S]*A\/B-Ergebnis wegen Forschungsbaumwechsel zurückgesetzt/);
+  assert.match(app, /changed && \(treeAbState\.startId \|\| treeAbState\.targetId \|\| treeAbState\.result\)[\s\S]*A\/B-Auswahl wegen Forschungsbaumwechsel zurückgesetzt/);
   assert.match(app, /fallbackReason: presentation\.calculation_status === "partial"/);
   assert.doesNotMatch(interaction, /from\s+["'][^"']*solver|function\s+(solve|calculate)\b/);
   assert.doesNotMatch(app, /treeDemoResult|Solver-Demonstration/);

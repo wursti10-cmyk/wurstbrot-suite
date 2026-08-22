@@ -392,12 +392,12 @@ async function activateSearchResult(vehicleId) {
   setSearchResultsOpen(false);
   const changed = $("tree-country").value !== entry.country_id
     || $("tree-branch").value !== entry.branch_id;
-  if (changed && treeAbState.result) {
+  if (changed && (treeAbState.startId || treeAbState.targetId || treeAbState.result)) {
     treeAbState = resetTreeAbState();
     $("start").value = "";
     $("target").value = "";
     renderTreeAbState();
-    setTreeAbMessage("A/B-Ergebnis wegen Forschungsbaumwechsel zurückgesetzt.");
+    setTreeAbMessage("A/B-Auswahl wegen Forschungsbaumwechsel zurückgesetzt.");
   }
   $("tree-country").value = entry.country_id;
   $("tree-branch").value = entry.branch_id;

@@ -3,6 +3,7 @@ import {createHash} from "node:crypto";
 import {mkdir, readFile, writeFile} from "node:fs/promises";
 import {performance} from "node:perf_hooks";
 import test, {after} from "node:test";
+import vm from "node:vm";
 
 import {calculate, validateDatabase} from "../apps/web/solver.mjs";
 import {
@@ -140,6 +141,130 @@ function vehicleStateCounts(markup) {
   };
 }
 
+function extractFunctionSource(source, name) {
+  const start = source.search(new RegExp(`(?:async\\s+)?function\\s+${name}\\s*\\(`));
+  assert.notEqual(start, -1, `product function ${name} exists`);
+  const signatureEnd = source.slice(start).match(/\)\s*\{/);
+  assert.ok(signatureEnd, `product function ${name} has a body`);
+  const bodyStart = start + signatureEnd.index + signatureEnd[0].lastIndexOf("{");
+  let depth = 0;
+  for (let index = bodyStart; index < source.length; index += 1) {
+    if (source[index] === "{") depth += 1;
+    if (source[index] === "}") depth -= 1;
+    if (depth === 0) return source.slice(start, index + 1);
+  }
+  throw new Error(`Unvollständige Produktfunktion: ${name}`);
+}
+
+function createClassList() {
+  const values = new Set();
+  return {
+    add: (...names) => names.forEach(name => values.add(name)),
+    remove: (...names) => names.forEach(name => values.delete(name)),
+    toggle(name, force) {
+      if (force === undefined ? !values.has(name) : force) values.add(name);
+      else values.delete(name);
+    },
+    contains: name => values.has(name),
+  };
+}
+
+function createProductSearchHarness(initialState = createTreeAbState()) {
+  const elements = new Map([
+    ["tree-search-input", {value: ""}],
+    ["tree-search-results", {hidden: true}],
+    ["tree-country", {value: "country_germany"}],
+    ["tree-branch", {value: "army"}],
+    ["start", {value: initialState.startId || ""}],
+    ["target", {value: initialState.targetId || ""}],
+  ]);
+  const cards = new Map();
+  const treeContent = {
+    querySelector(selector) {
+      const id = selector.match(/data-vehicle-id="([^"]+)"/)?.[1];
+      return id ? cards.get(id) || null : null;
+    },
+    querySelectorAll(selector) {
+      if (selector.startsWith("[data-vehicle-id=")) {
+        const card = this.querySelector(selector);
+        return card ? [card] : [];
+      }
+      return [...cards.values()].filter(card => (
+        card.classList.contains("selected") || card.classList.contains("search-target")
+      ));
+    },
+  };
+  elements.set("tree-content", treeContent);
+  const observations = {
+    selected: null,
+    details: null,
+    renderedState: null,
+    message: null,
+    view: null,
+    refreshes: 0,
+  };
+  const context = {
+    CSS: {escape: value => String(value)},
+    currentTreeLayout: {country_id: "country_germany", branch_id: "army"},
+    database,
+    drawConnections() {},
+    findVehicleSearchEntry,
+    refreshVisualTree: null,
+    renderSelectedVehicleDetails(vehicleId) { observations.details = vehicleId; },
+    renderTreeAbState() { observations.renderedState = structuredClone(context.treeAbState); },
+    requestAnimationFrame(callback) { callback(); },
+    resetTreeAbState,
+    selectedTreeVehicleId: null,
+    setSearchResultsOpen(open) { elements.get("tree-search-results").hidden = !open; },
+    setTreeAbMessage(message) { observations.message = message; },
+    showView(view) { observations.view = view; },
+    treeAbState: initialState,
+    vehicleSearchIndex: searchIndex,
+    $: id => elements.get(id),
+  };
+  context.refreshVisualTree = async options => {
+    observations.refreshes += 1;
+    const id = options.selectVehicleId;
+    const entry = findVehicleSearchEntry(searchIndex, id);
+    const record = layoutByKey.get(`${entry.country_id}/${entry.branch_id}`);
+    assert.equal(record.layout.nodes.filter(node => node.vehicle_id === id).length, 1, id);
+    cards.clear();
+    const card = {
+      classList: createClassList(),
+      dataset: {vehicleId: id},
+      focusCalls: 0,
+      scrollCalls: 0,
+      setAttribute(name, value) { this[name] = value; },
+      focus() { this.focusCalls += 1; },
+      scrollIntoView() { this.scrollCalls += 1; },
+    };
+    cards.set(id, card);
+    context.currentTreeLayout = record.layout;
+    context.selectTreeVehicle(id, {
+      fromSearch: options.selectFromSearch,
+      jump: options.selectFromSearch,
+      focus: options.selectFromSearch,
+    });
+  };
+  vm.runInNewContext([
+    extractFunctionSource(appSource, "clearTreeSelection"),
+    extractFunctionSource(appSource, "jumpToTreeVehicle"),
+    extractFunctionSource(appSource, "selectTreeVehicle"),
+    extractFunctionSource(appSource, "activateSearchResult"),
+  ].join("\n"), context, {filename: "app-product-search-harness.js"});
+  return {
+    async activate(vehicleId, {forceRefresh = false} = {}) {
+      if (forceRefresh) context.currentTreeLayout = null;
+      await context.activateSearchResult(vehicleId);
+      observations.selected = context.selectedTreeVehicleId;
+      return cards.get(vehicleId) || null;
+    },
+    context,
+    elements,
+    observations,
+  };
+}
+
 const allCardIds = layoutRecords.flatMap(record => record.layout.nodes.map(node => node.vehicle_id));
 const allEdgeIds = layoutRecords.flatMap(record => record.layout.edges.map(
   edge => `${edge.source_vehicle_id}->${edge.target_vehicle_id}`,
@@ -216,6 +341,35 @@ for (const matrixCase of matrixCases) {
       error: error instanceof Error ? error.message : String(error),
     });
   }
+}
+
+function idsWithState(highlight, state) {
+  return Object.entries(highlight.node_states)
+    .filter(([, states]) => states.includes(state))
+    .map(([vehicleId]) => vehicleId)
+    .sort();
+}
+
+function idsWithRequiredState(highlight, {direct}) {
+  return Object.entries(highlight.node_states)
+    .filter(([, states]) => states.some(state => (
+      direct ? state === "required_direct_path"
+        : state.startsWith("required_") && state !== "required_direct_path"
+    )))
+    .map(([vehicleId]) => vehicleId)
+    .sort();
+}
+
+function expectedDirectEdgeIds(layout, result) {
+  const direct = new Set(result.lines
+    .filter(line => line.reason === "direct_path")
+    .map(line => line.id));
+  const pathNodes = new Set(direct);
+  if (result.startVehicleId) pathNodes.add(result.startVehicleId);
+  return layout.edges
+    .filter(edge => pathNodes.has(edge.source_vehicle_id) && direct.has(edge.target_vehicle_id))
+    .map(edge => `${edge.source_vehicle_id}->${edge.target_vehicle_id}`)
+    .sort();
 }
 
 function syntheticGeometry(layout, zoom, viewportWidth, viewportHeight) {
@@ -376,6 +530,31 @@ function buildStateStress(steps = 600) {
 
 const stateStress = buildStateStress();
 
+async function verifyProductSearchLogic() {
+  const harness = createProductSearchHarness();
+  let verified = 0;
+  for (const entry of searchIndex) {
+    const card = await harness.activate(entry.vehicle_id, {forceRefresh: true});
+    assert.ok(card, entry.vehicle_id);
+    assert.equal(harness.elements.get("tree-country").value, entry.country_id, entry.vehicle_id);
+    assert.equal(harness.elements.get("tree-branch").value, entry.branch_id, entry.vehicle_id);
+    assert.equal(harness.observations.selected, entry.vehicle_id, entry.vehicle_id);
+    assert.equal(card.scrollCalls, 1, entry.vehicle_id);
+    assert.equal(card.focusCalls, 1, entry.vehicle_id);
+    assert.equal(harness.context.treeAbState.startId, null, entry.vehicle_id);
+    assert.equal(harness.context.treeAbState.targetId, null, entry.vehicle_id);
+    verified += 1;
+  }
+  return Object.freeze({
+    lookup_verified: searchIndex.length,
+    product_logic_jump_verified: verified,
+    product_dom_jump_verified: 0,
+    evidence_class: "product_logic_with_dom_test_doubles",
+  });
+}
+
+const productSearchEvidence = await verifyProductSearchLogic();
+
 const reportTrees = layoutRecords.map(record => {
   const layout = record.layout;
   const markupState = vehicleStateCounts(record.markup);
@@ -396,12 +575,30 @@ const reportTrees = layoutRecords.map(record => {
     folders: layout.folders.length,
     partial: layout.nodes.filter(node => partialIds.has(node.vehicle_id)).length,
     hidden: layout.nodes.filter(node => node.hidden_research).length,
-    render_desktop: markupState.ids.length === layout.nodes.length,
-    render_mobile: geometryResults.filter(item => item.tree_key === record.key).every(item => item.valid),
-    search_jump: Boolean(jumpEntry && jumpEntry.vehicle_id === layout.nodes[0].vehicle_id),
-    ab_test_status: cases.length > 0 && cases.every(item => item.passed) ? "passed" : "failed",
-    ab_case_count: cases.length,
-    runtime_errors: cases.filter(item => !item.passed).map(item => item.error),
+    evidence: {
+      structural: {
+        markup_cards_verified: markupState.ids.length === layout.nodes.length,
+        unique_cards_verified: new Set(markupState.ids).size === layout.nodes.length,
+      },
+      solver: {
+        ab_test_status: cases.length > 0 && cases.every(item => item.passed) ? "passed" : "failed",
+        ab_case_count: cases.length,
+      },
+      synthetic_geometry: {
+        verified: geometryResults.filter(item => item.tree_key === record.key).every(item => item.valid),
+        configurations: geometryResults.filter(item => item.tree_key === record.key).length,
+      },
+      product_logic: {
+        search_lookup_verified: Boolean(jumpEntry && jumpEntry.vehicle_id === layout.nodes[0].vehicle_id),
+        jump_path_verified: layout.nodes.length,
+        evidence_class: productSearchEvidence.evidence_class,
+      },
+      product_dom: {
+        verified: false,
+        reason: "separate_browser_regression_evidence",
+      },
+    },
+    matrix_exceptions: cases.filter(item => !item.passed).map(item => item.error),
     performance_ms: {
       initial_layout: Number(record.layoutMs.toFixed(3)),
       render_markup: Number(record.renderMs.toFixed(3)),
@@ -412,7 +609,7 @@ const reportTrees = layoutRecords.map(record => {
 });
 
 const reportBase = {
-  schema_version: 1,
+  schema_version: 2,
   contract_version: "visual-tech-tree-full-validation-vt7",
   game_version: database.gameVersion,
   product_version: "1.0.0",
@@ -428,18 +625,43 @@ const reportBase = {
     non_displayable_folders: folderSummary.non_displayable_folder_count,
     partial_cases: KNOWN_PARTIAL_VEHICLE_IDS.length,
     search_entries: searchIndex.length,
-    geometry_configurations: geometryResults.length,
+    lookup_verified: productSearchEvidence.lookup_verified,
+    product_logic_jumps_verified: productSearchEvidence.product_logic_jump_verified,
+    product_dom_jumps_verified: productSearchEvidence.product_dom_jump_verified,
+    synthetic_geometry_configurations: geometryResults.length,
     ab_cases: matrixResults.length,
     ab_passed: matrixResults.filter(item => item.passed).length,
-    runtime_errors: matrixResults.filter(item => !item.passed).length,
+    matrix_exceptions: matrixResults.filter(item => !item.passed).length,
   },
   invariants: {
     edge_fingerprint: edgeFingerprint,
     edge_fingerprint_matches_vt6: edgeFingerprint === expectedEdgeFingerprint,
-    all_geometry_valid: geometryResults.every(item => item.valid),
-    search_complete: searchIndex.length === 2232,
-    state_machine_passed: stateStress.passed,
+    all_synthetic_geometry_valid: geometryResults.every(item => item.valid),
+    search_index_complete: searchIndex.length === 2232,
+    product_logic_jump_complete: productSearchEvidence.product_logic_jump_verified === 2232,
+    model_state_machine_passed: stateStress.passed,
     ready_for_default_use: false,
+  },
+  evidence_classes: {
+    structural: "productive_data_and_renderer_output",
+    solver: "productive_calculate_and_highlight_output",
+    synthetic_geometry: "deterministic_coordinate_invariants_without_browser_dom",
+    product_logic: productSearchEvidence.evidence_class,
+    product_dom: "not_claimed_by_this_node_suite",
+    browser_regression: "separate_ci_suite",
+  },
+  switch_stress: {
+    synthetic_markup_switches: 100,
+    product_dom_switches_verified: 0,
+  },
+  resize_stress: {
+    synthetic_resize_cycles: 6 * 20,
+    product_dom_reflows_verified: 0,
+  },
+  runtime: {
+    matrix_exceptions: matrixResults.filter(item => !item.passed).length,
+    browser_runtime_verified: false,
+    browser_runtime_evidence: "separate_browser_hardening_suite",
   },
   performance: {
     advisory_only: true,
@@ -448,7 +670,11 @@ const reportBase = {
     render: performanceSummary(layoutRecords.map(record => record.renderMs)),
     ab_matrix: performanceSummary(matrixResults.map(item => item.duration_ms)),
   },
-  state_machine: stateStress,
+  state_machine: {
+    ...stateStress,
+    evidence_class: "model_invariant_stress",
+    product_state_machine_verified: false,
+  },
   trees: reportTrees,
 };
 const structuralFingerprint = createHash("sha256").update(JSON.stringify({
@@ -470,7 +696,7 @@ after(async () => {
     ab_passed: report.totals.ab_passed,
     ab_total: report.totals.ab_cases,
     partial_cases: report.totals.partial_cases,
-    runtime_errors: report.totals.runtime_errors,
+    matrix_exceptions: report.totals.matrix_exceptions,
   }));
 });
 
@@ -510,7 +736,7 @@ test("all 1,993 renderer edges equal the immutable VT.6 authority set", () => {
   }
 });
 
-test("repeated rendering and 100 tree switches never accumulate cards, folders or handlers", () => {
+test("100 synthetic markup switches stay stable and listener declarations stay singular", () => {
   for (let index = 0; index < 100; index += 1) {
     const record = layoutRecords[(index * 17) % layoutRecords.length];
     const markup = renderTreeMarkup(record.layout);
@@ -531,7 +757,7 @@ test("repeated rendering and 100 tree switches never accumulate cards, folders o
   assert.equal(countOccurrences(calculateHandler, "executeCalculation({origin: \"tree\"})"), 1);
 });
 
-test("the complete 2,232-entry search and jump contract resolves one real card per ID", () => {
+test("all 2,232 lookups and productive jump functions resolve one real card per ID", () => {
   assert.equal(searchIndex.length, 2232);
   assert.equal(new Set(searchIndex.map(entry => entry.vehicle_id)).size, 2232);
   const cardCounts = new Map();
@@ -558,12 +784,57 @@ test("the complete 2,232-entry search and jump contract resolves one real card p
   assert.equal(normalizeVehicleSearchText("Großbritannien"), "grossbritannien");
   assert.match(appSource, /function jumpToTreeVehicle\(vehicleId/);
   assert.match(appSource, /scrollIntoView\(\{behavior: "smooth", block: "center", inline: "center"\}\)/);
+  assert.deepEqual(productSearchEvidence, {
+    lookup_verified: 2232,
+    product_logic_jump_verified: 2232,
+    product_dom_jump_verified: 0,
+    evidence_class: "product_logic_with_dom_test_doubles",
+  });
+});
+
+test("the productive search path resets every stale cross-tree A/B state", async () => {
+  const usaTargetId = "us_m1a2_abrams";
+  let both = setTreeAbEndpoint(database, createTreeAbState(), "start", tigerCase.startId);
+  both = setTreeAbEndpoint(database, both, "target", tigerCase.targetId);
+  const result = calculate(database, emptyCalculationInput(tigerCase.startId, tigerCase.targetId));
+  const states = [
+    setTreeAbEndpoint(database, createTreeAbState(), "start", tigerCase.startId),
+    both,
+    attachTreeAbResult(both, result, {userResultSource: "legacy", calculationStatus: "complete"}),
+  ];
+  for (const initialState of states) {
+    const harness = createProductSearchHarness(initialState);
+    const card = await harness.activate(usaTargetId);
+    assert.equal(harness.elements.get("tree-country").value, "country_usa");
+    assert.equal(harness.elements.get("tree-branch").value, "army");
+    assert.deepEqual(structuredClone(harness.context.treeAbState), structuredClone(createTreeAbState()));
+    assert.equal(harness.elements.get("start").value, "");
+    assert.equal(harness.elements.get("target").value, "");
+    assert.deepEqual(harness.observations.renderedState, structuredClone(createTreeAbState()));
+    assert.equal(harness.observations.selected, usaTargetId);
+    assert.equal(card.scrollCalls, 1);
+    assert.equal(card.focusCalls, 1);
+  }
+
+  const sameTreeState = setTreeAbEndpoint(
+    database,
+    createTreeAbState(),
+    "start",
+    tigerCase.startId,
+  );
+  const sameTreeHarness = createProductSearchHarness(sameTreeState);
+  const sameTreeCard = await sameTreeHarness.activate(tigerCase.targetId, {forceRefresh: true});
+  assert.equal(sameTreeHarness.context.treeAbState.startId, tigerCase.startId);
+  assert.equal(sameTreeHarness.context.treeAbState.targetId, null);
+  assert.equal(sameTreeHarness.observations.selected, tigerCase.targetId);
+  assert.equal(sameTreeCard.scrollCalls, 1);
+  assert.equal(sameTreeCard.focusCalls, 1);
 });
 
 test("the deterministic all-tree A-to-B matrix stays identical to the central solver", () => {
   assert.equal(new Set(matrixResults.map(item => item.tree_key)).size, 44);
-  assert(matrixResults.length >= 150);
-  assert.equal(matrixResults.filter(item => item.passed).length, matrixResults.length);
+  assert.equal(matrixResults.length, 159);
+  assert.equal(matrixResults.filter(item => item.passed).length, 159);
   for (const item of matrixResults) {
     const result = item.result;
     const presentation = item.presentation;
@@ -585,15 +856,24 @@ test("the deterministic all-tree A-to-B matrix stays identical to the central so
   }
 });
 
-test("all highlights partition required vehicles and use only authoritative direct edges", () => {
+test("all 159 node and edge highlights exactly equal solver truth", () => {
   for (const item of matrixResults) {
     const required = new Set(item.result.requiredVehicleIds);
-    const direct = new Set(item.result.lines.filter(line => line.reason === "direct_path").map(line => line.id));
-    const additional = new Set(item.result.lines.filter(line => line.reason !== "direct_path").map(line => line.id));
+    const direct = new Set(item.result.lines
+      .filter(line => line.reason === "direct_path").map(line => line.id));
+    const additional = new Set(item.result.lines
+      .filter(line => line.reason !== "direct_path").map(line => line.id));
     assert.equal([...direct].filter(id => additional.has(id)).length, 0, item.tree_key);
     assert.deepEqual(new Set([...direct, ...additional]), required, item.tree_key);
-    assert.equal([...Object.values(item.highlight.node_states)].filter(states => states.includes("start_a")).length, 1);
-    assert.equal([...Object.values(item.highlight.node_states)].filter(states => states.includes("target_b")).length, 1);
+    assert.deepEqual(idsWithState(item.highlight, "start_a"), [item.result.startVehicleId]);
+    assert.deepEqual(idsWithState(item.highlight, "target_b"), [item.result.targetVehicleId]);
+    assert.deepEqual(idsWithRequiredState(item.highlight, {direct: true}), [...direct].sort());
+    assert.deepEqual(idsWithRequiredState(item.highlight, {direct: false}), [...additional].sort());
+    const irrelevant = layoutByKey.get(item.tree_key).layout.nodes
+      .map(node => node.vehicle_id)
+      .filter(id => !required.has(id))
+      .sort();
+    assert.deepEqual(idsWithState(item.highlight, "not_required"), irrelevant);
     const layoutEdges = new Set(layoutByKey.get(item.tree_key).layout.edges.map(
       edge => `${edge.source_vehicle_id}->${edge.target_vehicle_id}`,
     ));
@@ -603,6 +883,11 @@ test("all highlights partition required vehicles and use only authoritative dire
       assert(direct.has(targetId), edgeId);
       assert(sourceId === item.result.startVehicleId || direct.has(sourceId), edgeId);
     }
+    assert.deepEqual(
+      [...item.highlight.required_edge_ids].sort(),
+      expectedDirectEdgeIds(layoutByKey.get(item.tree_key).layout, item.result),
+      item.tree_key,
+    );
   }
 });
 
@@ -716,7 +1001,7 @@ test("all 264 all-tree geometry configurations remain finite and structurally co
   }
 });
 
-test("resize, zoom, scroll and pan stress remain clamped without solver or state drift", () => {
+test("synthetic resize, zoom, scroll and pan invariants remain clamped", () => {
   const largeTrees = [...layoutRecords]
     .sort((left, right) => right.layout.nodes.length - left.layout.nodes.length)
     .slice(0, 6);
@@ -756,7 +1041,7 @@ test("resize, zoom, scroll and pan stress remain clamped without solver or state
   }), {left: 0, top: 0});
 });
 
-test("pointer, keyboard and state-machine contracts withstand deterministic repetition", () => {
+test("pointer helpers, static keyboard contracts and model-state stress remain deterministic", () => {
   assert.equal(TREE_PAN_THRESHOLD, 6);
   assert.equal(pointerMovementExceedsThreshold({x: 0, y: 0}, {x: 3, y: 4}), false);
   assert.equal(pointerMovementExceedsThreshold({x: 0, y: 0}, {x: 6, y: 0}), true);
@@ -775,22 +1060,21 @@ test("pointer, keyboard and state-machine contracts withstand deterministic repe
   assert.equal(stateStress.passed, true);
 });
 
-test("responsive and service-worker delivery stay on VT.6 because VT.7 changes tests only", () => {
+test("synthetic responsive evidence stays separate and service-worker delivery advances to VT.7", () => {
   assert.equal(requiredViewports.length, 8);
   assert.match(htmlSource, /name="viewport" content="width=device-width,initial-scale=1"/);
   assert.match(stylesSource, /max-width: 100%/);
   assert.match(stylesSource, /overflow: auto/);
   assert.match(stylesSource, /min-height: 44px/);
   assert.match(stylesSource, /env\(safe-area-inset-/);
-  assert.match(workerSource, /const CACHE = "wurstbrot-1\.0\.0-stable-vt6"/);
-  assert.doesNotMatch(workerSource, /stable-vt7/);
+  assert.match(workerSource, /const CACHE = "wurstbrot-1\.0\.0-stable-vt7"/);
   assert.match(workerSource, /skipWaiting/);
   assert.match(workerSource, /clients\.claim/);
   assert.match(workerSource, /key\.startsWith\(CACHE_PREFIX\) && key !== CACHE/);
   assert.doesNotMatch(interactionSource, /from\s+["'][^"']*solver|function\s+(solve|calculate)\b/);
 });
 
-test("the VT.7 report is complete, reproducible and free of unexplained runtime failures", () => {
+test("the VT.7 report separates structural, solver, synthetic and product evidence", () => {
   assert.equal(report.totals.trees, 44);
   assert.equal(report.totals.cards, 2232);
   assert.equal(report.totals.unique_vehicle_ids, 2232);
@@ -800,10 +1084,23 @@ test("the VT.7 report is complete, reproducible and free of unexplained runtime 
   assert.equal(report.totals.missing_folder_members, 28);
   assert.equal(report.totals.partial_cases, 14);
   assert.equal(report.totals.search_entries, 2232);
-  assert.equal(report.totals.runtime_errors, 0);
+  assert.equal(report.totals.lookup_verified, 2232);
+  assert.equal(report.totals.product_logic_jumps_verified, 2232);
+  assert.equal(report.totals.product_dom_jumps_verified, 0);
+  assert.equal(report.totals.ab_cases, 159);
+  assert.equal(report.totals.ab_passed, 159);
+  assert.equal(report.totals.matrix_exceptions, 0);
   assert.equal(report.invariants.edge_fingerprint_matches_vt6, true);
-  assert.equal(report.invariants.all_geometry_valid, true);
+  assert.equal(report.invariants.all_synthetic_geometry_valid, true);
+  assert.equal(report.invariants.product_logic_jump_complete, true);
   assert.equal(report.invariants.ready_for_default_use, false);
+  assert.equal(report.evidence_classes.product_dom, "not_claimed_by_this_node_suite");
+  assert.equal(report.state_machine.evidence_class, "model_invariant_stress");
+  assert.equal(report.state_machine.product_state_machine_verified, false);
+  assert.equal(report.switch_stress.product_dom_switches_verified, 0);
+  assert.equal(report.resize_stress.product_dom_reflows_verified, 0);
+  assert.equal(report.runtime.matrix_exceptions, 0);
+  assert.equal(report.runtime.browser_runtime_verified, false);
   assert.equal(report.trees.length, 44);
   assert.match(report.structural_fingerprint, /^[0-9a-f]{64}$/);
 });

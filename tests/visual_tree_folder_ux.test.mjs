@@ -256,5 +256,5 @@ test("production folder UX is accessible, static and isolated from solver semant
   assert.doesNotMatch(renderer, /aria-expanded|folder-toggle|collapse/i);
   assert.match(styles, /\.folder-data-notice/);
   assert.doesNotMatch(renderer, /from\s+["'][^"']*solver|function\s+(solve|calculate)\b/);
-  assert.match(worker, /wurstbrot-1\.0\.0-stable-vt6/);
+  assert.match(worker, /wurstbrot-1\.0\.0-stable-vt7/);
 });

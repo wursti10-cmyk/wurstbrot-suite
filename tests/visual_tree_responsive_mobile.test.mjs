@@ -163,7 +163,7 @@ test("VT.6 remains one renderer, one state, one solver and advances only the web
   assert.doesNotMatch(app, /mobile(Tree|State|Solver|Search)|desktopTree/i);
   assert.doesNotMatch(interaction, /from\s+["'][^"']*solver|function\s+(solve|calculate)\b/);
   assert.equal((app.match(/import \{calculate, validateDatabase\} from "\.\/solver\.mjs";/g) || []).length, 1);
-  assert.match(worker, /wurstbrot-1\.0\.0-stable-vt6/);
+  assert.match(worker, /wurstbrot-1\.0\.0-stable-vt7/);
   assert.doesNotMatch(worker, /wurstbrot-1\.0\.0-stable-vt5/);
   assert.match(worker, /skipWaiting/);
   assert.match(worker, /clients\.claim/);
