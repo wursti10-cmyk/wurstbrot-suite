@@ -16,17 +16,23 @@ Hauptbestandteile:
 
 ## Projektstatus
 
-Aktueller Stand: **1.0.0**. Der Python-Kern, die Desktop-Oberflächen und eine
+Aktueller Stand: **1.1.0-rc.1**. Der Python-Kern, die Desktop-Oberflächen und eine
 installierbare Browser-Version sind nutzbar. GitHub Actions prüft Python 3.10, 3.12
 und 3.13, die Browser-Logik und den vollständigen Regressionstest.
 
-Version 1.0.0 ist der Stable-Stand. Legacy bleibt die standardmäßige und empfohlene
-Rechenquelle; Graph Experimental bleibt explizit opt-in.
+Version 1.0.0 bleibt der Stable-Stand. Version 1.1.0-rc.1 ist der Release Candidate mit dem
+vollständigen visuellen Forschungsbaum. Legacy bleibt die standardmäßige und empfohlene
+Rechenquelle; Graph Experimental bleibt explizit opt-in und nicht für die Default-Nutzung freigegeben.
 
 Der Produktumfang von Version 1.0 bleibt bewusst eng: ein zuverlässiger Forschungsweg von
 Fahrzeug A zu Fahrzeug B sowie die zugehörigen RP-, GE- und SL-Kosten. Legacy ist weiterhin die
 standardmäßige und empfohlene Rechenquelle. Die Python-CLI kann die Graphpipeline ausdrücklich
 experimentell aktivieren; Desktop und Browser bleiben unverändert auf Legacy.
+
+Der 1.1-Release-Candidate ergänzt die Darstellung aller 44 Forschungsbäume, Suche, Navigation,
+Zoom/Pan, Folder-/Hidden-/Partial-Anzeige und die bestehende A→B-Berechnung im Baum. Diese Oberfläche
+projiziert ausschließlich vorhandene Daten und Solverergebnisse; sie führt keine neue Forschungs-,
+Folder- oder Solversemantik ein.
 
 ### Fertig
 

@@ -15,22 +15,25 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0"
-PEP440_VERSION = "1.0.0"
-FORBIDDEN_RC_MARKERS = (
+VERSION = "1.1.0-rc.1"
+PEP440_VERSION = "1.1.0rc1"
+FORBIDDEN_CURRENT_MARKERS = (
     "1.0.0-rc.1",
     "1.0.0-rc.2",
     "1.0.0rc1",
     "1.0.0rc2",
     "1.0.0-RC.1",
     "1.0.0-RC.2",
-    "RC.1",
-    "RC.2",
+    "Wurstbrot GE Calculator 1.0.0",
+    "WURSTBROT SUITE · 1.0.0",
+    '__version__ = "1.0.0"',
+    'APP_VERSION = "1.0.0"',
+    "Rechenquelle für 1.0.0.",
 )
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate built Stable artifacts and clean install.")
+    parser = argparse.ArgumentParser(description="Validate built RC artifacts and clean install.")
     parser.add_argument("--dist", type=Path, default=ROOT / "dist")
     parser.add_argument("--output", type=Path, default=ROOT / "build" / "release")
     parser.add_argument("--node", default=shutil.which("node"))
@@ -42,7 +45,7 @@ def require_members(names: set[str], suffixes: tuple[str, ...]) -> list[str]:
 
 
 def stale_markers(text: str) -> list[str]:
-    return [marker for marker in FORBIDDEN_RC_MARKERS if marker in text]
+    return [marker for marker in FORBIDDEN_CURRENT_MARKERS if marker in text]
 
 
 def archive_stale_members(
@@ -131,12 +134,14 @@ def main() -> int:
                 "/apps/web/visual-tree-interaction.mjs",
                 "/accuracy/acceptance/release_hardening_2.57.1.67.json",
                 "/data/samples/WT_Database_2.57.1.67.json",
-                "/docs/34_RELEASE_NOTES_1.0.0.md",
+                "/docs/36_RELEASE_NOTES_1.1.0_RC1.md",
                 "/specs/GE_CALCULATION_SPEC.md",
             ),
         )
-        if any(name.endswith("/scripts/rc2_readiness.py") for name in sdist_names):
-            missing.append("obsolete RC.2 readiness script")
+        if any(name.endswith("/scripts/stable_readiness.py") for name in sdist_names):
+            missing.append("obsolete Stable readiness script")
+        if not any(name.endswith("/scripts/rc1_readiness.py") for name in sdist_names):
+            missing.append("RC.1 readiness script")
         version_name = next(name for name in sdist_names if name.endswith("/VERSION"))
         version_file = archive.extractfile(version_name)
         if version_file is None or version_file.read().decode("utf-8").strip() != VERSION:
@@ -163,7 +168,7 @@ def main() -> int:
             "/packages/core/wurstbrot_core/__init__.py",
             "/packages/core/wurstbrot_core/cli.py",
             "/scripts/build_release.py",
-            "/scripts/stable_readiness.py",
+            "/scripts/rc1_readiness.py",
         )
         current_sdist_members = [
             name for name in sdist_names if name.endswith(current_sdist_suffixes)
@@ -191,8 +196,8 @@ def main() -> int:
         ]
         index = archive.read("index.html").decode("utf-8")
         if (
-            "<title>Wurstbrot GE Calculator 1.0.0</title>" not in index
-            or '<p class="eyebrow">WURSTBROT SUITE · 1.0.0</p>' not in index
+            "<title>Wurstbrot GE Calculator 1.1.0-rc.1</title>" not in index
+            or '<p class="eyebrow">WURSTBROT SUITE · 1.1.0-rc.1</p>' not in index
         ):
             missing.append("browser visible version")
         if missing:
@@ -235,7 +240,7 @@ def main() -> int:
     details["checksumParseErrors"] = checksum_parse_errors
     details["checksumMismatches"] = checksum_mismatches
 
-    with tempfile.TemporaryDirectory(prefix="wurstbrot-stable-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="wurstbrot-1.1-rc1-") as temporary:
         temporary_path = Path(temporary)
         environment = os.environ.copy()
         environment.pop("PYTHONPATH", None)
@@ -296,7 +301,7 @@ def main() -> int:
         )
         if invalid.returncode != 2 or "Ergebnisquelle: keine" not in invalid.stdout:
             blockers.append("installed_cli_invalid_input_failed")
-        installed_report = output / "Installed_Wheel_Acceptance_1.0.0.json"
+        installed_report = output / "Installed_Wheel_Acceptance_1.1.0-rc.1.json"
         acceptance = run(
             (
                 str(python),
@@ -346,7 +351,7 @@ def main() -> int:
                 blockers.append("browser_artifact_runtime_failed")
             details["browserArtifactReturnCode"] = browser_run.returncode
 
-    installed_path = output / "Installed_Wheel_Acceptance_1.0.0.json"
+    installed_path = output / "Installed_Wheel_Acceptance_1.1.0-rc.1.json"
     installed = json.loads(installed_path.read_text(encoding="utf-8")) if installed_path.is_file() else {}
     payload = {
         "schemaVersion": 1,
@@ -368,7 +373,7 @@ def main() -> int:
         "blockers": blockers,
         "details": details,
     }
-    report_path = output / "Release_Build_Acceptance_1.0.0.json"
+    report_path = output / "Release_Build_Acceptance_1.1.0-rc.1.json"
     report_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0 if not blockers else 1

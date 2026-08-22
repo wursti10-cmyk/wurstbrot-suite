@@ -27,7 +27,7 @@ def main() -> int:
     source_package = (root / "packages" / "core").resolve()
     if source_package in imported_from.parents:
         raise SystemExit(f"source-tree import detected: {imported_from}")
-    if wurstbrot_core.__version__ != "1.0.0":
+    if wurstbrot_core.__version__ != "1.1.0-rc.1":
         raise SystemExit(f"unexpected installed version: {wurstbrot_core.__version__}")
 
     database = VehicleDatabase.from_json(root / "data" / "samples" / "WT_Database_2.57.1.67.json")

@@ -5,11 +5,11 @@ import json
 from pathlib import Path
 
 
-VERSION = "1.0.0"
+VERSION = "1.1.0-rc.1"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Aggregate the Stable 1.0 readiness status.")
+    parser = argparse.ArgumentParser(description="Aggregate the 1.1.0 RC.1 readiness status.")
     parser.add_argument("--accuracy-report", type=Path, required=True)
     parser.add_argument("--release-report", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -66,7 +66,7 @@ def main() -> int:
     payload = {
         "schemaVersion": 1,
         "version": VERSION,
-        "ready_for_stable_1_0": not blockers,
+        "ready_for_rc1": not blockers,
         "release_blockers": blockers,
         "mismatches": readiness["mismatches"],
         "internal_errors": readiness["internal_errors"],
@@ -97,10 +97,10 @@ def main() -> int:
         "gates": exact_gates,
     }
     args.output.mkdir(parents=True, exist_ok=True)
-    path = args.output / "Stable_Readiness_1.0.0.json"
+    path = args.output / "RC1_Readiness_1.1.0-rc.1.json"
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(payload, indent=2, sort_keys=True))
-    return 0 if payload["ready_for_stable_1_0"] else 1
+    return 0 if payload["ready_for_rc1"] else 1
 
 
 if __name__ == "__main__":

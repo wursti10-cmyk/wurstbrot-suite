@@ -3,7 +3,7 @@
 ## Zweck dieses Dokuments
 
 Diese Developer Bible ist die technische Referenz für Menschen und KI-Agenten. Sie beschreibt den
-Release-Stand `1.0.0`. Aussagen über spätere Funktionen sind ausdrücklich als Ziel markiert.
+Release-Stand `1.1.0-rc.1`. Version `1.0.0` bleibt der veröffentlichte Stable-Stand.
 
 ## Produkt
 
@@ -35,10 +35,15 @@ proprietären Spielassets benötigt oder hochgeladen.
 - Accuracy-10-Release-Gate mit 61 unabhängigen realen A→B-Abnahmen, 32 deterministischen
   Boundary-Fällen und einer maschinenlesbaren Stable-Readiness-Bewertung
 - Desktop und Browser bleiben unverändert auf Legacy; keine Browser-Graph-Runtime
+- produktiver visueller Forschungsbaum über 44 Bäume und 2.232 reguläre Fahrzeuge mit Suche,
+  Zoom/Pan, Folder-/Hidden-/Partial-Darstellung und bestehender A→B-Integration
+- VT.7-All-Tree-Hardening mit 1.993 autoritativen Kanten und 159/159 A→B-, Node-Highlight- und
+  Edge-Highlight-Fällen; Evidenzklassen trennen Produktlogik, DOM-Test-Doubles und synthetische Geometrie
 
-Der Produktumfang von Version 1.0 ist verbindlich auf Forschungsweg A → B und zugehörige RP-, GE-
-und SL-Kosten begrenzt. Neue Explain Engine, Dashboard, Project Intelligence, Optimizer-Ausbau und
-visueller Tech Tree sind in dieser Release-Linie keine Arbeitsziele.
+Der Produktumfang von Version 1.0 bleibt verbindlich auf Forschungsweg A → B und zugehörige RP-, GE-
+und SL-Kosten begrenzt. Version 1.1 ergänzt ausschließlich den geprüften visuellen Forschungsbaum
+auf Basis dieser bestehenden Verträge. Neue Explain Engine, Dashboard, Project Intelligence,
+Optimizer-Ausbau und neue Solver-, Folder- oder Datamine-Semantik sind keine Arbeitsziele dieser RC-Linie.
 
 ## Nicht-Ziele
 

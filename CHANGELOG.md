@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.1.0-rc.1] - 2026-08-22
+
+### Added
+
+- visueller Forschungsbaum für alle 44 realen Nation-/Fahrzeugart-Kombinationen und 2.232 Fahrzeuge
+- Suche mit Cross-Tree-Sprung, Karten-/Tastaturinteraktion sowie Zoom und Pan
+- A→B-Auswahl und Darstellung des bestehenden Legacy-Ergebnisses mit Direct Path, zusätzlichen
+  Pflichtfahrzeugen und ausschließlich autoritativen Forschungsverbindungen
+- Folder-, Hidden-, Partial- und Responsive-/Mobile-Darstellung
+- VT.7-All-Tree-Hardening mit Schema-2-Evidenzklassen und vollständigem CI-Artefakt
+
+### Changed
+
+- Produkt-, Paket-, CLI-, Desktop-, Browser-, Converter-, Build- und RC-Metadaten auf
+  `1.1.0-rc.1` vereinheitlicht
+- keine Solver-, Graph-, Legacy-, Datamine-, Research- oder Folder-Semantik geändert
+- Service-Worker-Cache bleibt mangels funktionaler Assetänderung bei `wurstbrot-1.0.0-stable-vt7`
+
+### Known limitations
+
+- Legacy bleibt Default; Graph Experimental bleibt ausdrücklich opt-in und
+  `ready_for_default_use=false`
+- 14 Hidden-Folder-Fälle bleiben bewusst `partial` mit sichtbarem Legacy-Fallback
+- 28 deklarierte Mitglieder fehlen in 13 Foldern; sechs Kit-/Event-only-Folder sind ohne
+  Phantomkarten nicht darstellbar
+- reale Mobile-Hardware, virtuelles Keyboard und eine historische harte Performance-Baseline sind
+  keine vollständig nachgewiesenen RC-Gates
+
 ## [1.0.0] - 2026-08-18
 
 ### Changed
