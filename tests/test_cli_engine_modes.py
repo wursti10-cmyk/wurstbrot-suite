@@ -46,7 +46,7 @@ class CliEngineModeTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.strip(), f"{CLI.name} 1.0.0")
+        self.assertEqual(result.stdout.strip(), f"{CLI.name} 1.1.0-rc.1")
         self.assertNotIn("1.0.0-rc.1", result.stdout)
         self.assertNotIn("1.0.0-rc.2", result.stdout)
 
@@ -75,7 +75,7 @@ class CliEngineModeTests(unittest.TestCase):
         result = self.run_cli("--engine", "graph-experimental")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn(
-            "WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für 1.0.0.",
+            "WARNUNG: Graph Experimental ist nicht die empfohlene Rechenquelle für 1.1.0-rc.1.",
             result.stdout,
         )
         self.assertNotIn("Rechenquelle für RC.1", result.stdout)

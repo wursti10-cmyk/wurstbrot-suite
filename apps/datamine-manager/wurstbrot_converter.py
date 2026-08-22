@@ -43,7 +43,7 @@ def tested_validator_rules() -> tuple[str, ...]:
 
 
 APP_NAME = "Wurstbrot Datamine Converter"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0-rc.1"
 
 REQUIRED_FILES = {
     "shop": ("shop.blkx",),

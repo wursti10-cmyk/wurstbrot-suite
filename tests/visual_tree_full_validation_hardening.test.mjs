@@ -612,7 +612,7 @@ const reportBase = {
   schema_version: 2,
   contract_version: "visual-tech-tree-full-validation-vt7",
   game_version: database.gameVersion,
-  product_version: "1.0.0",
+  product_version: "1.1.0-rc.1",
   totals: {
     trees: layoutRecords.length,
     cards: allCardIds.length,

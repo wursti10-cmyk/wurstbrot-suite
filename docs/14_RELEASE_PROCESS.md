@@ -2,8 +2,9 @@
 
 ## Versionierung
 
-Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Die Stable-
-Version `1.0.0` wird in den Python-Paketmetadaten ebenfalls als `1.0.0` dargestellt.
+Semantische Versionierung mit Vorabkennzeichen verwenden: `MAJOR.MINOR.PATCH[-label]`. Der aktuelle
+Release Candidate `1.1.0-rc.1` wird in den Python-Paketmetadaten als `1.1.0rc1` dargestellt.
+Die veröffentlichte Stable-Version `1.0.0` bleibt unverändert.
 
 ## Vorbereitung
 
