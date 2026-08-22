@@ -44,6 +44,11 @@ jobs:
       - run: node --test tests/visual_tree_ab_integration.test.mjs
       - run: node --test tests/visual_tree_folder_ux.test.mjs
       - run: node --test tests/visual_tree_responsive_mobile.test.mjs
+      - run: node --test tests/visual_tree_full_validation_hardening.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual-tree-full-validation
+          path: build/health/Visual_Tree_Full_Validation_2.57.1.67.json
 
   datamine-health:
     runs-on: ubuntu-latest
